@@ -8,26 +8,53 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Python的传参数我们看看下面两个例子：
 
-a = ‘hello’def fun(a):    a = ‘lol’fun(a)print a  # ‘hello’
-a=[]def fun(a):    a.append(1)fun(a)print a  # [1]
-为什么第一个例子print出来的是’hello’而不是’lol 呢?为什么第二个例子print出来却是[1]?">
+a = &amp;apos;hello&amp;apos;
+def fun(a):
+    a = &amp;apos;lol&amp;apos;
+fun(a)
+print a  # &amp;apos;hello&amp;apos;
+
+a=[]
+def fun(a):
+    a.append(1)
+fun(a)
+print a  # [1]
+为什么第一个例子print出来的是’hello’而不是">
 <meta property="og:type" content="article">
 <meta property="og:title" content="聊聊python的变量问题">
 <meta property="og:url" content="http://mikolaje.github.io/2016/11/14/python01/index.html">
 <meta property="og:site_name" content="Welcome to My Home">
 <meta property="og:description" content="Python的传参数我们看看下面两个例子：
 
-a = ‘hello’def fun(a):    a = ‘lol’fun(a)print a  # ‘hello’
-a=[]def fun(a):    a.append(1)fun(a)print a  # [1]
-为什么第一个例子print出来的是’hello’而不是’lol 呢?为什么第二个例子print出来却是[1]?">
-<meta property="og:updated_time" content="2016-11-14T07:35:08.000Z">
+a = &amp;apos;hello&amp;apos;
+def fun(a):
+    a = &amp;apos;lol&amp;apos;
+fun(a)
+print a  # &amp;apos;hello&amp;apos;
+
+a=[]
+def fun(a):
+    a.append(1)
+fun(a)
+print a  # [1]
+为什么第一个例子print出来的是’hello’而不是">
+<meta property="og:updated_time" content="2016-11-14T07:52:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="聊聊python的变量问题">
 <meta name="twitter:description" content="Python的传参数我们看看下面两个例子：
 
-a = ‘hello’def fun(a):    a = ‘lol’fun(a)print a  # ‘hello’
-a=[]def fun(a):    a.append(1)fun(a)print a  # [1]
-为什么第一个例子print出来的是’hello’而不是’lol 呢?为什么第二个例子print出来却是[1]?">
+a = &amp;apos;hello&amp;apos;
+def fun(a):
+    a = &amp;apos;lol&amp;apos;
+fun(a)
+print a  # &amp;apos;hello&amp;apos;
+
+a=[]
+def fun(a):
+    a.append(1)
+fun(a)
+print a  # [1]
+为什么第一个例子print出来的是’hello’而不是">
   
     <link rel="alternative" href="/atom.xml" title="Welcome to My Home" type="application/atom+xml">
   
@@ -167,25 +194,63 @@ a=[]def fun(a):    a.append(1)fun(a)print a  # [1]
       
         <h2 id="Python的传参数"><a href="#Python的传参数" class="headerlink" title="Python的传参数"></a>Python的传参数</h2><p>我们看看下面两个例子：</p>
 <!-- python -->
-<p>a = ‘hello’<br>def fun(a):<br>    a = ‘lol’<br>fun(a)<br>print a  # ‘hello’</p>
-<p>a=[]<br>def fun(a):<br>    a.append(1)<br>fun(a)<br>print a  # [1]</p>
-<p>为什么第一个例子print出来的是’hello’而不是’lol 呢?<br>为什么第二个例子print出来却是[1]?</p>
+<pre><code>a = &apos;hello&apos;
+def fun(a):
+    a = &apos;lol&apos;
+fun(a)
+print a  # &apos;hello&apos;
+
+a=[]
+def fun(a):
+    a.append(1)
+fun(a)
+print a  # [1]
+</code></pre><p>为什么第一个例子print出来的是’hello’而不是’lol 呢?<br>为什么第二个例子print出来却是[1] 呢?</p>
 <a id="more"></a>
 <p>我们通过id() 来查看内存的引用：</p>
 <!-- python -->
-<p>a = ‘hello’<br>def fun(a):<br>    print “point”,id(a)   # point 213224723696912<br>    a = 2<br>    print “re-point”,id(a), id(2)   # re-point 2132244845844160 2132244845844160<br>print “point”,id(a), id(1)  # point 213224723696912 213224723696912<br>fun(a)<br>print a  # ‘hello’</p>
-<p>可以看到，在执行完a=’hello’之后，a的引用中保存的值，即内存地址发生变化，由原来’hello’对象的所在的地址变成了’lol这个实体对象的内存地址。</p>
-<p>而第2个例子a引用保存的内存值就不会发生变化：</p>
-<p>a = []<br>def fun(a):<br>    print “point”,id(a)  # point 53629256<br>    a.append(1)<br>print “point the same”,id(a)     # point the same 53629256<br>fun(a)<br>print a  # [1]</p>
-<p>这里记住的是类型是属于对象的，而不是变量。而对象有两种,“可更改”（mutable）与“不可更改”（immutable）对象。在python中，strings, tuples, 和numbers是不可更改的对象，而list,dict等则是可以修改的对象。</p>
+<pre><code>a = &apos;hello&apos;
+def fun(a):
+    print &quot;point&quot;,id(a)   # point 213224723696912
+    a = 2
+    print &quot;re-point&quot;,id(a), id(2)   # re-point 2132244845844160 2132244845844160
+print &quot;point&quot;,id(a), id(1)  # point 213224723696912 213224723696912
+fun(a)
+print a  # &apos;hello&apos;
+</code></pre><p>可以看到，在执行完a=’hello’之后，a的引用中保存的值，即内存地址发生变化，由原来’hello’对象的所在的地址变成了’lol这个实体对象的内存地址。</p>
+<p>而第2个例子a引用保存的内存值就不会发生变化：<br><!-- python --></p>
+<pre><code>a = []
+def fun(a):
+    print &quot;point&quot;,id(a)  # point 53629256
+    a.append(1)
+print &quot;point the same&quot;,id(a)     # point the same 53629256
+fun(a)
+print a  # [1]
+</code></pre><p>这里记住的是类型是属于对象的，而不是变量。而对象有两种,“可更改”（mutable）与“不可更改”（immutable）对象。在python中，strings, tuples, 和numbers是不可更改的对象，而list,dict等则是可以修改的对象。</p>
 <p>当一个引用传递给函数的时候,函数自动复制一份引用,这个函数里的引用和外边的引用没有半毛关系了.所以第一个例子里函数把引用指向了一个不可变对象,当函数返回的时候,外面的引用没半毛感觉.<br>而第二个例子就不一样了,函数内的引用指向的是可变对象,对它的操作就和定位了指针地址一样,在内存里进行修改.</p>
-<p>在类变量和实例变量中也有类似的例子：<br>class Person:<br>    name=”aaa”</p>
-<p>p1=Person()<br>p2=Person()<br>p1.name=”bbb”<br>print p1.name  # bbb<br>print p2.name  # aaa<br>print Person.name  # aaa</p>
-<p>类变量就是供类使用的变量,实例变量就是供实例使用的.</p>
-<p>这里p1.name=”bbb”是实例调用了类变量,这其实和上面第一个问题一样,就是函数传参的问题,p1.name一开始是指向的类变量name=”aaa”,<br>但是在实例的作用域里把类变量的引用改变了,就变成了一个实例变量,self.name不再引用Person的类变量name了.</p>
-<p>可以看看下面的例子:<br>class Person:<br>    name=[]</p>
-<p>p1=Person()<br>p2=Person()<br>p1.name.append(1)<br>print p1.name  # [1]<br>print p2.name  # [1]<br>print Person.name  # [1]</p>
+<p>在类变量和实例变量中也有类似的例子：<br><!-- python --></p>
+<pre><code>class Person:
+    name=&quot;aaa&quot;
 
+p1=Person()
+p2=Person()
+p1.name=&quot;bbb&quot;
+print p1.name  # bbb
+print p2.name  # aaa
+print Person.name  # aaa
+</code></pre><p>类变量就是供类使用的变量,实例变量就是供实例使用的.</p>
+<p>这里p1.name=”bbb”是实例调用了类变量,这其实和上面第一个问题一样,就是函数传参的问题,p1.name一开始是指向的类变量name=”aaa”,<br>但是在实例的作用域里把类变量的引用改变了,就变成了一个实例变量,self.name不再引用Person的类变量name了.</p>
+<p>可以看看下面的例子:<br><!-- python --></p>
+<pre><code>class Person:
+    name=[]
+
+p1=Person()
+p2=Person()
+p1.name.append(1)
+print p1.name  # [1]
+print p2.name  # [1]
+print Person.name  # [1]
+</code></pre>
       
     </div>
     <div class="article-info article-info-index">
@@ -210,8 +275,8 @@ a=[]def fun(a):    a.append(1)fun(a)print a  # [1]
 <nav id="article-nav">
   
   
-    <a href="/2016/10/20/spark-guide/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Spark简易入门</div>
+    <a href="/2016/10/20/foreachrdd_function/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Spark Streaming Dstream ForeachRDD的理解</div>
       <i class="icon-circle-right"></i>
     </a>
   
