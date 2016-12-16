@@ -15,7 +15,7 @@ Dstream也就是离散stream，就是把连续的数据分成一小团一小团�
 <meta property="og:description" content="通俗理解Spark Streaming Dstream 的ForeachRDD在SparkStreaming中，数据中的每个batch都是只有一个RDD，为什么我们还要用ForeachRDD 在每一个RDD呢？ 不是只有一个RDD吗？
 Dstream也就是离散stream，就是把连续的数据分成一小团一小团。我们用专业术语“microbatching”来描述。每个microbatch 变成一个RDD">
 <meta property="og:image" content="http://mikolaje.github.io/images/spark-streaming.png">
-<meta property="og:updated_time" content="2016-10-27T06:48:22.000Z">
+<meta property="og:updated_time" content="2016-12-14T06:02:48.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spark Streaming Dstream ForeachRDD的理解">
 <meta name="twitter:description" content="通俗理解Spark Streaming Dstream 的ForeachRDD在SparkStreaming中，数据中的每个batch都是只有一个RDD，为什么我们还要用ForeachRDD 在每一个RDD呢？ 不是只有一个RDD吗？
@@ -168,11 +168,11 @@ Dstream也就是离散stream，就是把连续的数据分成一小团一小团�
 <!-- scala -->
 <pre><code>val userDStream：DStream[User]=???
 userDStream.foreachRDD{usersRDD =&gt;
-    usersRDD.foreach{user =&gt; servCoffee(user)}
+    usersRDD.foreach{user =&gt; serveCoffee(user)}
 }
 </code></pre><p>注意：</p>
 <ul>
-<li>DStream.foreachRDD返回给你的是RDD[user],不是单单一个user。回到上面咖啡的这个例子，这个客户集合 是指某个时间区间的集合</li>
+<li>DStream.foreachRDD返回给你的是RDD[user],不是单单一个user。回到上面咖啡的这个例子，这个客户集合 是指某个时间区间(比如下午一点到两点)的集合</li>
 <li>为了处理单个集合的元素，需要进一步操作(operate) RDD。在这个案例中，我们用RDD.foreach来对每个客户serve coffee</li>
 </ul>
 
@@ -199,11 +199,11 @@ userDStream.foreachRDD{usersRDD =&gt;
   
 <nav id="article-nav">
   
-    <a href="/2016/11/14/python02/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2016/11/14/python01/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          聊聊python的unicode 问题
+          聊聊python的变量问题
         
       </div>
     </a>
@@ -323,7 +323,7 @@ userDStream.foreachRDD{usersRDD =&gt;
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/daily/" style="font-size: 10px;">daily</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/spark/" style="font-size: 15px;">spark</a>
+    				<a href="/tags/daily/" style="font-size: 10px;">daily</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/spark/" style="font-size: 20px;">spark</a>
     			</div>
     	</section>
     

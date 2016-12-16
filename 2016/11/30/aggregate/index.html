@@ -4,14 +4,30 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>Archives: 2016/10 | Welcome to My Home</title>
+  <title>浅谈SPARK 的 aggregate 算子 | Welcome to My Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Welcome to My Home">
-<meta property="og:url" content="http://mikolaje.github.io/archives/2016/10/index.html">
+  <meta name="description" content="理解aggregate的原理个人认为，SPARK的aggregate算子是比较难理解的一个。首先我们看看官网的example
+
+&amp;gt;&amp;gt;&amp;gt; seqOp = (lambda x, y: (x[0] + y, x[1] + 1))
+&amp;gt;&amp;gt;&amp;gt; combOp = (lambda x, y: (x[0] + y[0], x[1] + y[1]))
+&amp;gt;&amp;gt;&amp;gt; sc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅谈SPARK 的 aggregate 算子">
+<meta property="og:url" content="http://mikolaje.github.io/2016/11/30/aggregate/index.html">
 <meta property="og:site_name" content="Welcome to My Home">
+<meta property="og:description" content="理解aggregate的原理个人认为，SPARK的aggregate算子是比较难理解的一个。首先我们看看官网的example
+
+&amp;gt;&amp;gt;&amp;gt; seqOp = (lambda x, y: (x[0] + y, x[1] + 1))
+&amp;gt;&amp;gt;&amp;gt; combOp = (lambda x, y: (x[0] + y[0], x[1] + y[1]))
+&amp;gt;&amp;gt;&amp;gt; sc">
+<meta property="og:updated_time" content="2016-12-16T03:21:46.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Welcome to My Home">
+<meta name="twitter:title" content="浅谈SPARK 的 aggregate 算子">
+<meta name="twitter:description" content="理解aggregate的原理个人认为，SPARK的aggregate算子是比较难理解的一个。首先我们看看官网的example
+
+&amp;gt;&amp;gt;&amp;gt; seqOp = (lambda x, y: (x[0] + y, x[1] + 1))
+&amp;gt;&amp;gt;&amp;gt; combOp = (lambda x, y: (x[0] + y[0], x[1] + y[1]))
+&amp;gt;&amp;gt;&amp;gt; sc">
   
     <link rel="alternative" href="/atom.xml" title="Welcome to My Home" type="application/atom+xml">
   
@@ -131,118 +147,143 @@
 </nav>
 
       <div class="body-wrap">
+        <article id="post-aggregate" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/10/20/foreachrdd_function/" class="archive-article-date">
-  	<time datetime="2016-10-20T18:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-20</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/10/20/foreachrdd_function/">Spark Streaming Dstream ForeachRDD的理解</a>
+    <h1 class="article-title" itemprop="name">
+      浅谈SPARK 的 aggregate 算子
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="理解aggregate的原理"><a href="#理解aggregate的原理" class="headerlink" title="理解aggregate的原理"></a>理解aggregate的原理</h1><p>个人认为，SPARK的aggregate算子是比较难理解的一个。首先我们看看官网的example</p>
+<!-- python -->
+<pre><code>&gt;&gt;&gt; seqOp = (lambda x, y: (x[0] + y, x[1] + 1))
+&gt;&gt;&gt; combOp = (lambda x, y: (x[0] + y[0], x[1] + y[1]))
+&gt;&gt;&gt; sc.parallelize([1, 2, 3, 4]).aggregate((0, 0), seqOp, combOp)
+(10, 4)
+&gt;&gt;&gt; sc.parallelize([]).aggregate((0, 0), seqOp, combOp)
+(0, 0)    
+</code></pre><p>看了后，我就一脸懵逼了，两个lambda函数中的x,y各自代表什么东西呢？</p>
+<p>我们先看看官网的aggregate 用法说明：</p>
+<p>Aggregate the elements of each partition, and then the results for all the partitions, using a given combine functions and a neutral “zero value.”</p>
+<p>The functions op(t1, t2) is allowed to modify t1 and return it as its result value to avoid object allocation; however, it should not modify t2.</p>
+<p>The first function (seqOp) can return a different result type, U, than the type of this RDD. Thus, we need one operation for merging a T into an U and one operation for merging two U</p>
+<a id="more"></a>
+<p>zero value：初始值，就是你要结果的类型。上面例子的zero value是(0,0)</p>
+<p>seqOp:对RDD里每个partition里要实施的操作。</p>
+<p>combOp:对所有的partition汇总的操作</p>
+<p>我们再进一步解读官网的那个例子，仔细说说那些x，y分别代表什么<br>这个例子的意图是算出一个列表里所有的元素的和，还有列表的长度。</p>
+<p>在pyspark里，我们执行以下代码</p>
+<!-- python -->
+<pre><code>#我们创建一个有4个元素的list，并且分为2个partition
+listRDD = sc.parallelize([1,2,3,4], 2)
+
+#然后我们定义seqOp
+seqOp = (lambda local_result, list_element: (local_result[0] + list_element, local_result[1] + 1) )
+#上面你可以更直观的看到x，y分别代表什么了。local_result也就是初始值（0，0）
+
+#然后是combOp：
+combOp = (lambda some_local_result, another_local_result: (some_local_result[0] + another_local_result[0], some_local_result[1] + another_local_result[1]) )
+#从变量的名字你应该可以直观的看出x，y分别代表什么了吧
+
+#然后aggregate一下：
+listRDD.aggregate( (0, 0), seqOp, combOp)
+Out[8]: (10, 4)
+</code></pre><p>第一个分区的子列表是[1,2]，我们实施seqOp的时候会对这个子列表产生一个本地（可以认为这是一个节点服务器上）的result，result也就是（sum,length)。第一个分区的local result 是(3,2)。</p>
+<p>是这么算的：<br>(0+1,0+1)=&gt; (1,1)<br>(1+2,1+1)=&gt; (3,2)</p>
+<p>第二个分区的子列表是[3,4]<br>同理也可以算出第二个分区的local result是(7,2)</p>
+<p>然后是到combOp将两个本地结果汇总。计算过程是：<br>(3+7,2+2) =&gt;(10,4)</p>
+<p>###这里有个特别注意的地方<br>如果你的zero value不是(0,0)，而是(1,0)结果会有点出乎意料，这个例子中，结果并不是(12,4)，而是(13,4)。如果你的partition为3的话结果是(14,4)。这应该是aggregate 会根据分区数在多运算几次</p>
+<p>##总结<br>aggregate 可以用来先计算每个partition的本地结果，然后再汇总。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/11/30/aggregate/" class="archive-article-date">
+  	<time datetime="2016-11-30T19:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-30</time>
+</a>
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spark/">spark</a></li></ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/10/20/spark-guide/" class="archive-article-date">
-  	<time datetime="2016-10-20T18:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-20</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/10/20/spark-guide/">Spark简易入门</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spark/">spark</a></li></ul>
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2016/11/15/python03/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Python的yield 问题</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
 	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/10/18/today-is-10-18/" class="archive-article-date">
-  	<time datetime="2016-10-18T18:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/10/18/today-is-10-18/">怎么变得更有效率 ————Aaron Swarts</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/daily/">daily</a></li></ul>
-	</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
 
-    
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="aggregate" data-title="浅谈SPARK 的 aggregate 算子" data-url="http://mikolaje.github.io/2016/11/30/aggregate/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
 
 
       </div>
@@ -265,8 +306,8 @@
 		mathjax: false,
 		animate: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
