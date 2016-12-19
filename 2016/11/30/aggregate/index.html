@@ -20,7 +20,7 @@
 &amp;gt;&amp;gt;&amp;gt; seqOp = (lambda x, y: (x[0] + y, x[1] + 1))
 &amp;gt;&amp;gt;&amp;gt; combOp = (lambda x, y: (x[0] + y[0], x[1] + y[1]))
 &amp;gt;&amp;gt;&amp;gt; sc">
-<meta property="og:updated_time" content="2016-12-16T03:21:46.000Z">
+<meta property="og:updated_time" content="2016-12-19T07:00:51.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅谈SPARK 的 aggregate 算子">
 <meta name="twitter:description" content="理解aggregate的原理个人认为，SPARK的aggregate算子是比较难理解的一个。首先我们看看官网的example
@@ -203,8 +203,8 @@ Out[8]: (10, 4)
 <p>是这么算的：<br>(0+1,0+1)=&gt; (1,1)<br>(1+2,1+1)=&gt; (3,2)</p>
 <p>第二个分区的子列表是[3,4]<br>同理也可以算出第二个分区的local result是(7,2)</p>
 <p>然后是到combOp将两个本地结果汇总。计算过程是：<br>(3+7,2+2) =&gt;(10,4)</p>
-<p>###这里有个特别注意的地方<br>如果你的zero value不是(0,0)，而是(1,0)结果会有点出乎意料，这个例子中，结果并不是(12,4)，而是(13,4)。如果你的partition为3的话结果是(14,4)。这应该是aggregate 会根据分区数在多运算几次</p>
-<p>##总结<br>aggregate 可以用来先计算每个partition的本地结果，然后再汇总。</p>
+<h3 id="这里有个特别注意的地方"><a href="#这里有个特别注意的地方" class="headerlink" title="这里有个特别注意的地方"></a>这里有个特别注意的地方</h3><p>如果你的zero value不是(0,0)，而是(1,0)结果会有点出乎意料，这个例子中，结果并不是(12,4)，而是(13,4)。如果你的partition为3的话结果是(14,4)。这应该是aggregate 会根据分区数在多运算几次</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>aggregate 可以用来先计算每个partition的本地结果，然后再汇总。</p>
 
       
     </div>
