@@ -4,57 +4,39 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>聊聊python的变量问题 | Welcome to My Home</title>
+  <title>聊聊python的unicode 问题 | Welcome to My Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Python的传参数我们看看下面两个例子：
-
-a = &amp;apos;hello&amp;apos;
-def fun(a):
-    a = &amp;apos;lol&amp;apos;
-fun(a)
-print a  # &amp;apos;hello&amp;apos;
-
-a=[]
-def fun(a):
-    a.append(1)
-fun(a)
-print a  # [1]
-为什么第一个例子print出来的是’hello’而不是">
+  <meta name="description" content="Python的中文字符处理都说python对中文不太友好。
+我们看看下面两个例子：测试环境是ubuntu;python版本为2.7
+》a = &amp;apos;呵呵&amp;apos;
+》a 
+》&amp;apos;\xe5\x91\xb5\xe5\x91\xb5&amp;apos;
+》print a
+》呵呵
+为什么print 和 直接输入变量回车显示的东西不一样呢？\xe5\x91\xb5\xe5\x91\xb5这些是什么东">
 <meta property="og:type" content="article">
-<meta property="og:title" content="聊聊python的变量问题">
-<meta property="og:url" content="http://mikolaje.github.io/2016/11/14/python01/index.html">
+<meta property="og:title" content="聊聊python的unicode 问题">
+<meta property="og:url" content="http://mikolaje.github.io/2016/11/14/python_unicode/index.html">
 <meta property="og:site_name" content="Welcome to My Home">
-<meta property="og:description" content="Python的传参数我们看看下面两个例子：
-
-a = &amp;apos;hello&amp;apos;
-def fun(a):
-    a = &amp;apos;lol&amp;apos;
-fun(a)
-print a  # &amp;apos;hello&amp;apos;
-
-a=[]
-def fun(a):
-    a.append(1)
-fun(a)
-print a  # [1]
-为什么第一个例子print出来的是’hello’而不是">
-<meta property="og:updated_time" content="2016-11-14T07:52:01.000Z">
+<meta property="og:description" content="Python的中文字符处理都说python对中文不太友好。
+我们看看下面两个例子：测试环境是ubuntu;python版本为2.7
+》a = &amp;apos;呵呵&amp;apos;
+》a 
+》&amp;apos;\xe5\x91\xb5\xe5\x91\xb5&amp;apos;
+》print a
+》呵呵
+为什么print 和 直接输入变量回车显示的东西不一样呢？\xe5\x91\xb5\xe5\x91\xb5这些是什么东">
+<meta property="og:updated_time" content="2016-11-16T11:27:21.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="聊聊python的变量问题">
-<meta name="twitter:description" content="Python的传参数我们看看下面两个例子：
-
-a = &amp;apos;hello&amp;apos;
-def fun(a):
-    a = &amp;apos;lol&amp;apos;
-fun(a)
-print a  # &amp;apos;hello&amp;apos;
-
-a=[]
-def fun(a):
-    a.append(1)
-fun(a)
-print a  # [1]
-为什么第一个例子print出来的是’hello’而不是">
+<meta name="twitter:title" content="聊聊python的unicode 问题">
+<meta name="twitter:description" content="Python的中文字符处理都说python对中文不太友好。
+我们看看下面两个例子：测试环境是ubuntu;python版本为2.7
+》a = &amp;apos;呵呵&amp;apos;
+》a 
+》&amp;apos;\xe5\x91\xb5\xe5\x91\xb5&amp;apos;
+》print a
+》呵呵
+为什么print 和 直接输入变量回车显示的东西不一样呢？\xe5\x91\xb5\xe5\x91\xb5这些是什么东">
   
     <link rel="alternative" href="/atom.xml" title="Welcome to My Home" type="application/atom+xml">
   
@@ -174,7 +156,7 @@ print a  # [1]
 </nav>
 
       <div class="body-wrap">
-        <article id="post-python01" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-python_unicode" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -184,7 +166,7 @@ print a  # [1]
         
   
     <h1 class="article-title" itemprop="name">
-      聊聊python的变量问题
+      聊聊python的unicode 问题
     </h1>
   
 
@@ -192,70 +174,47 @@ print a  # [1]
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="Python的传参数"><a href="#Python的传参数" class="headerlink" title="Python的传参数"></a>Python的传参数</h2><p>我们看看下面两个例子：</p>
-<!-- python -->
-<pre><code>a = &apos;hello&apos;
-def fun(a):
-    a = &apos;lol&apos;
-fun(a)
-print a  # &apos;hello&apos;
-
-a=[]
-def fun(a):
-    a.append(1)
-fun(a)
-print a  # [1]
-</code></pre><p>为什么第一个例子print出来的是’hello’而不是’lol 呢?<br>为什么第二个例子print出来却是[1] 呢?</p>
+        <h2 id="Python的中文字符处理"><a href="#Python的中文字符处理" class="headerlink" title="Python的中文字符处理"></a>Python的中文字符处理</h2><p>都说python对中文不太友好。</p>
+<p>我们看看下面两个例子：<br>测试环境是ubuntu;<br>python版本为2.7<br><!-- python --></p>
+<pre><code>》a = &apos;呵呵&apos;
+》a 
+》&apos;\xe5\x91\xb5\xe5\x91\xb5&apos;
+》print a
+》呵呵
+</code></pre><p>为什么print 和 直接输入变量回车显示的东西不一样呢？<br>\xe5\x91\xb5\xe5\x91\xb5这些是什么东西啊。一定很奇怪。其实bytes字符编码，是8进制的东西。</p>
 <a id="more"></a>
-<p>我们通过id() 来查看内存的引用：</p>
+<p>首先’呵呵‘ 字符串赋值给a。然而python 内部是以’\xe5\x91\xb5\xe5\x91\xb5’保存的，这应该是utf-8（因为ubuntu默认为uhf-8）的unicode 对应的8进制字符编码</p>
+<p>我们再看看：<br><!-- python --><br>    》a=u’呵呵’  #带上u表示将这字符串转为unicode<br>    》a<br>    》u’\u5475\u5475’<br>    》print a<br>    》呵呵</p>
+<p>我们发现print真是厉害，不管是字符串 还是 unicode 它都能显示为中文的字符。而回车显示的u’\u5475\u5475’是什么呢？这是’呵呵’对应的uncode编码</p>
+<p>我们知道unicode可以 通过encode 编码来转为str</p>
 <!-- python -->
-<pre><code>a = &apos;hello&apos;
-def fun(a):
-    print &quot;point&quot;,id(a)   # point 213224723696912
-    a = 2
-    print &quot;re-point&quot;,id(a), id(2)   # re-point 2132244845844160 2132244845844160
-print &quot;point&quot;,id(a), id(1)  # point 213224723696912 213224723696912
-fun(a)
-print a  # &apos;hello&apos;
-</code></pre><p>可以看到，在执行完a=’hello’之后，a的引用中保存的值，即内存地址发生变化，由原来’hello’对象的所在的地址变成了’lol这个实体对象的内存地址。</p>
-<p>而第2个例子a引用保存的内存值就不会发生变化：<br><!-- python --></p>
-<pre><code>a = []
-def fun(a):
-    print &quot;point&quot;,id(a)  # point 53629256
-    a.append(1)
-print &quot;point the same&quot;,id(a)     # point the same 53629256
-fun(a)
-print a  # [1]
-</code></pre><p>这里记住的是类型是属于对象的，而不是变量。而对象有两种,“可更改”（mutable）与“不可更改”（immutable）对象。在python中，strings, tuples, 和numbers是不可更改的对象，而list,dict等则是可以修改的对象。</p>
-<p>当一个引用传递给函数的时候,函数自动复制一份引用,这个函数里的引用和外边的引用没有半毛关系了.所以第一个例子里函数把引用指向了一个不可变对象,当函数返回的时候,外面的引用没半毛感觉.<br>而第二个例子就不一样了,函数内的引用指向的是可变对象,对它的操作就和定位了指针地址一样,在内存里进行修改.</p>
-<p>在类变量和实例变量中也有类似的例子：<br><!-- python --></p>
-<pre><code>class Person:
-    name=&quot;aaa&quot;
-
-p1=Person()
-p2=Person()
-p1.name=&quot;bbb&quot;
-print p1.name  # bbb
-print p2.name  # aaa
-print Person.name  # aaa
-</code></pre><p>类变量就是供类使用的变量,实例变量就是供实例使用的.</p>
-<p>这里p1.name=”bbb”是实例调用了类变量,这其实和上面第一个问题一样,就是函数传参的问题,p1.name一开始是指向的类变量name=”aaa”,<br>但是在实例的作用域里把类变量的引用改变了,就变成了一个实例变量,self.name不再引用Person的类变量name了.</p>
-<p>可以看看下面的例子:<br><!-- python --></p>
-<pre><code>class Person:
-    name=[]
-
-p1=Person()
-p2=Person()
-p1.name.append(1)
-print p1.name  # [1]
-print p2.name  # [1]
-print Person.name  # [1]
-</code></pre>
+<pre><code>》a.encode(&apos;utf-8&apos;)
+》&apos;\xe5\x91\xb5\xe5\x91\xb5&apos;
+》print a.encode(&apos;utf-8&apos;)
+》呵呵
+</code></pre><p>我们看到encode后显示的str和我们最开始显示的’\xe5\x91\xb5\xe5\x91\xb5’一样。这说吗中文的字符串在python里就是用\x这种字符串编码保存的</p>
+<p>print 可以把这种编码自动地解码并且显示为对应的中文字符</p>
+<p>另外，有些时候会碰到这种情况，请看下面：</p>
+<!-- python -->
+<pre><code>》a=u&apos;呵呵&apos;
+》l=[a]
+》s=str(l)
+》s
+》&quot;[u&apos;\\u5475\\u5475&apos;]&quot;
+</code></pre><p>哟，怎么多了个\<br>有时候，python会以这种编码保存，这不知道是什么编码，多了一个斜杠的<br>遇到这种情况我们可以用如下办法<br><!-- python --></p>
+<pre><code>》s.decode(&apos;unicode_escape&apos;)
+》s
+》u&quot;[u&apos;\u5475\u5475&apos;]&quot;
+</code></pre><p>这样就可以把它变回来了。此外我们可以print s一下看看会出现什么呢？<br><!-- python --></p>
+<pre><code>》print s
+》[u&apos;\u5475\u5475&apos;]
+</code></pre><p>哈，其实print 就是把不好读的编码优化为比这种编码更好读的一种形式</p>
+<h3 id="总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟"><a href="#总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟" class="headerlink" title="总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟"></a>总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟</h3>
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2016/11/14/python01/" class="archive-article-date">
+      <a href="/2016/11/14/python_unicode/" class="archive-article-date">
   	<time datetime="2016-11-14T19:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-14</time>
 </a>
       
@@ -274,18 +233,18 @@ print Person.name  # [1]
   
 <nav id="article-nav">
   
-    <a href="/2016/11/15/python_yield/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2016/11/14/python01/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          Python的yield 问题
+          聊聊python的变量问题
         
       </div>
     </a>
   
   
-    <a href="/2016/11/14/python_unicode/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">聊聊python的unicode 问题</div>
+    <a href="/2016/10/20/foreachrdd_function/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Spark Streaming Dstream ForeachRDD的理解</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -319,7 +278,7 @@ print Person.name  # [1]
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="python01" data-title="聊聊python的变量问题" data-url="http://mikolaje.github.io/2016/11/14/python01/"></div>
+	<div class="ds-thread" data-thread-key="python_unicode" data-title="聊聊python的unicode 问题" data-url="http://mikolaje.github.io/2016/11/14/python_unicode/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">

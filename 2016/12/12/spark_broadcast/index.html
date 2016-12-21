@@ -4,57 +4,27 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>聊聊python的变量问题 | Welcome to My Home</title>
+  <title>浅谈SPARK 的 广播变量 | Welcome to My Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Python的传参数我们看看下面两个例子：
+  <meta name="description" content="简单谈谈SPARK 广播变量的用法首先我们看看官网的文档对Broadcast的描述：
+Broadcast variables allow the programmer to keep a read-only variable cached on each machine rather than shipping a copy of it with tasks.
 
-a = &amp;apos;hello&amp;apos;
-def fun(a):
-    a = &amp;apos;lol&amp;apos;
-fun(a)
-print a  # &amp;apos;hello&amp;apos;
-
-a=[]
-def fun(a):
-    a.append(1)
-fun(a)
-print a  # [1]
-为什么第一个例子print出来的是’hello’而不是">
+意思就是说广播变量让你可以在每个节">
 <meta property="og:type" content="article">
-<meta property="og:title" content="聊聊python的变量问题">
-<meta property="og:url" content="http://mikolaje.github.io/2016/11/14/python01/index.html">
+<meta property="og:title" content="浅谈SPARK 的 广播变量">
+<meta property="og:url" content="http://mikolaje.github.io/2016/12/12/spark_broadcast/index.html">
 <meta property="og:site_name" content="Welcome to My Home">
-<meta property="og:description" content="Python的传参数我们看看下面两个例子：
+<meta property="og:description" content="简单谈谈SPARK 广播变量的用法首先我们看看官网的文档对Broadcast的描述：
+Broadcast variables allow the programmer to keep a read-only variable cached on each machine rather than shipping a copy of it with tasks.
 
-a = &amp;apos;hello&amp;apos;
-def fun(a):
-    a = &amp;apos;lol&amp;apos;
-fun(a)
-print a  # &amp;apos;hello&amp;apos;
-
-a=[]
-def fun(a):
-    a.append(1)
-fun(a)
-print a  # [1]
-为什么第一个例子print出来的是’hello’而不是">
-<meta property="og:updated_time" content="2016-11-14T07:52:01.000Z">
+意思就是说广播变量让你可以在每个节">
+<meta property="og:updated_time" content="2016-12-20T12:23:02.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="聊聊python的变量问题">
-<meta name="twitter:description" content="Python的传参数我们看看下面两个例子：
+<meta name="twitter:title" content="浅谈SPARK 的 广播变量">
+<meta name="twitter:description" content="简单谈谈SPARK 广播变量的用法首先我们看看官网的文档对Broadcast的描述：
+Broadcast variables allow the programmer to keep a read-only variable cached on each machine rather than shipping a copy of it with tasks.
 
-a = &amp;apos;hello&amp;apos;
-def fun(a):
-    a = &amp;apos;lol&amp;apos;
-fun(a)
-print a  # &amp;apos;hello&amp;apos;
-
-a=[]
-def fun(a):
-    a.append(1)
-fun(a)
-print a  # [1]
-为什么第一个例子print出来的是’hello’而不是">
+意思就是说广播变量让你可以在每个节">
   
     <link rel="alternative" href="/atom.xml" title="Welcome to My Home" type="application/atom+xml">
   
@@ -174,7 +144,7 @@ print a  # [1]
 </nav>
 
       <div class="body-wrap">
-        <article id="post-python01" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-spark_broadcast" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -184,7 +154,7 @@ print a  # [1]
         
   
     <h1 class="article-title" itemprop="name">
-      聊聊python的变量问题
+      浅谈SPARK 的 广播变量
     </h1>
   
 
@@ -192,76 +162,43 @@ print a  # [1]
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="Python的传参数"><a href="#Python的传参数" class="headerlink" title="Python的传参数"></a>Python的传参数</h2><p>我们看看下面两个例子：</p>
+        <h1 id="简单谈谈SPARK-广播变量的用法"><a href="#简单谈谈SPARK-广播变量的用法" class="headerlink" title="简单谈谈SPARK 广播变量的用法"></a>简单谈谈SPARK 广播变量的用法</h1><h3 id="首先我们看看官网的文档对Broadcast的描述："><a href="#首先我们看看官网的文档对Broadcast的描述：" class="headerlink" title="首先我们看看官网的文档对Broadcast的描述："></a>首先我们看看官网的文档对Broadcast的描述：</h3><ul>
+<li><p>Broadcast variables allow the programmer to keep a read-only variable cached on each machine rather than shipping a copy of it with tasks.</p>
+</li>
+<li><p>意思就是说广播变量让你可以在每个节点机器上缓存一个只读的变量，而减少了在每个任务中复制一份的繁琐。</p>
+</li>
+<li>Spark还尝试使用高效地广播算法来分发变量，进而减少通信的开销。</li>
+<li>Spark的动作通过一系列的步骤执行，这些步骤由分布式的洗牌操作分开。Spark自动地广播每个步骤每个任务需要的通用数据。这些广播数据被序列化地缓存，在运行任务之前被反序列化出来。这意味着当我们需要在多个阶段的任务之间使用相同的数据，或者以反序列化形式缓存数据是十分重要的时候，显式地创建广播变量才有用。</li>
+</ul>
+<p>创建的方法很简单<br><a id="more"></a></p>
 <!-- python -->
-<pre><code>a = &apos;hello&apos;
-def fun(a):
-    a = &apos;lol&apos;
-fun(a)
-print a  # &apos;hello&apos;
+<pre><code>import pandas as pd
+table=pd.read_sql(&quot;select goods_id,goods_model,brand_id from goods&quot;,engine)
+#比如我们要先读取一个比较大的mysql表以供map、filter这些变型中查询数据。我们可以用广播变量将这个公共的变量在每个节点中都保留一份
 
-a=[]
-def fun(a):
-    a.append(1)
-fun(a)
-print a  # [1]
-</code></pre><p>为什么第一个例子print出来的是’hello’而不是’lol 呢?<br>为什么第二个例子print出来却是[1] 呢?</p>
-<a id="more"></a>
-<p>我们通过id() 来查看内存的引用：</p>
-<!-- python -->
-<pre><code>a = &apos;hello&apos;
-def fun(a):
-    print &quot;point&quot;,id(a)   # point 213224723696912
-    a = 2
-    print &quot;re-point&quot;,id(a), id(2)   # re-point 2132244845844160 2132244845844160
-print &quot;point&quot;,id(a), id(1)  # point 213224723696912 213224723696912
-fun(a)
-print a  # &apos;hello&apos;
-</code></pre><p>可以看到，在执行完a=’hello’之后，a的引用中保存的值，即内存地址发生变化，由原来’hello’对象的所在的地址变成了’lol这个实体对象的内存地址。</p>
-<p>而第2个例子a引用保存的内存值就不会发生变化：<br><!-- python --></p>
-<pre><code>a = []
-def fun(a):
-    print &quot;point&quot;,id(a)  # point 53629256
-    a.append(1)
-print &quot;point the same&quot;,id(a)     # point the same 53629256
-fun(a)
-print a  # [1]
-</code></pre><p>这里记住的是类型是属于对象的，而不是变量。而对象有两种,“可更改”（mutable）与“不可更改”（immutable）对象。在python中，strings, tuples, 和numbers是不可更改的对象，而list,dict等则是可以修改的对象。</p>
-<p>当一个引用传递给函数的时候,函数自动复制一份引用,这个函数里的引用和外边的引用没有半毛关系了.所以第一个例子里函数把引用指向了一个不可变对象,当函数返回的时候,外面的引用没半毛感觉.<br>而第二个例子就不一样了,函数内的引用指向的是可变对象,对它的操作就和定位了指针地址一样,在内存里进行修改.</p>
-<p>在类变量和实例变量中也有类似的例子：<br><!-- python --></p>
-<pre><code>class Person:
-    name=&quot;aaa&quot;
+table_broadcast=sc.broadcast(table)
 
-p1=Person()
-p2=Person()
-p1.name=&quot;bbb&quot;
-print p1.name  # bbb
-print p2.name  # aaa
-print Person.name  # aaa
-</code></pre><p>类变量就是供类使用的变量,实例变量就是供实例使用的.</p>
-<p>这里p1.name=”bbb”是实例调用了类变量,这其实和上面第一个问题一样,就是函数传参的问题,p1.name一开始是指向的类变量name=”aaa”,<br>但是在实例的作用域里把类变量的引用改变了,就变成了一个实例变量,self.name不再引用Person的类变量name了.</p>
-<p>可以看看下面的例子:<br><!-- python --></p>
-<pre><code>class Person:
-    name=[]
+#调用的时候很简单，只需要在对象.value就可以
 
-p1=Person()
-p2=Person()
-p1.name.append(1)
-print p1.name  # [1]
-print p2.name  # [1]
-print Person.name  # [1]
-</code></pre>
+def parse(tup):
+    result=table_broadcast.value[table_broadcast.value[&apos;goods_id]==100][&apos;brand_id&apos;]
+    return result
+
+rdd.map(parse)
+</code></pre><p>在创建了广播变量之后，在集群上的所有函数中应该使用它来替代使用v.这样v就不会不止一次地在节点之间传输了。另外，为了确保所有的节点获得相同的变量，对象v在被广播之后就不应该再修改。</p>
+<p>如果不用broadcast的话，table会从主节点为每个任务发送一个这样的数据，就会代价很大，而且再调用table的时候，还需要向每个节点再发送一遍。</p>
+
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2016/11/14/python01/" class="archive-article-date">
-  	<time datetime="2016-11-14T19:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-14</time>
+      <a href="/2016/12/12/spark_broadcast/" class="archive-article-date">
+  	<time datetime="2016-12-12T22:49:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-12</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spark/">spark</a></li></ul>
 	</div>
 
       
@@ -274,18 +211,9 @@ print Person.name  # [1]
   
 <nav id="article-nav">
   
-    <a href="/2016/11/15/python_yield/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Python的yield 问题
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/11/14/python_unicode/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">聊聊python的unicode 问题</div>
+    <a href="/2016/12/08/spark_combinebykey/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">浅谈SPARK 的 combineByKey 算子</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -319,7 +247,7 @@ print Person.name  # [1]
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="python01" data-title="聊聊python的变量问题" data-url="http://mikolaje.github.io/2016/11/14/python01/"></div>
+	<div class="ds-thread" data-thread-key="spark_broadcast" data-title="浅谈SPARK 的 广播变量" data-url="http://mikolaje.github.io/2016/12/12/spark_broadcast/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">

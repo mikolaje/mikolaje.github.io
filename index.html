@@ -133,6 +133,128 @@
       <div class="body-wrap">
         
   
+    <article id="post-spark_broadcast" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/12/spark_broadcast/">浅谈SPARK 的 广播变量</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="简单谈谈SPARK-广播变量的用法"><a href="#简单谈谈SPARK-广播变量的用法" class="headerlink" title="简单谈谈SPARK 广播变量的用法"></a>简单谈谈SPARK 广播变量的用法</h1><h3 id="首先我们看看官网的文档对Broadcast的描述："><a href="#首先我们看看官网的文档对Broadcast的描述：" class="headerlink" title="首先我们看看官网的文档对Broadcast的描述："></a>首先我们看看官网的文档对Broadcast的描述：</h3><ul>
+<li><p>Broadcast variables allow the programmer to keep a read-only variable cached on each machine rather than shipping a copy of it with tasks.</p>
+</li>
+<li><p>意思就是说广播变量让你可以在每个节点机器上缓存一个只读的变量，而减少了在每个任务中复制一份的繁琐。</p>
+</li>
+<li>Spark还尝试使用高效地广播算法来分发变量，进而减少通信的开销。</li>
+<li>Spark的动作通过一系列的步骤执行，这些步骤由分布式的洗牌操作分开。Spark自动地广播每个步骤每个任务需要的通用数据。这些广播数据被序列化地缓存，在运行任务之前被反序列化出来。这意味着当我们需要在多个阶段的任务之间使用相同的数据，或者以反序列化形式缓存数据是十分重要的时候，显式地创建广播变量才有用。</li>
+</ul>
+<p>创建的方法很简单<br>
+        <p class="article-more-link">
+          <a class="article-more-a"  href="/2016/12/12/spark_broadcast/#more">more >></a>
+        </p>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/12/12/spark_broadcast/" class="archive-article-date">
+  	<time datetime="2016-12-12T22:49:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-12</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spark/">spark</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-spark_combinebykey" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/08/spark_combinebykey/">浅谈SPARK 的 combineByKey 算子</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="理解aggregate的原理"><a href="#理解aggregate的原理" class="headerlink" title="理解aggregate的原理"></a>理解aggregate的原理</h1><h3 id="SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档："><a href="#SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档：" class="headerlink" title="SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档："></a>SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档：</h3><ul>
+<li><p>combineByKey(createCombiner, mergeValue, mergeCombiners, numPartitions=None, partitionFunc=<function portable_hash at 0x7ff5681b9d70>)</p>
+</li>
+<li><p>Turns an RDD[(K, V)] into a result of type RDD[(K, C)], for a “combined type” C. Note that V and C can be different – for example, one might group an RDD of type (Int, Int) into an RDD of type (Int, List[Int]).</p>
+</li>
+<li><p>Users provide three functions:<br>createCombiner, which turns a V into a C (e.g., creates a one-element list)<br>mergeValue, to merge a V into a C (e.g., adds it to the end of a list)<br>mergeCombiners, to combine two C’s into a single one.</p>
+</li>
+</ul>
+<p>都是将类型为RDD[(K,V)]的数据处理为RDD[(K,C)]。这里的V和C可以是相同类型，也可以是不同类型。</p>
+<p>combineByKey函数主要接受了三个函数作为参数，分别为createCombiner、mergeValue、mergeCombiners。</p>
+<p>这三个函数足以说明它究竟做了什么。理解了这三个函数，就可以很好地理解combineByKey。</p>
+        <p class="article-more-link">
+          <a class="article-more-a"  href="/2016/12/08/spark_combinebykey/#more">more >></a>
+        </p>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/12/08/spark_combinebykey/" class="archive-article-date">
+  	<time datetime="2016-12-09T02:01:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-08</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spark/">spark</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-aggregate" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -197,7 +319,7 @@
 
 
   
-    <article id="post-python03" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-python_yield" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -207,7 +329,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/15/python03/">Python的yield 问题</a>
+      <a class="article-title" href="/2016/11/15/python_yield/">Python的yield 问题</a>
     </h1>
   
 
@@ -218,15 +340,18 @@
         <h2 id="Python-yield示范"><a href="#Python-yield示范" class="headerlink" title="Python yield示范"></a>Python yield示范</h2><p>yield 关键词在python中不算常用。以前我只知道它的作用和return相似，就是返回一个值。并不知道它具体的用途和用法。</p>
 <p>要理解yield，你必须知道generators（生成器）。而要知道生成器，需要了解iterables（可迭代对象）</p>
 <p>生成器（Generators）就是迭代器的一种特殊形式，只不过它只能迭代一次。这是因为生成器不是将所有的数值存储在内存里，而是，立即生成数值。<br>和迭代器相似，我们可以通过使用next()来从generator中获取下一个值</p>
+<p>顺便说说：集合数据类型，如list、tuple、dict、set、str等，这些可以用for循环的对象都是可迭代对象（Iterable）。<br>但list、dict、str虽然是Iterable，却不是迭代器（Iterator）。把list、dict、str等Iterable变成Iterator可以使用iter()函数。</p>
+<p>迭代器对象可以被next()函数调用并不断返回下一个数据，直到没有数据时抛出StopIteration错误。</p>
+<p>Python的for循环本质上就是通过不断调用next()函数实现的</p>
 <p>我们看看下面例子：</p>
         <p class="article-more-link">
-          <a class="article-more-a"  href="/2016/11/15/python03/#more">more >></a>
+          <a class="article-more-a"  href="/2016/11/15/python_yield/#more">more >></a>
         </p>
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2016/11/15/python03/" class="archive-article-date">
+      <a href="/2016/11/15/python_yield/" class="archive-article-date">
   	<time datetime="2016-11-15T19:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-15</time>
 </a>
       
@@ -317,7 +442,7 @@ print a  # [1]
 
 
   
-    <article id="post-python02" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-python_unicode" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -327,7 +452,7 @@ print a  # [1]
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/14/python02/">聊聊python的unicode 问题</a>
+      <a class="article-title" href="/2016/11/14/python_unicode/">聊聊python的unicode 问题</a>
     </h1>
   
 
@@ -344,13 +469,13 @@ print a  # [1]
 》呵呵
 </code></pre><p>为什么print 和 直接输入变量回车显示的东西不一样呢？<br>\xe5\x91\xb5\xe5\x91\xb5这些是什么东西啊。一定很奇怪。其实bytes字符编码，是8进制的东西。</p>
         <p class="article-more-link">
-          <a class="article-more-a"  href="/2016/11/14/python02/#more">more >></a>
+          <a class="article-more-a"  href="/2016/11/14/python_unicode/#more">more >></a>
         </p>
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2016/11/14/python02/" class="archive-article-date">
+      <a href="/2016/11/14/python_unicode/" class="archive-article-date">
   	<time datetime="2016-11-14T19:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-14</time>
 </a>
       
@@ -617,7 +742,7 @@ object WordCount
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/daily/" style="font-size: 10px;">daily</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/spark/" style="font-size: 20px;">spark</a>
+    				<a href="/tags/daily/" style="font-size: 10px;">daily</a> <a href="/tags/python/" style="font-size: 15px;">python</a> <a href="/tags/spark/" style="font-size: 20px;">spark</a>
     			</div>
     	</section>
     
