@@ -22,7 +22,7 @@
 <meta property="og:image" content="http://mikolaje.github.io/images/spark-bias4.jpg">
 <meta property="og:image" content="http://mikolaje.github.io/images/spark-bias5.jpg">
 <meta property="og:image" content="http://mikolaje.github.io/images/spark-bias6.jpg">
-<meta property="og:updated_time" content="2016-12-22T05:55:44.000Z">
+<meta property="og:updated_time" content="2016-12-22T06:39:03.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spark 数据倾斜调优">
 <meta name="twitter:description" content="关于Spark 的数据倾斜的问题数据倾斜的现象　　1、绝大多数task执行得都非常快，但个别task执行极慢。比如，总共有1000个task，997个task都在1分钟之内执行完了，但是剩余两三个task却要一两个小时。这种情况很常见。
@@ -336,7 +336,9 @@ JavaPairRDD&lt;String, Tuple2&lt;String, Row&gt;&gt; joinedRdd = rdd2.mapToPair(
 // 上面的做法，仅仅适用于rdd1中的key没有重复，全部是唯一的场景。
 // 如果rdd1中有多个相同的key，那么就得用flatMap类的操作，在进行join的时候不能用map，而是得遍历rdd1所有数据进行join。
 // rdd2中每条数据都可能会返回多条join后的数据。
-</code></pre><p>-解决方案六：采样倾斜key并分拆join操作</p>
+</code></pre><ul>
+<li>解决方案六：采样倾斜key并分拆join操作</li>
+</ul>
 <p>方案适用场景：<br>两个RDD/Hive表进行join的时候，如果数据量都比较大，无法采用“解决方案五”，那么此时可以看一下两个RDD/Hive表中的key分布情况。如果出现数据倾斜，是因为其中某一个RDD/Hive表中的少数几个key的数据量过大，而另一个RDD/Hive表中的所有key都分布比较均匀，那么采用这个解决方案是比较合适的。</p>
 <p>方案实现思路：<br>　　1、对包含少数几个数据量过大的key的那个RDD，通过sample算子采样出一份样本来，然后统计一下每个key的数量，计算出来数据量最大的是哪几个key。</p>
 <p>　　2、然后将这几个key对应的数据从原来的RDD中拆分出来，形成一个单独的RDD，并给每个key都打上n以内的随机数作为前缀，而不会导致倾斜的大部分key形成另外一个RDD。</p>
