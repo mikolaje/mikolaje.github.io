@@ -133,6 +133,58 @@
       <div class="body-wrap">
         
   
+    <article id="post-spark_dependency" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/25/spark_dependency/">Spark 的宽依赖和窄依赖</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="说说Spark-的宽依赖和窄依赖"><a href="#说说Spark-的宽依赖和窄依赖" class="headerlink" title="说说Spark 的宽依赖和窄依赖"></a>说说Spark 的宽依赖和窄依赖</h1><h3 id="宽依赖和窄依赖"><a href="#宽依赖和窄依赖" class="headerlink" title="宽依赖和窄依赖"></a>宽依赖和窄依赖</h3><p>　　众所周知，在Spark中可以对RDD进行多种转换，父RDD转换之后会得到子RDD，于是便可以说子RDD的诞生需要依赖父RDD。在Spark中一共有两种依赖方式，分别是宽依赖和窄依赖。</p>
+        <p class="article-more-link">
+          <a class="article-more-a"  href="/2016/12/25/spark_dependency/#more">more >></a>
+        </p>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/12/25/spark_dependency/" class="archive-article-date">
+  	<time datetime="2016-12-25T19:00:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-25</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spark/">spark</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-spark_bias" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -432,6 +484,65 @@
 
 
   
+    <article id="post-python_unicode" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/14/python_unicode/">聊聊python的unicode 问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Python的中文字符处理"><a href="#Python的中文字符处理" class="headerlink" title="Python的中文字符处理"></a>Python的中文字符处理</h2><p>都说python对中文不太友好。</p>
+<p>我们看看下面两个例子：<br>测试环境是ubuntu;<br>python版本为2.7<br><!-- python --></p>
+<pre><code>》a = &apos;呵呵&apos;
+》a 
+》&apos;\xe5\x91\xb5\xe5\x91\xb5&apos;
+》print a
+》呵呵
+</code></pre><p>为什么print 和 直接输入变量回车显示的东西不一样呢？<br>\xe5\x91\xb5\xe5\x91\xb5这些是什么东西啊。一定很奇怪。其实bytes字符编码，是8进制的东西。</p>
+        <p class="article-more-link">
+          <a class="article-more-a"  href="/2016/11/14/python_unicode/#more">more >></a>
+        </p>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/11/14/python_unicode/" class="archive-article-date">
+  	<time datetime="2016-11-14T19:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-14</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-python01" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -472,65 +583,6 @@ print a  # [1]
     <div class="article-info article-info-index">
       
       <a href="/2016/11/14/python01/" class="archive-article-date">
-  	<time datetime="2016-11-14T19:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-14</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-python_unicode" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/14/python_unicode/">聊聊python的unicode 问题</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Python的中文字符处理"><a href="#Python的中文字符处理" class="headerlink" title="Python的中文字符处理"></a>Python的中文字符处理</h2><p>都说python对中文不太友好。</p>
-<p>我们看看下面两个例子：<br>测试环境是ubuntu;<br>python版本为2.7<br><!-- python --></p>
-<pre><code>》a = &apos;呵呵&apos;
-》a 
-》&apos;\xe5\x91\xb5\xe5\x91\xb5&apos;
-》print a
-》呵呵
-</code></pre><p>为什么print 和 直接输入变量回车显示的东西不一样呢？<br>\xe5\x91\xb5\xe5\x91\xb5这些是什么东西啊。一定很奇怪。其实bytes字符编码，是8进制的东西。</p>
-        <p class="article-more-link">
-          <a class="article-more-a"  href="/2016/11/14/python_unicode/#more">more >></a>
-        </p>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/11/14/python_unicode/" class="archive-article-date">
   	<time datetime="2016-11-14T19:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-14</time>
 </a>
       
@@ -680,62 +732,10 @@ object WordCount
 
 
   
-    <article id="post-today-is-10-18" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/18/today-is-10-18/">怎么变得更有效率 ————Aaron Swarts</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="How-to-be-More-Productive–Aaron-Swartz"><a href="#How-to-be-More-Productive–Aaron-Swartz" class="headerlink" title="How to be More Productive–Aaron Swartz"></a>How to be More Productive–Aaron Swartz</h1><p>原文在 <a href="http://www.aaronsw.com/weblog/productivity">http://www.aaronsw.com/weblog/productivity</a> </p>
-<p>有人跟我说：“你花在看电视上的时间足够用来写本书了。”毫无疑问，把时间花在写书上花在看电视上更好。但这里隐含了一个假设，即时间是“可互换的”。也就是说，看电视的时间可以轻松地用来写书。但悲催的是事实并非如此。</p>
-<p>不同的时间有不同的质量等级。如果我正走向地铁站而且忘带笔记本了，我就很难写什么文章。同样，如果你不停地被打断，也很难集中注意力。另外还有些心理和情感上的因素：有时候我心情不错，就愿意去主动做一些事；也有些时候我心情郁闷，就只能看看电视了。</p>
-<p>如果你想变的更加有效，你必须意识到这个事实，并很好的处理它。首先，你得利用好不同类型的时间。其次，你得提高时间的质量。</p>
-<h2 id="1-更有效的利用你的时间"><a href="#1-更有效的利用你的时间" class="headerlink" title="1. 更有效的利用你的时间"></a>1. 更有效的利用你的时间</h2><p>1.1 选择好问题</p>
-        <p class="article-more-link">
-          <a class="article-more-a"  href="/2016/10/18/today-is-10-18/#more">more >></a>
-        </p>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/10/18/today-is-10-18/" class="archive-article-date">
-  	<time datetime="2016-10-18T18:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-18</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/daily/">daily</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
+    <nav id="page-nav">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    </nav>
   
 
 
