@@ -133,8 +133,14 @@
       <div class="body-wrap">
         
   
-    <article id="post-spark_dependency" class="article article-type-post" itemscope itemprop="blogPost">
+    
+
+<article id="post-spark_dependency" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
+
+	 
+
+
     
       <input type="hidden" class="isFancy" />
     
@@ -186,8 +192,14 @@
 
 
   
-    <article id="post-spark_bias" class="article article-type-post" itemscope itemprop="blogPost">
+    
+
+<article id="post-spark_bias" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
+
+	 
+
+
     
       <input type="hidden" class="isFancy" />
     
@@ -241,8 +253,14 @@
 
 
   
-    <article id="post-spark_broadcast" class="article article-type-post" itemscope itemprop="blogPost">
+    
+
+<article id="post-spark_broadcast" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
+
+	 
+
+
     
       <input type="hidden" class="isFancy" />
     
@@ -301,8 +319,14 @@
 
 
   
-    <article id="post-spark_combinebykey" class="article article-type-post" itemscope itemprop="blogPost">
+    
+
+<article id="post-spark_combinebykey" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
+
+	 
+
+
     
       <input type="hidden" class="isFancy" />
     
@@ -363,8 +387,14 @@
 
 
   
-    <article id="post-spark_aggregate" class="article article-type-post" itemscope itemprop="blogPost">
+    
+
+<article id="post-spark_aggregate" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
+
+	 
+
+
     
       <input type="hidden" class="isFancy" />
     
@@ -427,8 +457,14 @@
 
 
   
-    <article id="post-python_yield" class="article article-type-post" itemscope itemprop="blogPost">
+    
+
+<article id="post-python_yield" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
+
+	 
+
+
     
       <input type="hidden" class="isFancy" />
     
@@ -485,8 +521,14 @@
 
 
   
-    <article id="post-python01" class="article article-type-post" itemscope itemprop="blogPost">
+    
+
+<article id="post-python01" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
+
+	 
+
+
     
       <input type="hidden" class="isFancy" />
     
@@ -550,8 +592,14 @@ print a  # [1]
 
 
   
-    <article id="post-python_unicode" class="article article-type-post" itemscope itemprop="blogPost">
+    
+
+<article id="post-python_unicode" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
+
+	 
+
+
     
       <input type="hidden" class="isFancy" />
     
@@ -609,8 +657,75 @@ print a  # [1]
 
 
   
-    <article id="post-spark-guide" class="article article-type-post" itemscope itemprop="blogPost">
+    
+
+<article id="post-spark_foreachRDD" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
+
+	 
+
+
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/20/spark_foreachRDD/">Spark Streaming Dstream ForeachRDD的理解</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="通俗理解Spark-Streaming-Dstream-的ForeachRDD"><a href="#通俗理解Spark-Streaming-Dstream-的ForeachRDD" class="headerlink" title="通俗理解Spark Streaming Dstream 的ForeachRDD"></a>通俗理解Spark Streaming Dstream 的ForeachRDD</h1><p>在SparkStreaming中，数据中的每个batch都是只有一个RDD，为什么我们还要用ForeachRDD 在每一个RDD呢？ 不是只有一个RDD吗？</p>
+<p>Dstream也就是离散stream，就是把连续的数据分成一小团一小团。我们用专业术语“microbatching”来描述。每个microbatch 变成一个RDD以便Spark的后续处理。在每一个batch interval中，每个DStream有且仅有一个RDD。</p>
+<p><img src="/images/spark-streaming.png" alt="Sample Image Added via Markdown"></p>
+<p>然而RDD是什么呢，RDD是一个分布式数据集合。你可以认为它是一个告诉你实际数据在集群中具体什么地方的指南者（pointer）。</p>
+        <p class="article-more-link">
+          <a class="article-more-a"  href="/2016/10/20/spark_foreachRDD/#more">more >></a>
+        </p>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/10/20/spark_foreachRDD/" class="archive-article-date">
+  	<time datetime="2016-10-20T18:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-20</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spark/">spark</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    
+
+<article id="post-spark-guide" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+
+	 
+
+
     
       <input type="hidden" class="isFancy" />
     
@@ -678,61 +793,6 @@ object WordCount
 
 
   
-    <article id="post-spark_foreachRDD" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/20/spark_foreachRDD/">Spark Streaming Dstream ForeachRDD的理解</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="通俗理解Spark-Streaming-Dstream-的ForeachRDD"><a href="#通俗理解Spark-Streaming-Dstream-的ForeachRDD" class="headerlink" title="通俗理解Spark Streaming Dstream 的ForeachRDD"></a>通俗理解Spark Streaming Dstream 的ForeachRDD</h1><p>在SparkStreaming中，数据中的每个batch都是只有一个RDD，为什么我们还要用ForeachRDD 在每一个RDD呢？ 不是只有一个RDD吗？</p>
-<p>Dstream也就是离散stream，就是把连续的数据分成一小团一小团。我们用专业术语“microbatching”来描述。每个microbatch 变成一个RDD以便Spark的后续处理。在每一个batch interval中，每个DStream有且仅有一个RDD。</p>
-<p><img src="/images/spark-streaming.png" alt="Sample Image Added via Markdown"></p>
-<p>然而RDD是什么呢，RDD是一个分布式数据集合。你可以认为它是一个告诉你实际数据在集群中具体什么地方的指南者（pointer）。</p>
-        <p class="article-more-link">
-          <a class="article-more-a"  href="/2016/10/20/spark_foreachRDD/#more">more >></a>
-        </p>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/10/20/spark_foreachRDD/" class="archive-article-date">
-  	<time datetime="2016-10-20T18:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-20</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spark/">spark</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -741,7 +801,9 @@ object WordCount
 
 
       </div>
-      <footer id="footer">
+      <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<footer id="footer">
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
@@ -753,6 +815,7 @@ object WordCount
     </div>
   </div>
 </footer>
+
     </div>
     <script>
 	var yiliaConfig = {
