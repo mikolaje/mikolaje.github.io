@@ -6,17 +6,20 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>Spark 的宽依赖和窄依赖 | Welcome to My Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="说说Spark 的宽依赖和窄依赖宽依赖和窄依赖　　众所周知，在Spark中可以对RDD进行多种转换，父RDD转换之后会得到子RDD，于是便可以说子RDD的诞生需要依赖父RDD。在Spark中一共有两种依赖方式，分别是宽依赖和窄依赖。">
+  <meta name="description" content="说说Spark 的宽依赖和窄依赖宽依赖和窄依赖　　众所周知，在Spark中可以对RDD进行多种转换，父RDD转换之后会得到子RDD，于是便可以说子RDD的诞生需要依赖父RDD。在Spark中一共有两种依赖方式，分别是宽依赖和窄依赖。
+rdd 的 toDebugString 可以查看RDD的谱系">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spark 的宽依赖和窄依赖">
 <meta property="og:url" content="http://mikolaje.github.io/2016/12/25/spark_dependency/index.html">
 <meta property="og:site_name" content="Welcome to My Home">
-<meta property="og:description" content="说说Spark 的宽依赖和窄依赖宽依赖和窄依赖　　众所周知，在Spark中可以对RDD进行多种转换，父RDD转换之后会得到子RDD，于是便可以说子RDD的诞生需要依赖父RDD。在Spark中一共有两种依赖方式，分别是宽依赖和窄依赖。">
+<meta property="og:description" content="说说Spark 的宽依赖和窄依赖宽依赖和窄依赖　　众所周知，在Spark中可以对RDD进行多种转换，父RDD转换之后会得到子RDD，于是便可以说子RDD的诞生需要依赖父RDD。在Spark中一共有两种依赖方式，分别是宽依赖和窄依赖。
+rdd 的 toDebugString 可以查看RDD的谱系">
 <meta property="og:image" content="http://mikolaje.github.io/images/spark-dependency.jpg">
-<meta property="og:updated_time" content="2016-12-27T12:28:25.000Z">
+<meta property="og:updated_time" content="2016-12-27T13:03:16.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spark 的宽依赖和窄依赖">
-<meta name="twitter:description" content="说说Spark 的宽依赖和窄依赖宽依赖和窄依赖　　众所周知，在Spark中可以对RDD进行多种转换，父RDD转换之后会得到子RDD，于是便可以说子RDD的诞生需要依赖父RDD。在Spark中一共有两种依赖方式，分别是宽依赖和窄依赖。">
+<meta name="twitter:description" content="说说Spark 的宽依赖和窄依赖宽依赖和窄依赖　　众所周知，在Spark中可以对RDD进行多种转换，父RDD转换之后会得到子RDD，于是便可以说子RDD的诞生需要依赖父RDD。在Spark中一共有两种依赖方式，分别是宽依赖和窄依赖。
+rdd 的 toDebugString 可以查看RDD的谱系">
 <meta name="twitter:image" content="http://mikolaje.github.io/images/spark-dependency.jpg">
   
     <link rel="alternative" href="/atom.xml" title="Welcome to My Home" type="application/atom+xml">
@@ -156,6 +159,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h1 id="说说Spark-的宽依赖和窄依赖"><a href="#说说Spark-的宽依赖和窄依赖" class="headerlink" title="说说Spark 的宽依赖和窄依赖"></a>说说Spark 的宽依赖和窄依赖</h1><h3 id="宽依赖和窄依赖"><a href="#宽依赖和窄依赖" class="headerlink" title="宽依赖和窄依赖"></a>宽依赖和窄依赖</h3><p>　　众所周知，在Spark中可以对RDD进行多种转换，父RDD转换之后会得到子RDD，于是便可以说子RDD的诞生需要依赖父RDD。在Spark中一共有两种依赖方式，分别是宽依赖和窄依赖。</p>
+<p>rdd 的 toDebugString 可以查看RDD的谱系</p>
 <a id="more"></a>
 <h3 id="宽依赖"><a href="#宽依赖" class="headerlink" title="宽依赖"></a>宽依赖</h3><p>如果父RDD的每个分区至多只对应一个子RDD的分区，则这种依赖关系称为窄依赖。(独生子女)</p>
 <p>常见的窄依赖算子有：map、filter。</p>
@@ -251,7 +255,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2016 Dennis
+    		&copy; 2017 Dennis
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten

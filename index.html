@@ -152,6 +152,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h1 id="说说Spark-的宽依赖和窄依赖"><a href="#说说Spark-的宽依赖和窄依赖" class="headerlink" title="说说Spark 的宽依赖和窄依赖"></a>说说Spark 的宽依赖和窄依赖</h1><h3 id="宽依赖和窄依赖"><a href="#宽依赖和窄依赖" class="headerlink" title="宽依赖和窄依赖"></a>宽依赖和窄依赖</h3><p>　　众所周知，在Spark中可以对RDD进行多种转换，父RDD转换之后会得到子RDD，于是便可以说子RDD的诞生需要依赖父RDD。在Spark中一共有两种依赖方式，分别是宽依赖和窄依赖。</p>
+<p>rdd 的 toDebugString 可以查看RDD的谱系</p>
         <p class="article-more-link">
           <a class="article-more-a"  href="/2016/12/25/spark_dependency/#more">more >></a>
         </p>
@@ -484,6 +485,65 @@
 
 
   
+    <article id="post-python_unicode" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/14/python_unicode/">聊聊python的unicode 问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Python的中文字符处理"><a href="#Python的中文字符处理" class="headerlink" title="Python的中文字符处理"></a>Python的中文字符处理</h2><p>都说python对中文不太友好。</p>
+<p>我们看看下面两个例子：<br>测试环境是ubuntu;<br>python版本为2.7<br><!-- python --></p>
+<pre><code>》a = &apos;呵呵&apos;
+》a 
+》&apos;\xe5\x91\xb5\xe5\x91\xb5&apos;
+》print a
+》呵呵
+</code></pre><p>为什么print 和 直接输入变量回车显示的东西不一样呢？<br>\xe5\x91\xb5\xe5\x91\xb5这些是什么东西啊。一定很奇怪。其实bytes字符编码，是8进制的东西。</p>
+        <p class="article-more-link">
+          <a class="article-more-a"  href="/2016/11/14/python_unicode/#more">more >></a>
+        </p>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/11/14/python_unicode/" class="archive-article-date">
+  	<time datetime="2016-11-14T19:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-14</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-python01" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -524,65 +584,6 @@ print a  # [1]
     <div class="article-info article-info-index">
       
       <a href="/2016/11/14/python01/" class="archive-article-date">
-  	<time datetime="2016-11-14T19:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-14</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-python_unicode" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/14/python_unicode/">聊聊python的unicode 问题</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Python的中文字符处理"><a href="#Python的中文字符处理" class="headerlink" title="Python的中文字符处理"></a>Python的中文字符处理</h2><p>都说python对中文不太友好。</p>
-<p>我们看看下面两个例子：<br>测试环境是ubuntu;<br>python版本为2.7<br><!-- python --></p>
-<pre><code>》a = &apos;呵呵&apos;
-》a 
-》&apos;\xe5\x91\xb5\xe5\x91\xb5&apos;
-》print a
-》呵呵
-</code></pre><p>为什么print 和 直接输入变量回车显示的东西不一样呢？<br>\xe5\x91\xb5\xe5\x91\xb5这些是什么东西啊。一定很奇怪。其实bytes字符编码，是8进制的东西。</p>
-        <p class="article-more-link">
-          <a class="article-more-a"  href="/2016/11/14/python_unicode/#more">more >></a>
-        </p>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/11/14/python_unicode/" class="archive-article-date">
   	<time datetime="2016-11-14T19:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-14</time>
 </a>
       
@@ -744,7 +745,7 @@ object WordCount
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2016 Dennis
+    		&copy; 2017 Dennis
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
