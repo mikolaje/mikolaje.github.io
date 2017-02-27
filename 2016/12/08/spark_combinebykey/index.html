@@ -6,25 +6,25 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>浅谈SPARK 的 combineByKey 算子 | Welcome to My Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="理解aggregate的原理SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档：
+  <meta name="description" content="理解comebineByKey的原理SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档：
 combineByKey(createCombiner, mergeValue, mergeCombiners, numPartitions=None, partitionFunc=)
 
-Turns an RDD[(K, V)] into a result of type RDD">
+Turns an RDD[(K, V)] into a result of type">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅谈SPARK 的 combineByKey 算子">
 <meta property="og:url" content="http://mikolaje.github.io/2016/12/08/spark_combinebykey/index.html">
 <meta property="og:site_name" content="Welcome to My Home">
-<meta property="og:description" content="理解aggregate的原理SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档：
+<meta property="og:description" content="理解comebineByKey的原理SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档：
 combineByKey(createCombiner, mergeValue, mergeCombiners, numPartitions=None, partitionFunc=)
 
-Turns an RDD[(K, V)] into a result of type RDD">
-<meta property="og:updated_time" content="2017-02-27T08:27:47.000Z">
+Turns an RDD[(K, V)] into a result of type">
+<meta property="og:updated_time" content="2017-02-27T08:32:06.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅谈SPARK 的 combineByKey 算子">
-<meta name="twitter:description" content="理解aggregate的原理SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档：
+<meta name="twitter:description" content="理解comebineByKey的原理SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档：
 combineByKey(createCombiner, mergeValue, mergeCombiners, numPartitions=None, partitionFunc=)
 
-Turns an RDD[(K, V)] into a result of type RDD">
+Turns an RDD[(K, V)] into a result of type">
   
     <link rel="alternative" href="/atom.xml" title="Welcome to My Home" type="application/atom+xml">
   
@@ -162,7 +162,7 @@ Turns an RDD[(K, V)] into a result of type RDD">
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="理解aggregate的原理"><a href="#理解aggregate的原理" class="headerlink" title="理解aggregate的原理"></a>理解aggregate的原理</h1><h3 id="SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档："><a href="#SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档：" class="headerlink" title="SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档："></a>SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档：</h3><ul>
+        <h1 id="理解comebineByKey的原理"><a href="#理解comebineByKey的原理" class="headerlink" title="理解comebineByKey的原理"></a>理解comebineByKey的原理</h1><h3 id="SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档："><a href="#SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档：" class="headerlink" title="SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档："></a>SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档：</h3><ul>
 <li><p>combineByKey(createCombiner, mergeValue, mergeCombiners, numPartitions=None, partitionFunc=<function portable_hash="" at="" 0x7ff5681b9d70="">)</function></p>
 </li>
 <li><p>Turns an RDD[(K, V)] into a result of type RDD[(K, C)], for a “combined type” C. Note that V and C can be different – for example, one might group an RDD of type (Int, Int) into an RDD of type (Int, List[Int]).</p>
@@ -274,7 +274,7 @@ Array( [A, (15., 3)], [B, (30., 2)], [Z, (28., 4)])
     </a>
   
   
-    <a href="/2016/11/30/aggregate/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2016/11/30/spark_aggregate/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">浅谈SPARK 的 aggregate 算子</div>
       <i class="icon-circle-right"></i>
     </a>

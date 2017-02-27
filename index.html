@@ -319,7 +319,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="理解aggregate的原理"><a href="#理解aggregate的原理" class="headerlink" title="理解aggregate的原理"></a>理解aggregate的原理</h1><h3 id="SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档："><a href="#SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档：" class="headerlink" title="SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档："></a>SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档：</h3><ul>
+        <h1 id="理解comebineByKey的原理"><a href="#理解comebineByKey的原理" class="headerlink" title="理解comebineByKey的原理"></a>理解comebineByKey的原理</h1><h3 id="SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档："><a href="#SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档：" class="headerlink" title="SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档："></a>SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档：</h3><ul>
 <li><p>combineByKey(createCombiner, mergeValue, mergeCombiners, numPartitions=None, partitionFunc=<function portable_hash at 0x7ff5681b9d70>)</p>
 </li>
 <li><p>Turns an RDD[(K, V)] into a result of type RDD[(K, C)], for a “combined type” C. Note that V and C can be different – for example, one might group an RDD of type (Int, Int) into an RDD of type (Int, List[Int]).</p>
@@ -363,7 +363,7 @@
 
 
   
-    <article id="post-aggregate" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-spark_aggregate" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -373,7 +373,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/30/aggregate/">浅谈SPARK 的 aggregate 算子</a>
+      <a class="article-title" href="/2016/11/30/spark_aggregate/">浅谈SPARK 的 aggregate 算子</a>
     </h1>
   
 
@@ -381,7 +381,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="理解aggregate的原理"><a href="#理解aggregate的原理" class="headerlink" title="理解aggregate的原理"></a>理解aggregate的原理</h1><p>个人认为，SPARK的aggregate算子是比较难理解的一个。首先我们看看官网的example</p>
+        <h1 id="理解aggregate的原理"><a href="#理解aggregate的原理" class="headerlink" title="理解aggregate的原理"></a>理解aggregate的原理</h1><p>刚开始我觉得SPARK的aggregate算子比较难理解的。首先我们看看官网的example</p>
 <!-- python -->
 <pre><code>&gt;&gt;&gt; seqOp = (lambda x, y: (x[0] + y, x[1] + 1))
 &gt;&gt;&gt; combOp = (lambda x, y: (x[0] + y[0], x[1] + y[1]))
@@ -395,13 +395,13 @@
 <p>The functions op(t1, t2) is allowed to modify t1 and return it as its result value to avoid object allocation; however, it should not modify t2.</p>
 <p>The first function (seqOp) can return a different result type, U, than the type of this RDD. Thus, we need one operation for merging a T into an U and one operation for merging two U</p>
         <p class="article-more-link">
-          <a class="article-more-a"  href="/2016/11/30/aggregate/#more">more >></a>
+          <a class="article-more-a"  href="/2016/11/30/spark_aggregate/#more">more >></a>
         </p>
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2016/11/30/aggregate/" class="archive-article-date">
+      <a href="/2016/11/30/spark_aggregate/" class="archive-article-date">
   	<time datetime="2016-11-30T19:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-30</time>
 </a>
       
@@ -485,65 +485,6 @@
 
 
   
-    <article id="post-python_unicode" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/14/python_unicode/">聊聊python的unicode 问题</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Python的中文字符处理"><a href="#Python的中文字符处理" class="headerlink" title="Python的中文字符处理"></a>Python的中文字符处理</h2><p>都说python对中文不太友好。</p>
-<p>我们看看下面两个例子：<br>测试环境是ubuntu;<br>python版本为2.7<br><!-- python --></p>
-<pre><code>》a = &apos;呵呵&apos;
-》a 
-》&apos;\xe5\x91\xb5\xe5\x91\xb5&apos;
-》print a
-》呵呵
-</code></pre><p>为什么print 和 直接输入变量回车显示的东西不一样呢？<br>\xe5\x91\xb5\xe5\x91\xb5这些是什么东西啊。一定很奇怪。其实bytes字符编码，是8进制的东西。</p>
-        <p class="article-more-link">
-          <a class="article-more-a"  href="/2016/11/14/python_unicode/#more">more >></a>
-        </p>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/11/14/python_unicode/" class="archive-article-date">
-  	<time datetime="2016-11-14T19:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-14</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
     <article id="post-python01" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -584,6 +525,65 @@ print a  # [1]
     <div class="article-info article-info-index">
       
       <a href="/2016/11/14/python01/" class="archive-article-date">
+  	<time datetime="2016-11-14T19:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-14</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-python_unicode" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/14/python_unicode/">聊聊python的unicode 问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Python的中文字符处理"><a href="#Python的中文字符处理" class="headerlink" title="Python的中文字符处理"></a>Python的中文字符处理</h2><p>都说python对中文不太友好。</p>
+<p>我们看看下面两个例子：<br>测试环境是ubuntu;<br>python版本为2.7<br><!-- python --></p>
+<pre><code>》a = &apos;呵呵&apos;
+》a 
+》&apos;\xe5\x91\xb5\xe5\x91\xb5&apos;
+》print a
+》呵呵
+</code></pre><p>为什么print 和 直接输入变量回车显示的东西不一样呢？<br>\xe5\x91\xb5\xe5\x91\xb5这些是什么东西啊。一定很奇怪。其实bytes字符编码，是8进制的东西。</p>
+        <p class="article-more-link">
+          <a class="article-more-a"  href="/2016/11/14/python_unicode/#more">more >></a>
+        </p>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/11/14/python_unicode/" class="archive-article-date">
   	<time datetime="2016-11-14T19:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-14</time>
 </a>
       
