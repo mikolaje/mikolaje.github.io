@@ -135,6 +135,81 @@
   
     
 
+<article id="post-spark-guide" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+
+	 
+
+
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/20/spark-guide/">Spark简易入门</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Spark简易入门"><a href="#Spark简易入门" class="headerlink" title="Spark简易入门"></a>Spark简易入门</h1><p>Spark，搞大数据的人都应该用过吧。spark作为主流的大数据处理框架，到底为什么这么多人用呢？我们少扯淡，直接动手写大数据界的HelloWorld：WordCount。</p>
+<p>先贴上代码（Scala版本):</p>
+<!-- java -->
+<pre><code>import org.apache.spark.SparkConf
+import org.apache.spark.SparkContext
+object WordCount 
+  def main(args: Array[String]) {
+    val conf = new SparkConf()
+    conf.setAppName(&quot;WorkCount&quot;)
+    val sc = new SparkContext(conf)
+
+    val file = &quot;hdfs://127.0.0.1:9000/file.txt&quot;
+    val lines = sc.textFile(file)
+    val words = lines.flatMap(_.split(&quot;\\s+&quot;))
+    val wordCount = words.countByValue()
+    println(wordCount)
+}
+</code></pre><p>短短10多行代码，就已经完成了，比大家想象的要简单，完全看不出Spark背后做了什么处理。分布式，容错处理，这就是Spark给我们带来的福利。</p>
+        <p class="article-more-link">
+          <a class="article-more-a"  href="/2016/10/20/spark-guide/#more">more >></a>
+        </p>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/10/20/spark-guide/" class="archive-article-date">
+  	<time datetime="2016-10-20T18:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-20</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spark/">spark</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    
+
 <article id="post-spark_foreachRDD" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
 
