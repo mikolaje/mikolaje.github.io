@@ -170,7 +170,7 @@
     <div class="article-info article-info-index">
       
       <a href="/2017/03/13/gaining/2017-03-14/" class="archive-article-date">
-  	<time datetime="2017-03-13T18:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-03-13</time>
+  	<time datetime="2017-03-13T03:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-03-13</time>
 </a>
       
 	<div class="article-tag tagcloud">
@@ -234,7 +234,7 @@
     <div class="article-info article-info-index">
       
       <a href="/2017/02/14/python_gcd/" class="archive-article-date">
-  	<time datetime="2017-02-14T20:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-02-14</time>
+  	<time datetime="2017-02-14T04:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-02-14</time>
 </a>
       
 	<div class="article-tag tagcloud">
@@ -293,7 +293,7 @@
     <div class="article-info article-info-index">
       
       <a href="/2016/12/25/spark_dependency/" class="archive-article-date">
-  	<time datetime="2016-12-25T19:00:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-25</time>
+  	<time datetime="2016-12-25T03:00:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-25</time>
 </a>
       
 	<div class="article-tag tagcloud">
@@ -354,7 +354,7 @@
     <div class="article-info article-info-index">
       
       <a href="/2016/12/21/spark_bias/" class="archive-article-date">
-  	<time datetime="2016-12-21T19:49:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-21</time>
+  	<time datetime="2016-12-21T03:49:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-21</time>
 </a>
       
 	<div class="article-tag tagcloud">
@@ -420,7 +420,7 @@
     <div class="article-info article-info-index">
       
       <a href="/2016/12/12/spark_broadcast/" class="archive-article-date">
-  	<time datetime="2016-12-12T22:49:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-12</time>
+  	<time datetime="2016-12-12T06:49:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-12</time>
 </a>
       
 	<div class="article-tag tagcloud">
@@ -488,7 +488,7 @@
     <div class="article-info article-info-index">
       
       <a href="/2016/12/08/spark_combinebykey/" class="archive-article-date">
-  	<time datetime="2016-12-09T02:01:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-08</time>
+  	<time datetime="2016-12-08T10:01:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-08</time>
 </a>
       
 	<div class="article-tag tagcloud">
@@ -558,7 +558,7 @@
     <div class="article-info article-info-index">
       
       <a href="/2016/11/30/spark_aggregate/" class="archive-article-date">
-  	<time datetime="2016-11-30T19:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-30</time>
+  	<time datetime="2016-11-30T03:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-30</time>
 </a>
       
 	<div class="article-tag tagcloud">
@@ -622,7 +622,72 @@
     <div class="article-info article-info-index">
       
       <a href="/2016/11/15/python_yield/" class="archive-article-date">
-  	<time datetime="2016-11-15T19:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-15</time>
+  	<time datetime="2016-11-15T03:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-15</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    
+
+<article id="post-python_unicode" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+
+	 
+
+
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/14/python_unicode/">聊聊python的unicode 问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Python的中文字符处理"><a href="#Python的中文字符处理" class="headerlink" title="Python的中文字符处理"></a>Python的中文字符处理</h2><p>都说python对中文不太友好。</p>
+<p>我们看看下面两个例子：<br>测试环境是ubuntu;<br>python版本为2.7<br><!-- python --></p>
+<pre><code>》a = &apos;呵呵&apos;
+》a 
+》&apos;\xe5\x91\xb5\xe5\x91\xb5&apos;
+》print a
+》呵呵
+</code></pre><p>为什么print 和 直接输入变量回车显示的东西不一样呢？<br>\xe5\x91\xb5\xe5\x91\xb5这些是什么东西啊。一定很奇怪。其实bytes字符编码，是8进制的东西。</p>
+        <p class="article-more-link">
+          <a class="article-more-a"  href="/2016/11/14/python_unicode/#more">more >></a>
+        </p>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/11/14/python_unicode/" class="archive-article-date">
+  	<time datetime="2016-11-14T03:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-14</time>
 </a>
       
 	<div class="article-tag tagcloud">
@@ -693,72 +758,7 @@ print a  # [1]
     <div class="article-info article-info-index">
       
       <a href="/2016/11/14/python01/" class="archive-article-date">
-  	<time datetime="2016-11-14T19:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-14</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    
-
-<article id="post-python_unicode" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-
-	 
-
-
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/14/python_unicode/">聊聊python的unicode 问题</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Python的中文字符处理"><a href="#Python的中文字符处理" class="headerlink" title="Python的中文字符处理"></a>Python的中文字符处理</h2><p>都说python对中文不太友好。</p>
-<p>我们看看下面两个例子：<br>测试环境是ubuntu;<br>python版本为2.7<br><!-- python --></p>
-<pre><code>》a = &apos;呵呵&apos;
-》a 
-》&apos;\xe5\x91\xb5\xe5\x91\xb5&apos;
-》print a
-》呵呵
-</code></pre><p>为什么print 和 直接输入变量回车显示的东西不一样呢？<br>\xe5\x91\xb5\xe5\x91\xb5这些是什么东西啊。一定很奇怪。其实bytes字符编码，是8进制的东西。</p>
-        <p class="article-more-link">
-          <a class="article-more-a"  href="/2016/11/14/python_unicode/#more">more >></a>
-        </p>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/11/14/python_unicode/" class="archive-article-date">
-  	<time datetime="2016-11-14T19:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-14</time>
+  	<time datetime="2016-11-14T03:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-14</time>
 </a>
       
 	<div class="article-tag tagcloud">
