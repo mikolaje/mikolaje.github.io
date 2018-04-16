@@ -4,14 +4,37 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>Archives: 2016/11 | Welcome to My Home</title>
+  <title>TCP/IP 的一些学习 | Welcome to My Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Welcome to My Home">
-<meta property="og:url" content="http://mikolaje.github.io/archives/2016/11/index.html">
+  <meta name="description" content="还记得两三年前，去一个大数据公司面试。首先要笔试，题目中有道题目就是填空TCP报文的表格。首先我们看看TCP的报头：
+ 
+当时觉得这是啥玩意呀。考这东西跟大数据有毛线关系。今天，才明白，这些都是计算机的基础。基本功来的，跑不了。
+下面我们可以通过一张图就能比较清晰地展现TCP/IP建立连接的过程。也就是我们常说的3次握手，4次挥手。
+我们先看3次握手的过程：
+1.首先Server端是处在一个Lis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TCP/IP 的一些学习">
+<meta property="og:url" content="http://mikolaje.github.io/2017/12/25/tcp_knowledge/index.html">
 <meta property="og:site_name" content="Welcome to My Home">
+<meta property="og:description" content="还记得两三年前，去一个大数据公司面试。首先要笔试，题目中有道题目就是填空TCP报文的表格。首先我们看看TCP的报头：
+ 
+当时觉得这是啥玩意呀。考这东西跟大数据有毛线关系。今天，才明白，这些都是计算机的基础。基本功来的，跑不了。
+下面我们可以通过一张图就能比较清晰地展现TCP/IP建立连接的过程。也就是我们常说的3次握手，4次挥手。
+我们先看3次握手的过程：
+1.首先Server端是处在一个Lis">
+<meta property="og:image" content="http://mikolaje.github.io/images/tcp_head.jpg">
+<meta property="og:image" content="http://mikolaje.github.io/images/tcp_connection.png">
+<meta property="og:image" content="http://mikolaje.github.io/images/tcp_finish.png">
+<meta property="og:updated_time" content="2018-04-16T03:38:08.852Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Welcome to My Home">
+<meta name="twitter:title" content="TCP/IP 的一些学习">
+<meta name="twitter:description" content="还记得两三年前，去一个大数据公司面试。首先要笔试，题目中有道题目就是填空TCP报文的表格。首先我们看看TCP的报头：
+ 
+当时觉得这是啥玩意呀。考这东西跟大数据有毛线关系。今天，才明白，这些都是计算机的基础。基本功来的，跑不了。
+下面我们可以通过一张图就能比较清晰地展现TCP/IP建立连接的过程。也就是我们常说的3次握手，4次挥手。
+我们先看3次握手的过程：
+1.首先Server端是处在一个Lis">
+<meta name="twitter:image" content="http://mikolaje.github.io/images/tcp_head.jpg">
   
     <link rel="alternative" href="/atom.xml" title="Welcome to My Home" type="application/atom+xml">
   
@@ -132,149 +155,138 @@
 
       <div class="body-wrap">
         
-  
-  
+
+<article id="post-tcp_knowledge" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+
+	 
+<div class="busuanzi_container_page_pv"> 
+  <span class="head-plus">   
+	<i class="fa fa-user"></i>
+ <span id="busuanzi_value_page_pv">
+	<i class="fa fa-spinner fa-spin"></i>
+ </span>次访问   </span>  
+ <span class="head-plus">  
+ 	<i class="fa fa-comments"></i>
+ <span class="ds-thread-count" data-thread-key="2017/12/25/tcp_knowledge/">
+	<i class="fa fa-spinner fa-spin"></i></span>条评论  
+ </span> 
+</div> 
+
+
+    
+      <input type="hidden" class="isFancy" />
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      TCP/IP 的一些学习
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
       
+        <p>还记得两三年前，去一个大数据公司面试。首先要笔试，题目中有道题目就是填空TCP报文的表格。<br>首先我们看看TCP的报头：</p>
+<p> <img src="/images/tcp_head.jpg" alt="Sample Image Added via Markdown"></p>
+<p>当时觉得这是啥玩意呀。考这东西跟大数据有毛线关系。今天，才明白，这些都是计算机的基础。基本功来的，跑不了。</p>
+<p>下面我们可以通过一张图就能比较清晰地展现TCP/IP建立连接的过程。也就是我们常说的3次握手，4次挥手。</p>
+<p>我们先看3次握手的过程：<br><img src="/images/tcp_connection.png" alt="Sample Image Added via Markdown"></p>
+<p>1.首先Server端是处在一个Listen的状态。经常你用netstat可以看到，比如打开了一个web 服务，就卡看到80端口处在listen状态<br>2.由客户端发送一个Segment(传输层的数据包单位)到服务的，主要内容有 SYN=1，seq=x(一个随机数)。发送后，客户端状态变为SYN-SENT<br>3.服务端收到客户端发送的Segment，状态变为SYN-REVD，并发送一个SYN=1,ACK=1,seq=y,ack=x+1 的Segment返还给客户端。表示自己收到了你的消息。<br>4.客户端收到服务端返还的内容后，状态就变成了ESTABLISHED。表示成功建立了连接。并且再次发送一个ACK=1,ack=y+1,seq=x+1 的Segment。<br>5.服务端收到客户端发来的Segment后，状态变为ESTABLISHED。成功完成3次握手。</p>
+<p>建立一次连接，需要3次握手，也就是说发送3个数据包即可建立连接。发送的数据包内容中我们可以发现一点规律。ack的数值内容都是对方发送给自己的seq数值 +1  。</p>
+<p>接下来我们看看4次挥手的过程。<br><img src="/images/tcp_finish.png" alt="Sample Image Added via Markdown"></p>
+<p>1.首先由终端的提出方(假设是客户端)发送一个FIN=1,seq=u 的Segment到服务端。发送后客户端状态变为FIN-WAIT-1<br>2.服务端收到了客户端的Segment后状态变为CLOSE-WAIT，并反回一个ACK=1,seq=v,ack=u+1 的Segment给客户端。<br>3.客户端收到了服务端返回的消息后状态变为FIN-WAIT-2,此时服务端并没有关闭，意思是告诉客户端，请您耐心等待，我看看还有什么数据没有给你的，把剩下的数据发给你先。<br>4.过了片刻，服务端发送一个FIN=1,ACK=1,seq=w,ack=u+1 的Segment给客户端。然后服务端状态变为了LAST-ACK。<br>5.客户端收到了服务端发来的消息后，状态变为了TIME-WAIT。并发送ACK=1,seq=u+1,ack=w+1的Segment。表示我知道了，我再等等你(2MSL)还有什么话跟我说的。没有的话我就关了。<br>6.服务端收到客户端发送的消息后，状态就变为CLOSED了。</p>
+
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/11/30/spark_aggregate/" class="archive-article-date">
-  	<time datetime="2016-11-30T03:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-30</time>
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/12/25/tcp_knowledge/" class="archive-article-date">
+  	<time datetime="2017-12-25T03:00:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-12-25</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/11/30/spark_aggregate/">浅谈SPARK 的 aggregate 算子</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spark/">spark</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/network/">network</a></li></ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/11/15/python_yield/" class="archive-article-date">
-  	<time datetime="2016-11-15T03:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/11/15/python_yield/">Python的yield 问题</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+  
+<nav id="article-nav">
+  
+    <a href="/2018/02/14/python_dict/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          浅谈Python Dict 原理
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/03/13/gaining/2017-03-14/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">从网上找到自己的答案</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
 	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/11/14/python_unicode/" class="archive-article-date">
-  	<time datetime="2016-11-14T03:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/11/14/python_unicode/">聊聊python的unicode 问题</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
-	</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/11/14/python01/" class="archive-article-date">
-  	<time datetime="2016-11-14T03:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/11/14/python01/">聊聊python的变量问题</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
-	</div>
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="tcp_knowledge" data-title="TCP/IP 的一些学习" data-url="http://mikolaje.github.io/2017/12/25/tcp_knowledge/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
 
-    
 
 
       </div>
@@ -300,8 +312,8 @@
 		mathjax: false,
 		animate: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

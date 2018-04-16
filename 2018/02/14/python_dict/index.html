@@ -4,14 +4,27 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>Archives: 2016/11 | Welcome to My Home</title>
+  <title>浅谈Python Dict 原理 | Welcome to My Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Welcome to My Home">
-<meta property="og:url" content="http://mikolaje.github.io/archives/2016/11/index.html">
+  <meta name="description" content="最近在知乎上看到很多Python职位的面试都会问Python的数据结构。很多大公司，比如知乎，在面试python的工程师的时候都会很注重基础；比如会问：python内置的list dict set等使用和原理。collections 模块里的deque，Counter，OrderDict等。 常用的排序算法和时间复杂度。
+今天我就简单说说我学到的关于Python Dict 的见闻。
+于是，首先我查">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅谈Python Dict 原理">
+<meta property="og:url" content="http://mikolaje.github.io/2018/02/14/python_dict/index.html">
 <meta property="og:site_name" content="Welcome to My Home">
+<meta property="og:description" content="最近在知乎上看到很多Python职位的面试都会问Python的数据结构。很多大公司，比如知乎，在面试python的工程师的时候都会很注重基础；比如会问：python内置的list dict set等使用和原理。collections 模块里的deque，Counter，OrderDict等。 常用的排序算法和时间复杂度。
+今天我就简单说说我学到的关于Python Dict 的见闻。
+于是，首先我查">
+<meta property="og:image" content="http://mikolaje.github.io/images/python_dict1.png">
+<meta property="og:image" content="http://mikolaje.github.io/images/python_dict2.png">
+<meta property="og:updated_time" content="2018-04-16T06:06:21.667Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Welcome to My Home">
+<meta name="twitter:title" content="浅谈Python Dict 原理">
+<meta name="twitter:description" content="最近在知乎上看到很多Python职位的面试都会问Python的数据结构。很多大公司，比如知乎，在面试python的工程师的时候都会很注重基础；比如会问：python内置的list dict set等使用和原理。collections 模块里的deque，Counter，OrderDict等。 常用的排序算法和时间复杂度。
+今天我就简单说说我学到的关于Python Dict 的见闻。
+于是，首先我查">
+<meta name="twitter:image" content="http://mikolaje.github.io/images/python_dict1.png">
   
     <link rel="alternative" href="/atom.xml" title="Welcome to My Home" type="application/atom+xml">
   
@@ -132,149 +145,135 @@
 
       <div class="body-wrap">
         
-  
-  
+
+<article id="post-python_dict" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+
+	 
+<div class="busuanzi_container_page_pv"> 
+  <span class="head-plus">   
+	<i class="fa fa-user"></i>
+ <span id="busuanzi_value_page_pv">
+	<i class="fa fa-spinner fa-spin"></i>
+ </span>次访问   </span>  
+ <span class="head-plus">  
+ 	<i class="fa fa-comments"></i>
+ <span class="ds-thread-count" data-thread-key="2018/02/14/python_dict/">
+	<i class="fa fa-spinner fa-spin"></i></span>条评论  
+ </span> 
+</div> 
+
+
+    
+      <input type="hidden" class="isFancy" />
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      浅谈Python Dict 原理
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
       
+        <p>最近在知乎上看到很多Python职位的面试都会问Python的数据结构。很多大公司，比如知乎，在面试python的工程师的时候都会很注重基础；<br>比如会问：python内置的list dict set等使用和原理。collections 模块里的deque，Counter，OrderDict等。 常用的排序算法和时间复杂度。</p>
+<p>今天我就简单说说我学到的关于Python Dict 的见闻。</p>
+<p>于是，首先我查看到《流畅的python》一书的第3章。</p>
+<ol>
+<li>首先我们看看Python是如何用散列表来实现dict类型。</li>
+</ol>
+<p>什么是散列表：<br>散列表其实是一个稀疏数组（总是有空白元素的数组称为稀疏数组）。<br>在一般的数据结构教材中，散列表里的单元通常叫作表元（bucket）。在 dict 的散列表当中，每个键值对都占用一个表元，每个表元都有两<br>个部分，一个是对键的引用，另一个是对值的引用。因为所有表元的大小一致，所以可以通过偏移量来读取某个表元。</p>
+<p>散列算法：<br>1.为了获取 my_dict[search_key] 背后的值，Python 首先会调用hash(search_key) 来计算 search_key 的散列值，把这个值最低的几位数字当作偏移量，在散列表里查找表元（具体取几位，得看当前散列表的大小）。</p>
+<p>2.若找到的表元是空的，则抛出 KeyError 异常。若不是空的，则表元里会有一对 found_key:found_value。</p>
+<p>3.这时候 Python 会检验 search_key == found_key 是否为真，如果它们相等的话，就会返回 found_value。</p>
+<p>4.如果 search_key 和 found_key 不匹配的话，这种情况称为散列冲突。</p>
+<p>5.Python 解决散列冲突的方法用的是开放地址法。<br>如下图所示：<br><img src="/images/python_dict1.png" alt="Sample Image Added via Markdown"></p>
+<p>Python dict的特性：<br>1.字典在内存上的开销巨大。<br>由于字典使用了散列表，而散列表又必须是稀疏的，这导致它在空间上的效率低下。<br>2.键查询很快。<br>dict 的实现是典型的空间换时间：字典类型有着巨大的内存开销，但它们提供了无视数据量大小的快速访问——只要字典能被装在内存里。<br>3.往字典里添加新键可能会改变已有键的顺序。<br>无论何时往字典里添加新的键，Python 解释器都可能做出为字典扩容的决定。扩容导致的结果就是要新建一个更大的散列表，并把字典里已有的元素添加到新表里。</p>
+<p>关于Python的开放地制法解决hash冲突的实现可以参考下<br><a href="https://harveyqing.gitbooks.io/python-read-and-write/content/python_advance/python_dict_implementation.html" target="_blank" rel="external">https://harveyqing.gitbooks.io/python-read-and-write/content/python_advance/python_dict_implementation.html</a></p>
+<p><img src="/images/python_dict2.png" alt="Sample Image Added via Markdown"></p>
+
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/11/30/spark_aggregate/" class="archive-article-date">
-  	<time datetime="2016-11-30T03:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-30</time>
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/02/14/python_dict/" class="archive-article-date">
+  	<time datetime="2018-02-14T03:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-02-14</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/11/30/spark_aggregate/">浅谈SPARK 的 aggregate 算子</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spark/">spark</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/11/15/python_yield/" class="archive-article-date">
-  	<time datetime="2016-11-15T03:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/11/15/python_yield/">Python的yield 问题</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/11/14/python_unicode/" class="archive-article-date">
-  	<time datetime="2016-11-14T03:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/11/14/python_unicode/">聊聊python的unicode 问题</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2017/12/25/tcp_knowledge/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">TCP/IP 的一些学习</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
 	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/11/14/python01/" class="archive-article-date">
-  	<time datetime="2016-11-14T03:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/11/14/python01/">聊聊python的变量问题</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
-	</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
 
-    
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="python_dict" data-title="浅谈Python Dict 原理" data-url="http://mikolaje.github.io/2018/02/14/python_dict/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
 
 
       </div>
@@ -300,8 +299,8 @@
 		mathjax: false,
 		animate: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
