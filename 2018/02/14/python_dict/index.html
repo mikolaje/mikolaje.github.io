@@ -6,24 +6,24 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>浅谈Python Dict 原理 | Welcome to My Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="最近在知乎上看到很多Python职位的面试都会问Python的数据结构。很多大公司，比如知乎，在面试python的工程师的时候都会很注重基础；比如会问：python内置的list dict set等使用和原理。collections 模块里的deque，Counter，OrderDict等。 常用的排序算法和时间复杂度。
+  <meta name="description" content="前言：最近在知乎上看到很多Python职位的面试都会问Python的数据结构。很多大公司，比如知乎，在面试python的工程师的时候都会很注重基础；比如会问：python内置的list dict set等使用和原理。collections 模块里的deque，Counter，OrderDict等。 常用的排序算法和时间复杂度。
 今天我就简单说说我学到的关于Python Dict 的见闻。
-于是，首先我查">
+于是，首">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅谈Python Dict 原理">
 <meta property="og:url" content="http://mikolaje.github.io/2018/02/14/python_dict/index.html">
 <meta property="og:site_name" content="Welcome to My Home">
-<meta property="og:description" content="最近在知乎上看到很多Python职位的面试都会问Python的数据结构。很多大公司，比如知乎，在面试python的工程师的时候都会很注重基础；比如会问：python内置的list dict set等使用和原理。collections 模块里的deque，Counter，OrderDict等。 常用的排序算法和时间复杂度。
+<meta property="og:description" content="前言：最近在知乎上看到很多Python职位的面试都会问Python的数据结构。很多大公司，比如知乎，在面试python的工程师的时候都会很注重基础；比如会问：python内置的list dict set等使用和原理。collections 模块里的deque，Counter，OrderDict等。 常用的排序算法和时间复杂度。
 今天我就简单说说我学到的关于Python Dict 的见闻。
-于是，首先我查">
+于是，首">
 <meta property="og:image" content="http://mikolaje.github.io/images/python_dict1.png">
 <meta property="og:image" content="http://mikolaje.github.io/images/python_dict2.png">
-<meta property="og:updated_time" content="2018-04-16T06:06:21.667Z">
+<meta property="og:updated_time" content="2018-04-18T09:51:12.367Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅谈Python Dict 原理">
-<meta name="twitter:description" content="最近在知乎上看到很多Python职位的面试都会问Python的数据结构。很多大公司，比如知乎，在面试python的工程师的时候都会很注重基础；比如会问：python内置的list dict set等使用和原理。collections 模块里的deque，Counter，OrderDict等。 常用的排序算法和时间复杂度。
+<meta name="twitter:description" content="前言：最近在知乎上看到很多Python职位的面试都会问Python的数据结构。很多大公司，比如知乎，在面试python的工程师的时候都会很注重基础；比如会问：python内置的list dict set等使用和原理。collections 模块里的deque，Counter，OrderDict等。 常用的排序算法和时间复杂度。
 今天我就简单说说我学到的关于Python Dict 的见闻。
-于是，首先我查">
+于是，首">
 <meta name="twitter:image" content="http://mikolaje.github.io/images/python_dict1.png">
   
     <link rel="alternative" href="/atom.xml" title="Welcome to My Home" type="application/atom+xml">
@@ -180,14 +180,14 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>最近在知乎上看到很多Python职位的面试都会问Python的数据结构。很多大公司，比如知乎，在面试python的工程师的时候都会很注重基础；<br>比如会问：python内置的list dict set等使用和原理。collections 模块里的deque，Counter，OrderDict等。 常用的排序算法和时间复杂度。</p>
+        <p>前言：最近在知乎上看到很多Python职位的面试都会问Python的数据结构。很多大公司，比如知乎，在面试python的工程师的时候都会很注重基础；<br>比如会问：python内置的list dict set等使用和原理。collections 模块里的deque，Counter，OrderDict等。 常用的排序算法和时间复杂度。</p>
 <p>今天我就简单说说我学到的关于Python Dict 的见闻。</p>
 <p>于是，首先我查看到《流畅的python》一书的第3章。</p>
 <ol>
 <li>首先我们看看Python是如何用散列表来实现dict类型。</li>
 </ol>
 <p>什么是散列表：<br>散列表其实是一个稀疏数组（总是有空白元素的数组称为稀疏数组）。<br>在一般的数据结构教材中，散列表里的单元通常叫作表元（bucket）。在 dict 的散列表当中，每个键值对都占用一个表元，每个表元都有两<br>个部分，一个是对键的引用，另一个是对值的引用。因为所有表元的大小一致，所以可以通过偏移量来读取某个表元。</p>
-<p>散列算法：<br>1.为了获取 my_dict[search_key] 背后的值，Python 首先会调用hash(search_key) 来计算 search_key 的散列值，把这个值最低的几位数字当作偏移量，在散列表里查找表元（具体取几位，得看当前散列表的大小）。</p>
+<p>散列算法：<br>1.为了获取 my_dict[search_key] 背后的值，Python 首先会调用hash(search_key) 来计算 search_key 的散列值，把这个值最低的几位数字当作偏移量(貌似是hash(key) 和 数组的长度-1 作 与运算，hash(key)&amp; (size-1)，在散列表里查找表元（具体取几位，得看当前散列表的大小）。</p>
 <p>2.若找到的表元是空的，则抛出 KeyError 异常。若不是空的，则表元里会有一对 found_key:found_value。</p>
 <p>3.这时候 Python 会检验 search_key == found_key 是否为真，如果它们相等的话，就会返回 found_value。</p>
 <p>4.如果 search_key 和 found_key 不匹配的话，这种情况称为散列冲突。</p>
