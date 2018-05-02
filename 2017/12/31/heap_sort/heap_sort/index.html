@@ -20,7 +20,7 @@
 <meta property="og:image" content="http://mikolaje.github.io/images/heap_sort/complete_binary_tree.png">
 <meta property="og:image" content="http://mikolaje.github.io/images/heap_sort/heap_sort1.png">
 <meta property="og:image" content="http://mikolaje.github.io/images/heap_sort/heap_sort2.png">
-<meta property="og:updated_time" content="2018-05-02T05:36:09.576Z">
+<meta property="og:updated_time" content="2018-05-02T05:41:58.598Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="堆排序学习总结">
 <meta name="twitter:description" content="在学习《算法》一书中了解到：优先队列是一种抽象的数据类型，优先队列最重要的操作就是删除最大元素和插入元素。实现优先队列可以用数组，链表，最好的方式还是用堆。
@@ -206,8 +206,62 @@
 <p>最大堆调整（MAX‐HEAPIFY）的作用是保持最大堆的性质，是创建最大堆的核心子程序，作用过程如图所示：</p>
 <p><img src="/images/heap_sort/heap_sort2.png" alt="Sample Image Added via Markdown"></p>
 <p>源码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div><div class="line">def heapsort(arr):</div><div class="line">    def max_heapify(arr, index, heap_size):</div><div class="line">        &quot;&quot;&quot;</div><div class="line">        # 最大堆调整（MAX‐HEAPIFY）的作用是保持最大堆的性质。 将堆的末端子节点作调整，使得子节点永远小于父节点</div><div class="line">        # 意思就是要让index这元素去到它该去的位置</div><div class="line">        《算法》P200</div><div class="line">        由上至下的对有序化（下沉）</div><div class="line">        如果我们把堆想象成一个严密的黑色会组织，每个子节点都表示一个下属（父节点则表示它的直接上级），name这些操作就可以得到很有趣的解释。</div><div class="line">        max_hepify这个方法就相当于一个领导，如果占着老大的位置，但如果自己下属有比自己厉害的就要退位让贤。自己去到该去的层次</div><div class="line"></div><div class="line">        注意的是：这方法是有惰性的。调用一次该方法仍然不行。如果该index的左右子树都小于自己的话，它就不会递归了。</div><div class="line">        这个方法只是让index尽量下沉下去。如果是堆有序的话，那么执行该方法后index位置就是该位置最大的值</div><div class="line">        &quot;&quot;&quot;</div><div class="line"></div><div class="line">        while True:</div><div class="line">            imax = index</div><div class="line">            ileft = 2 * index + 1</div><div class="line">            iright = 2 * index + 2</div><div class="line"></div><div class="line">            if ileft &lt; heap_size and arr[index] &lt; arr[ileft]:</div><div class="line">                imax = ileft</div><div class="line"></div><div class="line">            if iright &lt; heap_size and arr[imax] &lt; arr[iright]:</div><div class="line">                imax = iright</div><div class="line"></div><div class="line">            if imax != index:</div><div class="line">                arr[imax], arr[index] = arr[index], arr[imax]</div><div class="line">                index = imax</div><div class="line">            else:</div><div class="line">                break</div><div class="line"></div><div class="line">    def build_maxheap(arr):</div><div class="line">        &quot;&quot;&quot;</div><div class="line">        # 将堆所有数据重新排序，使其成为最大堆</div><div class="line"></div><div class="line">        创建最大堆（Build-Max-Heap）的作用是将一个数组改造成一个最大堆，接受数组和堆大小两个参数，Build-Max-Heap 将自下而上的调用 Max-Heapify 来改造数组，建立最大堆。</div><div class="line">        因为 Max-Heapify 能够保证下标 i 的结点之后结点都满足最大堆的性质，所以自下而上的调用 Max-Heapify 能够在改造过程中保持这一性质。</div><div class="line">        如果最大堆的数量元素是 n，那么 Build-Max-Heap 从 Parent(n) 开始，往上依次调用 Max-Heapify。</div><div class="line">        &quot;&quot;&quot;</div><div class="line"></div><div class="line">        iparent = len(arr) // 2 - 1   # 最后一个节点的父节点</div><div class="line">        for i in range(iparent, -1, -1):</div><div class="line">            max_heapify(arr, i, len(arr))</div><div class="line"></div><div class="line">    def sort(arr):</div><div class="line">        build_maxheap(arr)  # build后左子树 还是可能大于 右子树的.所以这并不是一个有序数组</div><div class="line">        print(arr)</div><div class="line">        for i in range(len(arr)-1, 0, -1):</div><div class="line">            arr[0], arr[i] = arr[i], arr[0]</div><div class="line"></div><div class="line">            max_heapify(arr, 0, i)  # 这里这个i 相当于比当前的length - 1；第i个元素为当前最大的元素，就被固定死了。不再访问它</div><div class="line">        return arr</div><div class="line"></div><div class="line">    return sort(arr)</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">if __name__ == &apos;__main__&apos;:</div><div class="line"></div><div class="line">    print(heapsort([5,4,7,3,8,2,11,15,17,16,13,10,9,12,1]))</div></pre></td></tr></table></figure>
+<!-- python -->
+<p>def heapsort(arr):<br>    def max_heapify(arr, index, heap_size):<br>        “””</p>
+<pre><code>    # 最大堆调整（MAX‐HEAPIFY）的作用是保持最大堆的性质。 将堆的末端子节点作调整，使得子节点永远小于父节点
+    # 意思就是要让index这元素去到它该去的位置
+    《算法》P200
+    由上至下的对有序化（下沉）
+    如果我们把堆想象成一个严密的黑色会组织，每个子节点都表示一个下属（父节点则表示它的直接上级），name这些操作就可以得到很有趣的解释。
+    max_hepify这个方法就相当于一个领导，如果占着老大的位置，但如果自己下属有比自己厉害的就要退位让贤。自己去到该去的层次
 
+    注意的是：这方法是有惰性的。调用一次该方法仍然不行。如果该index的左右子树都小于自己的话，它就不会递归了。
+    这个方法只是让index尽量下沉下去。如果是堆有序的话，那么执行该方法后index位置就是该位置最大的值
+    &quot;&quot;&quot;
+
+    while True:
+        imax = index
+        ileft = 2 * index + 1
+        iright = 2 * index + 2
+
+        if ileft &lt; heap_size and arr[index] &lt; arr[ileft]:
+            imax = ileft
+
+        if iright &lt; heap_size and arr[imax] &lt; arr[iright]:
+            imax = iright
+
+        if imax != index:
+            arr[imax], arr[index] = arr[index], arr[imax]
+            index = imax
+        else:
+            break
+
+def build_maxheap(arr):
+    &quot;&quot;&quot;
+    # 将堆所有数据重新排序，使其成为最大堆
+
+    创建最大堆（Build-Max-Heap）的作用是将一个数组改造成一个最大堆，接受数组和堆大小两个参数，Build-Max-Heap 将自下而上的调用 Max-Heapify 来改造数组，建立最大堆。
+    因为 Max-Heapify 能够保证下标 i 的结点之后结点都满足最大堆的性质，所以自下而上的调用 Max-Heapify 能够在改造过程中保持这一性质。
+    如果最大堆的数量元素是 n，那么 Build-Max-Heap 从 Parent(n) 开始，往上依次调用 Max-Heapify。
+    &quot;&quot;&quot;
+
+    iparent = len(arr) // 2 - 1   # 最后一个节点的父节点
+    for i in range(iparent, -1, -1):
+        max_heapify(arr, i, len(arr))
+
+def sort(arr):
+    build_maxheap(arr)  # build后左子树 还是可能大于 右子树的.所以这并不是一个有序数组
+    print(arr)
+    for i in range(len(arr)-1, 0, -1):
+        arr[0], arr[i] = arr[i], arr[0]
+
+        max_heapify(arr, 0, i)  # 这里这个i 相当于比当前的length - 1；第i个元素为当前最大的元素，就被固定死了。不再访问它
+    return arr
+
+return sort(arr)
+</code></pre><p>if <strong>name</strong> == ‘<strong>main</strong>‘:</p>
+<pre><code>print(heapsort([5,4,7,3,8,2,11,15,17,16,13,10,9,12,1]))
+</code></pre>
       
     </div>
     <div class="article-info article-info-index">
