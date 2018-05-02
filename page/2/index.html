@@ -135,7 +135,7 @@
   
     
 
-<article id="post-python01" class="article article-type-post" itemscope itemprop="blogPost">
+<article id="post-spark_aggregate" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
 
 	 
@@ -149,7 +149,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/14/python01/">聊聊python的变量问题</a>
+      <a class="article-title" href="/2016/11/30/spark_aggregate/">浅谈SPARK 的 aggregate 算子</a>
     </h1>
   
 
@@ -157,29 +157,92 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="Python的传参数"><a href="#Python的传参数" class="headerlink" title="Python的传参数"></a>Python的传参数</h2><p>我们看看下面两个例子：</p>
+        <h1 id="理解aggregate的原理"><a href="#理解aggregate的原理" class="headerlink" title="理解aggregate的原理"></a>理解aggregate的原理</h1><p>刚开始我觉得SPARK的aggregate算子比较难理解的。首先我们看看官网的example</p>
 <!-- python -->
-<pre><code>a = &apos;hello&apos;
-def fun(a):
-    a = &apos;lol&apos;
-fun(a)
-print a  # &apos;hello&apos;
-
-a=[]
-def fun(a):
-    a.append(1)
-fun(a)
-print a  # [1]
-</code></pre><p>为什么第一个例子print出来的是’hello’而不是’lol 呢?<br>为什么第二个例子print出来却是[1] 呢?</p>
+<pre><code>&gt;&gt;&gt; seqOp = (lambda x, y: (x[0] + y, x[1] + 1))
+&gt;&gt;&gt; combOp = (lambda x, y: (x[0] + y[0], x[1] + y[1]))
+&gt;&gt;&gt; sc.parallelize([1, 2, 3, 4]).aggregate((0, 0), seqOp, combOp)
+(10, 4)
+&gt;&gt;&gt; sc.parallelize([]).aggregate((0, 0), seqOp, combOp)
+(0, 0)    
+</code></pre><p>看了后，我就一脸懵逼了，两个lambda函数中的x,y各自代表什么东西呢？</p>
+<p>我们先看看官网的aggregate 用法说明：</p>
+<p>Aggregate the elements of each partition, and then the results for all the partitions, using a given combine functions and a neutral “zero value.”</p>
+<p>The functions op(t1, t2) is allowed to modify t1 and return it as its result value to avoid object allocation; however, it should not modify t2.</p>
+<p>The first function (seqOp) can return a different result type, U, than the type of this RDD. Thus, we need one operation for merging a T into an U and one operation for merging two U</p>
         <p class="article-more-link">
-          <a class="article-more-a"  href="/2016/11/14/python01/#more">more >></a>
+          <a class="article-more-a"  href="/2016/11/30/spark_aggregate/#more">more >></a>
         </p>
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2016/11/14/python01/" class="archive-article-date">
-  	<time datetime="2016-11-14T03:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-14</time>
+      <a href="/2016/11/30/spark_aggregate/" class="archive-article-date">
+  	<time datetime="2016-11-30T03:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-30</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spark/">spark</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    
+
+<article id="post-python_yield" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+
+	 
+
+
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/15/python_yield/">Python的yield 问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Python-yield示范"><a href="#Python-yield示范" class="headerlink" title="Python yield示范"></a>Python yield示范</h2><p>yield 关键词在python中不算常用。以前我只知道它的作用和return相似，就是返回一个值。并不知道它具体的用途和用法。</p>
+<p>要理解yield，你必须知道generators（生成器）。而要知道生成器，需要了解iterables（可迭代对象）</p>
+<p>生成器（Generators）就是迭代器的一种特殊形式，只不过它只能迭代一次。这是因为生成器不是将所有的数值存储在内存里，而是，立即生成数值。<br>和迭代器相似，我们可以通过使用next()来从generator中获取下一个值</p>
+<p>顺便说说：集合数据类型，如list、tuple、dict、set、str等，这些可以用for循环的对象都是可迭代对象（Iterable）。<br>但list、dict、str虽然是Iterable，却不是迭代器（Iterator）。把list、dict、str等Iterable变成Iterator可以使用iter()函数。</p>
+<p>迭代器对象可以被next()函数调用并不断返回下一个数据，直到没有数据时抛出StopIteration错误。</p>
+<p>Python的for循环本质上就是通过不断调用next()函数实现的</p>
+<p>我们看看下面例子：</p>
+        <p class="article-more-link">
+          <a class="article-more-a"  href="/2016/11/15/python_yield/#more">more >></a>
+        </p>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/11/15/python_yield/" class="archive-article-date">
+  	<time datetime="2016-11-15T03:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-15</time>
 </a>
       
 	<div class="article-tag tagcloud">
@@ -271,7 +334,7 @@ print a  # [1]
   
     
 
-<article id="post-spark_guide" class="article article-type-post" itemscope itemprop="blogPost">
+<article id="post-python01" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
 
 	 
@@ -285,7 +348,7 @@ print a  # [1]
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/20/spark_guide/">Spark简易入门</a>
+      <a class="article-title" href="/2016/11/14/python01/">聊聊python的变量问题</a>
     </h1>
   
 
@@ -293,38 +356,34 @@ print a  # [1]
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Spark简易入门"><a href="#Spark简易入门" class="headerlink" title="Spark简易入门"></a>Spark简易入门</h1><p>Spark，搞大数据的人都应该用过吧。spark作为主流的大数据处理框架，到底为什么这么多人用呢？我们少扯淡，直接动手写大数据界的HelloWorld：WordCount。</p>
-<p>先贴上代码（Scala版本):</p>
-<!-- java -->
-<pre><code>import org.apache.spark.SparkConf
-import org.apache.spark.SparkContext
-object WordCount 
-  def main(args: Array[String]) {
-    val conf = new SparkConf()
-    conf.setAppName(&quot;WorkCount&quot;)
-    val sc = new SparkContext(conf)
+        <h2 id="Python的传参数"><a href="#Python的传参数" class="headerlink" title="Python的传参数"></a>Python的传参数</h2><p>我们看看下面两个例子：</p>
+<!-- python -->
+<pre><code>a = &apos;hello&apos;
+def fun(a):
+    a = &apos;lol&apos;
+fun(a)
+print a  # &apos;hello&apos;
 
-    val file = &quot;hdfs://127.0.0.1:9000/file.txt&quot;
-    val lines = sc.textFile(file)
-    val words = lines.flatMap(_.split(&quot;\\s+&quot;))
-    val wordCount = words.countByValue()
-    println(wordCount)
-}
-</code></pre><p>短短10多行代码，就已经完成了，比大家想象的要简单，完全看不出Spark背后做了什么处理。分布式，容错处理，这就是Spark给我们带来的福利。</p>
+a=[]
+def fun(a):
+    a.append(1)
+fun(a)
+print a  # [1]
+</code></pre><p>为什么第一个例子print出来的是’hello’而不是’lol 呢?<br>为什么第二个例子print出来却是[1] 呢?</p>
         <p class="article-more-link">
-          <a class="article-more-a"  href="/2016/10/20/spark_guide/#more">more >></a>
+          <a class="article-more-a"  href="/2016/11/14/python01/#more">more >></a>
         </p>
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2016/10/20/spark_guide/" class="archive-article-date">
-  	<time datetime="2016-10-20T03:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-20</time>
+      <a href="/2016/11/14/python01/" class="archive-article-date">
+  	<time datetime="2016-11-14T03:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-14</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spark/">spark</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
 	</div>
 
       
@@ -380,6 +439,81 @@ object WordCount
     <div class="article-info article-info-index">
       
       <a href="/2016/10/20/spark_foreachRDD/" class="archive-article-date">
+  	<time datetime="2016-10-20T03:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-20</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spark/">spark</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    
+
+<article id="post-spark_guide" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+
+	 
+
+
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/20/spark_guide/">Spark简易入门</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Spark简易入门"><a href="#Spark简易入门" class="headerlink" title="Spark简易入门"></a>Spark简易入门</h1><p>Spark，搞大数据的人都应该用过吧。spark作为主流的大数据处理框架，到底为什么这么多人用呢？我们少扯淡，直接动手写大数据界的HelloWorld：WordCount。</p>
+<p>先贴上代码（Scala版本):</p>
+<!-- java -->
+<pre><code>import org.apache.spark.SparkConf
+import org.apache.spark.SparkContext
+object WordCount 
+  def main(args: Array[String]) {
+    val conf = new SparkConf()
+    conf.setAppName(&quot;WorkCount&quot;)
+    val sc = new SparkContext(conf)
+
+    val file = &quot;hdfs://127.0.0.1:9000/file.txt&quot;
+    val lines = sc.textFile(file)
+    val words = lines.flatMap(_.split(&quot;\\s+&quot;))
+    val wordCount = words.countByValue()
+    println(wordCount)
+}
+</code></pre><p>短短10多行代码，就已经完成了，比大家想象的要简单，完全看不出Spark背后做了什么处理。分布式，容错处理，这就是Spark给我们带来的福利。</p>
+        <p class="article-more-link">
+          <a class="article-more-a"  href="/2016/10/20/spark_guide/#more">more >></a>
+        </p>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/10/20/spark_guide/" class="archive-article-date">
   	<time datetime="2016-10-20T03:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-20</time>
 </a>
       
@@ -535,7 +669,7 @@ object WordCount
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/daily/" style="font-size: 13.33px;">daily</a> <a href="/tags/network/" style="font-size: 10px;">network</a> <a href="/tags/python/" style="font-size: 16.67px;">python</a> <a href="/tags/spark/" style="font-size: 20px;">spark</a>
+    				<a href="/tags/algorithm/" style="font-size: 13.33px;">algorithm</a> <a href="/tags/daily/" style="font-size: 13.33px;">daily</a> <a href="/tags/network/" style="font-size: 10px;">network</a> <a href="/tags/python/" style="font-size: 16.67px;">python</a> <a href="/tags/spark/" style="font-size: 20px;">spark</a>
     			</div>
     	</section>
     

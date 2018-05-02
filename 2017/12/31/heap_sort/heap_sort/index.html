@@ -4,27 +4,29 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>浅谈SPARK 的 combineByKey 算子 | Welcome to My Home</title>
+  <title>堆排序学习总结 | Welcome to My Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="理解comebineByKey的原理SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档：
-combineByKey(createCombiner, mergeValue, mergeCombiners, numPartitions=None, partitionFunc=)
-
-Turns an RDD[(K, V)] into a result of type">
+  <meta name="description" content="在学习《算法》一书中了解到：优先队列是一种抽象的数据类型，优先队列最重要的操作就是删除最大元素和插入元素。实现优先队列可以用数组，链表，最好的方式还是用堆。
+我们可以把任意优先队列变成一种排序方法。将所有元素插入一个查找最小化元素的优先队列，然后再重复调用删除最小元素的操作将它们按顺序删去。用无序数组实现的优先队列这么做相当于进行一次选择排序。用基于堆得优先队列这样做等同于堆排序！
+要了解堆首先得">
 <meta property="og:type" content="article">
-<meta property="og:title" content="浅谈SPARK 的 combineByKey 算子">
-<meta property="og:url" content="http://mikolaje.github.io/2016/12/08/spark_combinebykey/index.html">
+<meta property="og:title" content="堆排序学习总结">
+<meta property="og:url" content="http://mikolaje.github.io/2017/12/31/heap_sort/heap_sort/index.html">
 <meta property="og:site_name" content="Welcome to My Home">
-<meta property="og:description" content="理解comebineByKey的原理SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档：
-combineByKey(createCombiner, mergeValue, mergeCombiners, numPartitions=None, partitionFunc=)
-
-Turns an RDD[(K, V)] into a result of type">
-<meta property="og:updated_time" content="2017-04-28T03:58:50.714Z">
+<meta property="og:description" content="在学习《算法》一书中了解到：优先队列是一种抽象的数据类型，优先队列最重要的操作就是删除最大元素和插入元素。实现优先队列可以用数组，链表，最好的方式还是用堆。
+我们可以把任意优先队列变成一种排序方法。将所有元素插入一个查找最小化元素的优先队列，然后再重复调用删除最小元素的操作将它们按顺序删去。用无序数组实现的优先队列这么做相当于进行一次选择排序。用基于堆得优先队列这样做等同于堆排序！
+要了解堆首先得">
+<meta property="og:image" content="http://mikolaje.github.io/images/full_binary_tree.png">
+<meta property="og:image" content="http://mikolaje.github.io/images/complete_binary_tree.png">
+<meta property="og:image" content="http://mikolaje.github.io/images/heap_sort1.png">
+<meta property="og:image" content="http://mikolaje.github.io/images/heap_sort2.png">
+<meta property="og:updated_time" content="2018-05-02T03:36:26.628Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="浅谈SPARK 的 combineByKey 算子">
-<meta name="twitter:description" content="理解comebineByKey的原理SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档：
-combineByKey(createCombiner, mergeValue, mergeCombiners, numPartitions=None, partitionFunc=)
-
-Turns an RDD[(K, V)] into a result of type">
+<meta name="twitter:title" content="堆排序学习总结">
+<meta name="twitter:description" content="在学习《算法》一书中了解到：优先队列是一种抽象的数据类型，优先队列最重要的操作就是删除最大元素和插入元素。实现优先队列可以用数组，链表，最好的方式还是用堆。
+我们可以把任意优先队列变成一种排序方法。将所有元素插入一个查找最小化元素的优先队列，然后再重复调用删除最小元素的操作将它们按顺序删去。用无序数组实现的优先队列这么做相当于进行一次选择排序。用基于堆得优先队列这样做等同于堆排序！
+要了解堆首先得">
+<meta name="twitter:image" content="http://mikolaje.github.io/images/full_binary_tree.png">
   
     <link rel="alternative" href="/atom.xml" title="Welcome to My Home" type="application/atom+xml">
   
@@ -146,7 +148,7 @@ Turns an RDD[(K, V)] into a result of type">
       <div class="body-wrap">
         
 
-<article id="post-spark_combinebykey" class="article article-type-post" itemscope itemprop="blogPost">
+<article id="post-heap_sort/heap_sort" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
 
 	 
@@ -158,7 +160,7 @@ Turns an RDD[(K, V)] into a result of type">
  </span>次访问   </span>  
  <span class="head-plus">  
  	<i class="fa fa-comments"></i>
- <span class="ds-thread-count" data-thread-key="2016/12/08/spark_combinebykey/">
+ <span class="ds-thread-count" data-thread-key="2017/12/31/heap_sort/heap_sort/">
 	<i class="fa fa-spinner fa-spin"></i></span>条评论  
  </span> 
 </div> 
@@ -172,7 +174,7 @@ Turns an RDD[(K, V)] into a result of type">
         
   
     <h1 class="article-title" itemprop="name">
-      浅谈SPARK 的 combineByKey 算子
+      堆排序学习总结
     </h1>
   
 
@@ -180,96 +182,41 @@ Turns an RDD[(K, V)] into a result of type">
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="理解comebineByKey的原理"><a href="#理解comebineByKey的原理" class="headerlink" title="理解comebineByKey的原理"></a>理解comebineByKey的原理</h1><h3 id="SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档："><a href="#SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档：" class="headerlink" title="SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档："></a>SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档：</h3><ul>
-<li><p>combineByKey(createCombiner, mergeValue, mergeCombiners, numPartitions=None, partitionFunc=<function portable_hash="" at="" 0x7ff5681b9d70="">)</function></p>
-</li>
-<li><p>Turns an RDD[(K, V)] into a result of type RDD[(K, C)], for a “combined type” C. Note that V and C can be different – for example, one might group an RDD of type (Int, Int) into an RDD of type (Int, List[Int]).</p>
-</li>
-<li><p>Users provide three functions:<br>createCombiner, which turns a V into a C (e.g., creates a one-element list)<br>mergeValue, to merge a V into a C (e.g., adds it to the end of a list)<br>mergeCombiners, to combine two C’s into a single one.</p>
-</li>
+        <p>在学习《算法》一书中了解到：<br>优先队列是一种抽象的数据类型，优先队列最重要的操作就是删除最大元素和插入元素。<br>实现优先队列可以用数组，链表，最好的方式还是用堆。</p>
+<p>我们可以把任意优先队列变成一种排序方法。将所有元素插入一个查找最小化元素的优先队列，然后再重复调用删除最小元素的操作将它们按顺序删去。用无序数组实现的优先队列这么做相当于进行一次选择排序。用基于堆得优先队列这样做等同于堆排序！</p>
+<p>要了解堆首先得了解一下二叉树，在计算机科学中，二叉树是每个节点最多有两个子树的树结构。通常子树被称作“左子树”（left subtree）和“右子树”（right subtree）。</p>
+<p>二叉树又分为满二叉树（full binary tree） 和 完全二叉树（complete binary tree）</p>
+<p>满二叉树：一棵深度为 k，且有 2k - 1 个节点称之为满二叉树</p>
+<p><img src="/images/full_binary_tree.png" alt="Sample Image Added via Markdown"></p>
+<p>完全二叉树则满足序号和满二叉树的完全对应。</p>
+<p><img src="/images/complete_binary_tree.png" alt="Sample Image Added via Markdown"></p>
+<p>如下图，是一个堆和数组的相互关系<br><img src="/images/heap_sort1.png" alt="Sample Image Added via Markdown"></p>
+<p>对于给定的某个结点的下标 i，可以很容易的计算出这个结点的父结点、孩子结点的下标：</p>
+<ul>
+<li>Parent(i) = floor(i/2)，i 的父节点下标</li>
+<li>Left(i) = 2i，i 的左子节点下标</li>
+<li>Right(i) = 2i + 1，i 的右子节点下标</li>
 </ul>
-<p>都是将类型为RDD[(K,V)]的数据处理为RDD[(K,C)]。这里的V和C可以是相同类型，也可以是不同类型。</p>
-<p>combineByKey函数主要接受了三个函数作为参数，分别为createCombiner、mergeValue、mergeCombiners。</p>
-<p>这三个函数足以说明它究竟做了什么。理解了这三个函数，就可以很好地理解combineByKey。</p>
-<a id="more"></a>
-<p>1.createCombiner ,让V变为C<br>V –&gt; C<br>2.mergeValue，将V合并为C<br>C, V –&gt; C<br>3.mergeCombiners，合并所有C为一个<br>C, C –&gt; C</p>
-<p>我们在命令行里输入IPYTHON=1 pyspark --master local[<em>]启动Spark 的Python shell。这里加了–master local[</em>] 是为了可以以local 模式运行，这样可以便于print 打印调试。</p>
-<p>下面是一个求平均值的例子<br><!-- python --></p>
-<pre><code>data = [
-        (&apos;A&apos;, 2.), (&apos;A&apos;, 4.), (&apos;A&apos;, 9.), 
-        (&apos;B&apos;, 10.), (&apos;B&apos;, 20.), 
-        (&apos;Z&apos;, 3.), (&apos;Z&apos;, 5.), (&apos;Z&apos;, 8.), (&apos;Z&apos;, 12.) 
-       ]
-rdd = sc.parallelize( data )
+<p>堆排序原理</p>
+<p>堆排序就是把最大堆堆顶的最大数取出，将剩余的堆继续调整为最大堆，再次将堆顶的最大数取出，这个过程持续到剩余数只有一个时结束。在堆中定义以下几种操作：</p>
+<p>最大堆调整（Max-Heapify）：将堆的末端子节点作调整，使得子节点永远小于父节点<br>创建最大堆（Build-Max-Heap）：将堆所有数据重新排序，使其成为最大堆<br>堆排序（Heap-Sort）：移除位在第一个数据的根节点，并做最大堆调整的递归运算</p>
+<p>继续进行下面的讨论前，需要注意的一个问题是：数组都是 Zero-Based，这就意味着我们的堆数据结构模型要发生改变</p>
+<p>相应的，几个计算公式也要作出相应调整：</p>
+<p>Parent(i) = floor((i-1)/2)，i 的父节点下标<br>Left(i) = 2i + 1，i 的左子节点下标<br>Right(i) = 2(i + 1)，i 的右子节点下标</p>
+<p>最大堆调整（MAX‐HEAPIFY）的作用是保持最大堆的性质，是创建最大堆的核心子程序，作用过程如图所示：</p>
+<p><img src="/images/heap_sort2.png" alt="Sample Image Added via Markdown"></p>
 
-def mergeValue(x,value):
-    print &apos;what is the x&apos;,x
-    return x[0]+value,x[1]+1
-
-sumCount = rdd.combineByKey(lambda value: (value, 1),
-                            mergeValue,
-                            lambda x, y: (x[0] + y[0], x[1] + y[1])
-    )
-
-sumCount.collect()
-#[(&apos;A&apos;, (15.0, 3)), (&apos;B&apos;, (30.0, 2)), (&apos;Z&apos;, (28.0, 4))]
-
-averageByKey = sumCount.map(lambda (key, (totalSum, count)): (key, totalSum / count))
-
-averageByKey.collectAsMap()
-#{A: 5.0, B: 15.0,Z: 7.0}
-</code></pre><p>我们按步骤解读一下：<br>1.Create a Combiner<br>lambda value:(value,1)<br>这个步骤定义了C的数据结构，也就是(sum,count)。</p>
-<p>如果是一个新的元素，此时使用createCombiner()来创建那个键对应的累加器的初始值。（注意：这个过程会在每个分区第一次出现各个键时发生，而不是在整个RDD中第一次出现一个键时发生。）</p>
-<p>2.Merge a Value<br>lambda x, value: (x[0] + value, x[1] + 1)<br>这个方法告诉combineByKey当给到一个新value的时候要做什么。方法的参数是一个combiner和一个新的value。combiner的数据结构在上一个方法定义了(sum,count)。</p>
-<p>3.Merge two Combiners<br>lambda x, y: (x[0] + y[0], x[1] + y[1])<br>这个方法告诉combineByKey怎么合并两个combiners</p>
-<p>内部流程如下：</p>
-<!-- python -->
-<pre><code>data = [
-        (&quot;A&quot;, 2.), (&quot;A&quot;, 4.), (&quot;A&quot;, 9.), 
-        (&quot;B&quot;, 10.), (&quot;B&quot;, 20.), 
-        (&quot;Z&quot;, 3.), (&quot;Z&quot;, 5.), (&quot;Z&quot;, 8.), (&quot;Z&quot;, 12.) 
-       ]
-
-Partition 1: (&quot;A&quot;, 2.), (&quot;A&quot;, 4.), (&quot;A&quot;, 9.), (&quot;B&quot;, 10.)
-Partition 2: (&quot;B&quot;, 20.), (&quot;Z&quot;, 3.), (&quot;Z&quot;, 5.), (&quot;Z&quot;, 8.), (&quot;Z&quot;, 12.) 
-
-
-Partition 1 
-(&quot;A&quot;, 2.), (&quot;A&quot;, 4.), (&quot;A&quot;, 9.), (&quot;B&quot;, 10.)
-
-A=2. --&gt; createCombiner(2.) ==&gt; accumulator[A] = (2., 1)
-A=4. --&gt; mergeValue(accumulator[A], 4.) ==&gt; accumulator[A] = (2. + 4., 1 + 1) = (6., 2)
-A=9. --&gt; mergeValue(accumulator[A], 9.) ==&gt; accumulator[A] = (6. + 9., 2 + 1) = (15., 3)
-B=10. --&gt; createCombiner(10.) ==&gt; accumulator[B] = (10., 1)
-
-Partition 2
-(&quot;B&quot;, 20.), (&quot;Z&quot;, 3.), (&quot;Z&quot;, 5.), (&quot;Z&quot;, 8.), (&quot;Z&quot;, 12.) 
-
-B=20. --&gt; createCombiner(20.) ==&gt; accumulator[B] = (20., 1)
-Z=3. --&gt; createCombiner(3.) ==&gt; accumulator[Z] = (3., 1)
-Z=5. --&gt; mergeValue(accumulator[Z], 5.) ==&gt; accumulator[Z] = (3. + 5., 1 + 1) = (8., 2)
-Z=8. --&gt; mergeValue(accumulator[Z], 8.) ==&gt; accumulator[Z] = (8. + 8., 2 + 1) = (16., 3)
-Z=12. --&gt; mergeValue(accumulator[Z], 12.) ==&gt; accumulator[Z] = (16. + 12., 3 + 1) = (28., 4)
-
-Merge partitions together
-A ==&gt; (15., 3)
-B ==&gt; mergeCombiner((10., 1), (20., 1)) ==&gt; (10. + 20., 1 + 1) = (30., 2)
-Z ==&gt; (28., 4)
-
-最终结果为：
-Array( [A, (15., 3)], [B, (30., 2)], [Z, (28., 4)])
-</code></pre>
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2016/12/08/spark_combinebykey/" class="archive-article-date">
-  	<time datetime="2016-12-08T10:01:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-08</time>
+      <a href="/2017/12/31/heap_sort/heap_sort/" class="archive-article-date">
+  	<time datetime="2017-12-31T01:00:01.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-12-31</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spark/">spark</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>
 	</div>
 
       
@@ -282,18 +229,18 @@ Array( [A, (15., 3)], [B, (30., 2)], [Z, (28., 4)])
   
 <nav id="article-nav">
   
-    <a href="/2016/12/12/spark_broadcast/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2017/12/31/heap_sort/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          浅谈SPARK 的 广播变量
+          堆排序学习总结
         
       </div>
     </a>
   
   
-    <a href="/2016/11/30/spark_aggregate/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">浅谈SPARK 的 aggregate 算子</div>
+    <a href="/2017/12/25/tcp_knowledge/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">TCP/IP 的一些学习</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -327,7 +274,7 @@ Array( [A, (15., 3)], [B, (30., 2)], [Z, (28., 4)])
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="spark_combinebykey" data-title="浅谈SPARK 的 combineByKey 算子" data-url="http://mikolaje.github.io/2016/12/08/spark_combinebykey/"></div>
+	<div class="ds-thread" data-thread-key="heap_sort/heap_sort" data-title="堆排序学习总结" data-url="http://mikolaje.github.io/2017/12/31/heap_sort/heap_sort/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
