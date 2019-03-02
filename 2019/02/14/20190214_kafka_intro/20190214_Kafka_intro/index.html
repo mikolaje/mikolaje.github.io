@@ -8,31 +8,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="最近面试经常会被问到Kafka的问题。看了很多Kafka的介绍，发现还是美团技术团队总结的最清楚易懂。下面转了美团的关于Kafka的一篇文章
 
-Kafka是什么&amp;gt;&amp;gt;
-
-Kafka是最初由Linkedin公司开发，是一个分布式、分区的、多副本的、多订阅者，基于zookeeper协调的分布式日志系统(也可以当做MQ系统)，常见可以用于web/nginx日志、访问日志，消息服务等等，Lin">
+Kafka是什么Kafka是最初由Linkedin公司开发，是一个分布式、分区的、多副本的、多订阅者，基于zookeeper协调的分布式日志系统(也可以当做MQ系统)，常见可以用于web/nginx日志、访问日志，消息服务等等，Linkedin于2010">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Kafka Introduction">
 <meta property="og:url" content="http://mikolaje.github.io/2019/02/14/20190214_kafka_intro/20190214_Kafka_intro/index.html">
 <meta property="og:site_name" content="Welcome to My Home">
 <meta property="og:description" content="最近面试经常会被问到Kafka的问题。看了很多Kafka的介绍，发现还是美团技术团队总结的最清楚易懂。下面转了美团的关于Kafka的一篇文章
 
-Kafka是什么&amp;gt;&amp;gt;
-
-Kafka是最初由Linkedin公司开发，是一个分布式、分区的、多副本的、多订阅者，基于zookeeper协调的分布式日志系统(也可以当做MQ系统)，常见可以用于web/nginx日志、访问日志，消息服务等等，Lin">
-<meta property="og:image" content="http://mikolaje.github.io/./kafka_partition.png">
-<meta property="og:image" content="http://mikolaje.github.io/./kafka_index.png">
-<meta property="og:image" content="http://mikolaje.github.io/./kafka_message.png">
-<meta property="og:image" content="http://mikolaje.github.io/./kafka_read_disk.png">
-<meta property="og:updated_time" content="2019-03-02T01:23:11.000Z">
+Kafka是什么Kafka是最初由Linkedin公司开发，是一个分布式、分区的、多副本的、多订阅者，基于zookeeper协调的分布式日志系统(也可以当做MQ系统)，常见可以用于web/nginx日志、访问日志，消息服务等等，Linkedin于2010">
+<meta property="og:image" content="http://mikolaje.github.io/kafka_partition.png">
+<meta property="og:image" content="http://mikolaje.github.io/kafka_index.png">
+<meta property="og:image" content="http://mikolaje.github.io/kafka_message.png">
+<meta property="og:image" content="http://mikolaje.github.io/kafka_read_disk.png">
+<meta property="og:updated_time" content="2019-03-02T01:34:40.895Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Kafka Introduction">
 <meta name="twitter:description" content="最近面试经常会被问到Kafka的问题。看了很多Kafka的介绍，发现还是美团技术团队总结的最清楚易懂。下面转了美团的关于Kafka的一篇文章
 
-Kafka是什么&amp;gt;&amp;gt;
-
-Kafka是最初由Linkedin公司开发，是一个分布式、分区的、多副本的、多订阅者，基于zookeeper协调的分布式日志系统(也可以当做MQ系统)，常见可以用于web/nginx日志、访问日志，消息服务等等，Lin">
-<meta name="twitter:image" content="http://mikolaje.github.io/./kafka_partition.png">
+Kafka是什么Kafka是最初由Linkedin公司开发，是一个分布式、分区的、多副本的、多订阅者，基于zookeeper协调的分布式日志系统(也可以当做MQ系统)，常见可以用于web/nginx日志、访问日志，消息服务等等，Linkedin于2010">
+<meta name="twitter:image" content="http://mikolaje.github.io/kafka_partition.png">
   
     <link rel="alternative" href="/atom.xml" title="Welcome to My Home" type="application/atom+xml">
   
@@ -191,10 +185,7 @@ Kafka是最初由Linkedin公司开发，是一个分布式、分区的、多副�
         <ul>
 <li>最近面试经常会被问到Kafka的问题。看了很多Kafka的介绍，发现还是美团技术团队总结的最清楚易懂。下面转了美团的关于Kafka的一篇文章</li>
 </ul>
-<h2 id="Kafka是什么"><a href="#Kafka是什么" class="headerlink" title="Kafka是什么"></a>Kafka是什么</h2><p>&gt;<br>&gt;</p>
-<blockquote>
-<p>Kafka是最初由Linkedin公司开发，是一个分布式、分区的、多副本的、多订阅者，基于zookeeper协调的分布式日志系统(也可以当做MQ系统)，常见可以用于web/nginx日志、访问日志，消息服务等等，Linkedin于2010年贡献给了Apache基金会并成为顶级开源项目。</p>
-</blockquote>
+<h2 id="Kafka是什么"><a href="#Kafka是什么" class="headerlink" title="Kafka是什么"></a>Kafka是什么</h2><p>Kafka是最初由Linkedin公司开发，是一个分布式、分区的、多副本的、多订阅者，基于zookeeper协调的分布式日志系统(也可以当做MQ系统)，常见可以用于web/nginx日志、访问日志，消息服务等等，Linkedin于2010年贡献给了Apache基金会并成为顶级开源项目。</p>
 <p>一个商业化消息队列的性能好坏，其文件存储机制设计是衡量一个消息队列服务技术水平和最关键指标之一。 下面将从Kafka文件存储机制和物理结构角度，分析Kafka是如何实现高效文件存储，及实际应用效果。</p>
 <p>Kafka部分名词解释如下：</p>
 <ul>
@@ -215,7 +206,7 @@ Kafka是最初由Linkedin公司开发，是一个分布式、分区的、多副�
 <h2 id="2-1-topic中partition存储分布"><a href="#2-1-topic中partition存储分布" class="headerlink" title="2.1 topic中partition存储分布"></a>2.1 topic中partition存储分布</h2><p>假设实验环境中Kafka集群只有一个broker，xxx/message-folder为数据文件存储根目录，在Kafka broker中server.properties文件配置(参数log.dirs=xxx/message-folder)，例如创建2个topic名称分别为report_push、launch_info, partitions数量都为partitions=4 存储路径和目录规则为： xxx/message-folder<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">|--report_push-0</div><div class="line">|--report_push-1</div><div class="line">|--report_push-2</div><div class="line">|--report_push-3</div><div class="line">|--launch_info-0</div><div class="line">|--launch_info-1</div><div class="line">|--launch_info-2</div><div class="line">|--launch_info-3</div></pre></td></tr></table></figure></p>
 <p>在Kafka文件存储中，同一个topic下有多个不同partition，每个partition为一个目录，partiton命名规则为topic名称+有序序号，第一个partiton序号从0开始，序号最大值为partitions数量减1。 如果是多broker分布情况，请参考kafka集群partition分布原理分析</p>
 <h2 id="2-2-partiton中文件存储方式"><a href="#2-2-partiton中文件存储方式" class="headerlink" title="2.2 partiton中文件存储方式"></a>2.2 partiton中文件存储方式</h2><p>下面示意图形象说明了partition中文件存储方式:</p>
-<p><img src="./kafka_partition.png" alt="Sample Image Added via Markdown"></p>
+<p><img src="kafka_partition.png" alt="Sample Image Added via Markdown"></p>
 <ul>
 <li>每个partion(目录)相当于一个巨型文件被平均分配到多个大小相等segment(段)数据文件中。但每个段segment file消息数量不一定相等，这种特性方便old segment file快速被删除。</li>
 <li>每个partiton只需要支持顺序读写就行了，segment文件生命周期由服务端配置参数决定。</li>
@@ -227,17 +218,17 @@ Kafka是最初由Linkedin公司开发，是一个分布式、分区的、多副�
 <li>segment文件命名规则：partion全局的第一个segment从0开始，后续每个segment文件名为上一个segment文件最后一条消息的offset值。数值最大为64位long大小，19位数字字符长度，没有数字用0填充。</li>
 </ul>
 <p>下面文件列表是笔者在Kafka broker上做的一个实验，创建一个topicXXX包含1 partition，设置每个segment大小为500MB,并启动producer向Kafka broker写入大量数据,如下图2所示segment文件列表形象说明了上述2个规则：</p>
-<p><img src="./kafka_index.png" alt="Sample Image Added via Markdown"></p>
+<p><img src="kafka_index.png" alt="Sample Image Added via Markdown"></p>
 <p>以上述图2中一对segment file文件为例，说明segment中index&lt;—-&gt;data file对应关系物理结构如下：</p>
 <p>上述图3中索引文件存储大量元数据，数据文件存储大量消息，索引文件中元数据指向对应数据文件中message的物理偏移地址。 其中以索引文件中元数据3,497为例，依次在数据文件中表示第3个message(在全局partiton表示第368772个message)、以及该消息的物理偏移地址为497。</p>
-<p>从上述图3了解到segment data file由许多message组成，下面详细说明message物理结构如下：<br><img src="./kafka_message.png" alt="Sample Image Added via Markdown"></p>
+<p>从上述图3了解到segment data file由许多message组成，下面详细说明message物理结构如下：<br><img src="kafka_message.png" alt="Sample Image Added via Markdown"></p>
 <p>参数说明：<br>关键字    解释说明<br>8 byte offset    在parition(分区)内的每条消息都有一个有序的id号，这个id号被称为偏移(offset),它可以唯一确定每条消息在parition(分区)内的位置。即offset表示partiion的第多少message<br>4 byte message size    message大小<br>4 byte CRC32    用crc32校验message<br>1 byte “magic”    表示本次发布Kafka服务程序协议版本号<br>1 byte “attributes”    表示为独立版本、或标识压缩类型、或编码类型。<br>4 byte key length    表示key的长度,当key为-1时，K byte key字段不填<br>K byte key    可选<br>value bytes payload    表示实际消息数据。</p>
 <h2 id="2-4-在partition中如何通过offset查找message"><a href="#2-4-在partition中如何通过offset查找message" class="headerlink" title="2.4 在partition中如何通过offset查找message"></a>2.4 在partition中如何通过offset查找message</h2><p>例如读取offset=368776的message，需要通过下面2个步骤查找。</p>
 <p>第一步查找segment file 上述图2为例，其中00000000000000000000.index表示最开始的文件，起始偏移量(offset)为0.第二个文件00000000000000368769.index的消息量起始偏移量为368770 = 368769 + 1.同样，第三个文件00000000000000737337.index的起始偏移量为737338=737337 + 1，其他后续文件依次类推，以起始偏移量命名并排序这些文件，只要根据offset <strong>二分查找</strong>文件列表，就可以快速定位到具体文件。 当offset=368776时定位到00000000000000368769.index|log</p>
 <p>第二步通过segment file查找message 通过第一步定位到segment file，当offset=368776时，依次定位到00000000000000368769.index的元数据物理位置和00000000000000368769.log的物理偏移地址，然后再通过00000000000000368769.log顺序查找直到offset=368776为止。</p>
 <p>从上述图3可知这样做的优点，segment index file采取稀疏索引存储方式，它减少索引文件大小，通过mmap可以直接内存操作，稀疏索引为数据文件的每个对应message设置一个元数据指针,它比稠密索引节省了更多的存储空间，但查找起来需要消耗更多的时间。</p>
 <p>3 Kafka文件存储机制–实际运行效果<br>实验环境：</p>
-<p>Kafka集群：由2台虚拟机组成<br>cpu：4核<br>物理内存：8GB<br>网卡：千兆网卡<br>jvm heap: 4GB<br>详细Kafka服务端配置及其优化请参考：kafka server.properties配置详解<br><img src="./kafka_read_disk.png" alt="Sample Image Added via Markdown"></p>
+<p>Kafka集群：由2台虚拟机组成<br>cpu：4核<br>物理内存：8GB<br>网卡：千兆网卡<br>jvm heap: 4GB<br>详细Kafka服务端配置及其优化请参考：kafka server.properties配置详解<br><img src="kafka_read_disk.png" alt="Sample Image Added via Markdown"></p>
 <p>从上述图5可以看出，Kafka运行时很少有大量读磁盘的操作，主要是定期批量写磁盘操作，因此操作磁盘很高效。这跟Kafka文件存储中读写message的设计是息息相关的。Kafka中读写message有如下特点:</p>
 <h3 id="写message"><a href="#写message" class="headerlink" title="写message"></a>写message</h3><ul>
 <li>消息从java堆转入page cache(即物理内存)。</li>
