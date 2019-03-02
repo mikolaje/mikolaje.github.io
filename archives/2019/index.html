@@ -4,23 +4,14 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>Spark Streaming Dstream ForeachRDD的理解 | Welcome to My Home</title>
+  <title>Archives: 2019 | Welcome to My Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="通俗理解Spark Streaming Dstream 的ForeachRDD在SparkStreaming中，数据中的每个batch都是只有一个RDD，为什么我们还要用ForeachRDD 在每一个RDD呢？ 不是只有一个RDD吗？
-Dstream也就是离散stream，就是把连续的数据分成一小团一小团。我们用专业术语“microbatching”来描述。每个microbatch 变成一个RDD">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Spark Streaming Dstream ForeachRDD的理解">
-<meta property="og:url" content="http://mikolaje.github.io/2016/10/20/spark_foreachRDD/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Welcome to My Home">
+<meta property="og:url" content="http://mikolaje.github.io/archives/2019/index.html">
 <meta property="og:site_name" content="Welcome to My Home">
-<meta property="og:description" content="通俗理解Spark Streaming Dstream 的ForeachRDD在SparkStreaming中，数据中的每个batch都是只有一个RDD，为什么我们还要用ForeachRDD 在每一个RDD呢？ 不是只有一个RDD吗？
-Dstream也就是离散stream，就是把连续的数据分成一小团一小团。我们用专业术语“microbatching”来描述。每个microbatch 变成一个RDD">
-<meta property="og:image" content="http://mikolaje.github.io/images/spark-streaming.png">
-<meta property="og:updated_time" content="2017-04-28T03:58:50.371Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Spark Streaming Dstream ForeachRDD的理解">
-<meta name="twitter:description" content="通俗理解Spark Streaming Dstream 的ForeachRDD在SparkStreaming中，数据中的每个batch都是只有一个RDD，为什么我们还要用ForeachRDD 在每一个RDD呢？ 不是只有一个RDD吗？
-Dstream也就是离散stream，就是把连续的数据分成一小团一小团。我们用专业术语“microbatching”来描述。每个microbatch 变成一个RDD">
-<meta name="twitter:image" content="http://mikolaje.github.io/images/spark-streaming.png">
+<meta name="twitter:title" content="Welcome to My Home">
   
     <link rel="alternative" href="/atom.xml" title="Welcome to My Home" type="application/atom+xml">
   
@@ -141,146 +132,53 @@ Dstream也就是离散stream，就是把连续的数据分成一小团一小团�
 
       <div class="body-wrap">
         
-
-<article id="post-spark_foreachRDD" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-
-	 
-<div class="busuanzi_container_page_pv"> 
-  <span class="head-plus">   
-	<i class="fa fa-user"></i>
- <span id="busuanzi_value_page_pv">
-	<i class="fa fa-spinner fa-spin"></i>
- </span>次访问   </span>  
- <span class="head-plus">  
- 	<i class="fa fa-comments"></i>
- <span class="ds-thread-count" data-thread-key="2016/10/20/spark_foreachRDD/">
-	<i class="fa fa-spinner fa-spin"></i></span>条评论  
- </span> 
-</div> 
-
-
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
   
-    <h1 class="article-title" itemprop="name">
-      Spark Streaming Dstream ForeachRDD的理解
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2019" class="archive-year">2019</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2019/02/14/20190214_kafka_intro/20190214_Kafka_intro/" class="archive-article-date">
+  	<time datetime="2019-02-14T04:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-02-14</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2019/02/14/20190214_kafka_intro/20190214_Kafka_intro/">Kafka Introduction</a>
     </h1>
   
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="通俗理解Spark-Streaming-Dstream-的ForeachRDD"><a href="#通俗理解Spark-Streaming-Dstream-的ForeachRDD" class="headerlink" title="通俗理解Spark Streaming Dstream 的ForeachRDD"></a>通俗理解Spark Streaming Dstream 的ForeachRDD</h1><p>在SparkStreaming中，数据中的每个batch都是只有一个RDD，为什么我们还要用ForeachRDD 在每一个RDD呢？ 不是只有一个RDD吗？</p>
-<p>Dstream也就是离散stream，就是把连续的数据分成一小团一小团。我们用专业术语“microbatching”来描述。每个microbatch 变成一个RDD以便Spark的后续处理。在每一个batch interval中，每个DStream有且仅有一个RDD。</p>
-<p><img src="/images/spark-streaming.png" alt="Sample Image Added via Markdown"></p>
-<p>然而RDD是什么呢，RDD是一个分布式数据集合。你可以认为它是一个告诉你实际数据在集群中具体什么地方的指南者（pointer）。</p>
-<a id="more"></a>
-<p>Dstream.foreachRDD在SparkStreaming中是一个“output operator”，它让你直接基于Dstream的RDDs去处理数据。比如说，用foreachRDD方法将数据写入数据库</p>
-<p>这里有个容易疑惑的地方，DStream是和时间有关的集合。我们来对比一下传统的集合。我们用一群客户（users）来举个例子：</p>
-<!-- scala -->
-<pre><code>val userDStream：DStream[User]=???
-userDStream.foreachRDD{usersRDD =&gt;
-    usersRDD.foreach{user =&gt; serveCoffee(user)}
-}
-</code></pre><p>注意：</p>
-<ul>
-<li>DStream.foreachRDD返回给你的是RDD[user],不是单单一个user。回到上面咖啡的这个例子，这个客户集合 是指某个时间区间(比如下午一点到两点)的集合</li>
-<li>为了处理单个集合的元素，需要进一步操作(operate) RDD。在这个案例中，我们用RDD.foreach来对每个客户serve coffee</li>
-</ul>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/10/20/spark_foreachRDD/" class="archive-article-date">
-  	<time datetime="2016-10-20T03:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-20</time>
-</a>
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spark/">spark</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kafka/">Kafka</a></li></ul>
 	</div>
 
-      
+          
 
-      <div class="clearfix"></div>
-    </div>
+        </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2016/11/14/python01/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          聊聊python的变量问题
-        
-      </div>
-    </a>
   
   
-    <a href="/2016/10/20/spark_guide/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Spark简易入门</div>
-      <i class="icon-circle-right"></i>
-    </a>
+    </div></section>
   
-</nav>
 
-
-
-
-<div class="share_jia">
-	<!-- JiaThis Button BEGIN -->
-	<div class="jiathis_style">
-		<span class="jiathis_txt">Share to: &nbsp; </span>
-		<a class="jiathis_button_facebook"></a> 
-	    <a class="jiathis_button_twitter"></a>
-	    <a class="jiathis_button_plus"></a> 
-	    <a class="jiathis_button_tsina"></a>
-		<a class="jiathis_button_cqq"></a>
-		<a class="jiathis_button_douban"></a>
-		<a class="jiathis_button_weixin"></a>
-		<a class="jiathis_button_tumblr"></a>
-    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-	</div>
-	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
-	<!-- JiaThis Button END -->
-</div>
-
-
-
-
-
-
-<div class="duoshuo">
-	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="spark_foreachRDD" data-title="Spark Streaming Dstream ForeachRDD的理解" data-url="http://mikolaje.github.io/2016/10/20/spark_foreachRDD/"></div>
-	<!-- 多说评论框 end -->
-	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-	<script type="text/javascript">
-	var duoshuoQuery = {short_name:"true"};
-	(function() {
-		var ds = document.createElement('script');
-		ds.type = 'text/javascript';ds.async = true;
-		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-		ds.charset = 'UTF-8';
-		(document.getElementsByTagName('head')[0] 
-		 || document.getElementsByTagName('body')[0]).appendChild(ds);
-	})();
-	</script>
-	<!-- 多说公共JS代码 end -->
-</div>
-
-
-
+    
 
 
       </div>
@@ -306,8 +204,8 @@ userDStream.foreachRDD{usersRDD =&gt;
 		mathjax: false,
 		animate: true,
 		isHome: false,
-		isPost: true,
-		isArchive: false,
+		isPost: false,
+		isArchive: true,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
