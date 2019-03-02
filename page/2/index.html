@@ -135,74 +135,6 @@
   
     
 
-<article id="post-spark_combinebykey" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-
-	 
-
-
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/08/spark_combinebykey/">浅谈SPARK 的 combineByKey 算子</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="理解comebineByKey的原理"><a href="#理解comebineByKey的原理" class="headerlink" title="理解comebineByKey的原理"></a>理解comebineByKey的原理</h1><h3 id="SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档："><a href="#SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档：" class="headerlink" title="SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档："></a>SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档：</h3><ul>
-<li><p>combineByKey(createCombiner, mergeValue, mergeCombiners, numPartitions=None, partitionFunc=<function portable_hash at 0x7ff5681b9d70>)</p>
-</li>
-<li><p>Turns an RDD[(K, V)] into a result of type RDD[(K, C)], for a “combined type” C. Note that V and C can be different – for example, one might group an RDD of type (Int, Int) into an RDD of type (Int, List[Int]).</p>
-</li>
-<li><p>Users provide three functions:<br>createCombiner, which turns a V into a C (e.g., creates a one-element list)<br>mergeValue, to merge a V into a C (e.g., adds it to the end of a list)<br>mergeCombiners, to combine two C’s into a single one.</p>
-</li>
-</ul>
-<p>都是将类型为RDD[(K,V)]的数据处理为RDD[(K,C)]。这里的V和C可以是相同类型，也可以是不同类型。</p>
-<p>combineByKey函数主要接受了三个函数作为参数，分别为createCombiner、mergeValue、mergeCombiners。</p>
-<p>这三个函数足以说明它究竟做了什么。理解了这三个函数，就可以很好地理解combineByKey。</p>
-        <p class="article-more-link">
-          <a class="article-more-a"  href="/2016/12/08/spark_combinebykey/#more">more >></a>
-        </p>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/12/08/spark_combinebykey/" class="archive-article-date">
-  	<time datetime="2016-12-08T10:01:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-08</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spark/">spark</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    
-
 <article id="post-spark_aggregate" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
 
@@ -473,6 +405,67 @@ print a  # [1]
   
     
 
+<article id="post-spark_foreachRDD" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+
+	 
+
+
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/20/spark_foreachRDD/">Spark Streaming Dstream ForeachRDD的理解</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="通俗理解Spark-Streaming-Dstream-的ForeachRDD"><a href="#通俗理解Spark-Streaming-Dstream-的ForeachRDD" class="headerlink" title="通俗理解Spark Streaming Dstream 的ForeachRDD"></a>通俗理解Spark Streaming Dstream 的ForeachRDD</h1><p>在SparkStreaming中，数据中的每个batch都是只有一个RDD，为什么我们还要用ForeachRDD 在每一个RDD呢？ 不是只有一个RDD吗？</p>
+<p>Dstream也就是离散stream，就是把连续的数据分成一小团一小团。我们用专业术语“microbatching”来描述。每个microbatch 变成一个RDD以便Spark的后续处理。在每一个batch interval中，每个DStream有且仅有一个RDD。</p>
+<p><img src="/images/spark-streaming.png" alt="Sample Image Added via Markdown"></p>
+<p>然而RDD是什么呢，RDD是一个分布式数据集合。你可以认为它是一个告诉你实际数据在集群中具体什么地方的指南者（pointer）。</p>
+        <p class="article-more-link">
+          <a class="article-more-a"  href="/2016/10/20/spark_foreachRDD/#more">more >></a>
+        </p>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/10/20/spark_foreachRDD/" class="archive-article-date">
+  	<time datetime="2016-10-20T03:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-20</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spark/">spark</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    
+
 <article id="post-spark_guide" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
 
@@ -521,67 +514,6 @@ object WordCount
     <div class="article-info article-info-index">
       
       <a href="/2016/10/20/spark_guide/" class="archive-article-date">
-  	<time datetime="2016-10-20T03:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-20</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spark/">spark</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    
-
-<article id="post-spark_foreachRDD" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-
-	 
-
-
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/20/spark_foreachRDD/">Spark Streaming Dstream ForeachRDD的理解</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="通俗理解Spark-Streaming-Dstream-的ForeachRDD"><a href="#通俗理解Spark-Streaming-Dstream-的ForeachRDD" class="headerlink" title="通俗理解Spark Streaming Dstream 的ForeachRDD"></a>通俗理解Spark Streaming Dstream 的ForeachRDD</h1><p>在SparkStreaming中，数据中的每个batch都是只有一个RDD，为什么我们还要用ForeachRDD 在每一个RDD呢？ 不是只有一个RDD吗？</p>
-<p>Dstream也就是离散stream，就是把连续的数据分成一小团一小团。我们用专业术语“microbatching”来描述。每个microbatch 变成一个RDD以便Spark的后续处理。在每一个batch interval中，每个DStream有且仅有一个RDD。</p>
-<p><img src="/images/spark-streaming.png" alt="Sample Image Added via Markdown"></p>
-<p>然而RDD是什么呢，RDD是一个分布式数据集合。你可以认为它是一个告诉你实际数据在集群中具体什么地方的指南者（pointer）。</p>
-        <p class="article-more-link">
-          <a class="article-more-a"  href="/2016/10/20/spark_foreachRDD/#more">more >></a>
-        </p>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/10/20/spark_foreachRDD/" class="archive-article-date">
   	<time datetime="2016-10-20T03:07:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-20</time>
 </a>
       
@@ -737,7 +669,7 @@ object WordCount
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/Kafka/" style="font-size: 13.33px;">Kafka</a> <a href="/tags/algorithm/" style="font-size: 10px;">algorithm</a> <a href="/tags/daily/" style="font-size: 13.33px;">daily</a> <a href="/tags/network/" style="font-size: 10px;">network</a> <a href="/tags/python/" style="font-size: 16.67px;">python</a> <a href="/tags/spark/" style="font-size: 20px;">spark</a>
+    				<a href="/tags/Kafka/" style="font-size: 10px;">Kafka</a> <a href="/tags/algorithm/" style="font-size: 10px;">algorithm</a> <a href="/tags/daily/" style="font-size: 13.33px;">daily</a> <a href="/tags/network/" style="font-size: 10px;">network</a> <a href="/tags/python/" style="font-size: 16.67px;">python</a> <a href="/tags/spark/" style="font-size: 20px;">spark</a>
     			</div>
     	</section>
     
