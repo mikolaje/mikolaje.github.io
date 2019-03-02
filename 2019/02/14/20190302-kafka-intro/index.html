@@ -19,8 +19,8 @@ Kafka是什么Kafka是最初由Linkedin公司开发，是一个分布式、分�
 <meta property="og:image" content="http://mikolaje.github.io/20190302_kafka_intro/kafka_partition.png">
 <meta property="og:image" content="http://mikolaje.github.io/20190302_kafka_intro/kafka_index.png">
 <meta property="og:image" content="http://mikolaje.github.io/20190302_kafka_intro/kafka_message.png">
-<meta property="og:image" content="http://mikolaje.github.io/20190302_kafka_intro/kafka_read_disk.png">
-<meta property="og:updated_time" content="2019-03-02T02:00:05.500Z">
+<meta property="og:image" content="http://mikolaje.github.io/20190302-kafka-intro/kafka_read_disk.png">
+<meta property="og:updated_time" content="2019-03-02T02:05:27.919Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Kafka Introduction">
 <meta name="twitter:description" content="最近面试经常会被问到Kafka的问题。看了很多Kafka的介绍，发现还是美团技术团队总结的最清楚易懂。下面转了美团的关于Kafka的一篇文章
@@ -228,7 +228,7 @@ Kafka是什么Kafka是最初由Linkedin公司开发，是一个分布式、分�
 <p>第二步通过segment file查找message 通过第一步定位到segment file，当offset=368776时，依次定位到00000000000000368769.index的元数据物理位置和00000000000000368769.log的物理偏移地址，然后再通过00000000000000368769.log顺序查找直到offset=368776为止。</p>
 <p>从上述图3可知这样做的优点，segment index file采取稀疏索引存储方式，它减少索引文件大小，通过mmap可以直接内存操作，稀疏索引为数据文件的每个对应message设置一个元数据指针,它比稠密索引节省了更多的存储空间，但查找起来需要消耗更多的时间。</p>
 <p>3 Kafka文件存储机制–实际运行效果<br>实验环境：</p>
-<p>Kafka集群：由2台虚拟机组成<br>cpu：4核<br>物理内存：8GB<br>网卡：千兆网卡<br>jvm heap: 4GB<br>详细Kafka服务端配置及其优化请参考：kafka server.properties配置详解<br><img src="20190302_kafka_intro/kafka_read_disk.png" alt="Sample Image Added via Markdown"></p>
+<p>Kafka集群：由2台虚拟机组成<br>cpu：4核<br>物理内存：8GB<br>网卡：千兆网卡<br>jvm heap: 4GB<br>详细Kafka服务端配置及其优化请参考：kafka server.properties配置详解<br><img src="20190302-kafka-intro/kafka_read_disk.png" alt="Sample Image Added via Markdown"></p>
 <p>从上述图5可以看出，Kafka运行时很少有大量读磁盘的操作，主要是定期批量写磁盘操作，因此操作磁盘很高效。这跟Kafka文件存储中读写message的设计是息息相关的。Kafka中读写message有如下特点:</p>
 <h3 id="写message"><a href="#写message" class="headerlink" title="写message"></a>写message</h3><ul>
 <li>消息从java堆转入page cache(即物理内存)。</li>
