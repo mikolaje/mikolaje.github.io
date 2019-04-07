@@ -228,7 +228,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2019/03/02/20190302_kafka_intro/">
+    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2019/03/02/2019/kafka_intro/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Dennis">
@@ -247,7 +247,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/03/02/20190302_kafka_intro/" itemprop="url">Kafka Introduction</a></h1>
+                <a class="post-title-link" href="/2019/03/02/2019/kafka_intro/" itemprop="url">Kafka Introduction</a></h1>
         
 
         <div class="post-meta">
@@ -278,9 +278,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/03/02/20190302_kafka_intro/#comments" itemprop="discussionUrl">
+                <a href="/2019/03/02/2019/kafka_intro/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2019/03/02/20190302_kafka_intro/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2019/03/02/2019/kafka_intro/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -334,7 +334,7 @@
 <h2 id="2-1-topic中partition存储分布"><a href="#2-1-topic中partition存储分布" class="headerlink" title="2.1 topic中partition存储分布"></a>2.1 topic中partition存储分布</h2><p>假设实验环境中Kafka集群只有一个broker，xxx/message-folder为数据文件存储根目录，在Kafka broker中server.properties文件配置(参数log.dirs=xxx/message-folder)，例如创建2个topic名称分别为report_push、launch_info, partitions数量都为partitions=4 存储路径和目录规则为： xxx/message-folder<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">|--report_push-0</div><div class="line">|--report_push-1</div><div class="line">|--report_push-2</div><div class="line">|--report_push-3</div><div class="line">|--launch_info-0</div><div class="line">|--launch_info-1</div><div class="line">|--launch_info-2</div><div class="line">|--launch_info-3</div></pre></td></tr></table></figure></p>
 <p>在Kafka文件存储中，同一个topic下有多个不同partition，每个partition为一个目录，partiton命名规则为topic名称+有序序号，第一个partiton序号从0开始，序号最大值为partitions数量减1。 如果是多broker分布情况，请参考kafka集群partition分布原理分析</p>
 <h2 id="2-2-partiton中文件存储方式"><a href="#2-2-partiton中文件存储方式" class="headerlink" title="2.2 partiton中文件存储方式"></a>2.2 partiton中文件存储方式</h2><p>下面示意图形象说明了partition中文件存储方式:</p>
-<p><img src="images/20190302_kafka_intro/kafka_partition.png" alt="Sample Image Added via Markdown"></p>
+<p><img src="/images/2019/kafka_intro/kafka_partition.png" alt="Sample Image Added via Markdown"></p>
 <ul>
 <li>每个partion(目录)相当于一个巨型文件被平均分配到多个大小相等segment(段)数据文件中。但每个段segment file消息数量不一定相等，这种特性方便old segment file快速被删除。</li>
 <li>每个partiton只需要支持顺序读写就行了，segment文件生命周期由服务端配置参数决定。</li>
@@ -346,17 +346,17 @@
 <li>segment文件命名规则：partion全局的第一个segment从0开始，后续每个segment文件名为上一个segment文件最后一条消息的offset值。数值最大为64位long大小，19位数字字符长度，没有数字用0填充。</li>
 </ul>
 <p>下面文件列表是笔者在Kafka broker上做的一个实验，创建一个topicXXX包含1 partition，设置每个segment大小为500MB,并启动producer向Kafka broker写入大量数据,如下图2所示segment文件列表形象说明了上述2个规则：</p>
-<p><img src="images/20190302_kafka_intro/kafka_index.png" alt="Sample Image Added via Markdown"></p>
+<p><img src="/images/2019/kafka_intro/kafka_index.png" alt="Sample Image Added via Markdown"></p>
 <p>以上述图2中一对segment file文件为例，说明segment中index&lt;—-&gt;data file对应关系物理结构如下：</p>
 <p>上述图3中索引文件存储大量元数据，数据文件存储大量消息，索引文件中元数据指向对应数据文件中message的物理偏移地址。 其中以索引文件中元数据3,497为例，依次在数据文件中表示第3个message(在全局partiton表示第368772个message)、以及该消息的物理偏移地址为497。</p>
-<p>从上述图3了解到segment data file由许多message组成，下面详细说明message物理结构如下：<br><img src="images/20190302_kafka_intro/kafka_message.png" alt="Sample Image Added via Markdown"></p>
+<p>从上述图3了解到segment data file由许多message组成，下面详细说明message物理结构如下：<br><img src="/images/2019/kafka_intro/kafka_message.png" alt="Sample Image Added via Markdown"></p>
 <p>参数说明：<br>关键字    解释说明<br>8 byte offset    在parition(分区)内的每条消息都有一个有序的id号，这个id号被称为偏移(offset),它可以唯一确定每条消息在parition(分区)内的位置。即offset表示partiion的第多少message<br>4 byte message size    message大小<br>4 byte CRC32    用crc32校验message<br>1 byte “magic”    表示本次发布Kafka服务程序协议版本号<br>1 byte “attributes”    表示为独立版本、或标识压缩类型、或编码类型。<br>4 byte key length    表示key的长度,当key为-1时，K byte key字段不填<br>K byte key    可选<br>value bytes payload    表示实际消息数据。</p>
 <h2 id="2-4-在partition中如何通过offset查找message"><a href="#2-4-在partition中如何通过offset查找message" class="headerlink" title="2.4 在partition中如何通过offset查找message"></a>2.4 在partition中如何通过offset查找message</h2><p>例如读取offset=368776的message，需要通过下面2个步骤查找。</p>
 <p>第一步查找segment file 上述图2为例，其中00000000000000000000.index表示最开始的文件，起始偏移量(offset)为0.第二个文件00000000000000368769.index的消息量起始偏移量为368770 = 368769 + 1.同样，第三个文件00000000000000737337.index的起始偏移量为737338=737337 + 1，其他后续文件依次类推，以起始偏移量命名并排序这些文件，只要根据offset <strong>二分查找</strong>文件列表，就可以快速定位到具体文件。 当offset=368776时定位到00000000000000368769.index|log</p>
 <p>第二步通过segment file查找message 通过第一步定位到segment file，当offset=368776时，依次定位到00000000000000368769.index的元数据物理位置和00000000000000368769.log的物理偏移地址，然后再通过00000000000000368769.log顺序查找直到offset=368776为止。</p>
 <p>从上述图3可知这样做的优点，segment index file采取稀疏索引存储方式，它减少索引文件大小，通过mmap可以直接内存操作，稀疏索引为数据文件的每个对应message设置一个元数据指针,它比稠密索引节省了更多的存储空间，但查找起来需要消耗更多的时间。</p>
 <p>3 Kafka文件存储机制–实际运行效果<br>实验环境：</p>
-<p>Kafka集群：由2台虚拟机组成<br>cpu：4核<br>物理内存：8GB<br>网卡：千兆网卡<br>jvm heap: 4GB<br>详细Kafka服务端配置及其优化请参考：kafka server.properties配置详解<br><img src="images/20190302_kafka_intro/kafka_read_disk.png" alt="Sample Image Added via Markdown"></p>
+<p>Kafka集群：由2台虚拟机组成<br>cpu：4核<br>物理内存：8GB<br>网卡：千兆网卡<br>jvm heap: 4GB<br>详细Kafka服务端配置及其优化请参考：kafka server.properties配置详解<br><img src="/images/2019/kafka_intro/kafka_read_disk.png" alt="Sample Image Added via Markdown"></p>
 <p>从上述图5可以看出，Kafka运行时很少有大量读磁盘的操作，主要是定期批量写磁盘操作，因此操作磁盘很高效。这跟Kafka文件存储中读写message的设计是息息相关的。Kafka中读写message有如下特点:</p>
 <h3 id="写message"><a href="#写message" class="headerlink" title="写message"></a>写message</h3><ul>
 <li>消息从java堆转入page cache(即物理内存)。</li>
@@ -433,7 +433,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2018/02/14/python_dict/">
+    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2018/02/14/2018/python_dict/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Dennis">
@@ -452,7 +452,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/02/14/python_dict/" itemprop="url">浅谈Python Dict 原理</a></h1>
+                <a class="post-title-link" href="/2018/02/14/2018/python_dict/" itemprop="url">浅谈Python Dict 原理</a></h1>
         
 
         <div class="post-meta">
@@ -483,9 +483,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/02/14/python_dict/#comments" itemprop="discussionUrl">
+                <a href="/2018/02/14/2018/python_dict/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/02/14/python_dict/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/02/14/2018/python_dict/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -579,7 +579,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2017/12/31/heap_sort/heap_sort/">
+    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2017/12/31/2017/heap_sort/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Dennis">
@@ -598,7 +598,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/31/heap_sort/heap_sort/" itemprop="url">堆排序学习总结</a></h1>
+                <a class="post-title-link" href="/2017/12/31/2017/heap_sort/" itemprop="url">堆排序学习总结</a></h1>
         
 
         <div class="post-meta">
@@ -629,9 +629,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/12/31/heap_sort/heap_sort/#comments" itemprop="discussionUrl">
+                <a href="/2017/12/31/2017/heap_sort/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/12/31/heap_sort/heap_sort/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2017/12/31/2017/heap_sort/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -666,10 +666,10 @@
 <p>要了解堆首先得了解一下二叉树，在计算机科学中，二叉树是每个节点最多有两个子树的树结构。通常子树被称作“左子树”（left subtree）和“右子树”（right subtree）。</p>
 <p>二叉树又分为满二叉树（full binary tree） 和 完全二叉树（complete binary tree）</p>
 <p>满二叉树：一棵深度为 k，且有 2k - 1 个节点称之为满二叉树</p>
-<p><img src="/images/heap_sort/full_binary_tree.png" alt="Sample Image Added via Markdown"></p>
+<p><img src="/images/2017/heap_sort/full_binary_tree.png" alt="Sample Image Added via Markdown"></p>
 <p>完全二叉树则满足序号和满二叉树的完全对应。</p>
-<p><img src="/images/heap_sort/complete_binary_tree.png" alt="Sample Image Added via Markdown"></p>
-<p>如下图，是一个堆和数组的相互关系<br><img src="/images/heap_sort/heap_sort1.png" alt="Sample Image Added via Markdown"></p>
+<p><img src="/images/2017/heap_sort/complete_binary_tree.png" alt="Sample Image Added via Markdown"></p>
+<p>如下图，是一个堆和数组的相互关系<br><img src="/images/2017/heap_sort/heap_sort1.png" alt="Sample Image Added via Markdown"></p>
 <p>对于给定的某个结点的下标 i，可以很容易的计算出这个结点的父结点、孩子结点的下标：</p>
 <ul>
 <li>Parent(i) = floor(i/2)，i 的父节点下标</li>
@@ -683,7 +683,7 @@
 <p>相应的，几个计算公式也要作出相应调整：</p>
 <p>Parent(i) = floor((i-1)/2)，i 的父节点下标<br>Left(i) = 2i + 1，i 的左子节点下标<br>Right(i) = 2(i + 1)，i 的右子节点下标</p>
 <p>最大堆调整（MAX‐HEAPIFY）的作用是保持最大堆的性质，是创建最大堆的核心子程序，作用过程如图所示：</p>
-<p><img src="/images/heap_sort/heap_sort2.png" alt="Sample Image Added via Markdown"></p>
+<p><img src="/images/2017/heap_sort/heap_sort2.png" alt="Sample Image Added via Markdown"></p>
 <p>源码如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">heapsort</span><span class="params">(arr)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">max_heapify</span><span class="params">(arr, index, heap_size)</span>:</span></div><div class="line">        <span class="string">"""</span></div><div class="line">        # 最大堆调整（MAX‐HEAPIFY）的作用是保持最大堆的性质。 将堆的末端子节点作调整，使得子节点永远小于父节点</div><div class="line">        # 意思就是要让index这元素去到它该去的位置</div><div class="line">        《算法》P200</div><div class="line">        由上至下的对有序化（下沉）</div><div class="line">        如果我们把堆想象成一个严密的黑色会组织，每个子节点都表示一个下属（父节点则表示它的直接上级），name这些操作就可以得到很有趣的解释。</div><div class="line">        max_hepify这个方法就相当于一个领导，如果占着老大的位置，但如果自己下属有比自己厉害的就要退位让贤。自己去到该去的层次</div><div class="line"></div><div class="line">        注意的是：这方法是有惰性的。调用一次该方法仍然不行。如果该index的左右子树都小于自己的话，它就不会递归了。</div><div class="line">        这个方法只是让index尽量下沉下去。如果是堆有序的话，那么执行该方法后index位置就是该位置最大的值</div><div class="line">        """</div><div class="line"></div><div class="line">        <span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">            imax = index</div><div class="line">            ileft = <span class="number">2</span> * index + <span class="number">1</span></div><div class="line">            iright = <span class="number">2</span> * index + <span class="number">2</span></div><div class="line"></div><div class="line">            <span class="keyword">if</span> ileft &lt; heap_size <span class="keyword">and</span> arr[index] &lt; arr[ileft]:</div><div class="line">                imax = ileft</div><div class="line"></div><div class="line">            <span class="keyword">if</span> iright &lt; heap_size <span class="keyword">and</span> arr[imax] &lt; arr[iright]:</div><div class="line">                imax = iright</div><div class="line"></div><div class="line">            <span class="keyword">if</span> imax != index:</div><div class="line">                arr[imax], arr[index] = arr[index], arr[imax]</div><div class="line">                index = imax</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                <span class="keyword">break</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">build_maxheap</span><span class="params">(arr)</span>:</span></div><div class="line">        <span class="string">"""</span></div><div class="line">        # 将堆所有数据重新排序，使其成为最大堆</div><div class="line"></div><div class="line">        创建最大堆（Build-Max-Heap）的作用是将一个数组改造成一个最大堆，接受数组和堆大小两个参数，Build-Max-Heap 将自下而上的调用 Max-Heapify 来改造数组，建立最大堆。</div><div class="line">        因为 Max-Heapify 能够保证下标 i 的结点之后结点都满足最大堆的性质，所以自下而上的调用 Max-Heapify 能够在改造过程中保持这一性质。</div><div class="line">        如果最大堆的数量元素是 n，那么 Build-Max-Heap 从 Parent(n) 开始，往上依次调用 Max-Heapify。</div><div class="line">        """</div><div class="line"></div><div class="line">        iparent = len(arr) // <span class="number">2</span> - <span class="number">1</span>   <span class="comment"># 最后一个节点的父节点</span></div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(iparent, <span class="number">-1</span>, <span class="number">-1</span>):</div><div class="line">            max_heapify(arr, i, len(arr))</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">sort</span><span class="params">(arr)</span>:</span></div><div class="line">        build_maxheap(arr)  <span class="comment"># build后左子树 还是可能大于 右子树的.所以这并不是一个有序数组</span></div><div class="line">        print(arr)</div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(arr)<span class="number">-1</span>, <span class="number">0</span>, <span class="number">-1</span>):</div><div class="line">            arr[<span class="number">0</span>], arr[i] = arr[i], arr[<span class="number">0</span>]</div><div class="line"></div><div class="line">            max_heapify(arr, <span class="number">0</span>, i)  <span class="comment"># 这里这个i 相当于比当前的length - 1；第i个元素为当前最大的元素，就被固定死了。不再访问它</span></div><div class="line">        <span class="keyword">return</span> arr</div><div class="line"></div><div class="line">    <span class="keyword">return</span> sort(arr)</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line"></div><div class="line">    print(heapsort([<span class="number">5</span>,<span class="number">4</span>,<span class="number">7</span>,<span class="number">3</span>,<span class="number">8</span>,<span class="number">2</span>,<span class="number">11</span>,<span class="number">15</span>,<span class="number">17</span>,<span class="number">16</span>,<span class="number">13</span>,<span class="number">10</span>,<span class="number">9</span>,<span class="number">12</span>,<span class="number">1</span>]))</div></pre></td></tr></table></figure>
 
@@ -734,7 +734,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2017/12/25/tcp_knowledge/">
+    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2017/12/25/2017/tcp_knowledge/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Dennis">
@@ -753,7 +753,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/25/tcp_knowledge/" itemprop="url">TCP/IP 的一些学习</a></h1>
+                <a class="post-title-link" href="/2017/12/25/2017/tcp_knowledge/" itemprop="url">TCP/IP 的一些学习</a></h1>
         
 
         <div class="post-meta">
@@ -784,9 +784,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/12/25/tcp_knowledge/#comments" itemprop="discussionUrl">
+                <a href="/2017/12/25/2017/tcp_knowledge/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/12/25/tcp_knowledge/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2017/12/25/2017/tcp_knowledge/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -817,13 +817,13 @@
         
           
             <p>还记得两三年前，去一个大数据公司面试。首先要笔试，题目中有道题目就是填空TCP报文的表格。<br>首先我们看看TCP的报头：</p>
-<p> <img src="/images/tcp_head.jpg" alt="Sample Image Added via Markdown"></p>
+<p> <img src="/images/2017/tcp_knowledge/tcp_head.jpg" alt="Sample Image Added via Markdown"></p>
 <p>当时觉得这是啥玩意呀。考这东西跟大数据有毛线关系。今天，才明白，这些都是计算机的基础。基本功来的，跑不了。</p>
 <p>下面我们可以通过一张图就能比较清晰地展现TCP/IP建立连接的过程。也就是我们常说的3次握手，4次挥手。</p>
-<p>我们先看3次握手的过程：<br><img src="/images/tcp_connection.png" alt="Sample Image Added via Markdown"></p>
+<p>我们先看3次握手的过程：<br><img src="/images/2017/tcp_knowledge/tcp_connection.png" alt="Sample Image Added via Markdown"></p>
 <p>1.首先Server端是处在一个Listen的状态。经常你用netstat可以看到，比如打开了一个web 服务，就卡看到80端口处在listen状态<br>2.由客户端发送一个Segment(传输层的数据包单位)到服务的，主要内容有 SYN=1，seq=x(一个随机数)。发送后，客户端状态变为SYN-SENT<br>3.服务端收到客户端发送的Segment，状态变为SYN-REVD，并发送一个SYN=1,ACK=1,seq=y,ack=x+1 的Segment返还给客户端。表示自己收到了你的消息。<br>4.客户端收到服务端返还的内容后，状态就变成了ESTABLISHED。表示成功建立了连接。并且再次发送一个ACK=1,ack=y+1,seq=x+1 的Segment。<br>5.服务端收到客户端发来的Segment后，状态变为ESTABLISHED。成功完成3次握手。</p>
 <p>建立一次连接，需要3次握手，也就是说发送3个数据包即可建立连接。发送的数据包内容中我们可以发现一点规律。ack的数值内容都是对方发送给自己的seq数值 +1  。</p>
-<p>接下来我们看看4次挥手的过程。<br><img src="/images/tcp_finish.png" alt="Sample Image Added via Markdown"></p>
+<p>接下来我们看看4次挥手的过程。<br><img src="/images/2017/tcp_knowledge/tcp_finish.png" alt="Sample Image Added via Markdown"></p>
 <p>1.首先由终端的提出方(假设是客户端)发送一个FIN=1,seq=u 的Segment到服务端。发送后客户端状态变为FIN-WAIT-1<br>2.服务端收到了客户端的Segment后状态变为CLOSE-WAIT，并反回一个ACK=1,seq=v,ack=u+1 的Segment给客户端。<br>3.客户端收到了服务端返回的消息后状态变为FIN-WAIT-2,此时服务端并没有关闭，意思是告诉客户端，请您耐心等待，我看看还有什么数据没有给你的，把剩下的数据发给你先。<br>4.过了片刻，服务端发送一个FIN=1,ACK=1,seq=w,ack=u+1 的Segment给客户端。然后服务端状态变为了LAST-ACK。<br>5.客户端收到了服务端发来的消息后，状态变为了TIME-WAIT。并发送ACK=1,seq=u+1,ack=w+1的Segment。表示我知道了，我再等等你(2MSL)还有什么话跟我说的。没有的话我就关了。<br>6.服务端收到客户端发送的消息后，状态就变为CLOSED了。</p>
 
           
@@ -873,7 +873,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2017/03/13/gaining/2017-03-14/">
+    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2017/03/13/2017/2017-03-14/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Dennis">
@@ -892,7 +892,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/03/13/gaining/2017-03-14/" itemprop="url">从网上找到自己的答案</a></h1>
+                <a class="post-title-link" href="/2017/03/13/2017/2017-03-14/" itemprop="url">从网上找到自己的答案</a></h1>
         
 
         <div class="post-meta">
@@ -923,9 +923,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/03/13/gaining/2017-03-14/#comments" itemprop="discussionUrl">
+                <a href="/2017/03/13/2017/2017-03-14/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/03/13/gaining/2017-03-14/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2017/03/13/2017/2017-03-14/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -961,7 +961,7 @@
 <h1 id="English-is-Important"><a href="#English-is-Important" class="headerlink" title="English is Important"></a>English is Important</h1><p>有些比较少罕见的问题，国内搜索引擎压根就找不到，国内压根就没有这方面答案。你必须从国外的网站获取解答。比如 Github issue 、Quora或者官方文档。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/03/13/gaining/2017-03-14/#more" rel="contents">
+            <a class="btn" href="/2017/03/13/2017/2017-03-14/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1012,7 +1012,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2017/02/14/python_gcd/">
+    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2017/02/14/2017/python_gcd/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Dennis">
@@ -1031,7 +1031,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/14/python_gcd/" itemprop="url">Python 求最大公约数</a></h1>
+                <a class="post-title-link" href="/2017/02/14/2017/python_gcd/" itemprop="url">Python 求最大公约数</a></h1>
         
 
         <div class="post-meta">
@@ -1062,9 +1062,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/02/14/python_gcd/#comments" itemprop="discussionUrl">
+                <a href="/2017/02/14/2017/python_gcd/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/02/14/python_gcd/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2017/02/14/2017/python_gcd/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1102,7 +1102,7 @@
 </code></pre>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/14/python_gcd/#more" rel="contents">
+            <a class="btn" href="/2017/02/14/2017/python_gcd/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1153,7 +1153,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2016/12/25/spark_dependency/">
+    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2016/12/25/2016/spark_dependency/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Dennis">
@@ -1172,7 +1172,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/12/25/spark_dependency/" itemprop="url">Spark 的宽依赖和窄依赖</a></h1>
+                <a class="post-title-link" href="/2016/12/25/2016/spark_dependency/" itemprop="url">Spark 的宽依赖和窄依赖</a></h1>
         
 
         <div class="post-meta">
@@ -1203,9 +1203,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2016/12/25/spark_dependency/#comments" itemprop="discussionUrl">
+                <a href="/2016/12/25/2016/spark_dependency/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2016/12/25/spark_dependency/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2016/12/25/2016/spark_dependency/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1238,7 +1238,7 @@
 <p>rdd 的 toDebugString 可以查看RDD的谱系</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2016/12/25/spark_dependency/#more" rel="contents">
+            <a class="btn" href="/2016/12/25/2016/spark_dependency/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1289,7 +1289,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2016/12/21/spark_bias/">
+    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2016/12/21/2016/spark_bias/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Dennis">
@@ -1308,7 +1308,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/12/21/spark_bias/" itemprop="url">Spark 数据倾斜调优</a></h1>
+                <a class="post-title-link" href="/2016/12/21/2016/spark_bias/" itemprop="url">Spark 数据倾斜调优</a></h1>
         
 
         <div class="post-meta">
@@ -1339,9 +1339,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2016/12/21/spark_bias/#comments" itemprop="discussionUrl">
+                <a href="/2016/12/21/2016/spark_bias/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2016/12/21/spark_bias/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2016/12/21/2016/spark_bias/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1376,7 +1376,7 @@
 <p>　　因此出现数据倾斜的时候，Spark作业看起来会运行得非常缓慢，甚至可能因为某个task处理的数据量过大导致内存溢出。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2016/12/21/spark_bias/#more" rel="contents">
+            <a class="btn" href="/2016/12/21/2016/spark_bias/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1427,7 +1427,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2016/12/12/spark_broadcast/">
+    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2016/12/12/2016/spark_broadcast/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Dennis">
@@ -1446,7 +1446,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/12/12/spark_broadcast/" itemprop="url">浅谈SPARK 的 广播变量</a></h1>
+                <a class="post-title-link" href="/2016/12/12/2016/spark_broadcast/" itemprop="url">浅谈SPARK 的 广播变量</a></h1>
         
 
         <div class="post-meta">
@@ -1477,9 +1477,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2016/12/12/spark_broadcast/#comments" itemprop="discussionUrl">
+                <a href="/2016/12/12/2016/spark_broadcast/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2016/12/12/spark_broadcast/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2016/12/12/2016/spark_broadcast/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1519,7 +1519,7 @@
 <p>创建的方法很简单<br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2016/12/12/spark_broadcast/#more" rel="contents">
+            <a class="btn" href="/2016/12/12/2016/spark_broadcast/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1570,7 +1570,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2016/12/08/spark_combinebykey/">
+    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2016/12/08/2016/spark_combinebykey/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Dennis">
@@ -1589,7 +1589,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/12/08/spark_combinebykey/" itemprop="url">浅谈SPARK 的 combineByKey 算子</a></h1>
+                <a class="post-title-link" href="/2016/12/08/2016/spark_combinebykey/" itemprop="url">浅谈SPARK 的 combineByKey 算子</a></h1>
         
 
         <div class="post-meta">
@@ -1620,9 +1620,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2016/12/08/spark_combinebykey/#comments" itemprop="discussionUrl">
+                <a href="/2016/12/08/2016/spark_combinebykey/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2016/12/08/spark_combinebykey/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2016/12/08/2016/spark_combinebykey/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1664,7 +1664,7 @@
 <p>这三个函数足以说明它究竟做了什么。理解了这三个函数，就可以很好地理解combineByKey。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2016/12/08/spark_combinebykey/#more" rel="contents">
+            <a class="btn" href="/2016/12/08/2016/spark_combinebykey/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
