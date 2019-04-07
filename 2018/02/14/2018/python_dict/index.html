@@ -89,15 +89,15 @@
 <meta property="og:description" content="前言：最近在知乎上看到很多Python职位的面试都会问Python的数据结构。很多大公司，比如知乎，在面试python的工程师的时候都会很注重基础；比如会问：python内置的list dict set等使用和原理。collections 模块里的deque，Counter，OrderDict等。 常用的排序算法和时间复杂度。
 今天我就简单说说我学到的关于Python Dict 的见闻。
 于是，首">
-<meta property="og:image" content="http://mikolaje.github.io/images/python_dict1.png">
-<meta property="og:image" content="http://mikolaje.github.io/images/python_dict2.png">
-<meta property="og:updated_time" content="2018-04-19T06:37:42.541Z">
+<meta property="og:image" content="http://mikolaje.github.io/images/2018/python_dict/python_dict1.png">
+<meta property="og:image" content="http://mikolaje.github.io/images/2018/python_dict/python_dict2.png">
+<meta property="og:updated_time" content="2019-04-07T02:41:07.052Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅谈Python Dict 原理">
 <meta name="twitter:description" content="前言：最近在知乎上看到很多Python职位的面试都会问Python的数据结构。很多大公司，比如知乎，在面试python的工程师的时候都会很注重基础；比如会问：python内置的list dict set等使用和原理。collections 模块里的deque，Counter，OrderDict等。 常用的排序算法和时间复杂度。
 今天我就简单说说我学到的关于Python Dict 的见闻。
 于是，首">
-<meta name="twitter:image" content="http://mikolaje.github.io/images/python_dict1.png">
+<meta name="twitter:image" content="http://mikolaje.github.io/images/2018/python_dict/python_dict1.png">
 
 
 
@@ -329,10 +329,10 @@
 <p>2.若找到的表元是空的，则抛出 KeyError 异常。若不是空的，则表元里会有一对 found_key:found_value。</p>
 <p>3.这时候 Python 会检验 search_key == found_key 是否为真，如果它们相等的话，就会返回 found_value。</p>
 <p>4.如果 search_key 和 found_key 不匹配的话，这种情况称为散列冲突。</p>
-<p>5.Python 解决散列冲突的方法用的是开放地址法。<br>如下图所示：<br><img src="/images/python_dict1.png" alt="Sample Image Added via Markdown"></p>
+<p>5.Python 解决散列冲突的方法用的是开放地址法。<br>如下图所示：<br><img src="/images/2018/python_dict/python_dict1.png" alt="Sample Image Added via Markdown"></p>
 <h3 id="Python-dict的特性："><a href="#Python-dict的特性：" class="headerlink" title="Python dict的特性："></a>Python dict的特性：</h3><p>1.字典在内存上的开销巨大。<br>由于字典使用了散列表，而散列表又必须是稀疏的，这导致它在空间上的效率低下。<br>2.键查询很快。<br>dict 的实现是典型的空间换时间：字典类型有着巨大的内存开销，但它们提供了无视数据量大小的快速访问——只要字典能被装在内存里。<br>3.往字典里添加新键可能会改变已有键的顺序。<br>无论何时往字典里添加新的键，Python 解释器都可能做出为字典扩容的决定。扩容导致的结果就是要新建一个更大的散列表，并把字典里已有的元素添加到新表里。</p>
 <p>关于Python的开放地制法解决hash冲突的实现可以参考下<br><a href="https://harveyqing.gitbooks.io/python-read-and-write/content/python_advance/python_dict_implementation.html" target="_blank" rel="external">https://harveyqing.gitbooks.io/python-read-and-write/content/python_advance/python_dict_implementation.html</a></p>
-<p><img src="/images/python_dict2.png" alt="Sample Image Added via Markdown"></p>
+<p><img src="/images/2018/python_dict/python_dict2.png" alt="Sample Image Added via Markdown"></p>
 <p><em>若要了解详细的内部机制，推荐阅读</em><br><a href="http://python.jobbole.com/85040/" target="_blank" rel="external">http://python.jobbole.com/85040/</a></p>
 
       
