@@ -310,13 +310,16 @@
       
         
           
-            <h4 id="很多时候，我们经常会不小心把一个不应该add进来的文件-add到-Repo里了。比如："><a href="#很多时候，我们经常会不小心把一个不应该add进来的文件-add到-Repo里了。比如：" class="headerlink" title="很多时候，我们经常会不小心把一个不应该add进来的文件 add到 Repo里了。比如："></a>很多时候，我们经常会不小心把一个不应该add进来的文件 add到 Repo里了。比如：</h4><p>password.txt，<em>.log  </em>.mp4 等等。</p>
-<h4 id="这种情况下，我们可以选择用-git-filter-branch-来将历史的所有commit都重新过滤一下。"><a href="#这种情况下，我们可以选择用-git-filter-branch-来将历史的所有commit都重新过滤一下。" class="headerlink" title="这种情况下，我们可以选择用 git filter-branch 来将历史的所有commit都重新过滤一下。"></a>这种情况下，我们可以选择用 git filter-branch 来将历史的所有commit都重新过滤一下。</h4><h4 id="查看Git的文档得知，filter-branch是一个核弹级操作"><a href="#查看Git的文档得知，filter-branch是一个核弹级操作" class="headerlink" title="查看Git的文档得知，filter-branch是一个核弹级操作:"></a>查看Git的文档得知，filter-branch是一个核弹级操作:</h4><blockquote>
-<p>如果你想用脚本的方式修改大量的提交，还有一个重写历史的选项可以用——例如，全局性地修改电子邮件地址或者将一个文件从所有提交中删除。<br>这个命令是filter-branch，这个会大面积地修改你的历史，所以你很有可能不该去用它，除非你的项目尚未公开，没有其他人在你准备修改的提交的基础上工作。<br>尽管如此，这个可以非常有用。你会学习一些常见用法，借此对它的能力有所认识。<br><br>从所有提交中删除一个文件<br>这个经常发生。有些人不经思考使用git add .，意外地提交了一个巨大的二进制文件，你想将它从所有地方删除。<br>也许你不小心提交了一个包含密码的文件，而你想让你的项目开源。filter-branch大概会是你用来清理整个历史的工具。<br>要从整个历史中删除一个名叫password.txt的文件，你可以在filter-branch上使用–tree-filter选项</p>
-</blockquote>
-<h4 id="Example：把历史中不小心添加进来的所有mp4文件清除。"><a href="#Example：把历史中不小心添加进来的所有mp4文件清除。" class="headerlink" title="Example：把历史中不小心添加进来的所有mp4文件清除。"></a>Example：把历史中不小心添加进来的所有mp4文件清除。</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">删除所有后缀为mp4 的历史提交文件</div><div class="line"></div><div class="line">git filter-branch --index-filter &apos;git rm -r --cached --ignore-unmatch *.mp4&apos; --prune-empty -f</div><div class="line">git for-each-ref --format=&apos;delete %(refname)&apos; refs/original | git update-ref --stdin </div><div class="line">git reflog expire --expire=now --all &amp;&amp; git gc --aggressive --prune=now </div><div class="line"></div><div class="line">如果要push到remote Repo的话，需要加-f 强推</div></pre></td></tr></table></figure>
-
-          
+          很多时候，我们经常会不小心把一个不应该add进来的文件 add到 Repo里了。比如：password.txt，.log  .mp4 等等。
+这种情况下，我们可以选择用 git filter-branch 来将历史的所有commit都重新过滤一下。查看Git的文档得知，filter-branch是一
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/05/02/2019/git_filter_branch/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -445,83 +448,18 @@
       
         
           
-            <ul>
-<li>最近面试经常会被问到Kafka的问题。看了很多Kafka的介绍，发现还是美团技术团队总结的最清楚易懂。下面转了美团的关于Kafka的一篇文章</li>
-</ul>
-<h2 id="Kafka是什么"><a href="#Kafka是什么" class="headerlink" title="Kafka是什么"></a>Kafka是什么</h2><p>Kafka是最初由Linkedin公司开发，是一个分布式、分区的、多副本的、多订阅者，基于zookeeper协调的分布式日志系统(也可以当做MQ系统)，常见可以用于web/nginx日志、访问日志，消息服务等等，Linkedin于2010年贡献给了Apache基金会并成为顶级开源项目。</p>
-<p>一个商业化消息队列的性能好坏，其文件存储机制设计是衡量一个消息队列服务技术水平和最关键指标之一。 下面将从Kafka文件存储机制和物理结构角度，分析Kafka是如何实现高效文件存储，及实际应用效果。</p>
-<p>Kafka部分名词解释如下：</p>
-<ul>
-<li>Broker：消息中间件处理结点，一个Kafka节点就是一个broker，多个broker可以组成一个Kafka集群。</li>
-<li>Topic：一类消息，例如page view日志、click日志等都可以以topic的形式存在，Kafka集群能够同时负责多个topic的分发。</li>
-<li>Partition：topic物理上的分组，一个topic可以分为多个partition，每个partition是一个有序的队列。</li>
-<li>Segment：partition物理上由多个segment组成，下面2.2和2.3有详细说明。</li>
-<li>offset：每个partition都由一系列有序的、不可变的消息组成，这些消息被连续的追加到partition中。partition中的每个消息都有一个连续的序列号叫做offset,用于partition唯一标识一条消息.</li>
-</ul>
-<p>分析过程分为以下4个步骤：</p>
-<ul>
-<li>topic中partition存储分布</li>
-<li>partiton中文件存储方式</li>
-<li>partiton中segment文件存储结构</li>
-<li>在partition中如何通过offset查找message</li>
-</ul>
-<p>通过上述4过程详细分析，我们就可以清楚认识到kafka文件存储机制的奥秘。</p>
-<h2 id="2-1-topic中partition存储分布"><a href="#2-1-topic中partition存储分布" class="headerlink" title="2.1 topic中partition存储分布"></a>2.1 topic中partition存储分布</h2><p>假设实验环境中Kafka集群只有一个broker，xxx/message-folder为数据文件存储根目录，在Kafka broker中server.properties文件配置(参数log.dirs=xxx/message-folder)，例如创建2个topic名称分别为report_push、launch_info, partitions数量都为partitions=4 存储路径和目录规则为： xxx/message-folder<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">|--report_push-0</div><div class="line">|--report_push-1</div><div class="line">|--report_push-2</div><div class="line">|--report_push-3</div><div class="line">|--launch_info-0</div><div class="line">|--launch_info-1</div><div class="line">|--launch_info-2</div><div class="line">|--launch_info-3</div></pre></td></tr></table></figure></p>
-<p>在Kafka文件存储中，同一个topic下有多个不同partition，每个partition为一个目录，partiton命名规则为topic名称+有序序号，第一个partiton序号从0开始，序号最大值为partitions数量减1。 如果是多broker分布情况，请参考kafka集群partition分布原理分析</p>
-<h2 id="2-2-partiton中文件存储方式"><a href="#2-2-partiton中文件存储方式" class="headerlink" title="2.2 partiton中文件存储方式"></a>2.2 partiton中文件存储方式</h2><p>下面示意图形象说明了partition中文件存储方式:</p>
-<p><img src="/images/2019/kafka_intro/kafka_partition.png" alt="Sample Image Added via Markdown"></p>
-<ul>
-<li>每个partion(目录)相当于一个巨型文件被平均分配到多个大小相等segment(段)数据文件中。但每个段segment file消息数量不一定相等，这种特性方便old segment file快速被删除。</li>
-<li>每个partiton只需要支持顺序读写就行了，segment文件生命周期由服务端配置参数决定。</li>
-</ul>
-<p>这样做的好处就是能快速删除无用文件，有效提高磁盘利用率。</p>
-<h2 id="2-3-partiton中segment文件存储结构"><a href="#2-3-partiton中segment文件存储结构" class="headerlink" title="2.3 partiton中segment文件存储结构"></a>2.3 partiton中segment文件存储结构</h2><p>读者从2.2节了解到Kafka文件系统partition存储方式，本节深入分析partion中segment file组成和物理结构。</p>
-<ul>
-<li>segment file组成：由2大部分组成，分别为index file和data file，此2个文件一一对应，成对出现，后缀”.index”和“.log”分别表示为segment索引文件、数据文件.</li>
-<li>segment文件命名规则：partion全局的第一个segment从0开始，后续每个segment文件名为上一个segment文件最后一条消息的offset值。数值最大为64位long大小，19位数字字符长度，没有数字用0填充。</li>
-</ul>
-<p>下面文件列表是笔者在Kafka broker上做的一个实验，创建一个topicXXX包含1 partition，设置每个segment大小为500MB,并启动producer向Kafka broker写入大量数据,如下图2所示segment文件列表形象说明了上述2个规则：</p>
-<p><img src="/images/2019/kafka_intro/kafka_index.png" alt="Sample Image Added via Markdown"></p>
-<p>以上述图2中一对segment file文件为例，说明segment中index&lt;—-&gt;data file对应关系物理结构如下：</p>
-<p>上述图3中索引文件存储大量元数据，数据文件存储大量消息，索引文件中元数据指向对应数据文件中message的物理偏移地址。 其中以索引文件中元数据3,497为例，依次在数据文件中表示第3个message(在全局partiton表示第368772个message)、以及该消息的物理偏移地址为497。</p>
-<p>从上述图3了解到segment data file由许多message组成，下面详细说明message物理结构如下：<br><img src="/images/2019/kafka_intro/kafka_message.png" alt="Sample Image Added via Markdown"></p>
-<p>参数说明：<br>关键字    解释说明<br>8 byte offset    在parition(分区)内的每条消息都有一个有序的id号，这个id号被称为偏移(offset),它可以唯一确定每条消息在parition(分区)内的位置。即offset表示partiion的第多少message<br>4 byte message size    message大小<br>4 byte CRC32    用crc32校验message<br>1 byte “magic”    表示本次发布Kafka服务程序协议版本号<br>1 byte “attributes”    表示为独立版本、或标识压缩类型、或编码类型。<br>4 byte key length    表示key的长度,当key为-1时，K byte key字段不填<br>K byte key    可选<br>value bytes payload    表示实际消息数据。</p>
-<h2 id="2-4-在partition中如何通过offset查找message"><a href="#2-4-在partition中如何通过offset查找message" class="headerlink" title="2.4 在partition中如何通过offset查找message"></a>2.4 在partition中如何通过offset查找message</h2><p>例如读取offset=368776的message，需要通过下面2个步骤查找。</p>
-<p>第一步查找segment file 上述图2为例，其中00000000000000000000.index表示最开始的文件，起始偏移量(offset)为0.第二个文件00000000000000368769.index的消息量起始偏移量为368770 = 368769 + 1.同样，第三个文件00000000000000737337.index的起始偏移量为737338=737337 + 1，其他后续文件依次类推，以起始偏移量命名并排序这些文件，只要根据offset <strong>二分查找</strong>文件列表，就可以快速定位到具体文件。 当offset=368776时定位到00000000000000368769.index|log</p>
-<p>第二步通过segment file查找message 通过第一步定位到segment file，当offset=368776时，依次定位到00000000000000368769.index的元数据物理位置和00000000000000368769.log的物理偏移地址，然后再通过00000000000000368769.log顺序查找直到offset=368776为止。</p>
-<p>从上述图3可知这样做的优点，segment index file采取稀疏索引存储方式，它减少索引文件大小，通过mmap可以直接内存操作，稀疏索引为数据文件的每个对应message设置一个元数据指针,它比稠密索引节省了更多的存储空间，但查找起来需要消耗更多的时间。</p>
-<p>3 Kafka文件存储机制–实际运行效果<br>实验环境：</p>
-<p>Kafka集群：由2台虚拟机组成<br>cpu：4核<br>物理内存：8GB<br>网卡：千兆网卡<br>jvm heap: 4GB<br>详细Kafka服务端配置及其优化请参考：kafka server.properties配置详解<br><img src="/images/2019/kafka_intro/kafka_read_disk.png" alt="Sample Image Added via Markdown"></p>
-<p>从上述图5可以看出，Kafka运行时很少有大量读磁盘的操作，主要是定期批量写磁盘操作，因此操作磁盘很高效。这跟Kafka文件存储中读写message的设计是息息相关的。Kafka中读写message有如下特点:</p>
-<h3 id="写message"><a href="#写message" class="headerlink" title="写message"></a>写message</h3><ul>
-<li>消息从java堆转入page cache(即物理内存)。</li>
-<li>由异步线程刷盘,消息从page cache刷入磁盘。</li>
-</ul>
-<h3 id="读message"><a href="#读message" class="headerlink" title="读message"></a>读message</h3><ul>
-<li>消息直接从page cache转入socket发送出去。</li>
-<li>当从page cache没有找到相应数据时，此时会产生磁盘IO,从磁 盘Load消息到page cache,然后直接从socket发出去</li>
-</ul>
-<h3 id="Kafka高效文件存储设计特点"><a href="#Kafka高效文件存储设计特点" class="headerlink" title="Kafka高效文件存储设计特点"></a>Kafka高效文件存储设计特点</h3><ul>
-<li><p>Kafka把topic中一个partition大文件分成多个小文件段，通过多个小文件段，就容易定期清除或删除已经消费完文件，减少磁盘占用。</p>
-</li>
-<li><p>通过索引信息可以快速定位message和确定response的最大大小。</p>
-</li>
-<li>通过index元数据全部映射到memory，可以避免segment file的IO磁盘操作。</li>
-<li>通过索引文件稀疏存储，可以大幅降低index文件元数据占用空间大小。</li>
-</ul>
-<p>1.Linux Page Cache机制 </p>
-<p>2.Kafka官方文档</p>
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>面试的时候经常问到Kafka怎么防止重复消费</p>
-<ul>
-<li><p>比如，你拿到这个消息做数据库的insert操作，那就容易了，给这个消息做一个唯一的主键，那么就算出现重复消费的情况，就会导致主键冲突，避免数据库出现脏数据。</p>
-</li>
-<li><p>再比如，你拿到这个消息做Redis的set的操作，那就容易了，不用解决，因为你无论set几次结果都是一样的，set操作本来就算幂等操作。</p>
-</li>
-<li><p>如果上面两种情况还不行，上大招。准备一个第三方介质，来做消费记录。以Redis为例，给消息分配一个全局id，只要消费过该消息，将<id,message>以K-V形式写入Redis. 那消费者开始消费前，先去Redis中查询有没有消费记录即可。</id,message></p>
-</li>
-</ul>
-
           
+最近面试经常会被问到Kafka的问题。看了很多Kafka的介绍，发现还是美团技术团队总结的最清楚易懂。下面转了美团的关于Kafka的一篇文章
+
+Kafka是什么Kafka是最初由Linkedin公司开发，是一个分布式、分区的、多副本的、多订阅者，基于zookeeper协调的分布式日志系统(也可以当
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/03/02/2019/kafka_intro/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -650,49 +588,16 @@
       
         
           
-            <p>新西兰:flag-nz:十二日自由行攻略<br>更多详情可上新西兰旅游局官方网站查询<a href="https://www.newzealand.com/cn/" target="_blank" rel="external">https://www.newzealand.com/cn/</a></p>
-<p>:memo:签证：提前三个月办理即可，一般都能拿到有效期五年的签证。现在新西兰是电子签证，无需贴签，本人是找淘宝旅行社办理，如果个人不嫌麻烦完全可以自己登陆相关网站申请签证，蜂窝网有很全面的介绍，我是懒得自己弄。新西兰签证比欧美签证简单，银行卡半年流水只需三万，无需按指纹面试等，两周内可以出签。签证出来后留电子版或者打印出来，到新西兰过关时直接刷护照即可过关，都没人检查电子签，因为系统已有纪录。</p>
-<p>另外如果是要转机的话，需要提前确认是否需要过境签。比如，在澳大利亚转机就要申请过境签。澳大利亚的过境签申请挺简单的，在官网注册个账号然后填个表就好了，免费的。</p>
-<p><a href="https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/transit-771" target="_blank" rel="external">https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/transit-771</a></p>
-<p>:airplane:飞机：建议提前买，签证没出来之前也可以买了（因为签证很容易过），越早买越便宜！直飞大概要11.5个小时，飞奥克兰的班次多且便宜。</p>
-<p>我们来回买的都是在澳大利亚悉尼转机的。去的是维珍航空，回的是澳大利亚航空。维珍的机票比较便宜，便宜的缺点就是他们的refreshment好难吃，有一餐我根本就没吃饱，另外要了一小碗泡面。相比之下，澳大利亚航空的伙食就好太多了，吃得都好。</p>
-<p>:dollar:现金：提前去银行换好新西兰币，汇率大概是1:4.6。准备好visa或者master卡，新西兰旅游景点很多可以刷微信、支付宝、银联。</p>
-<p>:phone:电话卡：建议提前在淘宝买电话卡，比较便宜。朋友建议买Vodafone的卡，价格比较高，也可以买2degree的卡，华为背景价格便宜。我买了Vodafone和2degree的卡，感觉没啥区别，到了偏远地区都是没有信号。如果要自驾游的朋友最好提早在谷歌下载离线地图，免得走错路线。</p>
-<p>:moneybag:保险：建议出发前买个基础保险，新西兰看病非常贵，发生拉肚子阑尾炎等情况必须看病，买了保险可以减轻负担。我们买的是安联保险，性价比很高。</p>
-<p>:house:住宿：为了深入了解当地文化以及省钱，我们全程在Airbnb上订民宿，大家一定要订超赞房东，看住客的评论，以免入坑。</p>
-<p>:bus:交通：新西兰交通费很贵，出租车尤其贵，Uber稍微比的士便宜点。公交车也比国内贵很多，如果是在皇后镇没办卡的情况下，每个人是五刀。办卡的话大概是2刀一次这样。自驾行虽然方便但是难度大，新西兰驾驶方向和国内相反，靠左行驶，山路多，当地人开车速度快。如果对国外驾驶规则不是很熟的话，不建议自驾。</p>
-<p>具体行程:car:<br>前四天：奥克兰:boat:<br>奥克兰是新西兰最大的城市，一半是海水，一半是都市，是著名的风帆之都。这是我们在新西兰最喜欢的城市，大部分华人都住在奥克兰。我们参观了</p>
-<p>【奥克兰战争纪念博物馆】</p>
-<p><img src="/images/2019/nz_travel/DSC00223.JPG" alt="Sample Image Added via Markdown"></p>
-<p>【伊甸山】</p>
-<p>【天空塔】</p>
-<p><img src="/images/2019/nz_travel/DSC00091.JPG" alt="Sample Image Added via Markdown"></p>
-<p>【皇后大街】【海边码头】<br>强烈推荐新西兰唯一官方旅行社isite，在天空塔楼下就有一家，我们报了三次一日游，大巴包接送。最后一天，我们报了一日游前往【玛塔玛塔霍比特村】<br><img src="/images/2019/nz_travel/DSC00356.JPG" alt="Sample Image Added via Markdown"></p>
-<p>，中土世界的童话小镇，满眼都是绿油油的草地。在奥克兰的交通方式就是uber和走路。<br>:fork_and_knife:推荐餐厅：Depot（天空塔下）、Giapo冰淇淋</p>
-<p>中间四天：皇后镇:crown:<br>皇后镇是非常出名的旅游城市啦，超级多游客，中国游客尤其多。皇后镇衣食住行都很贵。皇后镇风光旖旎，生态环境也很好，新西兰的自来水可以直接喝。我们参观了</p>
-<p>【格林诺奇】</p>
-<p>【箭镇】</p>
-<p>【瓦卡蒂普湖】</p>
-<p><img src="/images/2019/nz_travel/IMG_3222.JPG" alt="Sample Image Added via Markdown"></p>
-<p>【坐蒸汽船看牧场喂动物】</p>
-<p><img src="/images/2019/nz_travel/IMG_3200.JPG" alt="Sample Image Added via Markdown"></p>
-<p>皇后镇可以买优惠公交卡，10纽币可以坐5次，非常划算！最后一天，我们报了I-site的一日游，从皇后镇坐大巴到基督城，沿途经过库克山/蒂卡波湖/好牧羊人教堂。<br>:fork_and_knife:推荐餐厅：Fergburger汉堡</p>
-<p><img src="/images/2019/nz_travel/IMG_3081.JPG" alt="Sample Image Added via Markdown"></p>
-<p>最后两天：基督城:latin_cross:<br>基督城于2011年发生大地震，现在城市还没恢复过来，比较萧条，没什么人气。可以购买有轨复古电车:railway_car:一日游，随上随下，</p>
-<p><img src="/images/2019/nz_travel/DSC00670.JPG" alt="Sample Image Added via Markdown"></p>
-<p>在站点下车可参观【基督城博物馆】</p>
-<p>【超级漂亮的海格利公园】</p>
-<p><img src="/images/2019/nz_travel/DSC00650.JPG" alt="Sample Image Added via Markdown"></p>
-<p>【基督城大教堂】</p>
-<p><img src="/images/2019/nz_travel/IMG_3253.jpg" alt="Sample Image Added via Markdown"></p>
-<p>【图书馆】</p>
-<p>【纸板大教堂】</p>
-<p>【皇后广场】基</p>
-<p>督城内很多涂鸦，比较文艺。</p>
-<p><img src="/images/2019/nz_travel/IMG_3266.JPG" alt="Sample Image Added via Markdown"></p>
-<p>留一两天就够了。<br>newzealand.com<br>新西兰旅游局欢迎您 | 最全面最官方的新西兰旅游攻略<br>欢迎您来新西兰旅游。敬请浏览新西兰旅游局官方网站，了解新西兰旅游攻略、经典观光线路推荐、特色景点介绍、当地美酒佳肴、酒店住宿推荐、航班与机场信息等内容。</p>
-
-          
+          新西兰:flag-nz:十二日自由行攻略更多详情可上新西兰旅游局官方网站查询https://www.newzealand.com/cn/
+:memo:签证：提前三个月办理即可，一般都能拿到有效期五年的签证。现在新西兰是电子签证，无需贴签，本人是找淘宝旅行社办理，如果个人不嫌麻烦完全可以自己登陆相关网
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/02/20/2019/nz_travel/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -821,24 +726,15 @@
       
         
           
-            <p>前言：最近在知乎上看到很多Python职位的面试都会问Python的数据结构。很多大公司，比如知乎，在面试python的工程师的时候都会很注重基础；<br>比如会问：python内置的list dict set等使用和原理。collections 模块里的deque，Counter，OrderDict等。 常用的排序算法和时间复杂度。</p>
-<p>今天我就简单说说我学到的关于Python Dict 的见闻。</p>
-<p>于是，首先我查看到《流畅的python》一书的第3章。</p>
-<ol>
-<li>首先我们看看Python是如何用散列表来实现dict类型。</li>
-</ol>
-<p>什么是散列表：<br>散列表其实是一个稀疏数组（总是有空白元素的数组称为稀疏数组）。<br>在一般的数据结构教材中，散列表里的单元通常叫作表元（bucket）。在 dict 的散列表当中，每个键值对都占用一个表元，每个表元都有两<br>个部分，一个是对键的引用，另一个是对值的引用。因为所有表元的大小一致，所以可以通过偏移量来读取某个表元。</p>
-<p>散列算法：<br>1.为了获取 my_dict[search_key] 背后的值，Python 首先会调用hash(search_key) 来计算 search_key 的散列值，把这个值最低的几位数字当作偏移量(貌似是hash(key) 和 数组的长度-1 作 与运算，hash(key)&amp; (size-1)，在散列表里查找表元（具体取几位，得看当前散列表的大小）。</p>
-<p>2.若找到的表元是空的，则抛出 KeyError 异常。若不是空的，则表元里会有一对 found_key:found_value。</p>
-<p>3.这时候 Python 会检验 search_key == found_key 是否为真，如果它们相等的话，就会返回 found_value。</p>
-<p>4.如果 search_key 和 found_key 不匹配的话，这种情况称为散列冲突。</p>
-<p>5.Python 解决散列冲突的方法用的是开放地址法。<br>如下图所示：<br><img src="/images/2018/python_dict/python_dict1.png" alt="Sample Image Added via Markdown"></p>
-<h3 id="Python-dict的特性："><a href="#Python-dict的特性：" class="headerlink" title="Python dict的特性："></a>Python dict的特性：</h3><p>1.字典在内存上的开销巨大。<br>由于字典使用了散列表，而散列表又必须是稀疏的，这导致它在空间上的效率低下。<br>2.键查询很快。<br>dict 的实现是典型的空间换时间：字典类型有着巨大的内存开销，但它们提供了无视数据量大小的快速访问——只要字典能被装在内存里。<br>3.往字典里添加新键可能会改变已有键的顺序。<br>无论何时往字典里添加新的键，Python 解释器都可能做出为字典扩容的决定。扩容导致的结果就是要新建一个更大的散列表，并把字典里已有的元素添加到新表里。</p>
-<p>关于Python的开放地制法解决hash冲突的实现可以参考下<br><a href="https://harveyqing.gitbooks.io/python-read-and-write/content/python_advance/python_dict_implementation.html" target="_blank" rel="external">https://harveyqing.gitbooks.io/python-read-and-write/content/python_advance/python_dict_implementation.html</a></p>
-<p><img src="/images/2018/python_dict/python_dict2.png" alt="Sample Image Added via Markdown"></p>
-<p><em>若要了解详细的内部机制，推荐阅读</em><br><a href="http://python.jobbole.com/85040/" target="_blank" rel="external">http://python.jobbole.com/85040/</a></p>
-
-          
+          前言：最近在知乎上看到很多Python职位的面试都会问Python的数据结构。很多大公司，比如知乎，在面试python的工程师的时候都会很注重基础；比如会问：python内置的list dict set等使用和原理。collections 模块里的deque，Counter，OrderDict等。 
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/14/2018/python_dict/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -967,33 +863,16 @@
       
         
           
-            <p>在学习《算法》一书中了解到：<br>优先队列是一种抽象的数据类型，优先队列最重要的操作就是删除最大元素和插入元素。<br>实现优先队列可以用数组，链表，最好的方式还是用堆。</p>
-<p>我们可以把任意优先队列变成一种排序方法。将所有元素插入一个查找最小化元素的优先队列，然后再重复调用删除最小元素的操作将它们按顺序删去。用无序数组实现的优先队列这么做相当于进行一次选择排序。用基于堆得优先队列这样做等同于堆排序！</p>
-<p>要了解堆首先得了解一下二叉树，在计算机科学中，二叉树是每个节点最多有两个子树的树结构。通常子树被称作“左子树”（left subtree）和“右子树”（right subtree）。</p>
-<p>二叉树又分为满二叉树（full binary tree） 和 完全二叉树（complete binary tree）</p>
-<p>满二叉树：一棵深度为 k，且有 2k - 1 个节点称之为满二叉树</p>
-<p><img src="/images/2017/heap_sort/full_binary_tree.png" alt="Sample Image Added via Markdown"></p>
-<p>完全二叉树则满足序号和满二叉树的完全对应。</p>
-<p><img src="/images/2017/heap_sort/complete_binary_tree.png" alt="Sample Image Added via Markdown"></p>
-<p>如下图，是一个堆和数组的相互关系<br><img src="/images/2017/heap_sort/heap_sort1.png" alt="Sample Image Added via Markdown"></p>
-<p>对于给定的某个结点的下标 i，可以很容易的计算出这个结点的父结点、孩子结点的下标：</p>
-<ul>
-<li>Parent(i) = floor(i/2)，i 的父节点下标</li>
-<li>Left(i) = 2i，i 的左子节点下标</li>
-<li>Right(i) = 2i + 1，i 的右子节点下标</li>
-</ul>
-<p>堆排序原理</p>
-<p>堆排序就是把最大堆堆顶的最大数取出，将剩余的堆继续调整为最大堆，再次将堆顶的最大数取出，这个过程持续到剩余数只有一个时结束。在堆中定义以下几种操作：</p>
-<p>最大堆调整（Max-Heapify）：将堆的末端子节点作调整，使得子节点永远小于父节点(左子树不一定大于右子树)<br>创建最大堆（Build-Max-Heap）：将堆所有数据重新排序，使其成为最大堆<br>堆排序（Heap-Sort）：移除位在第一个数据的根节点，并做最大堆调整的递归运算</p>
-<p>继续进行下面的讨论前，需要注意的一个问题是：数组都是 Zero-Based，这就意味着我们的堆数据结构模型要发生改变</p>
-<p>相应的，几个计算公式也要作出相应调整：</p>
-<p>Parent(i) = floor((i-1)/2)，i 的父节点下标<br>Left(i) = 2i + 1，i 的左子节点下标<br>Right(i) = 2(i + 1)，i 的右子节点下标</p>
-<p>最大堆调整（MAX‐HEAPIFY）的作用是保持最大堆的性质，是创建最大堆的核心子程序，作用过程如图所示：</p>
-<p><img src="/images/2017/heap_sort/heap_sort2.png" alt="Sample Image Added via Markdown"></p>
-<p>源码如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">heapsort</span><span class="params">(arr)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">max_heapify</span><span class="params">(arr, index, heap_size)</span>:</span></div><div class="line">        <span class="string">"""</span></div><div class="line">        # 最大堆调整（MAX‐HEAPIFY）的作用是保持最大堆的性质。 将堆的末端子节点作调整，使得子节点永远小于父节点</div><div class="line">        # 意思就是要让index这元素去到它该去的位置</div><div class="line">        《算法》P200</div><div class="line">        由上至下的对有序化（下沉）</div><div class="line">        如果我们把堆想象成一个严密的黑色会组织，每个子节点都表示一个下属（父节点则表示它的直接上级），name这些操作就可以得到很有趣的解释。</div><div class="line">        max_hepify这个方法就相当于一个领导，如果占着老大的位置，但如果自己下属有比自己厉害的就要退位让贤。自己去到该去的层次</div><div class="line"></div><div class="line">        注意的是：这方法是有惰性的。调用一次该方法仍然不行。如果该index的左右子树都小于自己的话，它就不会递归了。</div><div class="line">        这个方法只是让index尽量下沉下去。如果是堆有序的话，那么执行该方法后index位置就是该位置最大的值</div><div class="line">        """</div><div class="line"></div><div class="line">        <span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">            imax = index</div><div class="line">            ileft = <span class="number">2</span> * index + <span class="number">1</span></div><div class="line">            iright = <span class="number">2</span> * index + <span class="number">2</span></div><div class="line"></div><div class="line">            <span class="keyword">if</span> ileft &lt; heap_size <span class="keyword">and</span> arr[index] &lt; arr[ileft]:</div><div class="line">                imax = ileft</div><div class="line"></div><div class="line">            <span class="keyword">if</span> iright &lt; heap_size <span class="keyword">and</span> arr[imax] &lt; arr[iright]:</div><div class="line">                imax = iright</div><div class="line"></div><div class="line">            <span class="keyword">if</span> imax != index:</div><div class="line">                arr[imax], arr[index] = arr[index], arr[imax]</div><div class="line">                index = imax</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                <span class="keyword">break</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">build_maxheap</span><span class="params">(arr)</span>:</span></div><div class="line">        <span class="string">"""</span></div><div class="line">        # 将堆所有数据重新排序，使其成为最大堆</div><div class="line"></div><div class="line">        创建最大堆（Build-Max-Heap）的作用是将一个数组改造成一个最大堆，接受数组和堆大小两个参数，Build-Max-Heap 将自下而上的调用 Max-Heapify 来改造数组，建立最大堆。</div><div class="line">        因为 Max-Heapify 能够保证下标 i 的结点之后结点都满足最大堆的性质，所以自下而上的调用 Max-Heapify 能够在改造过程中保持这一性质。</div><div class="line">        如果最大堆的数量元素是 n，那么 Build-Max-Heap 从 Parent(n) 开始，往上依次调用 Max-Heapify。</div><div class="line">        """</div><div class="line"></div><div class="line">        iparent = len(arr) // <span class="number">2</span> - <span class="number">1</span>   <span class="comment"># 最后一个节点的父节点</span></div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(iparent, <span class="number">-1</span>, <span class="number">-1</span>):</div><div class="line">            max_heapify(arr, i, len(arr))</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">sort</span><span class="params">(arr)</span>:</span></div><div class="line">        build_maxheap(arr)  <span class="comment"># build后左子树 还是可能大于 右子树的.所以这并不是一个有序数组</span></div><div class="line">        print(arr)</div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(arr)<span class="number">-1</span>, <span class="number">0</span>, <span class="number">-1</span>):</div><div class="line">            arr[<span class="number">0</span>], arr[i] = arr[i], arr[<span class="number">0</span>]</div><div class="line"></div><div class="line">            max_heapify(arr, <span class="number">0</span>, i)  <span class="comment"># 这里这个i 相当于比当前的length - 1；第i个元素为当前最大的元素，就被固定死了。不再访问它</span></div><div class="line">        <span class="keyword">return</span> arr</div><div class="line"></div><div class="line">    <span class="keyword">return</span> sort(arr)</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line"></div><div class="line">    print(heapsort([<span class="number">5</span>,<span class="number">4</span>,<span class="number">7</span>,<span class="number">3</span>,<span class="number">8</span>,<span class="number">2</span>,<span class="number">11</span>,<span class="number">15</span>,<span class="number">17</span>,<span class="number">16</span>,<span class="number">13</span>,<span class="number">10</span>,<span class="number">9</span>,<span class="number">12</span>,<span class="number">1</span>]))</div></pre></td></tr></table></figure>
-
-          
+          在学习《算法》一书中了解到：优先队列是一种抽象的数据类型，优先队列最重要的操作就是删除最大元素和插入元素。实现优先队列可以用数组，链表，最好的方式还是用堆。
+我们可以把任意优先队列变成一种排序方法。将所有元素插入一个查找最小化元素的优先队列，然后再重复调用删除最小元素的操作将它们按顺序删去。用无序数
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/12/31/2017/heap_sort/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1122,17 +1001,18 @@
       
         
           
-            <p>还记得两三年前，去一个大数据公司面试。首先要笔试，题目中有道题目就是填空TCP报文的表格。<br>首先我们看看TCP的报头：</p>
-<p> <img src="/images/2017/tcp_knowledge/tcp_head.jpg" alt="Sample Image Added via Markdown"></p>
-<p>当时觉得这是啥玩意呀。考这东西跟大数据有毛线关系。今天，才明白，这些都是计算机的基础。基本功来的，跑不了。</p>
-<p>下面我们可以通过一张图就能比较清晰地展现TCP/IP建立连接的过程。也就是我们常说的3次握手，4次挥手。</p>
-<p>我们先看3次握手的过程：<br><img src="/images/2017/tcp_knowledge/tcp_connection.png" alt="Sample Image Added via Markdown"></p>
-<p>1.首先Server端是处在一个Listen的状态。经常你用netstat可以看到，比如打开了一个web 服务，就卡看到80端口处在listen状态<br>2.由客户端发送一个Segment(传输层的数据包单位)到服务的，主要内容有 SYN=1，seq=x(一个随机数)。发送后，客户端状态变为SYN-SENT<br>3.服务端收到客户端发送的Segment，状态变为SYN-REVD，并发送一个SYN=1,ACK=1,seq=y,ack=x+1 的Segment返还给客户端。表示自己收到了你的消息。<br>4.客户端收到服务端返还的内容后，状态就变成了ESTABLISHED。表示成功建立了连接。并且再次发送一个ACK=1,ack=y+1,seq=x+1 的Segment。<br>5.服务端收到客户端发来的Segment后，状态变为ESTABLISHED。成功完成3次握手。</p>
-<p>建立一次连接，需要3次握手，也就是说发送3个数据包即可建立连接。发送的数据包内容中我们可以发现一点规律。ack的数值内容都是对方发送给自己的seq数值 +1  。</p>
-<p>接下来我们看看4次挥手的过程。<br><img src="/images/2017/tcp_knowledge/tcp_finish.png" alt="Sample Image Added via Markdown"></p>
-<p>1.首先由终端的提出方(假设是客户端)发送一个FIN=1,seq=u 的Segment到服务端。发送后客户端状态变为FIN-WAIT-1<br>2.服务端收到了客户端的Segment后状态变为CLOSE-WAIT，并反回一个ACK=1,seq=v,ack=u+1 的Segment给客户端。<br>3.客户端收到了服务端返回的消息后状态变为FIN-WAIT-2,此时服务端并没有关闭，意思是告诉客户端，请您耐心等待，我看看还有什么数据没有给你的，把剩下的数据发给你先。<br>4.过了片刻，服务端发送一个FIN=1,ACK=1,seq=w,ack=u+1 的Segment给客户端。然后服务端状态变为了LAST-ACK。<br>5.客户端收到了服务端发来的消息后，状态变为了TIME-WAIT。并发送ACK=1,seq=u+1,ack=w+1的Segment。表示我知道了，我再等等你(2MSL)还有什么话跟我说的。没有的话我就关了。<br>6.服务端收到客户端发送的消息后，状态就变为CLOSED了。</p>
-
-          
+          还记得两三年前，去一个大数据公司面试。首先要笔试，题目中有道题目就是填空TCP报文的表格。首先我们看看TCP的报头：
+ 
+当时觉得这是啥玩意呀。考这东西跟大数据有毛线关系。今天，才明白，这些都是计算机的基础。基本功来的，跑不了。
+下面我们可以通过一张图就能比较清晰地展现TCP/IP建立连接的过程。也
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/12/25/2017/tcp_knowledge/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
