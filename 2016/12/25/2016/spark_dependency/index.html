@@ -88,7 +88,7 @@ rdd 的 toDebugString 可以查看RDD的谱系">
 <meta property="og:description" content="说说Spark 的宽依赖和窄依赖宽依赖和窄依赖　　众所周知，在Spark中可以对RDD进行多种转换，父RDD转换之后会得到子RDD，于是便可以说子RDD的诞生需要依赖父RDD。在Spark中一共有两种依赖方式，分别是宽依赖和窄依赖。
 rdd 的 toDebugString 可以查看RDD的谱系">
 <meta property="og:image" content="http://mikolaje.github.io/images/2016/spark_dependency/spark-dependency.jpg">
-<meta property="og:updated_time" content="2019-05-02T03:15:04.361Z">
+<meta property="og:updated_time" content="2019-05-26T10:04:22.352Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spark 的宽依赖和窄依赖">
 <meta name="twitter:description" content="说说Spark 的宽依赖和窄依赖宽依赖和窄依赖　　众所周知，在Spark中可以对RDD进行多种转换，父RDD转换之后会得到子RDD，于是便可以说子RDD的诞生需要依赖父RDD。在Spark中一共有两种依赖方式，分别是宽依赖和窄依赖。
@@ -317,10 +317,10 @@ rdd 的 toDebugString 可以查看RDD的谱系">
         <h1 id="说说Spark-的宽依赖和窄依赖"><a href="#说说Spark-的宽依赖和窄依赖" class="headerlink" title="说说Spark 的宽依赖和窄依赖"></a>说说Spark 的宽依赖和窄依赖</h1><h3 id="宽依赖和窄依赖"><a href="#宽依赖和窄依赖" class="headerlink" title="宽依赖和窄依赖"></a>宽依赖和窄依赖</h3><p>　　众所周知，在Spark中可以对RDD进行多种转换，父RDD转换之后会得到子RDD，于是便可以说子RDD的诞生需要依赖父RDD。在Spark中一共有两种依赖方式，分别是宽依赖和窄依赖。</p>
 <p>rdd 的 toDebugString 可以查看RDD的谱系</p>
 <a id="more"></a>
-<h3 id="窄依赖"><a href="#窄依赖" class="headerlink" title="窄依赖"></a>窄依赖</h3><p>如果父RDD的每个分区至多只对应一个子RDD的分区，则这种依赖关系称为窄依赖。(独生子女)</p>
+<h3 id="窄依赖"><a href="#窄依赖" class="headerlink" title="窄依赖"></a>窄依赖</h3><p>如果父RDD的每个分区至多只对应一个子RDD的分区，则这种依赖关系称为窄依赖。</p>
 <p>常见的窄依赖算子有：map、filter、union。</p>
 <p>对窄依赖RDD进行Lineage恢复时，如果子RDD某个分区坏了，通过父RDD指定分区重算时，将不会重算其他正常的分区，避免了冗余计算，提高了性能。</p>
-<h3 id="宽依赖"><a href="#宽依赖" class="headerlink" title="宽依赖"></a>宽依赖</h3><p>如果父RDD中至少有一个分区对应子RDD的多个分区(至少两个分区)，则这种依赖关系称为宽依赖。（非独生子女）</p>
+<h3 id="宽依赖"><a href="#宽依赖" class="headerlink" title="宽依赖"></a>宽依赖</h3><p>如果父RDD中至少有一个分区对应子RDD的多个分区(至少两个分区)，则这种依赖关系称为宽依赖。</p>
 <p>常见的宽依赖算子有：groupByKey、sortByKey。</p>
 <p>对宽依赖RDD进行Lineage恢复时，如果子RDD某个分区坏了，通过父RDD指定分区重算时，有可能会重算一些其他正常的分区，会有冗余计算，性能开销也会比窄依赖大很多。</p>
 <p>宽依赖通常是Spark拆分Stage的边界，在同一个Stage内均为窄依赖。</p>
@@ -365,8 +365,8 @@ rdd 的 toDebugString 可以查看RDD的谱系">
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/02/14/2017/python_gcd/" rel="prev" title="Python 求最大公约数">
-                Python 求最大公约数 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/03/13/2017/find_your_answer/" rel="prev" title="从网上找到自己的答案">
+                从网上找到自己的答案 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -467,7 +467,7 @@ rdd 的 toDebugString 可以查看RDD的谱系">
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>

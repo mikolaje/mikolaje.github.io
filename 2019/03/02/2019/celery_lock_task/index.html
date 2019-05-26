@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Celery," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="背景最近有个需求是这样子的，某个task要求一定要一个一个地执行，不能并发执行。比较简单的办法是直接将 celery worker启动为 一个进程: “-c 1”。 但是，这种方法会导致其它的task也只能单进程了。
+后来通过Google，查找了很多例子，最普遍的一个做法是参考官方文档的做法， 代码如下:
+1234567891011121314151617181920212223242526272">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Celery让某个task一个一个地执行">
+<meta property="og:url" content="http://mikolaje.github.io/2019/03/02/2019/celery_lock_task/index.html">
+<meta property="og:site_name" content="Welcome to Dennis Blog">
+<meta property="og:description" content="背景最近有个需求是这样子的，某个task要求一定要一个一个地执行，不能并发执行。比较简单的办法是直接将 celery worker启动为 一个进程: “-c 1”。 但是，这种方法会导致其它的task也只能单进程了。
+后来通过Google，查找了很多例子，最普遍的一个做法是参考官方文档的做法， 代码如下:
+1234567891011121314151617181920212223242526272">
+<meta property="og:image" content="http://mikolaje.github.io/.celery_lock_task_images/1d60a617.png">
+<meta property="og:image" content="http://mikolaje.github.io/.celery_lock_task_images/50ef5fbc.png">
+<meta property="og:updated_time" content="2019-05-26T10:04:22.344Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Celery让某个task一个一个地执行">
+<meta name="twitter:description" content="背景最近有个需求是这样子的，某个task要求一定要一个一个地执行，不能并发执行。比较简单的办法是直接将 celery worker启动为 一个进程: “-c 1”。 但是，这种方法会导致其它的task也只能单进程了。
+后来通过Google，查找了很多例子，最普遍的一个做法是参考官方文档的做法， 代码如下:
+1234567891011121314151617181920212223242526272">
+<meta name="twitter:image" content="http://mikolaje.github.io/.celery_lock_task_images/1d60a617.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://mikolaje.github.io/2019/03/02/2019/celery_lock_task/"/>
+
+
+
+
+
+  <title>Celery让某个task一个一个地执行 | Welcome to Dennis Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Welcome to Dennis Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2019/03/02/2019/celery_lock_task/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dennis">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Welcome to Dennis Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Celery让某个task一个一个地执行</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-02T11:07:10+00:00">
+                2019-03-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/03/02/2019/celery_lock_task/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/03/02/2019/celery_lock_task/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>最近有个需求是这样子的，某个task要求一定要一个一个地执行，不能并发执行。<br>比较简单的办法是直接将 celery worker启动为 一个进程: “-c 1”。 但是，这种方法会导致其它的task也只能单进程了。</p>
+<p>后来通过Google，查找了很多例子，最普遍的一个做法是参考官方文档的做法， 代码如下:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> celery <span class="keyword">import</span> task</div><div class="line"><span class="keyword">from</span> celery.five <span class="keyword">import</span> monotonic</div><div class="line"><span class="keyword">from</span> celery.utils.log <span class="keyword">import</span> get_task_logger</div><div class="line"><span class="keyword">from</span> contextlib <span class="keyword">import</span> contextmanager</div><div class="line"><span class="keyword">from</span> django.core.cache <span class="keyword">import</span> cache</div><div class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> md5</div><div class="line"><span class="keyword">from</span> djangofeeds.models <span class="keyword">import</span> Feed</div><div class="line"></div><div class="line">logger = get_task_logger(__name__)</div><div class="line"></div><div class="line">LOCK_EXPIRE = <span class="number">60</span> * <span class="number">10</span>  <span class="comment"># Lock expires in 10 minutes</span></div><div class="line"></div><div class="line"><span class="meta">@contextmanager</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">memcache_lock</span><span class="params">(lock_id, oid)</span>:</span></div><div class="line">    timeout_at = monotonic() + LOCK_EXPIRE - <span class="number">3</span></div><div class="line">    <span class="comment"># cache.add fails if the key already exists</span></div><div class="line">    status = cache.add(lock_id, oid, LOCK_EXPIRE)  </div><div class="line">    <span class="comment"># 如果存在lock_id的话会返回False，不存在的话会返回True。这个也可以换成用Redis实现，比如用 setnx</span></div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        <span class="keyword">yield</span> status</div><div class="line">    <span class="keyword">finally</span>:</div><div class="line">        <span class="comment"># memcache delete is very slow, but we have to use it to take</span></div><div class="line">        <span class="comment"># advantage of using add() for atomic locking</span></div><div class="line">        <span class="keyword">if</span> monotonic() &lt; timeout_at <span class="keyword">and</span> status:</div><div class="line">            <span class="comment"># don't release the lock if we exceeded the timeout</span></div><div class="line">            <span class="comment"># to lessen the chance of releasing an expired lock</span></div><div class="line">            <span class="comment"># owned by someone else</span></div><div class="line">            <span class="comment"># also don't release the lock if we didn't acquire it</span></div><div class="line">            cache.delete(lock_id)</div><div class="line"></div><div class="line"><span class="meta">@task(bind=True)</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">import_feed</span><span class="params">(self, feed_url)</span>:</span></div><div class="line">    <span class="comment"># The cache key consists of the task name and the MD5 digest</span></div><div class="line">    <span class="comment"># of the feed URL.</span></div><div class="line">    feed_url_hexdigest = md5(feed_url).hexdigest()</div><div class="line">    lock_id = <span class="string">'&#123;0&#125;-lock-&#123;1&#125;'</span>.format(self.name, feed_url_hexdigest)</div><div class="line">    logger.debug(<span class="string">'Importing feed: %s'</span>, feed_url)</div><div class="line">    <span class="keyword">with</span> memcache_lock(lock_id, self.app.oid) <span class="keyword">as</span> acquired:</div><div class="line">        <span class="keyword">if</span> acquired:</div><div class="line">            <span class="keyword">return</span> Feed.objects.import_feed(feed_url).url</div><div class="line">    logger.debug(</div><div class="line">        <span class="string">'Feed %s is already being imported by another worker'</span>, feed_url)</div></pre></td></tr></table></figure>
+<p>但是，上面的逻辑只是在有task正执行的时候忽略了新增task。比如说有个import_feed task 正在运行，还没有运行完，<br>再调用apply_async的时候就会不做任何操作。</p>
+<p>所以得在上面代码的基础上改一改。</p>
+<h3 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h3><p>这里我用了一个上厕所的例子。假设有一个公共厕所。如果有人在用着这个厕所的时候其他人就不能使用了，得在旁边排队等候。<br>一次只能进去一个人。废话少说直接上代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="meta">@app.task(bind=True, base=ShitTask, max_retries=10)</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">shit_task</span><span class="params">(self)</span>:</span></div><div class="line">    print(<span class="string">'task name %s'</span> % self.name)</div><div class="line">    lock_id = <span class="string">'&#123;0&#125;-lock'</span>.format(self.name)</div><div class="line">    shit_queue = <span class="string">'&#123;0&#125;-queue'</span>.format(self.name)</div><div class="line">    <span class="comment"># 这里我选用了Redis来处理队列</span></div><div class="line">    <span class="keyword">with</span> memcache_lock(lock_id, self.app.oid) <span class="keyword">as</span> acquired:</div><div class="line">        <span class="keyword">if</span> acquired:</div><div class="line">            <span class="comment"># 当进入到厕所的时候，先把门锁上（其他人就进不来了，然后再拉</span></div><div class="line">            print(<span class="string">'Oh yes, Lock the door and it is my time to shit. '</span>)</div><div class="line">            time.sleep(<span class="number">5</span>)</div><div class="line">            <span class="keyword">return</span> <span class="string">'I finished shit'</span></div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            <span class="comment"># 有人在用厕所，得在外面等着 </span></div><div class="line">            print(<span class="string">'Oops, somebody engaged the toilet, I have to queue up'</span>)</div><div class="line">            pending_task = pickle.dumps(self)</div><div class="line">            rdb.lpush(shit_queue, pending_task)</div><div class="line">            <span class="comment"># 将其他人放到Redis里排队等候</span></div><div class="line">            <span class="keyword">raise</span> Ignore()</div></pre></td></tr></table></figure>
+<p>上面代码是主要的task处理所及。另外，要先重写一下Task类的 after_return 方法，使得当没能执行的task（在门口排队的人）<br>在正在执行task（正在用厕所的人）成功执行完后，接着执行下一个task（下个人接着用厕所）。</p>
+<blockquote>
+<p>完整代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># coding=u8</span></div><div class="line"><span class="keyword">from</span> celery <span class="keyword">import</span> Celery, Task</div><div class="line"><span class="keyword">from</span> celery.exceptions <span class="keyword">import</span> Ignore</div><div class="line"><span class="keyword">from</span> celery <span class="keyword">import</span> task</div><div class="line"><span class="keyword">import</span> redis</div><div class="line"><span class="keyword">import</span> pickle</div><div class="line"><span class="keyword">from</span> celery.five <span class="keyword">import</span> monotonic</div><div class="line"><span class="keyword">from</span> celery.utils.log <span class="keyword">import</span> get_task_logger</div><div class="line"><span class="keyword">from</span> contextlib <span class="keyword">import</span> contextmanager</div><div class="line"><span class="keyword">import</span> time</div><div class="line"></div><div class="line">app = Celery(<span class="string">'tasks'</span>, broker=<span class="string">'redis://localhost:6379/10'</span>)</div><div class="line"></div><div class="line">logger = get_task_logger(__name__)</div><div class="line"></div><div class="line">LOCK_EXPIRE = <span class="number">60</span> * <span class="number">10</span>  <span class="comment"># Lock expires in 10 minutes</span></div><div class="line"></div><div class="line">rdb = redis.Redis(db=<span class="number">11</span>)</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ShitTask</span><span class="params">(Task)</span>:</span></div><div class="line">    abstract = <span class="keyword">True</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">after_return</span><span class="params">(self, status, retval, task_id, args, kwargs, einfo)</span>:</span></div><div class="line">        print(status)</div><div class="line">        <span class="keyword">if</span> retval:</div><div class="line">            print(<span class="string">'somebody finished shit, calling the next one to shit'</span>)</div><div class="line">            shit_queue = <span class="string">'&#123;0&#125;-queue'</span>.format(self.name)</div><div class="line">            pending_task = rdb.rpop(shit_queue)</div><div class="line">            <span class="keyword">if</span> <span class="keyword">not</span> pending_task:</div><div class="line">                print(<span class="string">'there is nobody waiting to shit'</span>)</div><div class="line">                <span class="keyword">return</span></div><div class="line">            task = pickle.loads(pending_task)</div><div class="line">            task.delay(*args)</div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            <span class="keyword">pass</span></div><div class="line"></div><div class="line"><span class="meta">@contextmanager</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">memcache_lock</span><span class="params">(lock_id, oid)</span>:</span></div><div class="line">    timeout_at = monotonic() + LOCK_EXPIRE - <span class="number">3</span></div><div class="line">    <span class="comment"># status = cache.add(lock_id, oid, LOCK_EXPIRE)  # 如果lock_id 存在则返回False，如果不存在则返回True</span></div><div class="line">    status = rdb.setnx(lock_id, oid)</div><div class="line">    rdb.expire(lock_id, LOCK_EXPIRE)</div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        <span class="keyword">yield</span> status</div><div class="line">    <span class="keyword">finally</span>:</div><div class="line">        <span class="keyword">if</span> monotonic() &lt; timeout_at <span class="keyword">and</span> status:</div><div class="line">            <span class="comment"># 设置一个时间限制，一个人不能占用厕所太久，而且只有占用厕所的那人才能开锁把厕所门打开</span></div><div class="line">            print(<span class="string">'release the lock and open the door of the toilet %s'</span> % lock_id)</div><div class="line">            rdb.delete(lock_id)</div><div class="line"></div><div class="line"></div><div class="line"><span class="meta">@app.task(bind=True, base=ShitTask, max_retries=10)</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">shit_task</span><span class="params">(self)</span>:</span></div><div class="line">    print(<span class="string">'task name %s'</span> % self.name)</div><div class="line">    lock_id = <span class="string">'&#123;0&#125;-lock'</span>.format(self.name)</div><div class="line">    shit_queue = <span class="string">'&#123;0&#125;-queue'</span>.format(self.name)</div><div class="line">    print(lock_id)</div><div class="line">    <span class="keyword">with</span> memcache_lock(lock_id, self.app.oid) <span class="keyword">as</span> acquired:</div><div class="line">        print(<span class="string">'acquired'</span>, acquired)</div><div class="line">        <span class="keyword">if</span> acquired:</div><div class="line">            print(<span class="string">'Oh yes, Lock the door and it is my time to shit. '</span>)</div><div class="line">            time.sleep(<span class="number">5</span>)</div><div class="line">            <span class="keyword">return</span> <span class="string">'I finished shit'</span></div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            print(<span class="string">'Oops, somebody engaged the toilet, I have to queue up'</span>)</div><div class="line">            pending_task = pickle.dumps(self)</div><div class="line">            rdb.lpush(shit_queue, pending_task)</div><div class="line">            <span class="keyword">raise</span> Ignore()</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>可以新建一个test_celery项目来检验一下。新建一个目录名叫 test_celery<br>然后新建一个tasks.py文件，内容就是上面代码。<br>用下面命令来启动Celery worker，这里用了8个进程来处理。设置多点可以增加task的并行执行任务数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">celery -A tasks worker -l info -c 8</div></pre></td></tr></table></figure></p>
+<p>然后，可以启动ipython 进行调用task。<br><img src=".celery_lock_task_images/1d60a617.png" alt=""><br>快速地敲几个task.delay</p>
+<p>在celery日志中我们可以看到两个shit_tasks 是一个接一个来运行的。而不是并行执行。<br><img src=".celery_lock_task_images/50ef5fbc.png" alt=""></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Celery/" rel="tag"># Celery</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/20/2019/nz_travel/" rel="next" title="新西兰十二日自由行攻略">
+                <i class="fa fa-chevron-left"></i> 新西兰十二日自由行攻略
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/02/2019/kafka_intro/" rel="prev" title="Kafka Introduction">
+                Kafka Introduction <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Dennis</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/mikolaje" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/mikolaj" target="_blank" title="Zhihu">
+                      
+                        <i class="fa fa-fw fa-zhihu"></i>Zhihu</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实践"><span class="nav-number">2.</span> <span class="nav-text">实践</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试"><span class="nav-number">3.</span> <span class="nav-text">测试</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dennis</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://mikolaje.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://mikolaje.github.io/2019/03/02/2019/celery_lock_task/';
+          this.page.identifier = '2019/03/02/2019/celery_lock_task/';
+          this.page.title = 'Celery让某个task一个一个地执行';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://mikolaje.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
