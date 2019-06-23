@@ -315,7 +315,159 @@
 <p>然而RDD是什么呢，RDD是一个分布式数据集合。你可以认为它是一个告诉你实际数据在集群中具体什么地方的指南者（pointer）。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2016/10/20/2016/spark_foreachRDD/#espandi" rel="contents">
+            <a class="btn" href="/2016/10/20/2016/spark_foreachRDD/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2016/10/20/2016/spark_guide/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dennis">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Welcome to Dennis Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/10/20/2016/spark_guide/" itemprop="url">Spark简易入门</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-20T11:07:10+00:00">
+                2016-10-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/10/20/2016/spark_guide/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2016/10/20/2016/spark_guide/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="Spark简易入门"><a href="#Spark简易入门" class="headerlink" title="Spark简易入门"></a>Spark简易入门</h1><p>Spark，搞大数据的人都应该用过吧。spark作为主流的大数据处理框架，到底为什么这么多人用呢？我们少扯淡，直接动手写大数据界的HelloWorld：WordCount。</p>
+<p>先贴上代码（Scala版本):</p>
+<!-- java -->
+<pre><code>import org.apache.spark.SparkConf
+import org.apache.spark.SparkContext
+object WordCount 
+  def main(args: Array[String]) {
+    val conf = new SparkConf()
+    conf.setAppName(&quot;WorkCount&quot;)
+    val sc = new SparkContext(conf)
+
+    val file = &quot;hdfs://127.0.0.1:9000/file.txt&quot;
+    val lines = sc.textFile(file)
+    val words = lines.flatMap(_.split(&quot;\\s+&quot;))
+    val wordCount = words.countByValue()
+    println(wordCount)
+}
+</code></pre><p>短短10多行代码，就已经完成了，比大家想象的要简单，完全看不出Spark背后做了什么处理。分布式，容错处理，这就是Spark给我们带来的福利。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/10/20/2016/spark_guide/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -454,7 +606,7 @@
 <h2 id="1-更有效的利用你的时间"><a href="#1-更有效的利用你的时间" class="headerlink" title="1. 更有效的利用你的时间"></a>1. 更有效的利用你的时间</h2><p>1.1 选择好问题</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2016/10/18/2016/be_more_productive/#espandi" rel="contents">
+            <a class="btn" href="/2016/10/18/2016/be_more_productive/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -542,7 +694,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">23</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -555,7 +707,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>

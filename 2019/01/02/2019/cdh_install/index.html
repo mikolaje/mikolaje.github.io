@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="python," />
+  <meta name="keywords" content="Cloudera," />
 
 
 
@@ -79,25 +79,36 @@
 
 
 
-<meta name="description" content="前言：最近在知乎上看到很多Python职位的面试都会问Python的数据结构。很多大公司，比如知乎，在面试python的工程师的时候都会很注重基础；比如会问：python内置的list dict set等使用和原理。collections 模块里的deque，Counter，OrderDict等。 常用的排序算法和时间复杂度。
-今天我就简单说说我学到的关于Python Dict 的见闻。
-于是，首">
+<meta name="description" content="最近两天在自己电脑上搭建一个Cloudera Manager来玩玩。本来以为挺简单的，只是在Web UI上无脑下一步就好了，但其实还是遇到挺多问题的。
+安装在服务器上的操作刚开始基本上，就是按照官网的步骤来走，首先做一些前置工作:
+
+配置下apt
+安装JDK.
+安装下NTP时间同步的程序；
+安装好Mysql，MariaDB，Posgres。其中的一个数据库，刚开始以为都要安装。。。然后又把Mari">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Python Dict Internal">
-<meta property="og:url" content="http://mikolaje.github.io/2018/02/14/2018/python_dict/index.html">
+<meta property="og:title" content="CDH 在ubuntu上的单机部署">
+<meta property="og:url" content="http://mikolaje.github.io/2019/01/02/2019/cdh_install/index.html">
 <meta property="og:site_name" content="Welcome to Dennis Blog">
-<meta property="og:description" content="前言：最近在知乎上看到很多Python职位的面试都会问Python的数据结构。很多大公司，比如知乎，在面试python的工程师的时候都会很注重基础；比如会问：python内置的list dict set等使用和原理。collections 模块里的deque，Counter，OrderDict等。 常用的排序算法和时间复杂度。
-今天我就简单说说我学到的关于Python Dict 的见闻。
-于是，首">
-<meta property="og:image" content="http://mikolaje.github.io/images/2018/python_dict/python_dict1.png">
-<meta property="og:image" content="http://mikolaje.github.io/images/2018/python_dict/python_dict2.png">
-<meta property="og:updated_time" content="2019-05-30T07:44:23.269Z">
+<meta property="og:description" content="最近两天在自己电脑上搭建一个Cloudera Manager来玩玩。本来以为挺简单的，只是在Web UI上无脑下一步就好了，但其实还是遇到挺多问题的。
+安装在服务器上的操作刚开始基本上，就是按照官网的步骤来走，首先做一些前置工作:
+
+配置下apt
+安装JDK.
+安装下NTP时间同步的程序；
+安装好Mysql，MariaDB，Posgres。其中的一个数据库，刚开始以为都要安装。。。然后又把Mari">
+<meta property="og:image" content="http://mikolaje.github.io/images/2019/cdh_install/323205c4.JPG">
+<meta property="og:updated_time" content="2019-06-23T14:18:06.241Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Python Dict Internal">
-<meta name="twitter:description" content="前言：最近在知乎上看到很多Python职位的面试都会问Python的数据结构。很多大公司，比如知乎，在面试python的工程师的时候都会很注重基础；比如会问：python内置的list dict set等使用和原理。collections 模块里的deque，Counter，OrderDict等。 常用的排序算法和时间复杂度。
-今天我就简单说说我学到的关于Python Dict 的见闻。
-于是，首">
-<meta name="twitter:image" content="http://mikolaje.github.io/images/2018/python_dict/python_dict1.png">
+<meta name="twitter:title" content="CDH 在ubuntu上的单机部署">
+<meta name="twitter:description" content="最近两天在自己电脑上搭建一个Cloudera Manager来玩玩。本来以为挺简单的，只是在Web UI上无脑下一步就好了，但其实还是遇到挺多问题的。
+安装在服务器上的操作刚开始基本上，就是按照官网的步骤来走，首先做一些前置工作:
+
+配置下apt
+安装JDK.
+安装下NTP时间同步的程序；
+安装好Mysql，MariaDB，Posgres。其中的一个数据库，刚开始以为都要安装。。。然后又把Mari">
+<meta name="twitter:image" content="http://mikolaje.github.io/images/2019/cdh_install/323205c4.JPG">
 
 
 
@@ -127,13 +138,13 @@
 
 
 
-  <link rel="canonical" href="http://mikolaje.github.io/2018/02/14/2018/python_dict/"/>
+  <link rel="canonical" href="http://mikolaje.github.io/2019/01/02/2019/cdh_install/"/>
 
 
 
 
 
-  <title>Python Dict Internal | Welcome to Dennis Blog</title>
+  <title>CDH 在ubuntu上的单机部署 | Welcome to Dennis Blog</title>
   
 
 
@@ -240,7 +251,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2018/02/14/2018/python_dict/">
+    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2019/01/02/2019/cdh_install/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Dennis">
@@ -257,7 +268,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Python Dict Internal</h1>
+          <h1 class="post-title" itemprop="name headline">CDH 在ubuntu上的单机部署</h1>
         
 
         <div class="post-meta">
@@ -269,8 +280,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-14T11:07:10+00:00">
-                2018-02-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-02T10:24:10+00:00">
+                2019-01-02
               </time>
             
 
@@ -288,9 +299,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/02/14/2018/python_dict/#comments" itemprop="discussionUrl">
+                <a href="/2019/01/02/2019/cdh_install/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/02/14/2018/python_dict/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2019/01/02/2019/cdh_install/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -318,23 +329,24 @@
       
 
       
-        <p>前言：最近在知乎上看到很多Python职位的面试都会问Python的数据结构。很多大公司，比如知乎，在面试python的工程师的时候都会很注重基础；<br>比如会问：python内置的list dict set等使用和原理。collections 模块里的deque，Counter，OrderDict等。 常用的排序算法和时间复杂度。</p>
-<p>今天我就简单说说我学到的关于Python Dict 的见闻。</p>
-<p>于是，首先我查看到《流畅的python》一书的第3章。</p>
+        <p>最近两天在自己电脑上搭建一个Cloudera Manager来玩玩。本来以为挺简单的，只是在Web UI上无脑下一步就好了，<br>但其实还是遇到挺多问题的。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="在服务器上的操作"><a href="#在服务器上的操作" class="headerlink" title="在服务器上的操作"></a>在服务器上的操作</h3><p>刚开始基本上，就是按照官网的步骤来走，首先做一些前置工作:</p>
 <ol>
-<li>首先我们看看Python是如何用散列表来实现dict类型。</li>
+<li>配置下apt</li>
+<li>安装JDK.</li>
+<li>安装下NTP时间同步的程序；</li>
+<li>安装好Mysql，MariaDB，Posgres。<br>其中的一个数据库，刚开始以为都要安装。。。然后又把MariaDB这些一个个卸载了；</li>
+<li>在Mysql中创建一些CM所需的数据库和表。如下所是。</li>
 </ol>
-<p>什么是散列表：<br>散列表其实是一个稀疏数组（总是有空白元素的数组称为稀疏数组）。<br>在一般的数据结构教材中，散列表里的单元通常叫作表元（bucket）。在 dict 的散列表当中，每个键值对都占用一个表元，每个表元都有两<br>个部分，一个是对键的引用，另一个是对值的引用。因为所有表元的大小一致，所以可以通过偏移量来读取某个表元。</p>
-<p>散列算法：<br>1.为了获取 my_dict[search_key] 背后的值，Python 首先会调用hash(search_key) 来计算 search_key 的散列值，把这个值最低的几位数字当作偏移量(貌似是hash(key) 和 数组的长度-1 作 与运算，hash(key)&amp; (size-1)，在散列表里查找表元（具体取几位，得看当前散列表的大小）。</p>
-<p>2.若找到的表元是空的，则抛出 KeyError 异常。若不是空的，则表元里会有一对 found_key:found_value。</p>
-<p>3.这时候 Python 会检验 search_key == found_key 是否为真，如果它们相等的话，就会返回 found_value。</p>
-<p>4.如果 search_key 和 found_key 不匹配的话，这种情况称为散列冲突。</p>
-<p>5.Python 解决散列冲突的方法用的是开放地址法。<br>如下图所示：<br><img src="/images/2018/python_dict/python_dict1.png" alt="Sample Image Added via Markdown"></p>
-<h3 id="Python-dict的特性："><a href="#Python-dict的特性：" class="headerlink" title="Python dict的特性："></a>Python dict的特性：</h3><p>1.字典在内存上的开销巨大。<br>由于字典使用了散列表，而散列表又必须是稀疏的，这导致它在空间上的效率低下。<br>2.键查询很快。<br>dict 的实现是典型的空间换时间：字典类型有着巨大的内存开销，但它们提供了无视数据量大小的快速访问——只要字典能被装在内存里。<br>3.往字典里添加新键可能会改变已有键的顺序。<br>无论何时往字典里添加新的键，Python 解释器都可能做出为字典扩容的决定。扩容导致的结果就是要新建一个更大的散列表，并把字典里已有的元素添加到新表里。</p>
-<p>关于Python的开放地制法解决hash冲突的实现可以参考下<br><a href="https://harveyqing.gitbooks.io/python-read-and-write/content/python_advance/python_dict_implementation.html" target="_blank" rel="external">https://harveyqing.gitbooks.io/python-read-and-write/content/python_advance/python_dict_implementation.html</a></p>
-<p><img src="/images/2018/python_dict/python_dict2.png" alt="Sample Image Added via Markdown"></p>
-<p><em>若要了解详细的内部机制，推荐阅读</em><br><a href="http://python.jobbole.com/85040/" target="_blank" rel="external">http://python.jobbole.com/85040/</a></p>
-
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">CREATE DATABASE scm DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;</div><div class="line">GRANT ALL ON scm.* TO &apos;scm&apos;@&apos;%&apos; IDENTIFIED BY &apos;123456&apos;;</div><div class="line"></div><div class="line">CREATE DATABASE amon DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;</div><div class="line">GRANT ALL ON amon.* TO &apos;amon&apos;@&apos;%&apos; IDENTIFIED BY &apos;123456&apos;;</div><div class="line"></div><div class="line">CREATE DATABASE rman DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;</div><div class="line">GRANT ALL ON rman.* TO &apos;rman&apos;@&apos;%&apos; IDENTIFIED BY &apos;123456&apos;;</div><div class="line"></div><div class="line">CREATE DATABASE hue DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;</div><div class="line">GRANT ALL ON hue.* TO &apos;hue&apos;@&apos;%&apos; IDENTIFIED BY &apos;123456&apos;;</div><div class="line"></div><div class="line">CREATE DATABASE metastore DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;</div><div class="line">GRANT ALL ON metastore.* TO &apos;hive&apos;@&apos;%&apos; IDENTIFIED BY &apos;123456&apos;;</div><div class="line"></div><div class="line">CREATE DATABASE sentry DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;</div><div class="line">GRANT ALL ON sentry.* TO &apos;sentry&apos;@&apos;%&apos; IDENTIFIED BY &apos;123456&apos;;</div><div class="line"></div><div class="line">CREATE DATABASE nav DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;</div><div class="line">GRANT ALL ON nav.* TO &apos;nav&apos;@&apos;%&apos; IDENTIFIED BY &apos;123456&apos;;</div><div class="line"></div><div class="line">CREATE DATABASE navms DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;</div><div class="line">GRANT ALL ON navms.* TO &apos;navms&apos;@&apos;%&apos; IDENTIFIED BY &apos;123456&apos;;</div><div class="line"></div><div class="line">CREATE DATABASE oozie DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;</div><div class="line">GRANT ALL ON oozie.* TO &apos;oozie&apos;@&apos;%&apos; IDENTIFIED BY &apos;123456&apos;;</div></pre></td></tr></table></figure>
+<ol>
+<li>通过scm_prepare_database.sh 脚本来进一步设置Manager Database</li>
+</ol>
+<h3 id="在Web-UI上的安装"><a href="#在Web-UI上的安装" class="headerlink" title="在Web UI上的安装"></a>在Web UI上的安装</h3><p>在Web上的安装基本上就是点继续。有些地方要注意。<br>这一步会等待比较长的时间，会下载安装一些parcels。</p>
+<p><img src="/images/2019/cdh_install/323205c4.JPG" alt="Sample Image Added via Markdown"></p>
+<p>然后，基本上就是下一步了。</p>
+<p>对了，因为我的是单机版的，所以HDFS那边会报错一个叫：副本不足的块 存在隐患。<br>这是因为只有一个节点，Block块无法，分配到其它的节点作为备份。默认是有2个备份Block分发到其它节点。</p>
+<h3 id="启动CDH"><a href="#启动CDH" class="headerlink" title="启动CDH"></a>启动CDH</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo systemctl start cloudera-scm-server</div><div class="line"></div><div class="line"># 查看scm server日志，scm的全称是：The Service and Configuration Manager </div><div class="line">sudo tail -f /var/log/cloudera-scm-server/cloudera-scm-server.log</div></pre></td></tr></table></figure>
       
     </div>
     
@@ -351,7 +363,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/python/" rel="tag"># python</a>
+            <a href="/tags/Cloudera/" rel="tag"># Cloudera</a>
           
         </div>
       
@@ -364,8 +376,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/31/2017/heap_sort/" rel="next" title="堆排序学习总结">
-                <i class="fa fa-chevron-left"></i> 堆排序学习总结
+              <a href="/2018/11/06/2018/ubuntu_shared_object/" rel="next" title="Ubuntu的.so文件问题">
+                <i class="fa fa-chevron-left"></i> Ubuntu的.so文件问题
               </a>
             
           </div>
@@ -374,8 +386,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/02/2018/kafka_intro/" rel="prev" title="Kafka Introduction">
-                Kafka Introduction <i class="fa fa-chevron-right"></i>
+              <a href="/2019/01/02/2019/ngrok_deployment/" rel="prev" title="Ngrok服务器部署">
+                Ngrok服务器部署 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -525,7 +537,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Python-dict的特性："><span class="nav-number">1.</span> <span class="nav-text">Python dict的特性：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在服务器上的操作"><span class="nav-number">1.1.</span> <span class="nav-text">在服务器上的操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在Web-UI上的安装"><span class="nav-number">1.2.</span> <span class="nav-text">在Web UI上的安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动CDH"><span class="nav-number">1.3.</span> <span class="nav-text">启动CDH</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -688,9 +700,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://mikolaje.github.io/2018/02/14/2018/python_dict/';
-          this.page.identifier = '2018/02/14/2018/python_dict/';
-          this.page.title = 'Python Dict Internal';
+          this.page.url = 'http://mikolaje.github.io/2019/01/02/2019/cdh_install/';
+          this.page.identifier = '2019/01/02/2019/cdh_install/';
+          this.page.title = 'CDH 在ubuntu上的单机部署';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://mikolaje.disqus.com/embed.js';
