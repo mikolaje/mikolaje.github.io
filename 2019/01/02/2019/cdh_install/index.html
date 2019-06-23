@@ -97,8 +97,8 @@
 安装JDK.
 安装下NTP时间同步的程序；
 安装好Mysql，MariaDB，Posgres。其中的一个数据库，刚开始以为都要安装。。。然后又把Mari">
-<meta property="og:image" content="http://mikolaje.github.io/images/2019/cdh_install/323205c4.JPG">
-<meta property="og:updated_time" content="2019-06-23T14:18:06.241Z">
+<meta property="og:image" content="http://mikolaje.github.io/images/2019/cdh_install/323205c4.png">
+<meta property="og:updated_time" content="2019-06-23T14:22:51.654Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CDH 在ubuntu上的单机部署">
 <meta name="twitter:description" content="最近两天在自己电脑上搭建一个Cloudera Manager来玩玩。本来以为挺简单的，只是在Web UI上无脑下一步就好了，但其实还是遇到挺多问题的。
@@ -108,7 +108,7 @@
 安装JDK.
 安装下NTP时间同步的程序；
 安装好Mysql，MariaDB，Posgres。其中的一个数据库，刚开始以为都要安装。。。然后又把Mari">
-<meta name="twitter:image" content="http://mikolaje.github.io/images/2019/cdh_install/323205c4.JPG">
+<meta name="twitter:image" content="http://mikolaje.github.io/images/2019/cdh_install/323205c4.png">
 
 
 
@@ -343,10 +343,12 @@
 <li>通过scm_prepare_database.sh 脚本来进一步设置Manager Database</li>
 </ol>
 <h3 id="在Web-UI上的安装"><a href="#在Web-UI上的安装" class="headerlink" title="在Web UI上的安装"></a>在Web UI上的安装</h3><p>在Web上的安装基本上就是点继续。有些地方要注意。<br>这一步会等待比较长的时间，会下载安装一些parcels。</p>
-<p><img src="/images/2019/cdh_install/323205c4.JPG" alt="Sample Image Added via Markdown"></p>
+<p><img src="/images/2019/cdh_install/323205c4.png" alt="Sample Image Added via Markdown"></p>
 <p>然后，基本上就是下一步了。</p>
 <p>对了，因为我的是单机版的，所以HDFS那边会报错一个叫：副本不足的块 存在隐患。<br>这是因为只有一个节点，Block块无法，分配到其它的节点作为备份。默认是有2个备份Block分发到其它节点。</p>
 <h3 id="启动CDH"><a href="#启动CDH" class="headerlink" title="启动CDH"></a>启动CDH</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo systemctl start cloudera-scm-server</div><div class="line"></div><div class="line"># 查看scm server日志，scm的全称是：The Service and Configuration Manager </div><div class="line">sudo tail -f /var/log/cloudera-scm-server/cloudera-scm-server.log</div></pre></td></tr></table></figure>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://www.cloudera.com/documentation/enterprise/6/6.2/topics/introduction.html" target="_blank" rel="external">https://www.cloudera.com/documentation/enterprise/6/6.2/topics/introduction.html</a></p>
+
       
     </div>
     
@@ -537,7 +539,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在服务器上的操作"><span class="nav-number">1.1.</span> <span class="nav-text">在服务器上的操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在Web-UI上的安装"><span class="nav-number">1.2.</span> <span class="nav-text">在Web UI上的安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动CDH"><span class="nav-number">1.3.</span> <span class="nav-text">启动CDH</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在服务器上的操作"><span class="nav-number">1.1.</span> <span class="nav-text">在服务器上的操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在Web-UI上的安装"><span class="nav-number">1.2.</span> <span class="nav-text">在Web UI上的安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动CDH"><span class="nav-number">1.3.</span> <span class="nav-text">启动CDH</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">2.</span> <span class="nav-text">Reference</span></a></li></ol></div>
             
 
           </div>
