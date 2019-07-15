@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Welcome to Dennis Blog">
 <meta property="og:description" content="需求背景需求方需要用Hive来进行一些update操作。以往一般用Parquet这种格式作为Hive的存储格式，查文档得知Parquet不支持update，orc格式可以支持update。
 开始试验创建测试数据首先我们在Hive上简单地创建一个表作为测试：12345678910111213create table test_format (    car_name string,    serie">
-<meta property="og:updated_time" content="2019-06-26T15:42:29.737Z">
+<meta property="og:updated_time" content="2019-07-15T05:56:33.653Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hive 使用orc进行事务操作(update)">
 <meta name="twitter:description" content="需求背景需求方需要用Hive来进行一些update操作。以往一般用Parquet这种格式作为Hive的存储格式，查文档得知Parquet不支持update，orc格式可以支持update。
@@ -325,6 +325,7 @@
 <li>重启集群</li>
 </ol>
 <h3 id="测试更新数据"><a href="#测试更新数据" class="headerlink" title="测试更新数据"></a>测试更新数据</h3><p>测试更新和删除部分数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">update test_format set model=&apos;test&apos; where series=&apos;3&apos;;</div><div class="line"></div><div class="line">delete  from test_format where model=&apos;test&apos;;</div></pre></td></tr></table></figure></p>
+<p>这里需要注意的一个地方就是 要更新的字段不能是设置为bucket的那个字段，不然会报错：</p>
 <p>成功执行！</p>
 <h3 id="踩的一些坑"><a href="#踩的一些坑" class="headerlink" title="踩的一些坑"></a>踩的一些坑</h3><p>因为我是用的单节点部署的CDH集群。刚开始，在Hive上执行select count(*) ; 和 insert操作时候，没有任何报错，<br>但会一直卡在那里。后来查看到cloudera community说单节点要改个mapred-site.xml的一个参数：<br>mapreduce.framework.name</p>
 <p>默认是用的yarn，单机的话要改为local，然后重启集群insert 和 select count(*) 就不会卡住了,<br>CDH也是在WebUI上的Yarn集群上的配置上修改。</p>
@@ -368,6 +369,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/02/2019/private_IDC/" rel="prev" title="自建家用集群，打造一个私有云">
+                自建家用集群，打造一个私有云 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -454,7 +459,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">27</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -467,7 +472,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>

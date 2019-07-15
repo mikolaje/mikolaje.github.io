@@ -228,6 +228,294 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2016/11/30/2016/spark_aggregate/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dennis">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Welcome to Dennis Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/11/30/2016/spark_aggregate/" itemprop="url">浅谈SPARK 的 aggregate 算子</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-30T11:07:10+00:00">
+                2016-11-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/11/30/2016/spark_aggregate/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2016/11/30/2016/spark_aggregate/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="理解aggregate的原理"><a href="#理解aggregate的原理" class="headerlink" title="理解aggregate的原理"></a>理解aggregate的原理</h1><p>刚开始我觉得SPARK的aggregate算子比较难理解的。首先我们看看官网的example</p>
+<!-- python -->
+<pre><code>&gt;&gt;&gt; seqOp = (lambda x, y: (x[0] + y, x[1] + 1))
+&gt;&gt;&gt; combOp = (lambda x, y: (x[0] + y[0], x[1] + y[1]))
+&gt;&gt;&gt; sc.parallelize([1, 2, 3, 4]).aggregate((0, 0), seqOp, combOp)
+(10, 4)
+&gt;&gt;&gt; sc.parallelize([]).aggregate((0, 0), seqOp, combOp)
+(0, 0)    
+</code></pre><p>看了后，我就一脸懵逼了，两个lambda函数中的x,y各自代表什么东西呢？</p>
+<p>我们先看看官网的aggregate 用法说明：</p>
+<p>Aggregate the elements of each partition, and then the results for all the partitions, using a given combine functions and a neutral “zero value.”</p>
+<p>The functions op(t1, t2) is allowed to modify t1 and return it as its result value to avoid object allocation; however, it should not modify t2.</p>
+<p>The first function (seqOp) can return a different result type, U, than the type of this RDD. Thus, we need one operation for merging a T into an U and one operation for merging two U</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/11/30/2016/spark_aggregate/#meer" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2016/11/15/2016/python_yield/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dennis">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Welcome to Dennis Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/11/15/2016/python_yield/" itemprop="url">Python的yield 问题</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-15T11:07:10+00:00">
+                2016-11-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/11/15/2016/python_yield/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2016/11/15/2016/python_yield/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="Python-yield示范"><a href="#Python-yield示范" class="headerlink" title="Python yield示范"></a>Python yield示范</h2><p>yield 关键词在python中不算常用。以前我只知道它的作用和return相似，就是返回一个值。并不知道它具体的用途和用法。</p>
+<p>要理解yield，你必须知道generators（生成器）。而要知道生成器，需要了解iterables（可迭代对象）</p>
+<p>生成器（Generators）就是迭代器的一种特殊形式，只不过它只能迭代一次。这是因为生成器不是将所有的数值存储在内存里，而是，立即生成数值。<br>和迭代器相似，我们可以通过使用next()来从generator中获取下一个值</p>
+<p>顺便说说：集合数据类型，如list、tuple、dict、set、str等，这些可以用for循环的对象都是可迭代对象（Iterable）。<br>但list、dict、str虽然是Iterable，却不是迭代器（Iterator）。把list、dict、str等Iterable变成Iterator可以使用iter()函数。</p>
+<p>迭代器对象可以被next()函数调用并不断返回下一个数据，直到没有数据时抛出StopIteration错误。</p>
+<p>Python的for循环本质上就是通过不断调用next()函数实现的</p>
+<p>我们看看下面例子：</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/11/15/2016/python_yield/#meer" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2016/11/14/2016/python_unicode/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -319,7 +607,7 @@
 </code></pre><p>为什么print 和 直接输入变量回车显示的东西不一样呢？<br>\xe5\x91\xb5\xe5\x91\xb5这些是什么东西啊。一定很奇怪。其实bytes字符编码，是8进制的东西。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2016/11/14/2016/python_unicode/#more" rel="contents">
+            <a class="btn" href="/2016/11/14/2016/python_unicode/#meer" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -467,7 +755,7 @@ print a  # [1]
 </code></pre><p>为什么第一个例子print出来的是’hello’而不是’lol 呢?<br>为什么第二个例子print出来却是[1] 呢?</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2016/11/14/2016/python_func_params/#more" rel="contents">
+            <a class="btn" href="/2016/11/14/2016/python_func_params/#meer" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -605,7 +893,7 @@ print a  # [1]
 <p>然而RDD是什么呢，RDD是一个分布式数据集合。你可以认为它是一个告诉你实际数据在集群中具体什么地方的指南者（pointer）。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2016/10/20/2016/spark_foreachRDD/#more" rel="contents">
+            <a class="btn" href="/2016/10/20/2016/spark_foreachRDD/#meer" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -757,7 +1045,7 @@ object WordCount
 </code></pre><p>短短10多行代码，就已经完成了，比大家想象的要简单，完全看不出Spark背后做了什么处理。分布式，容错处理，这就是Spark给我们带来的福利。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2016/10/20/2016/spark_guide/#more" rel="contents">
+            <a class="btn" href="/2016/10/20/2016/spark_guide/#meer" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -896,7 +1184,7 @@ object WordCount
 <h2 id="1-更有效的利用你的时间"><a href="#1-更有效的利用你的时间" class="headerlink" title="1. 更有效的利用你的时间"></a>1. 更有效的利用你的时间</h2><p>1.1 选择好问题</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2016/10/18/2016/be_more_productive/#more" rel="contents">
+            <a class="btn" href="/2016/10/18/2016/be_more_productive/#meer" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -984,7 +1272,7 @@ object WordCount
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">27</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -997,7 +1285,7 @@ object WordCount
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
