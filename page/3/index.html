@@ -324,7 +324,7 @@
 <p>The first function (seqOp) can return a different result type, U, than the type of this RDD. Thus, we need one operation for merging a T into an U and one operation for merging two U</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2016/11/30/2016/spark_aggregate/#meer" rel="contents">
+            <a class="btn" href="/2016/11/30/2016/spark_aggregate/#espandi" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -465,7 +465,7 @@
 <p>我们看看下面例子：</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2016/11/15/2016/python_yield/#meer" rel="contents">
+            <a class="btn" href="/2016/11/15/2016/python_yield/#espandi" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -607,7 +607,7 @@
 </code></pre><p>为什么print 和 直接输入变量回车显示的东西不一样呢？<br>\xe5\x91\xb5\xe5\x91\xb5这些是什么东西啊。一定很奇怪。其实bytes字符编码，是8进制的东西。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2016/11/14/2016/python_unicode/#meer" rel="contents">
+            <a class="btn" href="/2016/11/14/2016/python_unicode/#espandi" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -755,145 +755,7 @@ print a  # [1]
 </code></pre><p>为什么第一个例子print出来的是’hello’而不是’lol 呢?<br>为什么第二个例子print出来却是[1] 呢?</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2016/11/14/2016/python_func_params/#meer" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2016/10/20/2016/spark_foreachRDD/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Dennis">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Welcome to Dennis Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/10/20/2016/spark_foreachRDD/" itemprop="url">Spark Streaming Dstream ForeachRDD的理解</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-20T11:07:10+00:00">
-                2016-10-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2016/10/20/2016/spark_foreachRDD/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2016/10/20/2016/spark_foreachRDD/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="通俗理解Spark-Streaming-Dstream-的ForeachRDD"><a href="#通俗理解Spark-Streaming-Dstream-的ForeachRDD" class="headerlink" title="通俗理解Spark Streaming Dstream 的ForeachRDD"></a>通俗理解Spark Streaming Dstream 的ForeachRDD</h1><p>在SparkStreaming中，数据中的每个batch都是只有一个RDD，为什么我们还要用ForeachRDD 在每一个RDD呢？ 不是只有一个RDD吗？</p>
-<p>Dstream也就是离散stream，就是把连续的数据分成一小团一小团。我们用专业术语“microbatching”来描述。每个microbatch 变成一个RDD以便Spark的后续处理。在每一个batch interval中，每个DStream有且仅有一个RDD。</p>
-<p><img src="/images/2016/spark_foreachRDD/spark-streaming.png" alt="Sample Image Added via Markdown"></p>
-<p>然而RDD是什么呢，RDD是一个分布式数据集合。你可以认为它是一个告诉你实际数据在集群中具体什么地方的指南者（pointer）。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2016/10/20/2016/spark_foreachRDD/#meer" rel="contents">
+            <a class="btn" href="/2016/11/14/2016/python_func_params/#espandi" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1045,7 +907,145 @@ object WordCount
 </code></pre><p>短短10多行代码，就已经完成了，比大家想象的要简单，完全看不出Spark背后做了什么处理。分布式，容错处理，这就是Spark给我们带来的福利。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2016/10/20/2016/spark_guide/#meer" rel="contents">
+            <a class="btn" href="/2016/10/20/2016/spark_guide/#espandi" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2016/10/20/2016/spark_foreachRDD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dennis">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Welcome to Dennis Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/10/20/2016/spark_foreachRDD/" itemprop="url">Spark Streaming Dstream ForeachRDD的理解</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-20T11:07:10+00:00">
+                2016-10-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/10/20/2016/spark_foreachRDD/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2016/10/20/2016/spark_foreachRDD/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="通俗理解Spark-Streaming-Dstream-的ForeachRDD"><a href="#通俗理解Spark-Streaming-Dstream-的ForeachRDD" class="headerlink" title="通俗理解Spark Streaming Dstream 的ForeachRDD"></a>通俗理解Spark Streaming Dstream 的ForeachRDD</h1><p>在SparkStreaming中，数据中的每个batch都是只有一个RDD，为什么我们还要用ForeachRDD 在每一个RDD呢？ 不是只有一个RDD吗？</p>
+<p>Dstream也就是离散stream，就是把连续的数据分成一小团一小团。我们用专业术语“microbatching”来描述。每个microbatch 变成一个RDD以便Spark的后续处理。在每一个batch interval中，每个DStream有且仅有一个RDD。</p>
+<p><img src="/images/2016/spark_foreachRDD/spark-streaming.png" alt="Sample Image Added via Markdown"></p>
+<p>然而RDD是什么呢，RDD是一个分布式数据集合。你可以认为它是一个告诉你实际数据在集群中具体什么地方的指南者（pointer）。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/10/20/2016/spark_foreachRDD/#espandi" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1184,7 +1184,7 @@ object WordCount
 <h2 id="1-更有效的利用你的时间"><a href="#1-更有效的利用你的时间" class="headerlink" title="1. 更有效的利用你的时间"></a>1. 更有效的利用你的时间</h2><p>1.1 选择好问题</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2016/10/18/2016/be_more_productive/#meer" rel="contents">
+            <a class="btn" href="/2016/10/18/2016/be_more_productive/#espandi" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>

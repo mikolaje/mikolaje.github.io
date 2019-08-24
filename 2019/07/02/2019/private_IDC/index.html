@@ -88,9 +88,9 @@
 <meta property="og:description" content="背景我的战神还记得17年的时候，那时深度学习刚火起来，幼稚的我居然打算往这个领域去研究（根本没有意识到这领域需要的数学功底要多深）。俗话说，工欲善其事，必先利其器，于是乎，一股脑地跑到广州的岗顶那买了台神舟战神 超级本（GTX-1060）。当时，经常都听到东哥在提到GPU，CUDA，GTX1080提到这些关键词。哈，为什当时会选择买一台笔记本，而不是台式呢？
 其实，当时页考虑过买台式的，但是，考虑">
 <meta property="og:image" content="http://mikolaje.github.io/images/2019/private_IDC/IMG_3434.jpg">
-<meta property="og:image" content="http://mikolaje.github.io/images/2019/private_IDC/t30.png">
-<meta property="og:image" content="http://mikolaje.github.io/images/2019/private_IDC/raid.png">
-<meta property="og:updated_time" content="2019-07-15T05:56:33.653Z">
+<meta property="og:image" content="http://mikolaje.github.io/images/2019/private_IDC/t30.jpg">
+<meta property="og:image" content="http://mikolaje.github.io/images/2019/private_IDC/raid.jpg">
+<meta property="og:updated_time" content="2019-07-16T02:39:23.066Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="自建家用集群，打造一个私有云">
 <meta name="twitter:description" content="背景我的战神还记得17年的时候，那时深度学习刚火起来，幼稚的我居然打算往这个领域去研究（根本没有意识到这领域需要的数学功底要多深）。俗话说，工欲善其事，必先利其器，于是乎，一股脑地跑到广州的岗顶那买了台神舟战神 超级本（GTX-1060）。当时，经常都听到东哥在提到GPU，CUDA，GTX1080提到这些关键词。哈，为什当时会选择买一台笔记本，而不是台式呢？
@@ -321,12 +321,12 @@
 <p>那时候7400左右的价格在岗顶那买回来，真正用它就用了一年的时间吧。后来，在今年5月份，我以3000的价格在闲鱼上低价卖了。<br><img src="/images/2019/private_IDC/IMG_3434.jpg" alt="Sample Image Added via Markdown"></p>
 <h3 id="第一台组装台式机"><a href="#第一台组装台式机" class="headerlink" title="第一台组装台式机"></a>第一台组装台式机</h3><p>前面算是有点扯远了，不过也算是记录一下我早期的一些想法吧，正是有了曾经的各种因素，导致了我今天打算搭建私有集群的IDEA。在尝到了神舟笔记本的坑后，我意识到，其实买一台台式机的必要性。<br>台式机在散热，硬件稳定性上都明显强于笔记本，而且，性价比也挺高的。对了，对于购买台式机的一个很重要的因素是，17年到18年这段时间里，我在云服务上花了不少钱，刚开始在阿里云，<br>然后在Google Cloud上。陆陆续续大概花了有六七千块钱吧，也将近买一台机器的钱了。<br>18年年初，我跑去深圳华强北，组装了自己第一台组装机（华硕主板，16G内存，1T硬盘），不加显示器，一共5000多人民币。背回来立马装了ubuntu系统，顿时感到有了自己的服务器，那感觉就像<br>在外面租房久了，终于买了属于自己的房子，再也不要担心服务器没续费，登陆不上；再也不用担心资源不够用，要去计算云服务的成本和开支了。自己的机子想怎么扩展都行。</p>
 <p>其实刚开始，由于技术原因，我并没有把它当做一台服务器在用，只是把它当成一台PC安装了一些自己熟悉的开发环境和软件。在配置了Ngrok后，基本上把它当成一台云服务器了，24小时运行着。<br>关于ngrok的配置我前面有一篇专门的文章有讲得很详细。</p>
-<h3 id="第一台真正的服务器"><a href="#第一台真正的服务器" class="headerlink" title="第一台真正的服务器"></a>第一台真正的服务器</h3><p>虽然我的台式机现在配置有32G内存，在安装了一些软件（Cloudera Manager， Elasticsearch）后，内存就不太够用了。我是做数据这一块的，平时也要用分布式的框架，像Hadoop生态圈的<br>所以组件。我非常需要有一个真正的分布式平台去练手，于是就有了我的第一台服务器————戴尔T30<br><img src="/images/2019/private_IDC/t30.png" alt="Sample Image Added via Markdown"></p>
+<h3 id="第一台真正的服务器"><a href="#第一台真正的服务器" class="headerlink" title="第一台真正的服务器"></a>第一台真正的服务器</h3><p>虽然我的台式机现在配置有32G内存，在安装了一些软件（Cloudera Manager， Elasticsearch）后，内存就不太够用了。我是做数据这一块的，平时也要用分布式的框架，像Hadoop生态圈的<br>所以组件。我非常需要有一个真正的分布式平台去练手，于是就有了我的第一台服务器————戴尔T30<br><img src="/images/2019/private_IDC/t30.jpg" alt="Sample Image Added via Markdown"></p>
 <p>也是在华强北的赛格广场，3200买的。配置是E3-1225，16G DDR4，2T*2 带阵列。T30 我没理解错的话应该是戴尔服务器的入门版。我对服务器不太理解，刚入门，挺好奇的，只知道一般PC的CPU<br>是分I7，I5等等，服务器的CPU是E开头的。然后，服务器用的内存和PC用的也不一样，是不能共用的。</p>
 <p>购机的时候和那些卖电脑的老板闲聊也学到了好多专业知识。别看他们穿着没有写字楼的白领干净，没有程序员工资高，<br>但他们对计算机硬件知识还是很有经验的。比如，老板跟我说，你知道磁盘是怎么运行的吗？他说并不是说高转速的磁盘就一定好，如果突然断电的话，<br>转速高的磁盘容易被划伤。并介绍了下SAS，SATA，SSD之间的一些区别。他说SAS这种算是比较老的格式了。现在基本都用SATA。</p>
 <p>那天我看了两种服务器，一种是机架式服务器，另一种是踏实。机架式的风扇声比较大（虽然单路的会比双路的小一些，但比起塔式服务器会大挺多的。）</p>
 <h4 id="坑人的阵列卡"><a href="#坑人的阵列卡" class="headerlink" title="坑人的阵列卡"></a>坑人的阵列卡</h4><p>作为一个服务器装机菜鸟，我从网上下好的ubuntu服务器放在U盘里，然后改好U盘启动引导，开始安装。前几步没有啥问题，但到了选择安装磁盘路径的时候，找不到任何磁盘，<br>从而无法点击下一步继续。后来在老板的指导下，我才得知，原来是因为有阵列卡，BIOS没有设置对还是啥的，所以才读不到磁盘。于是，我在老板的远程指导下成功地拆卸掉阵列卡，<br>并重新接线好两块磁盘。之后，便正常地顺利正常地安装好ubuntu server了。</p>
-<p><img src="/images/2019/private_IDC/raid.png" alt="Sample Image Added via Markdown"></p>
+<p><img src="/images/2019/private_IDC/raid.jpg" alt="Sample Image Added via Markdown"></p>
 <h4 id="交换机"><a href="#交换机" class="headerlink" title="交换机"></a>交换机</h4><p>哈哈，没钱买千兆网卡，千兆交换机，只能用路由器充当了。</p>
 <h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>玩硬件组装也是个超级无底洞，各个部件都可以扩展起来，内存，硬盘，CPU，可以水平扩展，也可以横向扩展。以后准备好好赚钱升级设备吧。</p>
 
