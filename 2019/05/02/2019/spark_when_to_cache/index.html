@@ -88,7 +88,7 @@
 <meta property="og:site_name" content="Welcome to Dennis Blog">
 <meta property="og:description" content="前言最近在用Spark做一些数据统计，有个任务要跑几个小时，所以需要优化一下。首先想到的是用 persist或者cache(persist的其中一种方式)
 正文场景一首先看看在Stackoverflow的一个回答Spark很多惰性算子，它并不会立即执行，persist就是惰性的。只有当被action trigger的时候，叫 lineage的RDD 链才会被执行。如果是线性的lineage的话，p">
-<meta property="og:updated_time" content="2019-08-25T09:12:07.875Z">
+<meta property="og:updated_time" content="2019-08-25T09:20:21.702Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spark什么时候用 persist">
 <meta name="twitter:description" content="前言最近在用Spark做一些数据统计，有个任务要跑几个小时，所以需要优化一下。首先想到的是用 persist或者cache(persist的其中一种方式)
@@ -325,6 +325,39 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/大数据/" itemprop="url" rel="index">
+                    <span itemprop="name">大数据</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/大数据/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -559,7 +592,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -570,7 +603,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
