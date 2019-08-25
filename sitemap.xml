@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://mikolaje.github.io/categories/index.html</loc>
+    
+    <lastmod>2019-08-25T07:56:07.207Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://mikolaje.github.io/tags/index.html</loc>
+    
+    <lastmod>2019-08-25T07:55:16.891Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://mikolaje.github.io/2017/12/25/2017/tcp_knowledge/</loc>
+    
+    <lastmod>2019-08-25T06:20:28.858Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://mikolaje.github.io/2017/12/31/2017/heap_sort/</loc>
     
     <lastmod>2019-08-25T06:20:28.858Z</lastmod>
@@ -16,35 +37,7 @@
   </url>
   
   <url>
-    <loc>http://mikolaje.github.io/2017/12/25/2017/tcp_knowledge/</loc>
-    
-    <lastmod>2019-08-25T06:20:28.858Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://mikolaje.github.io/2016/10/18/2016/be_more_productive/</loc>
-    
-    <lastmod>2019-08-25T06:20:28.842Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://mikolaje.github.io/2016/10/20/2016/spark_foreachRDD/</loc>
-    
-    <lastmod>2019-08-25T06:20:28.842Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://mikolaje.github.io/2016/10/20/2016/spark_guide/</loc>
-    
-    <lastmod>2019-08-25T06:20:28.842Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://mikolaje.github.io/2016/12/08/2016/spark_combinebykey/</loc>
     
     <lastmod>2019-08-25T06:20:28.842Z</lastmod>
     
@@ -58,21 +51,28 @@
   </url>
   
   <url>
+    <loc>http://mikolaje.github.io/2016/12/08/2016/spark_combinebykey/</loc>
+    
+    <lastmod>2019-08-25T06:20:28.842Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://mikolaje.github.io/2016/10/20/2016/spark_guide/</loc>
+    
+    <lastmod>2019-08-25T06:20:28.842Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://mikolaje.github.io/2016/10/20/2016/spark_foreachRDD/</loc>
+    
+    <lastmod>2019-08-25T06:20:28.842Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://mikolaje.github.io/2016/12/21/2016/spark_bias/</loc>
-    
-    <lastmod>2019-08-25T06:20:28.834Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://mikolaje.github.io/2016/11/14/2016/python_unicode/</loc>
-    
-    <lastmod>2019-08-25T06:20:28.834Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://mikolaje.github.io/2016/11/15/2016/python_yield/</loc>
     
     <lastmod>2019-08-25T06:20:28.834Z</lastmod>
     
@@ -86,16 +86,23 @@
   </url>
   
   <url>
-    <loc>http://mikolaje.github.io/2016/12/12/2016/spark_broadcast/</loc>
+    <loc>http://mikolaje.github.io/2016/11/15/2016/python_yield/</loc>
     
     <lastmod>2019-08-25T06:20:28.834Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://mikolaje.github.io/2016/11/14/2016/python_func_params/</loc>
+    <loc>http://mikolaje.github.io/2016/11/14/2016/python_unicode/</loc>
     
-    <lastmod>2019-08-25T06:20:28.830Z</lastmod>
+    <lastmod>2019-08-25T06:20:28.834Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://mikolaje.github.io/2016/12/12/2016/spark_broadcast/</loc>
+    
+    <lastmod>2019-08-25T06:20:28.834Z</lastmod>
     
   </url>
   
@@ -107,14 +114,21 @@
   </url>
   
   <url>
-    <loc>http://mikolaje.github.io/2018/02/14/2018/python_dict/</loc>
+    <loc>http://mikolaje.github.io/2018/06/02/2018/hive_subquery/</loc>
     
     <lastmod>2019-08-25T06:20:28.830Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://mikolaje.github.io/2018/06/02/2018/hive_subquery/</loc>
+    <loc>http://mikolaje.github.io/2016/11/14/2016/python_func_params/</loc>
+    
+    <lastmod>2019-08-25T06:20:28.830Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://mikolaje.github.io/2018/02/14/2018/python_dict/</loc>
     
     <lastmod>2019-08-25T06:20:28.830Z</lastmod>
     
@@ -135,14 +149,14 @@
   </url>
   
   <url>
-    <loc>http://mikolaje.github.io/2019/02/20/2019/nz_travel/</loc>
+    <loc>http://mikolaje.github.io/2019/06/02/2019/typical_bigdata_interview_question/</loc>
     
     <lastmod>2019-08-25T06:20:28.798Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://mikolaje.github.io/2019/06/02/2019/typical_bigdata_interview_question/</loc>
+    <loc>http://mikolaje.github.io/2019/02/20/2019/nz_travel/</loc>
     
     <lastmod>2019-08-25T06:20:28.798Z</lastmod>
     
@@ -163,6 +177,13 @@
   </url>
   
   <url>
+    <loc>http://mikolaje.github.io/2019/07/02/2019/private_IDC/</loc>
+    
+    <lastmod>2019-08-25T06:20:28.790Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://mikolaje.github.io/2019/01/02/2019/ngrok_deployment/</loc>
     
     <lastmod>2019-08-25T06:20:28.790Z</lastmod>
@@ -171,13 +192,6 @@
   
   <url>
     <loc>http://mikolaje.github.io/2019/03/02/2019/celery_lock_task/</loc>
-    
-    <lastmod>2019-08-25T06:20:28.790Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://mikolaje.github.io/2019/07/02/2019/private_IDC/</loc>
     
     <lastmod>2019-08-25T06:20:28.790Z</lastmod>
     
@@ -198,14 +212,14 @@
   </url>
   
   <url>
-    <loc>http://mikolaje.github.io/2019/05/02/2019/git_filter_branch/</loc>
+    <loc>http://mikolaje.github.io/2019/06/22/2019/hive_orc/</loc>
     
     <lastmod>2019-08-25T06:20:28.782Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://mikolaje.github.io/2019/06/22/2019/hive_orc/</loc>
+    <loc>http://mikolaje.github.io/2019/05/02/2019/git_filter_branch/</loc>
     
     <lastmod>2019-08-25T06:20:28.782Z</lastmod>
     
