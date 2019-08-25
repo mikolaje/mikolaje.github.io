@@ -99,7 +99,8 @@
 安装下NTP时间同步的程序；
 安装好Mysql，MariaDB，Posgres。其中的一个数据库，刚开始以为都要安装。。。然后又把Mari">
 <meta property="og:image" content="http://mikolaje.github.io/images/2019/cdh_install/323205c4.png">
-<meta property="og:updated_time" content="2019-07-16T02:39:23.106Z">
+<meta property="og:image" content="http://mikolaje.github.io/images/2019/cdh_install/cloudera_install.jpg">
+<meta property="og:updated_time" content="2019-08-25T06:20:28.798Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CDH 在ubuntu上的单机部署">
 <meta name="twitter:description" content="最近两天在自己电脑上搭建一个Cloudera Manager来玩玩。本来以为挺简单的，只是在Web UI上无脑下一步就好了，但其实还是遇到挺多问题的。
@@ -361,14 +362,30 @@
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">CREATE DATABASE scm DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;</div><div class="line">GRANT ALL ON scm.* TO &apos;scm&apos;@&apos;%&apos; IDENTIFIED BY &apos;123456&apos;;</div><div class="line"></div><div class="line">CREATE DATABASE amon DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;</div><div class="line">GRANT ALL ON amon.* TO &apos;amon&apos;@&apos;%&apos; IDENTIFIED BY &apos;123456&apos;;</div><div class="line"></div><div class="line">CREATE DATABASE rman DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;</div><div class="line">GRANT ALL ON rman.* TO &apos;rman&apos;@&apos;%&apos; IDENTIFIED BY &apos;123456&apos;;</div><div class="line"></div><div class="line">CREATE DATABASE hue DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;</div><div class="line">GRANT ALL ON hue.* TO &apos;hue&apos;@&apos;%&apos; IDENTIFIED BY &apos;123456&apos;;</div><div class="line"></div><div class="line">CREATE DATABASE metastore DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;</div><div class="line">GRANT ALL ON metastore.* TO &apos;hive&apos;@&apos;%&apos; IDENTIFIED BY &apos;123456&apos;;</div><div class="line"></div><div class="line">CREATE DATABASE sentry DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;</div><div class="line">GRANT ALL ON sentry.* TO &apos;sentry&apos;@&apos;%&apos; IDENTIFIED BY &apos;123456&apos;;</div><div class="line"></div><div class="line">CREATE DATABASE nav DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;</div><div class="line">GRANT ALL ON nav.* TO &apos;nav&apos;@&apos;%&apos; IDENTIFIED BY &apos;123456&apos;;</div><div class="line"></div><div class="line">CREATE DATABASE navms DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;</div><div class="line">GRANT ALL ON navms.* TO &apos;navms&apos;@&apos;%&apos; IDENTIFIED BY &apos;123456&apos;;</div><div class="line"></div><div class="line">CREATE DATABASE oozie DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;</div><div class="line">GRANT ALL ON oozie.* TO &apos;oozie&apos;@&apos;%&apos; IDENTIFIED BY &apos;123456&apos;;</div></pre></td></tr></table></figure>
 <ol>
-<li>通过scm_prepare_database.sh 脚本来进一步设置Manager Database</li>
+<li>通过scm_prepare_database.sh 脚本来进一步设置Manager Database<br>sudo /opt/cloudera/cm/schema/scm_prepare_database.sh [options] <databasetype> <databasename> <databaseuser> <password></password></databaseuser></databasename></databasetype></li>
 </ol>
-<h3 id="在Web-UI上的安装"><a href="#在Web-UI上的安装" class="headerlink" title="在Web UI上的安装"></a>在Web UI上的安装</h3><p>在Web上的安装基本上就是点继续。有些地方要注意。<br>这一步会等待比较长的时间，会下载安装一些parcels。</p>
+<h3 id="在Web-UI上的安装"><a href="#在Web-UI上的安装" class="headerlink" title="在Web UI上的安装"></a>在Web UI上的安装</h3><ol>
+<li>首先记得在每台机器上配置好/etc/hosts</li>
+<li>在Web上的安装基本上就是点继续。有些地方要注意。<br>这一步会等待比较长的时间，会下载安装一些parcels。</li>
+</ol>
 <p><img src="/images/2019/cdh_install/323205c4.png" alt="Sample Image Added via Markdown"></p>
-<p>然后，基本上就是下一步了。</p>
+<ol>
+<li>然后，基本上就是下一步了。到这一步，我是创建了一个叫cloudera的用户，要给与它sudo以及password-exempt<br><img src="/images/2019/cdh_install/cloudera_install.jpg" alt="Sample Image Added via Markdown"></li>
+</ol>
 <p>对了，因为我的是单机版的，所以HDFS那边会报错一个叫：副本不足的块 存在隐患。<br>这是因为只有一个节点，Block块无法，分配到其它的节点作为备份。默认是有2个备份Block分发到其它节点。</p>
 <h3 id="启动CDH"><a href="#启动CDH" class="headerlink" title="启动CDH"></a>启动CDH</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo systemctl start cloudera-scm-server</div><div class="line"></div><div class="line"># 查看scm server日志，scm的全称是：The Service and Configuration Manager </div><div class="line">sudo tail -f /var/log/cloudera-scm-server/cloudera-scm-server.log</div></pre></td></tr></table></figure>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://www.cloudera.com/documentation/enterprise/6/6.2/topics/introduction.html" target="_blank" rel="external">https://www.cloudera.com/documentation/enterprise/6/6.2/topics/introduction.html</a></p>
+<h2 id="一些问题"><a href="#一些问题" class="headerlink" title="一些问题"></a>一些问题</h2><h3 id="问题1"><a href="#问题1" class="headerlink" title="问题1"></a>问题1</h3><p>我增加一个节点的时候遇到如下报错<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Host with invalid Cloudera Manager GUID is detected</div><div class="line">...</div><div class="line">Error, CM server guid updated, expected c3b5fe15-5f29-434b-ae0a-4750b56c72ab, received dc1d28d4-4c78-4a07-919b-a9eaf7190d41</div></pre></td></tr></table></figure></p>
+<p>解决方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">验证如下配置文件，确定hostname是否正确</div><div class="line">$ nano /etc/cloudera-scm-agent/config.ini</div><div class="line">so that the hostname where the same as the command $ hostname returned.</div><div class="line">Then rm /var/lib/cloudera-scm-agent/cm_guid</div><div class="line">然后删除每个节点的cm_guid</div><div class="line">then I restarted the agent and the server of cloudera:</div><div class="line">然后重启</div><div class="line">$ service cloudera-scm-agent restart</div><div class="line">$ service cloudera-scm-server restart</div></pre></td></tr></table></figure></p>
+<h3 id="问题2"><a href="#问题2" class="headerlink" title="问题2"></a>问题2</h3><p>在NameNode Format的时候遇到如下报错<br>Running in non-interactive mode, and data appears to exist in Storage Directory /dfs/nn. Not formatting.</p>
+<p>解决方案：<br>删除/dfs/nn 以及 /dfs/dn里面的所有数据<br>因为之前我安装了一个单机集群，HDFS里面放了一些数据</p>
+<h3 id="问题3"><a href="#问题3" class="headerlink" title="问题3"></a>问题3</h3><p>Cloudera 在Validate Hive Metastore schema的时候出现如下错误，发现metastore里面没有VERSION table<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">Fri Jul 19 14:06:33 CST 2019 WARN: Establishing SSL connection without server&apos;s identity verification is not recommended. According to MySQL 5.5.45+, 5.6.26+ and 5.7.6+ requirements SSL connection must be established by default if explicit option isn&apos;t set. For compliance with existing applications not using SSL the verifyServerCertificate property is set to &apos;false&apos;. You need either to explicitly disable SSL by setting useSSL=false, or set useSSL=true and provide truststore for server certificate verification.</div><div class="line">org.apache.hadoop.hive.metastore.HiveMetaException: Failed to get schema version, Cause:Table &apos;metastore.VERSION&apos; doesn&apos;t exist</div><div class="line">org.apache.hadoop.hive.metastore.HiveMetaException: Failed to get schema version, Cause:Table &apos;metastore.VERSION&apos; doesn&apos;t exist</div><div class="line">	at org.apache.hadoop.hive.metastore.CDHMetaStoreSchemaInfo.getMetaStoreSchemaVersion(CDHMetaStoreSchemaInfo.java:342)</div><div class="line">	at org.apache.hive.beeline.HiveSchemaTool.validateSchemaVersions(HiveSchemaTool.java:685)</div><div class="line">	at org.apache.hive.beeline.HiveSchemaTool.doValidate(HiveSchemaTool.java:578)</div><div class="line">	at org.apache.hive.beeline.HiveSchemaTool.main(HiveSchemaTool.java:1142)</div><div class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</div><div class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</div><div class="line">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</div><div class="line">	at java.lang.reflect.Method.invoke(Method.java:498)</div><div class="line">	at org.apache.hadoop.util.RunJar.run(RunJar.java:313)</div><div class="line">	at org.apache.hadoop.util.RunJar.main(RunJar.java:227)</div><div class="line">*** schemaTool failed ***</div></pre></td></tr></table></figure></p>
+<p>解决方案：<br><code>dennis@device1:/opt/cloudera/parcels/CDH/lib/hive/bin$ schematool -dbType mysql -initSchema -passWord password -userName hive</code></p>
+<h3 id="问题4"><a href="#问题4" class="headerlink" title="问题4"></a>问题4</h3><p>在Hue上的hive上运行一些 insert 和count(*) 操作时候会一直卡住（stuck, hang），没有任何反应，也没报错。<br>看日志是说MR 还没有启动。在Cloudera的community上查到 要mapred-site.xml的参数 mapreduce.framework.name 设置为 local</p>
+<p>于是我在CDH中的Yarn集群下修改了mapreduce.framework.name 为 local，然后重启集群后就成功了。 select count(*) 和 insert就不会卡住了。</p>
+<h3 id="问题5"><a href="#问题5" class="headerlink" title="问题5"></a>问题5</h3><p>在hue上面可以正常地使用Hive。在device2下用hive cli没有问题。但在device1 下的bash执行hive command，里面输入show databases后报错：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SemanticException org.apache.hadoop.hive.ql.metadata.HiveException: java.lang.RuntimeException: Unable to instantiate org.apache.hadoop.hive.ql.metadata.SessionHiveMetaStoreClient</div></pre></td></tr></table></figure></p>
+<p> 解决方案：<br> 先用 hive -hiveconf hive.root.logger=DEBUG,console<br> 在调试，查看到更多有价值的报错信息。<br> 果然，查到如下信息：<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"> Caused by: java.io.IOException: Keystore was tampered with, or password was incorrect</div><div class="line">	at com.sun.crypto.provider.JceKeyStore.engineLoad(JceKeyStore.java:865) ~[sunjce_provider.jar:1.8.0_112]</div><div class="line">	at java.security.KeyStore.load(KeyStore.java:1445) ~[?:1.8.0_121]</div><div class="line">	at org.apache.hadoop.security.alias.AbstractJavaKeyStoreProvider.locateKeystore(AbstractJavaKeyStoreProvider.java:322) ~[hadoop-common-3.0.0-cdh6.2.0.jar:?]</div><div class="line">	at org.apache.hadoop.security.alias.AbstractJavaKeyStoreProvider.&lt;init&gt;(AbstractJavaKeyStoreProvider.java:86) ~[hadoop-common-3.0.0-cdh6.2.0.jar:?]</div><div class="line">	at org.apache.hadoop.security.alias.LocalJavaKeyStoreProvider.&lt;init&gt;(LocalJavaKeyStoreProvider.java:58) ~[hadoop-common-3.0.0-cdh6.2.0.jar:?]</div><div class="line"></div><div class="line">	at org.apache.hadoop.hive.ql.metadata.Hive.registerAllFunctionsOnce(Hive.java:237) ~[hive-exec-2.1.1-cdh6.2.0.jar:2.1.1-cdh6.2.0]</div><div class="line">	... 23 more</div><div class="line">Caused by: java.security.UnrecoverableKeyException: Password verification failed</div></pre></td></tr></table></figure></p>
+<p>按日志的报错信息来说是我的源数据库密码不对，于是我查看hive-site.xml配置文件，发现<br>/opt/cloudera/parcels/CDH-6.2.0-1.cdh6.2.0.p0.967373/lib/hive/conf/hive-site.xml<br>也就是/etc/hive/conf/hive-site.xml(我猜CDH会把上面目录的所有配置文件复制一遍到 /etc/hive/conf/下)<br>我之前把它改了，所以那配置有问题，我把它改为默认的配置重启后就恢复正常了！</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://www.cloudera.com/documentation/enterprise/6/6.2/topics/introduction.html" target="_blank" rel="external">https://www.cloudera.com/documentation/enterprise/6/6.2/topics/introduction.html</a><br><a href="https://blog.csdn.net/qq_24409555/article/details/76139886" target="_blank" rel="external">https://blog.csdn.net/qq_24409555/article/details/76139886</a><br><a href="https://community.cloudera.com/t5/Batch-SQL-Apache-Hive/Hive-Errors-happend-when-execute-hive-service-metastore/m-p/93050#M3282" target="_blank" rel="external">https://community.cloudera.com/t5/Batch-SQL-Apache-Hive/Hive-Errors-happend-when-execute-hive-service-metastore/m-p/93050#M3282</a></p>
 
       
     </div>
@@ -489,6 +506,18 @@
         
           
   
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- side -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9293695697921628"
+     data-ad-slot="4837815018"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
   <div class="sidebar-toggle">
     <div class="sidebar-toggle-line-wrap">
       <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
@@ -529,7 +558,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-count">30</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -542,7 +571,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -607,7 +636,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在服务器上的操作"><span class="nav-number">1.1.</span> <span class="nav-text">在服务器上的操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在Web-UI上的安装"><span class="nav-number">1.2.</span> <span class="nav-text">在Web UI上的安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动CDH"><span class="nav-number">1.3.</span> <span class="nav-text">启动CDH</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">2.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在服务器上的操作"><span class="nav-number">1.1.</span> <span class="nav-text">在服务器上的操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在Web-UI上的安装"><span class="nav-number">1.2.</span> <span class="nav-text">在Web UI上的安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动CDH"><span class="nav-number">1.3.</span> <span class="nav-text">启动CDH</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一些问题"><span class="nav-number">2.</span> <span class="nav-text">一些问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题1"><span class="nav-number">2.1.</span> <span class="nav-text">问题1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题2"><span class="nav-number">2.2.</span> <span class="nav-text">问题2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题3"><span class="nav-number">2.3.</span> <span class="nav-text">问题3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题4"><span class="nav-number">2.4.</span> <span class="nav-text">问题4</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题5"><span class="nav-number">2.5.</span> <span class="nav-text">问题5</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">3.</span> <span class="nav-text">Reference</span></a></li></ol></div>
             
 
           </div>
