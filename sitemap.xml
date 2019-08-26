@@ -2,21 +2,21 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://mikolaje.github.io/about/me.html</loc>
+    <loc>http://mikolaje.github.io/about/index.html</loc>
     
     <lastmod>2019-08-26T08:14:37.010Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://mikolaje.github.io/tags/index.html</loc>
+    <loc>http://mikolaje.github.io/categories/index.html</loc>
     
     <lastmod>2019-08-26T06:39:46.501Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://mikolaje.github.io/categories/index.html</loc>
+    <loc>http://mikolaje.github.io/tags/index.html</loc>
     
     <lastmod>2019-08-26T06:39:46.501Z</lastmod>
     
