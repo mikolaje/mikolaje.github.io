@@ -88,7 +88,7 @@
 安装下NTP时间同步的程序；
 安装好Mysql，MariaDB，Posgres。其中的一个数据库，刚开始以为都要安装。。。然后又把Mari">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CDH 在ubuntu上的单机部署">
+<meta property="og:title" content="CDH 在ubuntu上的部署和安装，以及一些坑">
 <meta property="og:url" content="http://mikolaje.github.io/2019/cdh_install.html">
 <meta property="og:site_name" content="Welcome to Dennis Blog">
 <meta property="og:description" content="最近两天在自己电脑上搭建一个Cloudera Manager来玩玩。本来以为挺简单的，只是在Web UI上无脑下一步就好了，但其实还是遇到挺多问题的。
@@ -100,9 +100,9 @@
 安装好Mysql，MariaDB，Posgres。其中的一个数据库，刚开始以为都要安装。。。然后又把Mari">
 <meta property="og:image" content="http://mikolaje.github.io/images/2019/cdh_install/323205c4.png">
 <meta property="og:image" content="http://mikolaje.github.io/images/2019/cdh_install/cloudera_install.jpg">
-<meta property="og:updated_time" content="2019-08-26T06:39:46.029Z">
+<meta property="og:updated_time" content="2019-08-30T03:06:47.386Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CDH 在ubuntu上的单机部署">
+<meta name="twitter:title" content="CDH 在ubuntu上的部署和安装，以及一些坑">
 <meta name="twitter:description" content="最近两天在自己电脑上搭建一个Cloudera Manager来玩玩。本来以为挺简单的，只是在Web UI上无脑下一步就好了，但其实还是遇到挺多问题的。
 安装在服务器上的操作刚开始基本上，就是按照官网的步骤来走，首先做一些前置工作:
 
@@ -146,7 +146,7 @@
 
 
 
-  <title>CDH 在ubuntu上的单机部署 | Welcome to Dennis Blog</title>
+  <title>CDH 在ubuntu上的部署和安装，以及一些坑 | Welcome to Dennis Blog</title>
   
 
 
@@ -329,7 +329,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">CDH 在ubuntu上的单机部署</h2>
+          <h2 class="post-title" itemprop="name headline">CDH 在ubuntu上的部署和安装，以及一些坑</h2>
         
 
         <div class="post-meta">
@@ -434,7 +434,7 @@
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">CREATE DATABASE scm DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;</div><div class="line">GRANT ALL ON scm.* TO &apos;scm&apos;@&apos;%&apos; IDENTIFIED BY &apos;123456&apos;;</div><div class="line"></div><div class="line">CREATE DATABASE amon DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;</div><div class="line">GRANT ALL ON amon.* TO &apos;amon&apos;@&apos;%&apos; IDENTIFIED BY &apos;123456&apos;;</div><div class="line"></div><div class="line">CREATE DATABASE rman DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;</div><div class="line">GRANT ALL ON rman.* TO &apos;rman&apos;@&apos;%&apos; IDENTIFIED BY &apos;123456&apos;;</div><div class="line"></div><div class="line">CREATE DATABASE hue DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;</div><div class="line">GRANT ALL ON hue.* TO &apos;hue&apos;@&apos;%&apos; IDENTIFIED BY &apos;123456&apos;;</div><div class="line"></div><div class="line">CREATE DATABASE metastore DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;</div><div class="line">GRANT ALL ON metastore.* TO &apos;hive&apos;@&apos;%&apos; IDENTIFIED BY &apos;123456&apos;;</div><div class="line"></div><div class="line">CREATE DATABASE sentry DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;</div><div class="line">GRANT ALL ON sentry.* TO &apos;sentry&apos;@&apos;%&apos; IDENTIFIED BY &apos;123456&apos;;</div><div class="line"></div><div class="line">CREATE DATABASE nav DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;</div><div class="line">GRANT ALL ON nav.* TO &apos;nav&apos;@&apos;%&apos; IDENTIFIED BY &apos;123456&apos;;</div><div class="line"></div><div class="line">CREATE DATABASE navms DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;</div><div class="line">GRANT ALL ON navms.* TO &apos;navms&apos;@&apos;%&apos; IDENTIFIED BY &apos;123456&apos;;</div><div class="line"></div><div class="line">CREATE DATABASE oozie DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;</div><div class="line">GRANT ALL ON oozie.* TO &apos;oozie&apos;@&apos;%&apos; IDENTIFIED BY &apos;123456&apos;;</div></pre></td></tr></table></figure>
 <ol>
-<li>通过scm_prepare_database.sh 脚本来进一步设置Manager Database<br>sudo /opt/cloudera/cm/schema/scm_prepare_database.sh [options] <databasetype> <databasename> <databaseuser> <password></password></databaseuser></databasename></databasetype></li>
+<li>通过scm_prepare_database.sh 脚本来进一步设置Manager Database<br>sudo /opt/cloudera/cm/schema/scm_prepare_database.sh [options] <databasetype> <databasename> <databaseuser> <password><br>只需要执行一次<code>sudo /opt/cloudera/cm/schema/scm_prepare_database.sh mysql scm scm mypassword</code>就好了。</password></databaseuser></databasename></databasetype></li>
 </ol>
 <h3 id="在Web-UI上的安装"><a href="#在Web-UI上的安装" class="headerlink" title="在Web UI上的安装"></a>在Web UI上的安装</h3><ol>
 <li>首先记得在每台机器上配置好/etc/hosts</li>
@@ -457,6 +457,9 @@
 <h3 id="问题5"><a href="#问题5" class="headerlink" title="问题5"></a>问题5</h3><p>在hue上面可以正常地使用Hive。在device2下用hive cli没有问题。但在device1 下的bash执行hive command，里面输入show databases后报错：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SemanticException org.apache.hadoop.hive.ql.metadata.HiveException: java.lang.RuntimeException: Unable to instantiate org.apache.hadoop.hive.ql.metadata.SessionHiveMetaStoreClient</div></pre></td></tr></table></figure></p>
 <p> 解决方案：<br> 先用 hive -hiveconf hive.root.logger=DEBUG,console<br> 在调试，查看到更多有价值的报错信息。<br> 果然，查到如下信息：<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"> Caused by: java.io.IOException: Keystore was tampered with, or password was incorrect</div><div class="line">	at com.sun.crypto.provider.JceKeyStore.engineLoad(JceKeyStore.java:865) ~[sunjce_provider.jar:1.8.0_112]</div><div class="line">	at java.security.KeyStore.load(KeyStore.java:1445) ~[?:1.8.0_121]</div><div class="line">	at org.apache.hadoop.security.alias.AbstractJavaKeyStoreProvider.locateKeystore(AbstractJavaKeyStoreProvider.java:322) ~[hadoop-common-3.0.0-cdh6.2.0.jar:?]</div><div class="line">	at org.apache.hadoop.security.alias.AbstractJavaKeyStoreProvider.&lt;init&gt;(AbstractJavaKeyStoreProvider.java:86) ~[hadoop-common-3.0.0-cdh6.2.0.jar:?]</div><div class="line">	at org.apache.hadoop.security.alias.LocalJavaKeyStoreProvider.&lt;init&gt;(LocalJavaKeyStoreProvider.java:58) ~[hadoop-common-3.0.0-cdh6.2.0.jar:?]</div><div class="line"></div><div class="line">	at org.apache.hadoop.hive.ql.metadata.Hive.registerAllFunctionsOnce(Hive.java:237) ~[hive-exec-2.1.1-cdh6.2.0.jar:2.1.1-cdh6.2.0]</div><div class="line">	... 23 more</div><div class="line">Caused by: java.security.UnrecoverableKeyException: Password verification failed</div></pre></td></tr></table></figure></p>
 <p>按日志的报错信息来说是我的源数据库密码不对，于是我查看hive-site.xml配置文件，发现<br>/opt/cloudera/parcels/CDH-6.2.0-1.cdh6.2.0.p0.967373/lib/hive/conf/hive-site.xml<br>也就是/etc/hive/conf/hive-site.xml(我猜CDH会把上面目录的所有配置文件复制一遍到 /etc/hive/conf/下)<br>我之前把它改了，所以那配置有问题，我把它改为默认的配置重启后就恢复正常了！</p>
+<h3 id="问题6"><a href="#问题6" class="headerlink" title="问题6"></a>问题6</h3><p>启动 cloudera-scm-server 时候报错如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Table &apos;metastore.CM_VERSION&apos; doesn&apos;t exist</div></pre></td></tr></table></figure></p>
+<p> 解决方案：<br><code>sudo /opt/cloudera/cm/schema/scm_prepare_database.sh mysql scm scm mypassword</code><br>重新执行下这条命令。之前我把所有的服务都执行了一遍（amon, rman, … metastore, … etc)，是我误解了scm_prepare_database.sh的作用。<br>按官网所说的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Cloudera Manager Server includes a script that can create and configure a database for itself. The script can:</div><div class="line">Create the Cloudera Manager Server database configuration file.</div><div class="line">(MariaDB, MySQL, and PostgreSQL) Create and configure a database for Cloudera Manager Server to use.</div><div class="line">(MariaDB, MySQL, and PostgreSQL) Create and configure a user account for Cloudera Manager Server.</div></pre></td></tr></table></figure></p>
+<p>这个脚本只需要执行一次就好了，就是<code>sudo /opt/cloudera/cm/schema/scm_prepare_database.sh mysql scm scm mypassword</code><br>然后重启cloudera-scm-server解决问题。此外，通过<code>/etc/cloudera-scm-server/db.properties</code> 也可以确定目前scm用的是哪个数据库。</p>
 <h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://www.cloudera.com/documentation/enterprise/6/6.2/topics/introduction.html" target="_blank" rel="external">https://www.cloudera.com/documentation/enterprise/6/6.2/topics/introduction.html</a><br><a href="https://blog.csdn.net/qq_24409555/article/details/76139886" target="_blank" rel="external">https://blog.csdn.net/qq_24409555/article/details/76139886</a><br><a href="https://community.cloudera.com/t5/Batch-SQL-Apache-Hive/Hive-Errors-happend-when-execute-hive-service-metastore/m-p/93050#M3282" target="_blank" rel="external">https://community.cloudera.com/t5/Batch-SQL-Apache-Hive/Hive-Errors-happend-when-execute-hive-service-metastore/m-p/93050#M3282</a></p>
 
       
@@ -478,7 +481,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://mikolaje.github.io/2019/cdh_install.html" title="CDH 在ubuntu上的单机部署">http://mikolaje.github.io/2019/cdh_install.html</a>
+    <a href="http://mikolaje.github.io/2019/cdh_install.html" title="CDH 在ubuntu上的部署和安装，以及一些坑">http://mikolaje.github.io/2019/cdh_install.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -706,7 +709,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在服务器上的操作"><span class="nav-number">1.1.</span> <span class="nav-text">在服务器上的操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在Web-UI上的安装"><span class="nav-number">1.2.</span> <span class="nav-text">在Web UI上的安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动CDH"><span class="nav-number">1.3.</span> <span class="nav-text">启动CDH</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一些问题"><span class="nav-number">2.</span> <span class="nav-text">一些问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题1"><span class="nav-number">2.1.</span> <span class="nav-text">问题1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题2"><span class="nav-number">2.2.</span> <span class="nav-text">问题2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题3"><span class="nav-number">2.3.</span> <span class="nav-text">问题3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题4"><span class="nav-number">2.4.</span> <span class="nav-text">问题4</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题5"><span class="nav-number">2.5.</span> <span class="nav-text">问题5</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">3.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在服务器上的操作"><span class="nav-number">1.1.</span> <span class="nav-text">在服务器上的操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在Web-UI上的安装"><span class="nav-number">1.2.</span> <span class="nav-text">在Web UI上的安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动CDH"><span class="nav-number">1.3.</span> <span class="nav-text">启动CDH</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一些问题"><span class="nav-number">2.</span> <span class="nav-text">一些问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题1"><span class="nav-number">2.1.</span> <span class="nav-text">问题1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题2"><span class="nav-number">2.2.</span> <span class="nav-text">问题2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题3"><span class="nav-number">2.3.</span> <span class="nav-text">问题3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题4"><span class="nav-number">2.4.</span> <span class="nav-text">问题4</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题5"><span class="nav-number">2.5.</span> <span class="nav-text">问题5</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题6"><span class="nav-number">2.6.</span> <span class="nav-text">问题6</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">3.</span> <span class="nav-text">Reference</span></a></li></ol></div>
             
 
           </div>
@@ -871,7 +874,7 @@
         var disqus_config = function () {
           this.page.url = 'http://mikolaje.github.io/2019/cdh_install.html';
           this.page.identifier = '2019/cdh_install.html';
-          this.page.title = 'CDH 在ubuntu上的单机部署';
+          this.page.title = 'CDH 在ubuntu上的部署和安装，以及一些坑';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://mikolaje.disqus.com/embed.js';
