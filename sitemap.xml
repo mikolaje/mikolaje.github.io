@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://mikolaje.github.io/about/index.html</loc>
+    
+    <lastmod>2019-10-06T03:43:22.194Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://mikolaje.github.io/2019/sqlalchemy_with_multiprocess.html</loc>
     
     <lastmod>2019-10-02T02:26:43.226Z</lastmod>
@@ -19,13 +26,6 @@
     <loc>http://mikolaje.github.io/2019/celery_lock_task.html</loc>
     
     <lastmod>2019-10-02T02:26:43.214Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://mikolaje.github.io/about/index.html</loc>
-    
-    <lastmod>2019-09-07T08:31:29.774Z</lastmod>
     
   </url>
   
