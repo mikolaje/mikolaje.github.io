@@ -94,7 +94,7 @@
 在一个terminal window内开启多个windows，panes。">
 <meta property="og:image" content="http://mikolaje.github.io/images/2019/tmux_guide/1dec3830.png">
 <meta property="og:image" content="http://mikolaje.github.io/images/2019/tmux_guide/5a861515.png">
-<meta property="og:updated_time" content="2019-10-02T02:26:43.226Z">
+<meta property="og:updated_time" content="2019-10-14T13:08:30.460Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Tmux简明教程">
 <meta name="twitter:description" content="前言你经常可能会遇到这样的情况：你在vim编辑你在远程服务器上面的代码，然后你要新开一个窗口再次ssh到这个远程服务器来测试运行你的代码。此外，如果你的WIFI断线了，你的所有session都会挂掉，GG。然后你又要麻烦地重新开两个session。
@@ -323,7 +323,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-02T20:07:10+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-02T12:07:10+08:00">
                 2019-09-02
               </time>
             
@@ -414,7 +414,7 @@
 <h3 id="下一步"><a href="#下一步" class="headerlink" title="下一步"></a>下一步</h3><p>上面的命令对掌握tmux真的非常有用。通常，我尽量少开窗口，一般是一个window用于vim，另一个window做开发，第3个窗口去运行命令。<br>大多数人倾向于用panes来在同一个屏幕上展现多个内容。</p>
 <p>Panes是个特别炫酷的东西而且很值得学习，但是推荐你们先放一放，不要急着学习太多panes的东西，因为它会增加你的tmux学习曲线。<br>当你用panes时候，你要记住水平和垂直创建panes的命令，还有切换不同panes的命令，还有改变panes大小，关闭panes的命令，等等等等。<br>所以我建议先把其它的玩熟练再去用panes这些花哨的东西。</p>
 <p>你也可以通过在home目录下添加<code>.tmux.conf</code>文件来指定tmux的一些配置。<br>比如通常可以在里面改变 prefix的快捷键（很多人会使用ctrl+a 作为prefix）。<br>初始window数设置为1，而不是0;然后还可以设置下颜色。<br>如果你打算重新绑定prefix，很有可能这将会为你以后形成肌肉记忆了，哈哈。</p>
-<p>下面是一个精简版的.tmux.conf, 只改变了window数和 prefix:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"># remap prefix from &apos;C-b&apos; to &apos;C-a&apos;</div><div class="line">unbind C-b</div><div class="line">set-option -g prefix C-a</div><div class="line">bind-key C-a send-prefix</div><div class="line"># Start window numbering at 1</div><div class="line">set -g base-index 1</div></pre></td></tr></table></figure></p>
+<p>下面是一个精简版的.tmux.conf, 只改变了window数和 prefix:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"># remap prefix from &apos;C-b&apos; to &apos;C-a&apos;</div><div class="line">unbind C-b</div><div class="line">set-option -g prefix C-a</div><div class="line">bind-key C-a send-prefix</div><div class="line"># Start window numbering at 1</div><div class="line">set -g base-index 1</div><div class="line"></div><div class="line"># 建议加上这个，用鼠标会有很大惊喜，呵呵。在多个panes的时候切换用鼠标点一下就好了！</div><div class="line"># 同时也解决了scroll的问题，可以轻松地用鼠标在不同的panes内滚动！</div><div class="line">set -g mouse on</div></pre></td></tr></table></figure></p>
 <p>tmux有非常多的可选配置，但是你得由浅到深，刚开始尽可能精简。当你想尝试一些更高级的功能时，不要在网上复制粘贴。<br>你必须清楚<code>.tmux.conf</code>的每一个配置的作用是什么。</p>
 <p>一旦你感觉你掌握了基础，将会有很多好玩的高级tmux游戏等着你。</p>
 
