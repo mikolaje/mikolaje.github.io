@@ -69,7 +69,7 @@
 
 
 
-  <meta name="keywords" content="spark," />
+  <meta name="keywords" content="hive," />
 
 
 
@@ -80,24 +80,18 @@
 
 
 
-<meta name="description" content="说说Spark 的宽依赖和窄依赖前言　　众所周知，在Spark中可以对RDD进行多种转换，父RDD转换之后会得到子RDD，于是便可以说子RDD的诞生需要依赖父RDD。在Spark中一共有两种依赖方式，分别是宽依赖和窄依赖。
-rdd 的 toDebugString 可以查看RDD的谱系">
+<meta name="description" content="正文Step1首先，我们创建一个目录 udf_test/;创建子目录org/dennis/udf在子目录里创建一个MyUpper.java文件。里面内容为：123456789101112package org.dennis.udf;import org.apache.hadoop.hive.ql.exec.UDF;import org.apache.hadoop.io.Text;public fi">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spark 的宽依赖和窄依赖">
-<meta property="og:url" content="http://mikolaje.github.io/2016/spark_dependency.html">
+<meta property="og:title" content="Hive UDF 快速教程">
+<meta property="og:url" content="http://mikolaje.github.io/2018/hive_udf.html">
 <meta property="og:site_name" content="Welcome to Dennis Blog">
-<meta property="og:description" content="说说Spark 的宽依赖和窄依赖前言　　众所周知，在Spark中可以对RDD进行多种转换，父RDD转换之后会得到子RDD，于是便可以说子RDD的诞生需要依赖父RDD。在Spark中一共有两种依赖方式，分别是宽依赖和窄依赖。
-rdd 的 toDebugString 可以查看RDD的谱系">
-<meta property="og:image" content="http://mikolaje.github.io/images/2016/spark_dependency/spark-dependency.jpg">
-<meta property="og:image" content="http://mikolaje.github.io/images/2016/spark_dependency/spark_internals_dependency.png">
-<meta property="og:image" content="http://mikolaje.github.io/images/2016/spark_dependency/coalesce.png">
-<meta property="og:image" content="http://mikolaje.github.io/images/2016/spark_dependency/cartesian.png">
-<meta property="og:updated_time" content="2019-08-30T03:06:47.422Z">
+<meta property="og:description" content="正文Step1首先，我们创建一个目录 udf_test/;创建子目录org/dennis/udf在子目录里创建一个MyUpper.java文件。里面内容为：123456789101112package org.dennis.udf;import org.apache.hadoop.hive.ql.exec.UDF;import org.apache.hadoop.io.Text;public fi">
+<meta property="og:image" content="http://mikolaje.github.io/images/2018/hive_udf/hue_udf_upload.jpg">
+<meta property="og:updated_time" content="2019-11-14T04:03:25.177Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Spark 的宽依赖和窄依赖">
-<meta name="twitter:description" content="说说Spark 的宽依赖和窄依赖前言　　众所周知，在Spark中可以对RDD进行多种转换，父RDD转换之后会得到子RDD，于是便可以说子RDD的诞生需要依赖父RDD。在Spark中一共有两种依赖方式，分别是宽依赖和窄依赖。
-rdd 的 toDebugString 可以查看RDD的谱系">
-<meta name="twitter:image" content="http://mikolaje.github.io/images/2016/spark_dependency/spark-dependency.jpg">
+<meta name="twitter:title" content="Hive UDF 快速教程">
+<meta name="twitter:description" content="正文Step1首先，我们创建一个目录 udf_test/;创建子目录org/dennis/udf在子目录里创建一个MyUpper.java文件。里面内容为：123456789101112package org.dennis.udf;import org.apache.hadoop.hive.ql.exec.UDF;import org.apache.hadoop.io.Text;public fi">
+<meta name="twitter:image" content="http://mikolaje.github.io/images/2018/hive_udf/hue_udf_upload.jpg">
 
 
 
@@ -127,13 +121,13 @@ rdd 的 toDebugString 可以查看RDD的谱系">
 
 
 
-  <link rel="canonical" href="http://mikolaje.github.io/2016/spark_dependency.html"/>
+  <link rel="canonical" href="http://mikolaje.github.io/2018/hive_udf.html"/>
 
 
 
 
 
-  <title>Spark 的宽依赖和窄依赖 | Welcome to Dennis Blog</title>
+  <title>Hive UDF 快速教程 | Welcome to Dennis Blog</title>
   
 
 
@@ -290,7 +284,7 @@ rdd 的 toDebugString 可以查看RDD的谱系">
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2016/spark_dependency.html">
+    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2018/hive_udf.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Dennis">
@@ -307,7 +301,7 @@ rdd 的 toDebugString 可以查看RDD的谱系">
 
         
         
-          <h2 class="post-title" itemprop="name headline">Spark 的宽依赖和窄依赖</h2>
+          <h2 class="post-title" itemprop="name headline">Hive UDF 快速教程</h2>
         
 
         <div class="post-meta">
@@ -319,8 +313,8 @@ rdd 的 toDebugString 可以查看RDD的谱系">
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-25T19:00:10+08:00">
-                2016-12-25
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-02T12:07:10+08:00">
+                2018-08-02
               </time>
             
 
@@ -338,9 +332,9 @@ rdd 的 toDebugString 可以查看RDD的谱系">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2016/spark_dependency.html#comments" itemprop="discussionUrl">
+                <a href="/2018/hive_udf.html#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2016/spark_dependency.html" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/hive_udf.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -368,38 +362,17 @@ rdd 的 toDebugString 可以查看RDD的谱系">
       
 
       
-        <h1 id="说说Spark-的宽依赖和窄依赖"><a href="#说说Spark-的宽依赖和窄依赖" class="headerlink" title="说说Spark 的宽依赖和窄依赖"></a>说说Spark 的宽依赖和窄依赖</h1><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>　　众所周知，在Spark中可以对RDD进行多种转换，父RDD转换之后会得到子RDD，于是便可以说子RDD的诞生需要依赖父RDD。在Spark中一共有两种依赖方式，分别是宽依赖和窄依赖。</p>
-<p>rdd 的 toDebugString 可以查看RDD的谱系</p>
-<a id="more"></a>
-<h3 id="窄依赖"><a href="#窄依赖" class="headerlink" title="窄依赖"></a>窄依赖</h3><p>如果父RDD的每个分区至多只对应一个子RDD的分区，则这种依赖关系称为窄依赖。</p>
-<p>常见的窄依赖算子有：map、filter、union。</p>
-<p>对窄依赖RDD进行Lineage恢复时，如果子RDD某个分区坏了，通过父RDD指定分区重算时，将不会重算其他正常的分区，避免了冗余计算，提高了性能。</p>
-<h3 id="宽依赖"><a href="#宽依赖" class="headerlink" title="宽依赖"></a>宽依赖</h3><p>如果父RDD中至少有一个分区对应子RDD的多个分区(至少两个分区)，则这种依赖关系称为宽依赖。</p>
-<p>常见的宽依赖算子有：groupByKey、sortByKey。</p>
-<p>对宽依赖RDD进行Lineage恢复时，如果子RDD某个分区坏了，通过父RDD指定分区重算时，有可能会重算一些其他正常的分区，会有冗余计算，性能开销也会比窄依赖大很多。</p>
-<p>宽依赖通常是Spark拆分Stage的边界，在同一个Stage内均为窄依赖。</p>
-<p><img src="/images/2016/spark_dependency/spark-dependency.jpg" alt="Sample Image Added via Markdown"></p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>我们可以不用去背宽窄依赖的概念和对应关系之类的。我们应该知道为什么要区分宽窄依赖，它的目的是什么。其实目的就是提醒我们尽量地使用窄依赖，因为这样会减少风险，<br>当子RDD的某个partition损坏的时候是否要重新计算很多父RDD的多个partition呢。这个才是宽窄依赖的重点。<br>另一个划分看宽窄依赖的目的是：划分stage。至于划分stage的目的，就是要等待其它节点的所有partition全部计算完成才能作下一个阶段的计算。</p>
-<p>在网上查了很多资料貌似有很多不同的定义。在看了很多解释后了解到，依赖的问题在论文里和在Spark的实现中的定义是不一样的。</p>
-<ul>
-<li><p>在论文中，是叫narrow dependency和wide dependency。<br>如果父RDD的每个partition只被子RDD的一个partition所依赖，就叫Narrow dependency，否则叫Wide dependency。</p>
-</li>
-<li><p>在Spark中，是叫narrow dependency（也叫完全依赖）和shuffle dependency（也叫部分依赖）。<br>如果父RDD的每个partition（并且是partition里的部分数据）都被子RDD的每个partition所依赖才叫ShuffleDependency，其余情况都是NarrowDependency。</p>
-</li>
-</ul>
-<h3 id="SparkInternals-dependency图解"><a href="#SparkInternals-dependency图解" class="headerlink" title="SparkInternals dependency图解"></a>SparkInternals dependency图解</h3><p><img src="/images/2016/spark_dependency/spark_internals_dependency.png" alt="Sample Image Added via Markdown"></p>
-<p>前三个是完全依赖，RDD x 中的 partition 与 parent RDD 中的 partition/partitions 完全相关。最后一个是部分依赖，RDD x 中的 partition 只与 parent RDD 中的 partition 一部分数据相关，另一部分数据与 RDD x 中的其他 partition 相关。</p>
-<p>在 Spark 中，完全依赖被称为 NarrowDependency，部分依赖被称为 ShuffleDependency。其实 ShuffleDependency 跟 MapReduce 中 shuffle 的数据依赖相同（mapper 将其 output 进行 partition，然后每个 reducer 会将所有 mapper 输出中属于自己的 partition 通过 HTTP fetch 得到）。</p>
-<ul>
-<li>第一种 1:1 的情况被称为 OneToOneDependency。</li>
-<li>第二种 N:1 的情况被称为 N:1 NarrowDependency。</li>
-<li>第三种 N:N 的情况被称为 N:N NarrowDependency。不属于前两种情况的完全依赖都属于这个类别。</li>
-<li>第四种被称为 ShuffleDependency。</li>
-</ul>
-<p>N:N NarrowDependency 的几个很经典的情况是：coalesce 和 cartesian<br><img src="/images/2016/spark_dependency/coalesce.png" alt="Sample Image Added via Markdown"></p>
-<p><img src="/images/2016/spark_dependency/cartesian.png" alt="Sample Image Added via Markdown"></p>
-<p>以上两种情况它们仍然可以在一个stage里的pipeline以一个task计算。不用等所有的task计算完再计算。因为它不是shuffle操作。</p>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://github.com/JerryLead/SparkInternals/blob/master/markdown/2-JobLogicalPlan.md" target="_blank" rel="external">https://github.com/JerryLead/SparkInternals/blob/master/markdown/2-JobLogicalPlan.md</a><br><a href="https://www.zhihu.com/question/37137360/answer/715150822" target="_blank" rel="external">https://www.zhihu.com/question/37137360/answer/715150822</a></p>
+        <h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><h3 id="Step1"><a href="#Step1" class="headerlink" title="Step1"></a>Step1</h3><p>首先，我们创建一个目录 udf_test/;<br>创建子目录org/dennis/udf<br>在子目录里创建一个MyUpper.java文件。里面内容为：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> org.dennis.udf;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.apache.hadoop.hive.ql.exec.UDF;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.io.Text;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">MyUpper</span> <span class="keyword">extends</span> <span class="title">UDF</span> </span>&#123;</div><div class="line">  <span class="function"><span class="keyword">public</span> Text <span class="title">evaluate</span><span class="params">(<span class="keyword">final</span> Text s)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (s == <span class="keyword">null</span>) &#123; <span class="keyword">return</span> <span class="keyword">null</span>; &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Text(s.toString().toUpperCase());</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="Step2"><a href="#Step2" class="headerlink" title="Step2"></a>Step2</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">javac -cp  /opt/cloudera/parcels/CDH-6.2.0-1.cdh6.2.0.p0.967373/hive-exec-2.1.1-cdh6.2.0.jar): \</div><div class="line">/opt/cloudera/parcels/CDH-6.2.0-1.cdh6.2.0.p0.967373/jars/hadoop-common.jar \</div><div class="line">org/dennis/udf/MyUpper.java</div></pre></td></tr></table></figure>
+<p>这里我们要把依赖的jar包写进来，这里我们依赖hive-exec*.jar 以及 hadoop-common.jar</p>
+<p>javac -cp 的作用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">javac -cp 指明了.java文件里import的类的位置</div><div class="line"></div><div class="line">java -cp 指明了执行这个class文件所需要的所有类的包路径-即系统类加载器的路径（涉及到类加载机制）</div><div class="line"></div><div class="line">路径在linux中用：隔开  在windows中用；隔开</div></pre></td></tr></table></figure></p>
+<h3 id="Step3"><a href="#Step3" class="headerlink" title="Step3"></a>Step3</h3><p>生成一个jar文件。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">jar -cf myudfs.jar  -C . .</div><div class="line">会在当前目录下生成myudfs.jar 文件</div></pre></td></tr></table></figure></p>
+<h3 id="Step4"><a href="#Step4" class="headerlink" title="Step4"></a>Step4</h3><p>进入Hive命令行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">hive&gt; add jar myudfs.jar;</div><div class="line">Added [myudfs.jar] to class path</div><div class="line">Added resources: [myudfs.jar]</div><div class="line">hive&gt; create temporary function dennisUpper as &apos;org.dennis.udf.MyUpper&apos;;</div><div class="line">OK</div><div class="line">Time taken: 0.067 seconds</div><div class="line">hive&gt;</div></pre></td></tr></table></figure></p>
+<p>搞定！</p>
+<p>另外，也可以在Hue上点击 setting后，上传对应的jar文件，然后将对应的function name 和 class name也填一下就OK了。<br><img src="/images/2018/hive_udf/hue_udf_upload.jpg" alt="Sample Image Added via Markdown"></p>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><p>有时候我们add jar后，create function时候会出现如下报错：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Added resources: [myudfs.jar]</div><div class="line">hive&gt; create temporary function dennisUpper as &apos;org.dennis.udf.MyUpper&apos;;</div><div class="line">FAILED: Class org.dennis.udf.MyUpper not found</div><div class="line">FAILED: Execution Error, return code 1 from org.apache.hadoop.hive.ql.exec.FunctionTask</div></pre></td></tr></table></figure></p>
+<p>我们可以解压一下jar包检查下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">unzip myudf.jar -d check_jar</div><div class="line">解压到 check_jar目录</div></pre></td></tr></table></figure></p>
+<p>如果有的话，check_dir下应该是有这么一个目录文件:<br><code>org/dennis/udf/MyUpper.class</code></p>
 
       
     </div>
@@ -420,7 +393,7 @@ rdd 的 toDebugString 可以查看RDD的谱系">
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://mikolaje.github.io/2016/spark_dependency.html" title="Spark 的宽依赖和窄依赖">http://mikolaje.github.io/2016/spark_dependency.html</a>
+    <a href="http://mikolaje.github.io/2018/hive_udf.html" title="Hive UDF 快速教程">http://mikolaje.github.io/2018/hive_udf.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -435,7 +408,7 @@ rdd 的 toDebugString 可以查看RDD的谱系">
       
         <div class="post-tags">
           
-            <a href="/tags/spark/" rel="tag"># spark</a>
+            <a href="/tags/hive/" rel="tag"># hive</a>
           
         </div>
       
@@ -448,8 +421,8 @@ rdd 的 toDebugString 可以查看RDD的谱系">
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/spark_bias.html" rel="next" title="Spark 数据倾斜调优">
-                <i class="fa fa-chevron-left"></i> Spark 数据倾斜调优
+              <a href="/2018/hive_optimization.html" rel="next" title="Hive 优化">
+                <i class="fa fa-chevron-left"></i> Hive 优化
               </a>
             
           </div>
@@ -458,8 +431,8 @@ rdd 的 toDebugString 可以查看RDD的谱系">
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/spark_repartition_coalesce.html" rel="prev" title="Spark repartition和coalesce的区别">
-                Spark repartition和coalesce的区别 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/ubuntu_shared_object.html" rel="prev" title="Ubuntu的.so文件问题">
+                Ubuntu的.so文件问题 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -638,7 +611,7 @@ rdd 的 toDebugString 可以查看RDD的谱系">
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#说说Spark-的宽依赖和窄依赖"><span class="nav-number">1.</span> <span class="nav-text">说说Spark 的宽依赖和窄依赖</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.0.1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#窄依赖"><span class="nav-number">1.0.2.</span> <span class="nav-text">窄依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#宽依赖"><span class="nav-number">1.0.3.</span> <span class="nav-text">宽依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">1.0.4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SparkInternals-dependency图解"><span class="nav-number">1.0.5.</span> <span class="nav-text">SparkInternals dependency图解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">1.1.</span> <span class="nav-text">Reference</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#正文"><span class="nav-number">1.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Step1"><span class="nav-number">1.1.</span> <span class="nav-text">Step1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step2"><span class="nav-number">1.2.</span> <span class="nav-text">Step2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step3"><span class="nav-number">1.3.</span> <span class="nav-text">Step3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step4"><span class="nav-number">1.4.</span> <span class="nav-text">Step4</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常见问题"><span class="nav-number">2.</span> <span class="nav-text">常见问题</span></a></li></ol></div>
             
 
           </div>
@@ -801,9 +774,9 @@ rdd 的 toDebugString 可以查看RDD的谱系">
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://mikolaje.github.io/2016/spark_dependency.html';
-          this.page.identifier = '2016/spark_dependency.html';
-          this.page.title = 'Spark 的宽依赖和窄依赖';
+          this.page.url = 'http://mikolaje.github.io/2018/hive_udf.html';
+          this.page.identifier = '2018/hive_udf.html';
+          this.page.title = 'Hive UDF 快速教程';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://mikolaje.disqus.com/embed.js';
