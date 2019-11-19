@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/cat_favicon_32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/cat_favicon_16.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="ngrok,运维," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言自己使用Google Cloud，阿里云，AWS有好几年了，在云服务器上花了不少钱，有段时间做爬虫，需要较大的磁盘空间（几百G），每个月大概要5，600元。一年下来就6，7钱了。想想，还是直接买一台主机或服务器在家里放着好了，也就几千块钱。于是我买了台主机在家里放着，配置远远比原来ECS的配置要高，而且还更便宜。把数据全部迁移到了自己的主机，但很多时候自己都不在家，不可能把笨重的主机带出去外面">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ngrok服务器部署">
+<meta property="og:url" content="http://mikolaje.github.io/2019/01/02/2019/ngrok_deployment/index.html">
+<meta property="og:site_name" content="Welcome to Dennis Blog">
+<meta property="og:description" content="前言自己使用Google Cloud，阿里云，AWS有好几年了，在云服务器上花了不少钱，有段时间做爬虫，需要较大的磁盘空间（几百G），每个月大概要5，600元。一年下来就6，7钱了。想想，还是直接买一台主机或服务器在家里放着好了，也就几千块钱。于是我买了台主机在家里放着，配置远远比原来ECS的配置要高，而且还更便宜。把数据全部迁移到了自己的主机，但很多时候自己都不在家，不可能把笨重的主机带出去外面">
+<meta property="og:image" content="http://mikolaje.github.io/images/2019/ngrok_deployment/647f55bb.png">
+<meta property="og:updated_time" content="2019-11-18T10:31:19.757Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ngrok服务器部署">
+<meta name="twitter:description" content="前言自己使用Google Cloud，阿里云，AWS有好几年了，在云服务器上花了不少钱，有段时间做爬虫，需要较大的磁盘空间（几百G），每个月大概要5，600元。一年下来就6，7钱了。想想，还是直接买一台主机或服务器在家里放着好了，也就几千块钱。于是我买了台主机在家里放着，配置远远比原来ECS的配置要高，而且还更便宜。把数据全部迁移到了自己的主机，但很多时候自己都不在家，不可能把笨重的主机带出去外面">
+<meta name="twitter:image" content="http://mikolaje.github.io/images/2019/ngrok_deployment/647f55bb.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://mikolaje.github.io/2019/01/02/2019/ngrok_deployment/"/>
+
+
+
+
+
+  <title>Ngrok服务器部署 | Welcome to Dennis Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Welcome to Dennis Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2019/01/02/2019/ngrok_deployment/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dennis">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Welcome to Dennis Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Ngrok服务器部署</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-02T12:07:10+08:00">
+                2019-01-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/运维/" itemprop="url" rel="index">
+                    <span itemprop="name">运维</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/01/02/2019/ngrok_deployment/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/01/02/2019/ngrok_deployment/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>自己使用Google Cloud，阿里云，AWS有好几年了，在云服务器上花了不少钱，有段时间做爬虫，需要较大的磁盘空间（几百G），每个月大概要5，600元。<br>一年下来就6，7钱了。想想，还是直接买一台主机或服务器在家里放着好了，也就几千块钱。于是我买了台主机在家里放着，配置远远比原来ECS的配置要高，<br>而且还更便宜。把数据全部迁移到了自己的主机，但很多时候自己都不在家，不可能把笨重的主机带出去外面。于是得想办法在其它地方通过网络连接到主机。<br>刚开选择用Teamviewer，可以远程连接到主机的桌面，我的主机的操作系统是Ubuntu的，感觉还行。但是，慢慢感觉效率不是很高，因为是用桌面远程，</p>
+<p>所以网速要求，还是有点高，更大的问题是Teamviewer是收费的，而且价格不菲，这样成本算下来一年下来也要花费挺多钱。<br>于是，我想到了以前的花生壳 内网穿透映射，但那个也是收费的。终于找到了一个令我满意的解决方案—-Ngrok！</p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>Ngrok到底好在哪里呢？ 首先，也是最重要的是它的成本底。<br>主机买服务的话也就10多块钱一个月，网上一搜就很多Ngrok的提供商；自己搭建的话，也就买一台虚拟机的价格，我买的是某云的ECS。大概也就几十来块钱。</p>
+<p>其次，Ngrok可以把你家里的电脑当成服务器来使用，远程登陆SSH；或者作为数据库，暴露对应的端口提供服务；或者直接作为Web服务，直接提供http访问。<br>这使得不用买昂贵的云服务，省了不少钱。不够配置的话可以自己买内存，SSD增加机器配置。</p>
+<h3 id="准备工作："><a href="#准备工作：" class="headerlink" title="准备工作："></a>准备工作：</h3><h4 id="需要购买的服务"><a href="#需要购买的服务" class="headerlink" title="需要购买的服务"></a>需要购买的服务</h4><ol>
+<li>有一个外网的虚拟机，我用的是国内的阿里云的，操作系统是Ubuntu。</li>
+<li>有个自己注册的域名。<br>需要添加2条域名解析：<br><img src="/images/2019/ngrok_deployment/647f55bb.png" alt=""></li>
+</ol>
+<h4 id="部署工作："><a href="#部署工作：" class="headerlink" title="部署工作："></a>部署工作：</h4><ol>
+<li><p>apt-get install golang<br>因为ngrok是用Go 来写的，所以要安装一下Go环境</p>
+</li>
+<li><p>git clone <a href="https://github.com/inconshreveable/ngrok.git" target="_blank" rel="external">https://github.com/inconshreveable/ngrok.git</a><br>然后把ngrok的源码clone下来。</p>
+</li>
+</ol>
+<h4 id="证书安装："><a href="#证书安装：" class="headerlink" title="证书安装："></a>证书安装：</h4><blockquote>
+<p>使用ngrok.com官方服务时，我们使用的是官方的SSL证书。自己建立ngrok服务，需要我们生成自己的证书，并提供携带该证书的ngrok客户端。首先指定域名：</p>
+</blockquote>
+<p>进入ngrok目录后，运行下面的指令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">export</span> NGROK_DOMAIN=<span class="string">"ngrok.xfl.host"</span>  </div><div class="line">//这里换成你的自己注册的域名，比如你注册的域名为abc.com。这里可以填 ngrok.abc.com</div><div class="line"></div><div class="line">openssl genrsa -out rootCA.key 2048</div><div class="line">openssl req -x509 -new -nodes -key rootCA.key -subj <span class="string">"/CN=<span class="variable">$NGROK_DOMAIN</span>"</span> -days 5000 -out rootCA.pem</div><div class="line">openssl genrsa -out device.key 2048</div><div class="line">openssl req -new -key device.key -subj <span class="string">"/CN=<span class="variable">$NGROK_DOMAIN</span>"</span> -out device.csr</div><div class="line">openssl x509 -req -in device.csr -CA rootCA.pem -CAkey rootCA.key -CAcreateserial -out device.crt -days 5000</div></pre></td></tr></table></figure></p>
+<p>我们在编译可执行文件之前，需要把生成的证书分别替换到 assets/client/tls和assets/server/tls中，这两个目录分别存放着ngrok和ngrokd的默认证书。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cp rootCA.pem assets/client/tls/ngrokroot.crt</div><div class="line">cp device.crt assets/server/tls/snakeoil.crt</div><div class="line">cp device.key assets/server/tls/snakeoil.key</div></pre></td></tr></table></figure>
+<h3 id="ngrok部署安装"><a href="#ngrok部署安装" class="headerlink" title="ngrok部署安装"></a>ngrok部署安装</h3><h4 id="编译ngrokd-和-ngrok"><a href="#编译ngrokd-和-ngrok" class="headerlink" title="编译ngrokd 和 ngrok"></a>编译ngrokd 和 ngrok</h4><p>首先需要知道，ngrokd 为服务端的执行文件，ngrok为客户端的执行文件。</p>
+<p>有没有release的区别是，包含release的编译结果会把assets目录下的内容包括进去，从而可以独立执行。<br>如果你今后还要更换证书，建议编译不包含release的版本。。首先编译ngrok服务端（ngrokd），默认为Linux版本：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">make clean</div><div class="line">make release-server</div></pre></td></tr></table></figure></p>
+<p>编译ngrokd后，我们来编译ngrok(客户端)<br>在编译客户端的时候需要指明对应的操作系统和构架：</p>
+<p>Linux 平台 32 位系统：GOOS=linux GOARCH=386<br>Linux 平台 64 位系统：GOOS=linux GOARCH=amd64<br>Windows 平台 32 位系统：GOOS=windows GOARCH=386<br>Windows 平台 64 位系统：GOOS=windows GOARCH=amd64<br>MAC 平台 32 位系统：GOOS=darwin GOARCH=386<br>MAC 平台 64 位系统：GOOS=darwin GOARCH=amd64<br>ARM 平台：GOOS=linux GOARCH=arm</p>
+<p>我的Ubuntu属于linux 64，所以我执行如下指令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">GOOS=linux GOARCH=amd64 make release-client</div></pre></td></tr></table></figure></p>
+<h4 id="启动ngrokd"><a href="#启动ngrokd" class="headerlink" title="启动ngrokd"></a>启动ngrokd</h4><p>编译后生成两个文件分别为服务端（ngrokd）和客户端(ngrok)。切换到对应的文件夹，运行服务端：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">./ngrokd -domain=<span class="string">"<span class="variable">$NGROK_DOMAIN</span>"</span> -httpAddr=<span class="string">":801"</span> -httpsAddr=<span class="string">":802"</span></div><div class="line">//801 是访问的http端口，比如，在本例子中，访问http://ngrok.xfl.host:801 就可以看到映射出的网页</div></pre></td></tr></table></figure>
+<p>参数-domain表示服务器域名，请改成你自己的域名；-httpAddr表示默认监听的HTTP端口，-httpsAddr表示默认监听的HTTPS端口，<br>因为我用不到所以都设置成空字符串”“来关闭监听，如果需要打开的话记得格式是:12345（冒号+端口号）这样的；-tunnelAddr表示服务器监听客户端连接的隧道端口号，格式和前面一样；<br>-log表示日志文件位置；还有个-log-level用来控制日志记录的事件级别，选项有DEBUG、INFO、WARNING、ERROR。</p>
+<p>如果编译的是不带release的版本，还可以通过-tlsCrt和-tlsKey选项来指定证书文件的位置。</p>
+<p>出现类似以下内容，则说明我们的服务器端ngrokd正常运行了:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">[16:41:56 CST 2017/04/20] [INFO] (ngrok/log.(*PrefixLogger).Info:83) [registry] [tun] No affinity cache specified</div><div class="line">[16:41:56 CST 2017/04/20] [INFO] (ngrok/log.(*PrefixLogger).Info:83) [metrics] Reporting every 30 seconds</div><div class="line">[16:41:57 CST 2017/04/20] [INFO] (ngrok/log.Info:112) Listening for public http connections on [::]:80</div><div class="line">[16:41:57 CST 2017/04/20] [INFO] (ngrok/log.Info:112) Listening for public https connections on [::]:443</div><div class="line">[16:41:57 CST 2017/04/20] [INFO] (ngrok/log.Info:112) Listening for control and proxy connections on [::]:4443</div><div class="line">[16:41:57 CST 2017/04/20] [INFO] (ngrok/log.(*PrefixLogger).Info:83) [tun:627acc92] New connection from 42.53.196.242:9386</div><div class="line">[16:41:57 CST 2017/04/20] [DEBG] (ngrok/log.(*PrefixLogger).Debug:79) [tun:627acc92] Waiting to read message</div><div class="line">[16:41:57 CST 2017/04/20] [DEBG] (ngrok/log.(*PrefixLogger).Debug:79) [tun:627acc92] Reading message with length: 159</div></pre></td></tr></table></figure>
+<h4 id="配置ngrok客户端"><a href="#配置ngrok客户端" class="headerlink" title="配置ngrok客户端"></a>配置ngrok客户端</h4><p>将之前编译好的客户端文件(ngrok 文件)拷贝到需要使用服务的设备（自己买的那台笨重的主机）上。</p>
+<h4 id="启动ngrok客户端"><a href="#启动ngrok客户端" class="headerlink" title="启动ngrok客户端"></a>启动ngrok客户端</h4><p>在ngrok同路径下建立配置文件ngrok.yml<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="attr">server_addr:</span> <span class="string">"ngrok.xfl.host:4443"</span></div><div class="line"><span class="attr">trust_host_root_certs:</span> <span class="literal">false</span></div><div class="line"><span class="attr">tunnels:</span></div><div class="line"><span class="attr">  ssh:</span></div><div class="line"><span class="attr">    remote_port:</span> <span class="number">6666</span></div><div class="line"><span class="attr">    proto:</span></div><div class="line"><span class="attr">      tcp:</span> <span class="number">22</span></div></pre></td></tr></table></figure></p>
+<p>server_addr端口默认4443，可通过ngrokd服务端启动修改端口。在tunnels里配置隧道信息，<br>注意http和https隧道可设置subdomain和auth，而tcp里只能设置remote_port。</p>
+<p>使用如下命令启动ngrok客户端：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ngrok -log=stdout -config=./ngrok.yml start ssh</div></pre></td></tr></table></figure></p>
+<p>正常启动，你将会看到如下日志：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">ngrok                                                                                                                                                                                     (Ctrl+C to quit)</div><div class="line">                                                                                                                                                                                                          </div><div class="line">Tunnel Status                 online                                                                                                                                                                      </div><div class="line">Version                       1.7/1.7                                                                                                                                                                     </div><div class="line">Forwarding                    http://demo.ngrok.xfl.host -&gt; 127.0.0.1:19999                                                                                                                               </div><div class="line">Forwarding                    https://demo.ngrok.xfl.host -&gt; 127.0.0.1:19999                                                                                                                              </div><div class="line">Web Interface                 127.0.0.1:4040                                                                                                                                                              </div><div class="line"># Conn                        0                                                                                                                                                                           </div><div class="line">Avg Conn Time                 0.00ms</div></pre></td></tr></table></figure></p>
+<p>Notice:如果显示reconnecting说明连接有错，在运行时加入-log=stdout来进行debug。</p>
+<ol>
+<li>有可能是因为你的Ngrok服务器没有开 4443端口</li>
+<li>有可能是域名没有解析成功</li>
+</ol>
+<h4 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h4><p>ngrok 的配置文件是完全可选的非常简单 YAML 格式文件，他可以允许你使用 ngrok 一些更高级的功能，例如：</p>
+<p>同时运行多个隧道</p>
+<ul>
+<li>连接到自定义的 ngrok 服务器</li>
+<li>调整 ngrok 一些很神秘的功能</li>
+<li><p>ngrok 的配置文件默认从 ~/.ngrok 加载。你可以通过 -config 参数重写配置文件的地址</p>
+</li>
+<li><p>同时运行多个隧道<br>为了运行多个隧道，你需要在配置文件当中使用 tunnels 参数配置每个隧道。隧道的参数以字典的形式配置在配置文件当中。<br>举个例子，让我们来定义三个不同的隧道。第一个隧道是一个有认证的只转发 https 的隧道。第二个隧道转发我们自己机器的 22 端口以便让我可以通过隧道连接到自己的电脑。<br>最后，我们使用自己的域名创造了一个隧道，我们将要在黑客马拉松中展示这个。</p>
+</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="attr">tunnels:</span></div><div class="line"><span class="attr">  client:</span></div><div class="line"><span class="attr">    auth:</span> <span class="string">"user:password"</span></div><div class="line"><span class="attr">    proto:</span></div><div class="line"><span class="attr">      https:</span> <span class="number">8080</span></div><div class="line"><span class="attr">  ssh:</span></div><div class="line"><span class="attr">    proto:</span></div><div class="line"><span class="attr">      tcp:</span> <span class="number">22</span></div><div class="line">  hacks.inconshreveable.com:</div><div class="line"><span class="attr">    proto:</span></div><div class="line"><span class="attr">      http:</span> <span class="number">9090</span></div></pre></td></tr></table></figure>
+<p>通过 ngrok start 命令，我们可以同时运行三个隧道，后面要接上我们要启动的隧道名。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ngrok start client ssh hacks.inconshreveable.com</div></pre></td></tr></table></figure>
+<ul>
+<li>隧道设置<br>每一个隧道都可以设置以下五个参数：proto，subdomain，auth，hostname 以及 remote_port。<br>每一个隧道都必须定义 proto ，因为这定义了协议的类型以及转发的目标。当你在运行 http/https 隧道时， auth 参数是可选的，<br>同样， remote_port 也是可选的，他声明了某个端口将要作为远程服务器转发的端口，请注意这只适用于 TCP 隧道。<br>ngrok 使用每个隧道的名字做到子域名或者域名，但你可以重写他：</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="attr">tunnels:</span></div><div class="line"><span class="attr">  client:</span></div><div class="line"><span class="attr">    subdomain:</span> <span class="string">"example"</span></div><div class="line"><span class="attr">    auth:</span> <span class="string">"user:password"</span></div><div class="line"><span class="attr">    proto:</span></div><div class="line"><span class="attr">      https:</span> <span class="number">8080</span></div></pre></td></tr></table></figure>
+<p>对于 TCP 隧道，你可以会通过 remote_port 参数来指定一个远程服务器的端口作为映射。如果没有声明，服务器将会给你随机分配一个端口。</p>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>如果使用国内IP或者国内的域名的话，用http的话貌似因为要备案，所以访问不了。前两天我是可以正常访问的，但是过了两天后就突然访问不了了。<br>可以改为用TCP的方式比如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">netdata:</div><div class="line">  remote_port: 801 </div><div class="line">  proto:</div><div class="line">    tcp: 19999</div></pre></td></tr></table></figure></p>
+<p>访问 ngnrok.xfl.host:801 即可。</p>
+<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><p><a href="https://morongs.github.io/2016/12/28/dajian-ngrok/" target="_blank" rel="external">https://morongs.github.io/2016/12/28/dajian-ngrok/</a><br><a href="https://luozm.github.io/ngrok" target="_blank" rel="external">https://luozm.github.io/ngrok</a><br><a href="https://imlonghao.com/28.html" target="_blank" rel="external">https://imlonghao.com/28.html</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ngrok/" rel="tag"># ngrok</a>
+          
+            <a href="/tags/运维/" rel="tag"># 运维</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/02/2019/cdh_install/" rel="next" title="CDH 在ubuntu上的部署和安装，以及一些坑">
+                <i class="fa fa-chevron-left"></i> CDH 在ubuntu上的部署和安装，以及一些坑
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/20/2019/nz_travel/" rel="prev" title="新西兰十二日自由行攻略">
+                新西兰十二日自由行攻略 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Dennis" />
+            
+              <p class="site-author-name" itemprop="name">Dennis</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/mikolaje" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/mikolaj" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-zhihu"></i>知乎</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com/users/6169688/dennisli" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i>StackOverflow</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正文"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备工作："><span class="nav-number">2.1.</span> <span class="nav-text">准备工作：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#需要购买的服务"><span class="nav-number">2.1.1.</span> <span class="nav-text">需要购买的服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#部署工作："><span class="nav-number">2.1.2.</span> <span class="nav-text">部署工作：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#证书安装："><span class="nav-number">2.1.3.</span> <span class="nav-text">证书安装：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ngrok部署安装"><span class="nav-number">2.2.</span> <span class="nav-text">ngrok部署安装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#编译ngrokd-和-ngrok"><span class="nav-number">2.2.1.</span> <span class="nav-text">编译ngrokd 和 ngrok</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动ngrokd"><span class="nav-number">2.2.2.</span> <span class="nav-text">启动ngrokd</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置ngrok客户端"><span class="nav-number">2.2.3.</span> <span class="nav-text">配置ngrok客户端</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动ngrok客户端"><span class="nav-number">2.2.4.</span> <span class="nav-text">启动ngrok客户端</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TL-DR"><span class="nav-number">2.2.5.</span> <span class="nav-text">TL;DR</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后记"><span class="nav-number">2.3.</span> <span class="nav-text">后记</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reference"><span class="nav-number">2.4.</span> <span class="nav-text">Reference</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dennis</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://mikolaje.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://mikolaje.github.io/2019/01/02/2019/ngrok_deployment/';
+          this.page.identifier = '2019/01/02/2019/ngrok_deployment/';
+          this.page.title = 'Ngrok服务器部署';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://mikolaje.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>
