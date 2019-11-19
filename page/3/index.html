@@ -295,6 +295,152 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2018/python_dict.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dennis">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dennis' Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/python_dict.html" itemprop="url">Python Dict Internal</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-14T11:07:10+08:00">
+                2018-02-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/python_dict.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/python_dict.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>前言：最近在知乎上看到很多Python职位的面试都会问Python的数据结构。很多大公司，比如知乎，在面试python的工程师的时候都会很注重基础；<br>比如会问：python内置的list dict set等使用和原理。collections 模块里的deque，Counter，OrderDict等。 常用的排序算法和时间复杂度。</p>
+<p>今天我就简单说说我学到的关于Python Dict 的见闻。</p>
+<p>于是，首先我查看到《流畅的python》一书的第3章。</p>
+<ol>
+<li>首先我们看看Python是如何用散列表来实现dict类型。</li>
+</ol>
+<p>什么是散列表：<br>散列表其实是一个稀疏数组（总是有空白元素的数组称为稀疏数组）。<br>在一般的数据结构教材中，散列表里的单元通常叫作表元（bucket）。在 dict 的散列表当中，每个键值对都占用一个表元，每个表元都有两<br>个部分，一个是对键的引用，另一个是对值的引用。因为所有表元的大小一致，所以可以通过偏移量来读取某个表元。</p>
+<p>散列算法：<br>1.为了获取 my_dict[search_key] 背后的值，Python 首先会调用hash(search_key) 来计算 search_key 的散列值，把这个值最低的几位数字当作偏移量(貌似是hash(key) 和 数组的长度-1 作 与运算，hash(key)&amp; (size-1)，在散列表里查找表元（具体取几位，得看当前散列表的大小）。</p>
+<p>2.若找到的表元是空的，则抛出 KeyError 异常。若不是空的，则表元里会有一对 found_key:found_value。</p>
+<p>3.这时候 Python 会检验 search_key == found_key 是否为真，如果它们相等的话，就会返回 found_value。</p>
+<p>4.如果 search_key 和 found_key 不匹配的话，这种情况称为散列冲突。</p>
+<p>5.Python 解决散列冲突的方法用的是开放地址法。<br>如下图所示：<br><img src="/images/2018/python_dict/python_dict1.png" alt="Sample Image Added via Markdown"></p>
+<h3 id="Python-dict的特性："><a href="#Python-dict的特性：" class="headerlink" title="Python dict的特性："></a>Python dict的特性：</h3><p>1.字典在内存上的开销巨大。<br>由于字典使用了散列表，而散列表又必须是稀疏的，这导致它在空间上的效率低下。<br>2.键查询很快。<br>dict 的实现是典型的空间换时间：字典类型有着巨大的内存开销，但它们提供了无视数据量大小的快速访问——只要字典能被装在内存里。<br>3.往字典里添加新键可能会改变已有键的顺序。<br>无论何时往字典里添加新的键，Python 解释器都可能做出为字典扩容的决定。扩容导致的结果就是要新建一个更大的散列表，并把字典里已有的元素添加到新表里。</p>
+<p>关于Python的开放地制法解决hash冲突的实现可以参考下<br><a href="https://harveyqing.gitbooks.io/python-read-and-write/content/python_advance/python_dict_implementation.html" target="_blank" rel="external">https://harveyqing.gitbooks.io/python-read-and-write/content/python_advance/python_dict_implementation.html</a></p>
+<p><img src="/images/2018/python_dict/python_dict2.png" alt="Sample Image Added via Markdown"></p>
+<p><em>若要了解详细的内部机制，推荐阅读</em><br><a href="http://python.jobbole.com/85040/" target="_blank" rel="external">http://python.jobbole.com/85040/</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2017/heap_sort.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1658,153 +1804,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2016/spark_aggregate.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Dennis">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dennis' Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/spark_aggregate.html" itemprop="url">浅谈SPARK 的 aggregate 算子</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-30T11:07:10+08:00">
-                2016-11-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2016/spark_aggregate.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2016/spark_aggregate.html" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="理解aggregate的原理"><a href="#理解aggregate的原理" class="headerlink" title="理解aggregate的原理"></a>理解aggregate的原理</h1><p>刚开始我觉得SPARK的aggregate算子比较难理解的。首先我们看看官网的example</p>
-<!-- python -->
-<pre><code>&gt;&gt;&gt; seqOp = (lambda x, y: (x[0] + y, x[1] + 1))
-&gt;&gt;&gt; combOp = (lambda x, y: (x[0] + y[0], x[1] + y[1]))
-&gt;&gt;&gt; sc.parallelize([1, 2, 3, 4]).aggregate((0, 0), seqOp, combOp)
-(10, 4)
-&gt;&gt;&gt; sc.parallelize([]).aggregate((0, 0), seqOp, combOp)
-(0, 0)    
-</code></pre><p>看了后，我就一脸懵逼了，两个lambda函数中的x,y各自代表什么东西呢？</p>
-<p>我们先看看官网的aggregate 用法说明：</p>
-<p>Aggregate the elements of each partition, and then the results for all the partitions, using a given combine functions and a neutral “zero value.”</p>
-<p>The functions op(t1, t2) is allowed to modify t1 and return it as its result value to avoid object allocation; however, it should not modify t2.</p>
-<p>The first function (seqOp) can return a different result type, U, than the type of this RDD. Thus, we need one operation for merging a T into an U and one operation for merging two U</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2016/spark_aggregate.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1859,7 +1858,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-count">37</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1870,7 +1869,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1881,7 +1880,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

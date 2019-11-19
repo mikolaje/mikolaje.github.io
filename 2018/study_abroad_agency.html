@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="spark," />
+  <meta name="keywords" content="daily," />
 
 
 
@@ -79,21 +79,19 @@
 
 
 
-<meta name="description" content="通俗理解Spark Streaming Dstream 的ForeachRDD在SparkStreaming中，数据中的每个batch都是只有一个RDD，为什么我们还要用ForeachRDD 在每一个RDD呢？ 不是只有一个RDD吗？
-Dstream也就是离散stream，就是把连续的数据分成一小团一小团。我们用专业术语“microbatching”来描述。每个microbatch 变成一个RDD">
+<meta name="description" content="正文留学一直都是我的梦想，但因为种种原因毕业后没能实现，工作了几年后，还是放不下，于是打算去香港留学，因为离家里比较近，年纪大了，不方便出走太远。但由于平时要上班工作，没有时间，也不想花太多时间在申请上，于是就打算找中介。在国内，留学中介中知名度最高的是启德吧。我看他们家的广告随处可见，之前也些朋友找的启德做中介的。于是我就选了启德。
+当时中介告诉我，已经是年底了，申请的时间比较晚，要赶紧行动。于">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spark Streaming Dstream ForeachRDD的理解">
-<meta property="og:url" content="http://mikolaje.github.io/2016/spark_foreachRDD.html">
+<meta property="og:title" content="启德教育被坑记">
+<meta property="og:url" content="http://mikolaje.github.io/2018/study_abroad_agency.html">
 <meta property="og:site_name" content="Dennis' Blog">
-<meta property="og:description" content="通俗理解Spark Streaming Dstream 的ForeachRDD在SparkStreaming中，数据中的每个batch都是只有一个RDD，为什么我们还要用ForeachRDD 在每一个RDD呢？ 不是只有一个RDD吗？
-Dstream也就是离散stream，就是把连续的数据分成一小团一小团。我们用专业术语“microbatching”来描述。每个microbatch 变成一个RDD">
-<meta property="og:image" content="http://mikolaje.github.io/images/2016/spark_foreachRDD/spark-streaming.png">
-<meta property="og:updated_time" content="2019-11-19T07:40:32.162Z">
+<meta property="og:description" content="正文留学一直都是我的梦想，但因为种种原因毕业后没能实现，工作了几年后，还是放不下，于是打算去香港留学，因为离家里比较近，年纪大了，不方便出走太远。但由于平时要上班工作，没有时间，也不想花太多时间在申请上，于是就打算找中介。在国内，留学中介中知名度最高的是启德吧。我看他们家的广告随处可见，之前也些朋友找的启德做中介的。于是我就选了启德。
+当时中介告诉我，已经是年底了，申请的时间比较晚，要赶紧行动。于">
+<meta property="og:updated_time" content="2019-11-19T14:00:03.765Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Spark Streaming Dstream ForeachRDD的理解">
-<meta name="twitter:description" content="通俗理解Spark Streaming Dstream 的ForeachRDD在SparkStreaming中，数据中的每个batch都是只有一个RDD，为什么我们还要用ForeachRDD 在每一个RDD呢？ 不是只有一个RDD吗？
-Dstream也就是离散stream，就是把连续的数据分成一小团一小团。我们用专业术语“microbatching”来描述。每个microbatch 变成一个RDD">
-<meta name="twitter:image" content="http://mikolaje.github.io/images/2016/spark_foreachRDD/spark-streaming.png">
+<meta name="twitter:title" content="启德教育被坑记">
+<meta name="twitter:description" content="正文留学一直都是我的梦想，但因为种种原因毕业后没能实现，工作了几年后，还是放不下，于是打算去香港留学，因为离家里比较近，年纪大了，不方便出走太远。但由于平时要上班工作，没有时间，也不想花太多时间在申请上，于是就打算找中介。在国内，留学中介中知名度最高的是启德吧。我看他们家的广告随处可见，之前也些朋友找的启德做中介的。于是我就选了启德。
+当时中介告诉我，已经是年底了，申请的时间比较晚，要赶紧行动。于">
 
 
 
@@ -123,13 +121,13 @@ Dstream也就是离散stream，就是把连续的数据分成一小团一小团�
 
 
 
-  <link rel="canonical" href="http://mikolaje.github.io/2016/spark_foreachRDD.html"/>
+  <link rel="canonical" href="http://mikolaje.github.io/2018/study_abroad_agency.html"/>
 
 
 
 
 
-  <title>Spark Streaming Dstream ForeachRDD的理解 | Dennis' Blog</title>
+  <title>启德教育被坑记 | Dennis' Blog</title>
   
 
 
@@ -300,7 +298,7 @@ Dstream也就是离散stream，就是把连续的数据分成一小团一小团�
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2016/spark_foreachRDD.html">
+    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2018/study_abroad_agency.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Dennis">
@@ -317,7 +315,7 @@ Dstream也就是离散stream，就是把连续的数据分成一小团一小团�
 
         
         
-          <h1 class="post-title" itemprop="name headline">Spark Streaming Dstream ForeachRDD的理解</h1>
+          <h1 class="post-title" itemprop="name headline">启德教育被坑记</h1>
         
 
         <div class="post-meta">
@@ -329,8 +327,8 @@ Dstream也就是离散stream，就是把连续的数据分成一小团一小团�
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-20T11:07:10+08:00">
-                2016-10-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-31T12:07:10+08:00">
+                2018-12-31
               </time>
             
 
@@ -348,9 +346,9 @@ Dstream也就是离散stream，就是把连续的数据分成一小团一小团�
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2016/spark_foreachRDD.html#comments" itemprop="discussionUrl">
+                <a href="/2018/study_abroad_agency.html#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2016/spark_foreachRDD.html" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/study_abroad_agency.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -378,23 +376,15 @@ Dstream也就是离散stream，就是把连续的数据分成一小团一小团�
       
 
       
-        <h1 id="通俗理解Spark-Streaming-Dstream-的ForeachRDD"><a href="#通俗理解Spark-Streaming-Dstream-的ForeachRDD" class="headerlink" title="通俗理解Spark Streaming Dstream 的ForeachRDD"></a>通俗理解Spark Streaming Dstream 的ForeachRDD</h1><p>在SparkStreaming中，数据中的每个batch都是只有一个RDD，为什么我们还要用ForeachRDD 在每一个RDD呢？ 不是只有一个RDD吗？</p>
-<p>Dstream也就是离散stream，就是把连续的数据分成一小团一小团。我们用专业术语“microbatching”来描述。每个microbatch 变成一个RDD以便Spark的后续处理。在每一个batch interval中，每个DStream有且仅有一个RDD。</p>
-<p><img src="/images/2016/spark_foreachRDD/spark-streaming.png" alt="Sample Image Added via Markdown"></p>
-<p>然而RDD是什么呢，RDD是一个分布式数据集合。你可以认为它是一个告诉你实际数据在集群中具体什么地方的指南者（pointer）。</p>
-<a id="more"></a>
-<p>Dstream.foreachRDD在SparkStreaming中是一个“output operator”，它让你直接基于Dstream的RDDs去处理数据。比如说，用foreachRDD方法将数据写入数据库</p>
-<p>这里有个容易疑惑的地方，DStream是和时间有关的集合。我们来对比一下传统的集合。我们用一群客户（users）来举个例子：</p>
-<!-- scala -->
-<pre><code>val userDStream：DStream[User]=???
-userDStream.foreachRDD{usersRDD =&gt;
-    usersRDD.foreach{user =&gt; serveCoffee(user)}
-}
-</code></pre><p>注意：</p>
-<ul>
-<li>DStream.foreachRDD返回给你的是RDD[user],不是单单一个user。回到上面咖啡的这个例子，这个客户集合 是指某个时间区间(比如下午一点到两点)的集合</li>
-<li>为了处理单个集合的元素，需要进一步操作(operate) RDD。在这个案例中，我们用RDD.foreach来对每个客户serve coffee</li>
-</ul>
+        <h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>留学一直都是我的梦想，但因为种种原因毕业后没能实现，工作了几年后，还是放不下，于是打算去香港留学，因为离家里比较近，年纪大了，不方便出走太远。<br>但由于平时要上班工作，没有时间，也不想花太多时间在申请上，于是就打算找中介。在国内，留学中介中知名度<br>最高的是启德吧。我看他们家的广告随处可见，之前也些朋友找的启德做中介的。于是我就选了启德。</p>
+<p>当时中介告诉我，已经是年底了，申请的时间比较晚，要赶紧行动。于是中介耐心地给我介绍了我这条件能去的学校和专业，就赶紧交钱申请。<br>当时交了1.5万（还不包括申请费，申请费还得要近3000RMB），6各专业好像。他们是按专业数量收费的。加专业还要加钱。</p>
+<p>当时我完全不知道他们是怎么操作的，对留学申请我也完全没有经验和概念。我只是在很多年前考过一次雅思，6分。就这样，我被中介牵着鼻子走了。<br>中介让我干嘛我就干嘛。</p>
+<p>中介说让我先准备考雅思。然后在用中文写下各专业的文书，再递给中介让她们翻译。</p>
+<p>经过一两个月的努力，我把雅思考到6.5(低分6)了。于是就把中文的文书交给中介，结果他们等了大半个月才翻译出来。翻译出来的质量当时我根本没有看。<br>于是他们就帮我投递了。最先投的是浸会大学，很快就有回复了，于是安排我面试。面试时候，面试官只是简单跟我聊聊，为什么选择这个专业呀，对选择这个program有什么挑战，<br>等等。很快，一个礼拜后就给我发offer了。</p>
+<p>收到offer，意味着不能退款了。1.5万就没了。后来等了很久也没等到，其它专业的offer，城大，理工的都没有任何回复，连面试通知都没。很失落，最后也没有接收浸会的offer，<br>没有交留位费。就放弃了当年的入学机会。</p>
+<p>时隔半年后，我再次打算申请。我又交了1.2万给启德，当时也是怪自己没有花精力去了解留学申请，太过于依赖中介了。并且，自己的留学欲望又很强。这就导致我很轻易地把这钱交给中介了。<br>我都没怎么犹豫，也不觉得一两万前很多，很果断地打钱过去了。</p>
+<p>去年的入学失败，使得我今年必须得抓住机会，不然，很有可能以后都没有机会出去了。于是，我今年的申请盯得特别紧。我第一次认真看启德写的PS文书，对比地看了下985学生申请的文书，<br>那差距啊。。。启德写的文书这是什么玩意啊，简直就是笑话。写的基本上通篇都是废话。开头就是说自己的人生格言，然后是出生家庭什么的。说了一大堆跟自己的能力展现没任何关系的<br>废话内容。于是，我基本上把所有专业的PS文书都重新写了遍。然后是进行艰苦的修改阶段， 改了又改。自己还另外掏了千百块块找了其他人帮忙修改查看。花了好多心血才把终稿定下来了。</p>
+<p>TM的我这一切努力都和中介没毛关系啊，我出这么钱，中介没帮我啥事情啊。从备战雅思，去学校申请资料，修改文书PS，都是我自己的努力和艰辛。中介做的就是帮你递交申请资料而已，<br>PS这些虽然他们写了，但质量太差，基本上用不了，还是要你自己重新再写一遍。这些都算了，最让我气愤的是：交完钱后，中介就对你不上心了。比如微信回复不及时回，而且回复的态度<br>完全和你交钱之前的不一样。带电话咨询她，她还说，明天有问题问助理，我明天休息不方便接听电话。这让人听起来感觉是非常不热情，不友好的。</p>
 
       
     </div>
@@ -412,7 +402,7 @@ userDStream.foreachRDD{usersRDD =&gt;
       
         <div class="post-tags">
           
-            <a href="/tags/spark/" rel="tag"># spark</a>
+            <a href="/tags/daily/" rel="tag"># daily</a>
           
         </div>
       
@@ -425,8 +415,8 @@ userDStream.foreachRDD{usersRDD =&gt;
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/be_more_productive.html" rel="next" title="怎么变得更有效率 ————Aaron Swarts">
-                <i class="fa fa-chevron-left"></i> 怎么变得更有效率 ————Aaron Swarts
+              <a href="/2018/huaqiangbei_black_market.html" rel="next" title="华强北被坑记">
+                <i class="fa fa-chevron-left"></i> 华强北被坑记
               </a>
             
           </div>
@@ -435,8 +425,8 @@ userDStream.foreachRDD{usersRDD =&gt;
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/spark_guide.html" rel="prev" title="Spark简易入门">
-                Spark简易入门 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/cdh_install.html" rel="prev" title="CDH 在ubuntu上的部署和安装，以及一些坑">
+                CDH 在ubuntu上的部署和安装，以及一些坑 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -605,7 +595,7 @@ userDStream.foreachRDD{usersRDD =&gt;
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#通俗理解Spark-Streaming-Dstream-的ForeachRDD"><span class="nav-number">1.</span> <span class="nav-text">通俗理解Spark Streaming Dstream 的ForeachRDD</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#正文"><span class="nav-number">1.</span> <span class="nav-text">正文</span></a></li></ol></div>
             
 
           </div>
@@ -768,9 +758,9 @@ userDStream.foreachRDD{usersRDD =&gt;
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://mikolaje.github.io/2016/spark_foreachRDD.html';
-          this.page.identifier = '2016/spark_foreachRDD.html';
-          this.page.title = 'Spark Streaming Dstream ForeachRDD的理解';
+          this.page.url = 'http://mikolaje.github.io/2018/study_abroad_agency.html';
+          this.page.identifier = '2018/study_abroad_agency.html';
+          this.page.title = '启德教育被坑记';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://mikolaje.disqus.com/embed.js';
