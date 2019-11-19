@@ -280,7 +280,6 @@
 ]]></content>
       <categories>
         <category>大数据</category>
-        <category>spark</category>
       </categories>
       <tags>
         <tag>spark</tag>
@@ -322,7 +321,7 @@
 <h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="http://docs.celeryproject.org/en/latest/tutorials/task-cookbook.html#ensuring-a-task-is-only-executed-one-at-a-time" target="_blank" rel="external">http://docs.celeryproject.org/en/latest/tutorials/task-cookbook.html#ensuring-a-task-is-only-executed-one-at-a-time</a></p>
 ]]></content>
       <categories>
-        <category>python backend</category>
+        <category>python</category>
       </categories>
       <tags>
         <tag>celery</tag>
@@ -502,10 +501,10 @@
 ]]></content>
       <categories>
         <category>大数据</category>
-        <category>cloudera</category>
       </categories>
       <tags>
         <tag>cloudera</tag>
+        <tag>CDH</tag>
       </tags>
   </entry>
   <entry>
@@ -521,6 +520,9 @@
 <p>去年的入学失败，使得我今年必须得抓住机会，不然，很有可能以后都没有机会出去了。于是，我今年的申请盯得特别紧。我第一次认真看启德写的PS文书，对比地看了下985学生申请的文书，<br>那差距啊。。。启德写的文书这是什么玩意啊，简直就是笑话。写的基本上通篇都是废话。开头就是说自己的人生格言，然后是出生家庭什么的。说了一大堆跟自己的能力展现没任何关系的<br>废话内容。于是，我基本上把所有专业的PS文书都重新写了遍。然后是进行艰苦的修改阶段， 改了又改。自己还另外掏了千百块块找了其他人帮忙修改查看。花了好多心血才把终稿定下来了。</p>
 <p>TM的我这一切努力都和中介没毛关系啊，我出这么钱，中介没帮我啥事情啊。从备战雅思，去学校申请资料，修改文书PS，都是我自己的努力和艰辛。中介做的就是帮你递交申请资料而已，<br>PS这些虽然他们写了，但质量太差，基本上用不了，还是要你自己重新再写一遍。这些都算了，最让我气愤的是：交完钱后，中介就对你不上心了。比如微信回复不及时回，而且回复的态度<br>完全和你交钱之前的不一样。带电话咨询她，她还说，明天有问题问助理，我明天休息不方便接听电话。这让人听起来感觉是非常不热情，不友好的。</p>
 ]]></content>
+      <categories>
+        <category>life</category>
+      </categories>
       <tags>
         <tag>daily</tag>
       </tags>
@@ -536,6 +538,9 @@
 <p><img src="/images/2018/huaqiangbei_black_market/8984d475.png" alt=""></p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>就当花钱买个教训吧，我记得，我不是我第一次在华强北被坑，以前还很想买一种录音手表，后来以色列人送了我一个，大概是一百多块钱吧，用了几次就扔了。<br>以后还是要注意下自己的消费欲望。买之前再三思考，这东西值不值。不过很多东西其实还是买来后才知道它值不值。</p>
 ]]></content>
+      <categories>
+        <category>life</category>
+      </categories>
       <tags>
         <tag>life</tag>
       </tags>
@@ -576,6 +581,9 @@
 </ol>
 <figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">The order makes sense when you consider that it&apos;s the only way to override a library in a default location with a custom library.</div><div class="line">LD_LIBRARY_PATH is a user setting, it has to come before the others. /etc/ld.so.conf is a local setting, it comes before the operating system default.</div><div class="line">So as a user, if I want to run a program with a different version of a library, I can run the program with LD_LIBRARY_PATH containing the location of that different library version.</div><div class="line">And as an administrator, I can put a different version of the library in /usr/local/lib and list /usr/local/lib in /etc/ld.so.conf.</div></pre></td></tr></table></figure>
 ]]></content>
+      <categories>
+        <category>运维</category>
+      </categories>
       <tags>
         <tag>ubuntu</tag>
       </tags>
@@ -595,8 +603,12 @@
 <p>我们可以解压一下jar包检查下:<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">unzip myudf.jar -d check_jar</div><div class="line">解压到 check_jar目录</div></pre></td></tr></table></figure></p>
 <p>如果有的话，check_dir下应该是有这么一个目录文件:<br><code>org/dennis/udf/MyUpper.class</code></p>
 ]]></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
       <tags>
         <tag>hive</tag>
+        <tag>UDF</tag>
       </tags>
   </entry>
   <entry>
@@ -619,6 +631,9 @@
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>通过Explain打印看看执行计划有哪些；<br>通过执行的log看看到底是哪个Stage耗时比较长；</p>
 <h1 id="Referrence"><a href="#Referrence" class="headerlink" title="Referrence"></a>Referrence</h1><p><a href="https://docs.cloudera.com/documentation/enterprise/latest/topics/admin_hos_oview.html#concept_i22_l1h_1v" target="_blank" rel="external">https://docs.cloudera.com/documentation/enterprise/latest/topics/admin_hos_oview.html#concept_i22_l1h_1v</a></p>
 ]]></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
       <tags>
         <tag>hive</tag>
       </tags>
@@ -704,7 +719,6 @@
 ]]></content>
       <categories>
         <category>大数据</category>
-        <category>kafka</category>
       </categories>
       <tags>
         <tag>kafka</tag>
@@ -730,6 +744,9 @@
 <p><img src="/images/2018/python_dict/python_dict2.png" alt="Sample Image Added via Markdown"></p>
 <p><em>若要了解详细的内部机制，推荐阅读</em><br><a href="http://python.jobbole.com/85040/" target="_blank" rel="external">http://python.jobbole.com/85040/</a></p>
 ]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
       <tags>
         <tag>python</tag>
       </tags>
@@ -764,7 +781,7 @@
 <figure class="highlight python"><table><tr><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">heapsort</span><span class="params">(arr)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">max_heapify</span><span class="params">(arr, index, heap_size)</span>:</span></div><div class="line">        <span class="string">"""</span></div><div class="line">        # 最大堆调整（MAX‐HEAPIFY）的作用是保持最大堆的性质。 将堆的末端子节点作调整，使得子节点永远小于父节点</div><div class="line">        # 意思就是要让index这元素去到它该去的位置</div><div class="line">        《算法》P200</div><div class="line">        由上至下的对有序化（下沉）</div><div class="line">        如果我们把堆想象成一个严密的黑色会组织，每个子节点都表示一个下属（父节点则表示它的直接上级），name这些操作就可以得到很有趣的解释。</div><div class="line">        max_hepify这个方法就相当于一个领导，如果占着老大的位置，但如果自己下属有比自己厉害的就要退位让贤。自己去到该去的层次</div><div class="line"></div><div class="line">        注意的是：这方法是有惰性的。调用一次该方法仍然不行。如果该index的左右子树都小于自己的话，它就不会递归了。</div><div class="line">        这个方法只是让index尽量下沉下去。如果是堆有序的话，那么执行该方法后index位置就是该位置最大的值</div><div class="line">        """</div><div class="line"></div><div class="line">        <span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">            imax = index</div><div class="line">            ileft = <span class="number">2</span> * index + <span class="number">1</span></div><div class="line">            iright = <span class="number">2</span> * index + <span class="number">2</span></div><div class="line"></div><div class="line">            <span class="keyword">if</span> ileft &lt; heap_size <span class="keyword">and</span> arr[index] &lt; arr[ileft]:</div><div class="line">                imax = ileft</div><div class="line"></div><div class="line">            <span class="keyword">if</span> iright &lt; heap_size <span class="keyword">and</span> arr[imax] &lt; arr[iright]:</div><div class="line">                imax = iright</div><div class="line"></div><div class="line">            <span class="keyword">if</span> imax != index:</div><div class="line">                arr[imax], arr[index] = arr[index], arr[imax]</div><div class="line">                index = imax</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                <span class="keyword">break</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">build_maxheap</span><span class="params">(arr)</span>:</span></div><div class="line">        <span class="string">"""</span></div><div class="line">        # 将堆所有数据重新排序，使其成为最大堆</div><div class="line"></div><div class="line">        创建最大堆（Build-Max-Heap）的作用是将一个数组改造成一个最大堆，接受数组和堆大小两个参数，Build-Max-Heap 将自下而上的调用 Max-Heapify 来改造数组，建立最大堆。</div><div class="line">        因为 Max-Heapify 能够保证下标 i 的结点之后结点都满足最大堆的性质，所以自下而上的调用 Max-Heapify 能够在改造过程中保持这一性质。</div><div class="line">        如果最大堆的数量元素是 n，那么 Build-Max-Heap 从 Parent(n) 开始，往上依次调用 Max-Heapify。</div><div class="line">        """</div><div class="line"></div><div class="line">        iparent = len(arr) // <span class="number">2</span> - <span class="number">1</span>   <span class="comment"># 最后一个节点的父节点</span></div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(iparent, <span class="number">-1</span>, <span class="number">-1</span>):</div><div class="line">            max_heapify(arr, i, len(arr))</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">sort</span><span class="params">(arr)</span>:</span></div><div class="line">        build_maxheap(arr)  <span class="comment"># build后左子树 还是可能大于 右子树的.所以这并不是一个有序数组</span></div><div class="line">        print(arr)</div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(arr)<span class="number">-1</span>, <span class="number">0</span>, <span class="number">-1</span>):</div><div class="line">            arr[<span class="number">0</span>], arr[i] = arr[i], arr[<span class="number">0</span>]</div><div class="line"></div><div class="line">            max_heapify(arr, <span class="number">0</span>, i)  <span class="comment"># 这里这个i 相当于比当前的length - 1；第i个元素为当前最大的元素，就被固定死了。不再访问它</span></div><div class="line">        <span class="keyword">return</span> arr</div><div class="line"></div><div class="line">    <span class="keyword">return</span> sort(arr)</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line"></div><div class="line">    print(heapsort([<span class="number">5</span>,<span class="number">4</span>,<span class="number">7</span>,<span class="number">3</span>,<span class="number">8</span>,<span class="number">2</span>,<span class="number">11</span>,<span class="number">15</span>,<span class="number">17</span>,<span class="number">16</span>,<span class="number">13</span>,<span class="number">10</span>,<span class="number">9</span>,<span class="number">12</span>,<span class="number">1</span>]))</div></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>study</category>
+        <category>algorithm</category>
       </categories>
       <tags>
         <tag>algorithm</tag>
@@ -800,6 +817,9 @@
 <h3 id="20191018"><a href="#20191018" class="headerlink" title="20191018"></a>20191018</h3><p>最近3天主要都是在搞Hive优化的工作，真是太难了，没有什么实质性进展，时间花费性价比很低。用了很多办法都没有实际性加快HQL运行的速度。主要是花了很多时间在Google搜索，然后各种查阅文档，然后尝试。包括在SO上发帖提问。<br>今天跟一面前同事霞琳吃饭饭聊天。收获还是挺多的，她说她已经收到了腾讯的Offer准备跳槽到。她是通过内推进去的。之前她也投过很多简历，很多也是石沉大海，也被不少公司面试后拒绝。有时候找工作真是要看运气。她和我不同的地方就是，她4月份就离开了一面，然后到9月份才开始工作。现在又拿到了腾讯的正式offer，真是苦尽甘来呀。不同的地方就是她大概经历了半年没有工作没有收入的压力，能够沉住气，这确实需要一定的勇气。而我找了一个月就来入职了。这点我还是非常佩服她的。<br>她说我可以参加一些分享会，认识一些行业内的人物。比如说她之前参加了TiDB的分享会，可以现场结识一些大牛。总结下来，就是找工作要运气，当然自身能力是前提。</p>
 <h3 id="20191021"><a href="#20191021" class="headerlink" title="20191021"></a>20191021</h3><p>到现在这个数据量，接近亿级的数量，明显感觉到服务器很卡，运行时间单位都是上小时的。不知道从哪里入手优化任务。即使是用spark on yarn，依然很慢。看个主机Htop的资源利用率并不高，50%都没有用到。不知道集群内部在搞什么，完全是个黑箱操作，我只能默默地等待着。哎，优化之路很艰难。最根本的原因我觉得还是我的硬件资源不够。有钱的话还是再买一台服务器好点，或者先加一16G内存也好。</p>
 ]]></content>
+      <categories>
+        <category>daily</category>
+      </categories>
       <tags>
         <tag>daily</tag>
       </tags>
@@ -815,6 +835,9 @@
 <a id="more"></a>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>多用Google搜索。多到英文环境下找想要的答案。</p>
 ]]></content>
+      <categories>
+        <category>daily</category>
+      </categories>
       <tags>
         <tag>daily</tag>
       </tags>
@@ -840,7 +863,7 @@
 <h2 id="Referrence"><a href="#Referrence" class="headerlink" title="Referrence"></a>Referrence</h2><p><a href="https://stackoverflow.com/questions/31610971/spark-repartition-vs-coalesce" target="_blank" rel="external">https://stackoverflow.com/questions/31610971/spark-repartition-vs-coalesce</a></p>
 ]]></content>
       <categories>
-        <category>spark</category>
+        <category>大数据</category>
       </categories>
       <tags>
         <tag>spark</tag>
@@ -882,6 +905,9 @@
 <p>以上两种情况它们仍然可以在一个stage里的pipeline以一个task计算。不用等所有的task计算完再计算。因为它不是shuffle操作。</p>
 <h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://github.com/JerryLead/SparkInternals/blob/master/markdown/2-JobLogicalPlan.md" target="_blank" rel="external">https://github.com/JerryLead/SparkInternals/blob/master/markdown/2-JobLogicalPlan.md</a><br><a href="https://www.zhihu.com/question/37137360/answer/715150822" target="_blank" rel="external">https://www.zhihu.com/question/37137360/answer/715150822</a></p>
 ]]></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
       <tags>
         <tag>spark</tag>
       </tags>
@@ -1105,6 +1131,9 @@ JavaPairRDD&lt;String, String&gt; mappedRDD = rdd2.mapToPair(
 // 将两个处理后的RDD进行join即可。
 JavaPairRDD&lt;String, Tuple2&lt;String, Row&gt;&gt; joinedRDD = mappedRDD.join(expandedRDD);
 </code></pre>]]></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
       <tags>
         <tag>spark</tag>
       </tags>
@@ -1228,6 +1257,9 @@ Z ==&gt; (28., 4)
 最终结果为：
 Array( [A, (15., 3)], [B, (30., 2)], [Z, (28., 4)])
 </code></pre>]]></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
       <tags>
         <tag>spark</tag>
       </tags>
@@ -1276,6 +1308,9 @@ Out[8]: (10, 4)
 <h3 id="这里有个特别注意的地方"><a href="#这里有个特别注意的地方" class="headerlink" title="这里有个特别注意的地方"></a>这里有个特别注意的地方</h3><p>如果你的zero value不是(0,0)，而是(1,0)结果会有点出乎意料，这个例子中，结果并不是(12,4)，而是(13,4)。如果你的partition为3的话结果是(14,4)。这应该是aggregate 会根据分区数在多运算几次</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>aggregate 可以用来先计算每个partition的本地结果，然后再汇总。</p>
 ]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
       <tags>
         <tag>spark</tag>
       </tags>
@@ -1361,6 +1396,9 @@ def get_primes(number):
 sum_prime(2000000)
 </code></pre><p>这样就节省了很多资源，中间也不用管它到底是有哪些质数，我只要得出总的和，结果 就够了。</p>
 ]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
       <tags>
         <tag>python</tag>
       </tags>
@@ -1427,6 +1465,9 @@ print p1.name  # [1]
 print p2.name  # [1]
 print Person.name  # [1]
 </code></pre>]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
       <tags>
         <tag>python</tag>
       </tags>
@@ -1470,6 +1511,9 @@ print Person.name  # [1]
 》[u&apos;\u5475\u5475&apos;]
 </code></pre><p>哈，其实print 就是把不好读的编码优化为比这种编码更好读的一种形式</p>
 <h3 id="总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟"><a href="#总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟" class="headerlink" title="总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟"></a>总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟</h3>]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
       <tags>
         <tag>python</tag>
       </tags>
@@ -1531,6 +1575,9 @@ object WordCount
 <p>其中demo.WordCount是main函数所在的ojbect，而SparkDemo-1.0-SNAPSHOT.jar就是打出来的jar包。</p>
 <p>Spark 最简单的流程，就这样Finish了。</p>
 ]]></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
       <tags>
         <tag>spark</tag>
       </tags>
@@ -1556,6 +1603,9 @@ userDStream.foreachRDD{usersRDD =&gt;
 <li>为了处理单个集合的元素，需要进一步操作(operate) RDD。在这个案例中，我们用RDD.foreach来对每个客户serve coffee</li>
 </ul>
 ]]></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
       <tags>
         <tag>spark</tag>
       </tags>
