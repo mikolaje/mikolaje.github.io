@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>Tmux简明教程</title>
-    <url>/2019/09/02/2019/tmux_guide/</url>
+    <url>/2019/tmux_guide.html</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>你经常可能会遇到这样的情况：你在vim编辑你在远程服务器上面的代码，然后你要新开一个窗口再次ssh到<br>这个远程服务器来测试运行你的代码。此外，如果你的WIFI断线了，你的所有session都会挂掉，GG。<br>然后你又要麻烦地重新开两个session。</p>
 <p>其实，上述问题都可以用tmux解决，一个可以提供如下功能的命令行工具：</p>
 <ol>
@@ -36,7 +36,7 @@
   </entry>
   <entry>
     <title>Hexo博客SEO优化，添加robots.txt</title>
-    <url>/2019/07/30/2019/hexo_seo/</url>
+    <url>/2019/hexo_seo.html</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近一时兴起，想提高自己博客的点击率，就尝试做了一些SEO优化，并且加入了Google Adsense广告。呵呵，<br>写博客这么辛苦，赚点钱是应该的嘛。</p>
 <h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>废话不说了，直接进入主题。都知道要想在百度搜索，Google搜索结果页中排得靠前，你得让人家的爬虫搜你嘛，<br>所以我们得通过一个叫<code>robots.txt</code>的文件放在根目录上。这文件的目的，就是告诉搜索引擎应该搜索我这网站的那些内容。<br>我们当然希望是搜索我们文章内容本身，不要去搜那些JavaScript和CSS代码。</p>
 <h3 id="配置-robots-txt"><a href="#配置-robots-txt" class="headerlink" title="配置 robots.txt"></a>配置 robots.txt</h3><p>我们在hexo 根目录下的 <code>public</code> 目录下新建一个<code>robots.txt</code>文件，内容如下：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">User-agent: *</div><div class="line">Allow: /</div><div class="line">Allow: /archives/</div><div class="line">Allow: /categories/</div><div class="line">Allow: /tags/</div><div class="line">Allow: /about/</div><div class="line"></div><div class="line">Disallow: /vendors/</div><div class="line">Disallow: /js/</div><div class="line">Disallow: /css/</div><div class="line">Disallow: /fonts/</div><div class="line">Disallow: /fancybox/</div><div class="line"></div><div class="line">Sitemap: https://mikolaje.github.io/sitemap.xml</div><div class="line">Sitemap: https://mikolaje.github.io/baidu_sitemap.xml</div></pre></td></tr></table></figure></p>
@@ -66,7 +66,7 @@
   </entry>
   <entry>
     <title>PySpark 会比Scala或Java慢吗（译）？</title>
-    <url>/2019/07/04/2019/pyspark_slower/</url>
+    <url>/2019/pyspark_slower.html</url>
     <content><![CDATA[<p>首先，你必须知道不同类型的API（RDD API，MLlib 等），有它们不同的性能考虑。</p>
 <h2 id="RDD-API"><a href="#RDD-API" class="headerlink" title="RDD API"></a>RDD API</h2><p>（带JVM编排的Python结构）</p>
 <p>这是一个会被Python代码性能和PySpark实施影响最大的组件。虽然Python性能很可能不会是个问题，至少有几个因素你要考虑下：</p>
@@ -122,7 +122,7 @@
   </entry>
   <entry>
     <title>自建家用服务器集群，打造一个私有云</title>
-    <url>/2019/07/02/2019/private_IDC/</url>
+    <url>/2019/private_IDC.html</url>
     <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><h3 id="我的战神"><a href="#我的战神" class="headerlink" title="我的战神"></a>我的战神</h3><p>还记得17年的时候，那时深度学习刚火起来，幼稚的我居然打算往这个领域去研究（根本没有意识到这领域需要的数学功底要多深）。俗话说，工欲善其事，必先利其器，于是乎，<br>一股脑地跑到广州的岗顶那买了台神舟战神 超级本（GTX-1060）。当时，经常都听到东哥在提到GPU，CUDA，GTX1080提到这些关键词。哈，为什当时会选择买一台笔记本，而不是台式呢？</p>
 <p>其实，当时页考虑过买台式的，但是，考虑到当时在外面租房子，台式机搬家不方便。于是就想搞一台显卡性能好的笔记本，但是，完全不知道台式机的1060和笔记本的1060完全不是一个概念，<br>虽然都要同一个型号。至于为什么要买神舟，而不是华硕，或者其它，很简单，—-因为它性价比高（其实不高，买回来不久就感觉上当了，买回来玩FIFA OL会经常卡卡的，小毛病很多，而且<br>偶尔还会蓝屏。。）</p>
 <p>那时候7400左右的价格在岗顶那买回来，真正用它就用了一年的时间吧。后来，在今年5月份，我以3000的价格在闲鱼上低价卖了。<br><img src="/images/2019/private_IDC/IMG_3434.jpg" alt="Sample Image Added via Markdown"></p>
@@ -148,7 +148,7 @@
   </entry>
   <entry>
     <title>SQLAchemy的多进程实践</title>
-    <url>/2019/07/02/2019/sqlalchemy_with_multiprocess/</url>
+    <url>/2019/sqlalchemy_with_multiprocess.html</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近上头说我写的ETL工具从MySQL导出为CSV的速度太慢了，需要性能优化。的确，有部分数据因为在MySQL里面做了<br>分表分库，而我目前的导出实现是一个一个对小表进行导出。其实，这一步完全是可以并发多个表同时导出的。<br>理论上如果网络IO没有瓶颈的话，多个表同时从MySQL里dump可以大大提升效率。</p>
 <h2 id="正题"><a href="#正题" class="headerlink" title="正题"></a>正题</h2><h3 id="查阅文档"><a href="#查阅文档" class="headerlink" title="查阅文档"></a>查阅文档</h3><p>为了实现并发地使用sqlalchemy我花了不少时间在网上找资料，也在StackOverflow寻求帮助。<br>其实刚开始我是想用threading结合SQLAlchemy来实现多线程导出的。去SQLAlchemy官网一看，没有找到相关的实现文档，<br>却找到了multiprocessing与SQLAlchemy的实践:<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Using Connection Pools with Multiprocessing</div><div class="line">It’s critical that when using a connection pool, and by extension when using an Engine created via create_engine(), that the pooled connections are not shared to a forked process. TCP connections are represented as file descriptors, which usually work across process boundaries, meaning this will cause concurrent access to the file descriptor on behalf of two or more entirely independent Python interpreter states.</div><div class="line"></div><div class="line">There are two approaches to dealing with this.</div><div class="line"></div><div class="line">The first is, either create a new Engine within the child process, or upon an existing Engine, call Engine.dispose() before the child process uses any connections. This will remove all existing connections from the pool so that it makes all new ones. Below is a simple version using multiprocessing.Process, but this idea should be adapted to the style of forking in use:</div></pre></td></tr></table></figure></p>
 <figure class="highlight python"><table><tr><td class="code"><pre><div class="line">engine = create_engine(<span class="string">"..."</span>)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">run_in_process</span><span class="params">()</span>:</span></div><div class="line">  engine.dispose()</div><div class="line"></div><div class="line">  <span class="keyword">with</span> engine.connect() <span class="keyword">as</span> conn:</div><div class="line">      conn.execute(<span class="string">"..."</span>)</div><div class="line"></div><div class="line">p = Process(target=run_in_process)</div></pre></td></tr></table></figure>
@@ -185,7 +185,7 @@
   </entry>
   <entry>
     <title>Hive 使用orc进行事务操作(update)</title>
-    <url>/2019/06/22/2019/hive_orc/</url>
+    <url>/2019/hive_orc.html</url>
     <content><![CDATA[<h2 id="需求背景"><a href="#需求背景" class="headerlink" title="需求背景"></a>需求背景</h2><p>需求方需要用Hive来进行一些update操作。以往一般用Parquet这种格式作为Hive的存储格式，查文档得知Parquet不支持<br>update，orc格式可以支持update。</p>
 <h2 id="开始试验"><a href="#开始试验" class="headerlink" title="开始试验"></a>开始试验</h2><h3 id="创建测试数据"><a href="#创建测试数据" class="headerlink" title="创建测试数据"></a>创建测试数据</h3><p>首先我们在Hive上简单地创建一个表作为测试：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">create table test_format (</div><div class="line">    car_name string,</div><div class="line">    series string,</div><div class="line">    e_series string,</div><div class="line">    model string,</div><div class="line">    variant string</div><div class="line">) clustered by (car_name) into 5 buckets stored as orc TBLPROPERTIES(&apos;transactional&apos;=&apos;true&apos;);</div><div class="line"></div><div class="line">insert into test_format values</div><div class="line">(&apos;2017款宝马3系320i M运动型&apos;,&apos;3&apos;,&apos;F30&apos;,&apos;320i&apos;,&apos;320i M Sport Package&apos;),</div><div class="line">(&apos;2018款宝马3系320i M运动套装&apos;,&apos;3&apos;,&apos;F30&apos;,&apos;320i&apos;,&apos;320i M Sport Package&apos;),</div><div class="line">(&apos;2018款宝马3系320i M运动曜夜版&apos;,&apos;3&apos;,&apos;F30&apos;,&apos;320i&apos;,&apos;320i M Sport Dark Edition&apos;),</div><div class="line">(&apos;2019款宝马3系320i M 运动套装&apos;,&apos;3&apos;,&apos;F30&apos;,&apos;320i&apos;,&apos;320i M Sport Package&apos;);</div></pre></td></tr></table></figure></p>
 <p>刚开始会有报错：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">This command is not allowed on an ACID table auto_projects.test_format with a non-ACID transaction manager. Failed command: insert into test_format value</div></pre></td></tr></table></figure></p>
@@ -215,7 +215,7 @@
   </entry>
   <entry>
     <title>经典的大数据面试题</title>
-    <url>/2019/06/02/2019/typical_bigdata_interview_question/</url>
+    <url>/2019/typical_bigdata_interview_question.html</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近面试大数据工程师岗位，同一个问题被连续问了两次。题目大概是这样的：<br>如果你有一台机器，内存是有限的，要你统计一个很大的日志文件里的数据，比如统计UV top-N；<br>另外一个公司是这么问：<br>如果你有一台机器，内存有限，要你对某个指标做一个全局排序。比如对单词频次进行全局排序。</p>
 <h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>第一种问题是比较简单的。这种问题一般都问在某个条件下如何在大数据中求出top-N。这种问题的解决方案如下步骤：</p>
 <ol>
@@ -237,7 +237,7 @@
   </entry>
   <entry>
     <title>Hive bucket和partition的区别</title>
-    <url>/2019/06/02/2019/hive_bucket_partition/</url>
+    <url>/2019/hive_bucket_partition.html</url>
     <content><![CDATA[<h2 id="Hive-partition和bucket的区别"><a href="#Hive-partition和bucket的区别" class="headerlink" title="Hive partition和bucket的区别"></a>Hive partition和bucket的区别</h2><ul>
 <li>翻译文</li>
 </ul>
@@ -263,7 +263,7 @@
   </entry>
   <entry>
     <title>Spark什么时候用 persist</title>
-    <url>/2019/05/02/2019/spark_when_to_cache/</url>
+    <url>/2019/spark_when_to_cache.html</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近在用Spark做一些数据统计，有个任务要跑几个小时，所以需要优化一下。首先想到的是用 persist或者cache(persist的其中一种方式)</p>
 <h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><h3 id="场景一"><a href="#场景一" class="headerlink" title="场景一"></a>场景一</h3><h4 id="首先看看在Stackoverflow的一个回答"><a href="#首先看看在Stackoverflow的一个回答" class="headerlink" title="首先看看在Stackoverflow的一个回答"></a>首先看看在Stackoverflow的一个回答</h4><p>Spark很多惰性算子，它并不会立即执行，persist就是惰性的。只有当被action trigger的时候，叫 lineage的RDD 链才会被执行。<br>如果是线性的lineage的话，persist是没用的。但如果RDD的lineage被分流出去的话，那么persist就有用了。</p>
 <p>举个例子：</p>
@@ -288,7 +288,7 @@
   </entry>
   <entry>
     <title>Git删除误add的文件</title>
-    <url>/2019/05/02/2019/git_filter_branch/</url>
+    <url>/2019/git_filter_branch.html</url>
     <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><h4 id="很多时候，我们经常会不小心把一个不应该add进来的文件-add到-Repo里了。比如："><a href="#很多时候，我们经常会不小心把一个不应该add进来的文件-add到-Repo里了。比如：" class="headerlink" title="很多时候，我们经常会不小心把一个不应该add进来的文件 add到 Repo里了。比如："></a>很多时候，我们经常会不小心把一个不应该add进来的文件 add到 Repo里了。比如：</h4><p>password.txt，<em>.log  </em>.mp4 等等。</p>
 <h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><h4 id="这种情况下，我们可以选择用-git-filter-branch-来将历史的所有commit都重新过滤一下。"><a href="#这种情况下，我们可以选择用-git-filter-branch-来将历史的所有commit都重新过滤一下。" class="headerlink" title="这种情况下，我们可以选择用 git filter-branch 来将历史的所有commit都重新过滤一下。"></a>这种情况下，我们可以选择用 git filter-branch 来将历史的所有commit都重新过滤一下。</h4><h4 id="查看Git的文档得知，filter-branch是一个核弹级操作"><a href="#查看Git的文档得知，filter-branch是一个核弹级操作" class="headerlink" title="查看Git的文档得知，filter-branch是一个核弹级操作:"></a>查看Git的文档得知，filter-branch是一个核弹级操作:</h4><blockquote>
 <p>如果你想用脚本的方式修改大量的提交，还有一个重写历史的选项可以用——例如，全局性地修改电子邮件地址或者将一个文件从所有提交中删除。<br>这个命令是filter-branch，这个会大面积地修改你的历史，所以你很有可能不该去用它，除非你的项目尚未公开，没有其他人在你准备修改的提交的基础上工作。<br>尽管如此，这个可以非常有用。你会学习一些常见用法，借此对它的能力有所认识。<br><br>从所有提交中删除一个文件<br>这个经常发生。有些人不经思考使用git add .，意外地提交了一个巨大的二进制文件，你想将它从所有地方删除。<br>也许你不小心提交了一个包含密码的文件，而你想让你的项目开源。filter-branch大概会是你用来清理整个历史的工具。<br>要从整个历史中删除一个名叫password.txt的文件，你可以在filter-branch上使用–tree-filter选项</p>
@@ -304,7 +304,7 @@
   </entry>
   <entry>
     <title>Celery让某个task一个一个地执行</title>
-    <url>/2019/03/02/2019/celery_lock_task/</url>
+    <url>/2019/celery_lock_task.html</url>
     <content><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>最近有个需求是这样子的，某个task要求一定要一个一个地执行，不能并发执行。<br>比较简单的办法是直接将 celery worker启动为 一个进程: “-c 1”。 但是，这种方法会导致其它的task也只能单进程了。</p>
 <p>后来通过Google，查找了很多例子，最普遍的一个做法是参考官方文档的做法， 代码如下:</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="keyword">from</span> celery <span class="keyword">import</span> task</div><div class="line"><span class="keyword">from</span> celery.five <span class="keyword">import</span> monotonic</div><div class="line"><span class="keyword">from</span> celery.utils.log <span class="keyword">import</span> get_task_logger</div><div class="line"><span class="keyword">from</span> contextlib <span class="keyword">import</span> contextmanager</div><div class="line"><span class="keyword">from</span> django.core.cache <span class="keyword">import</span> cache</div><div class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> md5</div><div class="line"><span class="keyword">from</span> djangofeeds.models <span class="keyword">import</span> Feed</div><div class="line"></div><div class="line">logger = get_task_logger(__name__)</div><div class="line"></div><div class="line">LOCK_EXPIRE = <span class="number">60</span> * <span class="number">10</span>  <span class="comment"># Lock expires in 10 minutes</span></div><div class="line"></div><div class="line"><span class="meta">@contextmanager</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">memcache_lock</span><span class="params">(lock_id, oid)</span>:</span></div><div class="line">    timeout_at = monotonic() + LOCK_EXPIRE - <span class="number">3</span></div><div class="line">    <span class="comment"># cache.add fails if the key already exists</span></div><div class="line">    status = cache.add(lock_id, oid, LOCK_EXPIRE)  </div><div class="line">    <span class="comment"># 如果存在lock_id的话会返回False，不存在的话会返回True。这个也可以换成用Redis实现，比如用 setnx</span></div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        <span class="keyword">yield</span> status</div><div class="line">    <span class="keyword">finally</span>:</div><div class="line">        <span class="comment"># memcache delete is very slow, but we have to use it to take</span></div><div class="line">        <span class="comment"># advantage of using add() for atomic locking</span></div><div class="line">        <span class="keyword">if</span> monotonic() &lt; timeout_at <span class="keyword">and</span> status:</div><div class="line">            <span class="comment"># don't release the lock if we exceeded the timeout</span></div><div class="line">            <span class="comment"># to lessen the chance of releasing an expired lock</span></div><div class="line">            <span class="comment"># owned by someone else</span></div><div class="line">            <span class="comment"># also don't release the lock if we didn't acquire it</span></div><div class="line">            cache.delete(lock_id)</div><div class="line"></div><div class="line"><span class="meta">@task(bind=True)</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">import_feed</span><span class="params">(self, feed_url)</span>:</span></div><div class="line">    <span class="comment"># The cache key consists of the task name and the MD5 digest</span></div><div class="line">    <span class="comment"># of the feed URL.</span></div><div class="line">    feed_url_hexdigest = md5(feed_url).hexdigest()</div><div class="line">    lock_id = <span class="string">'&#123;0&#125;-lock-&#123;1&#125;'</span>.format(self.name, feed_url_hexdigest)</div><div class="line">    logger.debug(<span class="string">'Importing feed: %s'</span>, feed_url)</div><div class="line">    <span class="keyword">with</span> memcache_lock(lock_id, self.app.oid) <span class="keyword">as</span> acquired:</div><div class="line">        <span class="keyword">if</span> acquired:</div><div class="line">            <span class="keyword">return</span> Feed.objects.import_feed(feed_url).url</div><div class="line">    logger.debug(</div><div class="line">        <span class="string">'Feed %s is already being imported by another worker'</span>, feed_url)</div></pre></td></tr></table></figure>
@@ -330,7 +330,7 @@
   </entry>
   <entry>
     <title>新西兰十二日自由行攻略</title>
-    <url>/2019/02/20/2019/nz_travel/</url>
+    <url>/2019/nz_travel.html</url>
     <content><![CDATA[<p>新西兰:flag-nz:十二日自由行攻略<br>更多详情可上新西兰旅游局官方网站查询<a href="https://www.newzealand.com/cn/" target="_blank" rel="external">https://www.newzealand.com/cn/</a></p>
 <p>:memo:签证：提前三个月办理即可，一般都能拿到有效期五年的签证。现在新西兰是电子签证，无需贴签，本人是找淘宝旅行社办理，如果个人不嫌麻烦完全可以自己登陆相关网站申请签证，蜂窝网有很全面的介绍，我是懒得自己弄。新西兰签证比欧美签证简单，银行卡半年流水只需三万，无需按指纹面试等，两周内可以出签。签证出来后留电子版或者打印出来，到新西兰过关时直接刷护照即可过关，都没人检查电子签，因为系统已有纪录。</p>
 <p>另外如果是要转机的话，需要提前确认是否需要过境签。比如，在澳大利亚转机就要申请过境签。澳大利亚的过境签申请挺简单的，在官网注册个账号然后填个表就好了，免费的。</p>
@@ -383,7 +383,7 @@
   </entry>
   <entry>
     <title>Ngrok服务器部署</title>
-    <url>/2019/01/02/2019/ngrok_deployment/</url>
+    <url>/2019/ngrok_deployment.html</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>自己使用Google Cloud，阿里云，AWS有好几年了，在云服务器上花了不少钱，有段时间做爬虫，需要较大的磁盘空间（几百G），每个月大概要5，600元。<br>一年下来就6，7钱了。想想，还是直接买一台主机或服务器在家里放着好了，也就几千块钱。于是我买了台主机在家里放着，配置远远比原来ECS的配置要高，<br>而且还更便宜。把数据全部迁移到了自己的主机，但很多时候自己都不在家，不可能把笨重的主机带出去外面。于是得想办法在其它地方通过网络连接到主机。<br>刚开选择用Teamviewer，可以远程连接到主机的桌面，我的主机的操作系统是Ubuntu的，感觉还行。但是，慢慢感觉效率不是很高，因为是用桌面远程，</p>
 <p>所以网速要求，还是有点高，更大的问题是Teamviewer是收费的，而且价格不菲，这样成本算下来一年下来也要花费挺多钱。<br>于是，我想到了以前的花生壳 内网穿透映射，但那个也是收费的。终于找到了一个令我满意的解决方案—-Ngrok！</p>
 <h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>Ngrok到底好在哪里呢？ 首先，也是最重要的是它的成本底。<br>主机买服务的话也就10多块钱一个月，网上一搜就很多Ngrok的提供商；自己搭建的话，也就买一台虚拟机的价格，我买的是某云的ECS。大概也就几十来块钱。</p>
@@ -457,7 +457,7 @@
   </entry>
   <entry>
     <title>CDH 在ubuntu上的部署和安装，以及一些坑</title>
-    <url>/2019/01/02/2019/cdh_install/</url>
+    <url>/2019/cdh_install.html</url>
     <content><![CDATA[<p>最近两天在自己电脑上搭建一个Cloudera Manager来玩玩。本来以为挺简单的，只是在Web UI上无脑下一步就好了，<br>但其实还是遇到挺多问题的。</p>
 <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="在服务器上的操作"><a href="#在服务器上的操作" class="headerlink" title="在服务器上的操作"></a>在服务器上的操作</h3><p>刚开始基本上，就是按照官网的步骤来走，首先做一些前置工作:</p>
 <ol>
@@ -511,7 +511,7 @@
   </entry>
   <entry>
     <title>华强北被坑记</title>
-    <url>/2018/12/22/2018/huaqiangbei_black_market/</url>
+    <url>/2018/huaqiangbei_black_market.html</url>
     <content><![CDATA[<h2 id="好奇心"><a href="#好奇心" class="headerlink" title="好奇心"></a>好奇心</h2><p>之前有段时间一直为了好奇，想拍摄一些比较隐蔽的探访视频然后放YouTube上赚点广告费。想了很久，终于跑到忍不住<br>跑到华强北去寻找买一个眼镜摄像仪。就是带着摄像头在眼镜上的偷拍神器。去到华强北摄像头市场里，问了好多商铺，<br>他们都不卖，当然是私底下地问，因为这东西肯定不是不能明着卖的。后来还是找了个路边站街拉客的大妈，一问就有了。<br>她让我跟着她走，走到一个稍微人少点地方，她打电话给卖这东西的贩子，然后就在那等那贩子过来。</p>
 <p>10分钟后，一个矮矮的中年男子（四五十岁），拿着个黑色大袋子走过来，说带我去一个更少人的角落验货。终于看到了<br>传说中的眼镜拍摄神器。这玩意超出我的预期，并没有我想象中的那么好，因为它一看就有些不太对头，不像一个正常的眼镜，<br>左右两根支架特别粗，因为里面有电路板，还要放置MINI-SD卡。它的摄像头在眼镜的最中间位置，也就是连接两个镜片<br>的地方，不仔细看的话，不会发现，不过稍微仔细点看还是能看出来它是有个摄像头在上面的。</p>
 <p>接着，那个贩子拍摄了一段视频，我感觉视频的质量，分别率不是很好，大概就是几百块钱手机的拍摄效果吧。虽然不太满意，<br>但感觉跟那贩子看了有点久，有点骑虎难下，最后还是买下来了，花了750，他开价是900块。终于止住我那段时间以来的好奇心和欲望。</p>
@@ -526,7 +526,7 @@
   </entry>
   <entry>
     <title>Ubuntu的.so文件问题</title>
-    <url>/2018/11/06/2018/ubuntu_shared_object/</url>
+    <url>/2018/ubuntu_shared_object.html</url>
     <content><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>昨天在anaconda的虚拟环境py3 下装uwsgi</p>
 <p>但执行uwsgi命令的时候报错提示：<br>uwsgi: error while loading shared libraries: libpcre.so.1: cannot open…</p>
 <p>找不到libpcre.so.1 这个动态链接库。</p>
@@ -566,7 +566,7 @@
   </entry>
   <entry>
     <title>Hive UDF 快速教程</title>
-    <url>/2018/08/02/2018/hive_udf/</url>
+    <url>/2018/hive_udf.html</url>
     <content><![CDATA[<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><h3 id="Step1"><a href="#Step1" class="headerlink" title="Step1"></a>Step1</h3><p>首先，我们创建一个目录 udf_test/;<br>创建子目录org/dennis/udf<br>在子目录里创建一个MyUpper.java文件。里面内容为：<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">package</span> org.dennis.udf;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.apache.hadoop.hive.ql.exec.UDF;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.io.Text;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">MyUpper</span> <span class="keyword">extends</span> <span class="title">UDF</span> </span>&#123;</div><div class="line">  <span class="function"><span class="keyword">public</span> Text <span class="title">evaluate</span><span class="params">(<span class="keyword">final</span> Text s)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (s == <span class="keyword">null</span>) &#123; <span class="keyword">return</span> <span class="keyword">null</span>; &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Text(s.toString().toUpperCase());</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <h3 id="Step2"><a href="#Step2" class="headerlink" title="Step2"></a>Step2</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">javac -cp  /opt/cloudera/parcels/CDH-6.2.0-1.cdh6.2.0.p0.967373/hive-exec-2.1.1-cdh6.2.0.jar): \</div><div class="line">/opt/cloudera/parcels/CDH-6.2.0-1.cdh6.2.0.p0.967373/jars/hadoop-common.jar \</div><div class="line">org/dennis/udf/MyUpper.java</div></pre></td></tr></table></figure>
 <p>这里我们要把依赖的jar包写进来，这里我们依赖hive-exec*.jar 以及 hadoop-common.jar</p>
@@ -585,7 +585,7 @@
   </entry>
   <entry>
     <title>Hive 优化</title>
-    <url>/2018/06/02/2018/hive_optimization/</url>
+    <url>/2018/hive_optimization.html</url>
     <content><![CDATA[<p>对于如果join中有小表的话，可以开启map</p>
 <h3 id="Dynamic-Partition-Pruning-for-Hive-Map-Joins"><a href="#Dynamic-Partition-Pruning-for-Hive-Map-Joins" class="headerlink" title="Dynamic Partition Pruning for Hive Map Joins"></a>Dynamic Partition Pruning for Hive Map Joins</h3><p>You can enable dynamic partition pruning for map joins when you are running Hive on Spark (HoS), it is not available for Hive on MapReduce.<br>Dynamic partition pruning (DPP) is a database optimization that can significantly decrease the amount of data that a query scans, thereby executing your workloads faster.<br>DPP achieves this by dynamically determining and eliminating the number of partitions that a query must read from a partitioned table.</p>
 <p>Map joins also optimize how Hive executes queries. They cause a small table to be scanned and loaded in memory as a hash table<br>so that a fast join can be performed entirely within a mapper without having to use another reduce step.<br>If you have queries that join small tables, map joins can make them execute much faster.<br>Map joins are enabled by default in CDH with the Enable MapJoin Optimization setting for HiveServer2 in Cloudera Manager.<br>Hive automatically uses map joins for join queries that involve a set of tables where:</p>
@@ -609,7 +609,7 @@
   </entry>
   <entry>
     <title>Kafka Introduction</title>
-    <url>/2018/03/02/2018/kafka_intro/</url>
+    <url>/2018/kafka_intro.html</url>
     <content><![CDATA[<ul>
 <li>最近面试经常会被问到Kafka的问题。看了很多Kafka的介绍，发现还是美团技术团队总结的最清楚易懂。下面转了美团的关于Kafka的一篇文章</li>
 </ul>
@@ -696,7 +696,7 @@
   </entry>
   <entry>
     <title>Python Dict Internal</title>
-    <url>/2018/02/14/2018/python_dict/</url>
+    <url>/2018/python_dict.html</url>
     <content><![CDATA[<p>前言：最近在知乎上看到很多Python职位的面试都会问Python的数据结构。很多大公司，比如知乎，在面试python的工程师的时候都会很注重基础；<br>比如会问：python内置的list dict set等使用和原理。collections 模块里的deque，Counter，OrderDict等。 常用的排序算法和时间复杂度。</p>
 <p>今天我就简单说说我学到的关于Python Dict 的见闻。</p>
 <p>于是，首先我查看到《流畅的python》一书的第3章。</p>
@@ -720,7 +720,7 @@
   </entry>
   <entry>
     <title>堆排序学习总结</title>
-    <url>/2017/12/31/2017/heap_sort/</url>
+    <url>/2017/heap_sort.html</url>
     <content><![CDATA[<p>在学习《算法》一书中了解到：<br>优先队列是一种抽象的数据类型，优先队列最重要的操作就是删除最大元素和插入元素。<br>实现优先队列可以用数组，链表，最好的方式还是用堆。</p>
 <p>我们可以把任意优先队列变成一种排序方法。将所有元素插入一个查找最小化元素的优先队列，然后再重复调用删除最小元素的操作将它们按顺序删去。用无序数组实现的优先队列这么做相当于进行一次选择排序。用基于堆得优先队列这样做等同于堆排序！</p>
 <p>要了解堆首先得了解一下二叉树，在计算机科学中，二叉树是每个节点最多有两个子树的树结构。通常子树被称作“左子树”（left subtree）和“右子树”（right subtree）。</p>
@@ -756,7 +756,7 @@
   </entry>
   <entry>
     <title>TCP/IP 的一些学习</title>
-    <url>/2017/12/25/2017/tcp_knowledge/</url>
+    <url>/2017/tcp_knowledge.html</url>
     <content><![CDATA[<p>还记得两三年前，去一个大数据公司面试。首先要笔试，题目中有道题目就是填空TCP报文的表格。<br>首先我们看看TCP的报头：</p>
 <p> <img src="/images/2017/tcp_knowledge/tcp_head.jpg" alt="Sample Image Added via Markdown"></p>
 <p>当时觉得这是啥玩意呀。考这东西跟大数据有毛线关系。今天，才明白，这些都是计算机的基础。基本功来的，跑不了。</p>
@@ -776,7 +776,7 @@
   </entry>
   <entry>
     <title>每周的总结与记录</title>
-    <url>/2017/07/10/2017/dennis_weekly/</url>
+    <url>/2017/dennis_weekly.html</url>
     <content><![CDATA[<h3 id="20190924"><a href="#20190924" class="headerlink" title="20190924"></a>20190924</h3><p>早上喝了利动乳果糖口服溶液然后吃早餐，到公司九点多感觉肚子疼。于是拉肚子了。中午说拉肚子了就喝粥吧，就去红荔村吃皮蛋瘦肉粥，结果吃完后回来肚子不停地咕咕叫，叫的特别厉害。而且肚子很涨，越来越胀，然后开始涨疼了。我一直想忍过去，但一直都还会涨疼，还喝了矿泉水，冷的，更疼。下午三点多4楼看医生，说我不应该吃皮蛋瘦肉粥，他说腹泻后不能吃蛋白质类的食物，牛奶都不要喝。只能喝白粥。然后开了左氟沙星和奥美拉唑。他妈的，我以为肚子胀可以吃皮蛋瘦肉粥这些，因为这也算粥，但不知道是不能吃的。</p>
 <p>晚上十点终于把皮蛋瘦肉粥拉出来了，感觉轻松一点。以后再也不好喝皮蛋瘦肉粥了。</p>
 <h3 id="20191010"><a href="#20191010" class="headerlink" title="20191010"></a>20191010</h3><p>今天为了解决保存task result的task name花了很多时间看celery的源代码，也不断地尝试测试，收益很低，没有解决到问题。感觉看源码要有很强的专注力，而且要能记住很多各个不同调用的关系，不然看着就会发蒙，不知道自己要干什么。另外，Celery有些代码写着还是挺难懂的，比如说task 装饰品那部分代码。加上网络一直不稳定，尤其是连接国外的服务器。卡卡的很影响效率。然后tmux Pycharm这些工具用的不太熟练也对效率影响挺大的，要不停地去网上查文档。此外今天早上偶尔发现一个YOUTUBE的商机，偶尔看到了一个数据动态图，然后我觉得还是比较容易效仿的。最重要的是，收看率更好，而且貌似最近才兴起的，我看那些up主的历史记录都很短，最多也就半年多。</p>
@@ -790,7 +790,7 @@
   </entry>
   <entry>
     <title>从网上找到自己的答案</title>
-    <url>/2017/03/13/2017/find_your_answer/</url>
+    <url>/2017/find_your_answer.html</url>
     <content><![CDATA[<h1 id="Use-the-Right-Search-Engine"><a href="#Use-the-Right-Search-Engine" class="headerlink" title="Use the Right Search Engine"></a>Use the Right Search Engine</h1><p>成为一个程序员也有一段时间了。回过头来想想看以前做的事情，只想说：非常low！</p>
 <p>我记得东哥那时候推荐我用bing或者翻墙上谷歌。我当时可是一脸懵逼，感觉用习惯了，也觉得没什么不好的地方。</p>
 <p>不说其他的，就说程序这块吧。当你运行代码碰到一个报错信息时候，直接用google搜的话很快就能找到解决方案。比如Python的话google返回的很有可能是stackoverflow这些链接。linux的是askubuntu的这些链接。</p>
@@ -805,7 +805,7 @@
   </entry>
   <entry>
     <title>Spark repartition和coalesce的区别</title>
-    <url>/2017/01/31/2017/spark_repartition_coalesce/</url>
+    <url>/2017/spark_repartition_coalesce.html</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>有些时候，在很多partition的时候，我们想减少点partition的数量，不然写到HDFS上的文件数量也会很多很多。<br>我们使用reparation呢，还是coalesce。所以我们得了解这两个算子的内在区别。</p>
 <h2 id="正题"><a href="#正题" class="headerlink" title="正题"></a>正题</h2><p>要知道，repartition是一个消耗比较昂贵的操作算子，Spark出了一个优化版的repartition叫做coalesce，它可以尽量避免数据迁移，<br>但是你只能减少RDD的partition.</p>
 <p>举个例子，有如下数据节点分布：</p>
@@ -832,7 +832,7 @@
   </entry>
   <entry>
     <title>Spark 的宽依赖和窄依赖</title>
-    <url>/2016/12/25/2016/spark_dependency/</url>
+    <url>/2016/spark_dependency.html</url>
     <content><![CDATA[<h1 id="说说Spark-的宽依赖和窄依赖"><a href="#说说Spark-的宽依赖和窄依赖" class="headerlink" title="说说Spark 的宽依赖和窄依赖"></a>说说Spark 的宽依赖和窄依赖</h1><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>　　众所周知，在Spark中可以对RDD进行多种转换，父RDD转换之后会得到子RDD，于是便可以说子RDD的诞生需要依赖父RDD。在Spark中一共有两种依赖方式，分别是宽依赖和窄依赖。</p>
 <p>rdd 的 toDebugString 可以查看RDD的谱系</p>
 <a id="more"></a>
@@ -872,7 +872,7 @@
   </entry>
   <entry>
     <title>Spark 数据倾斜调优</title>
-    <url>/2016/12/21/2016/spark_bias/</url>
+    <url>/2016/spark_bias.html</url>
     <content><![CDATA[<h1 id="关于Spark-的数据倾斜的问题"><a href="#关于Spark-的数据倾斜的问题" class="headerlink" title="关于Spark 的数据倾斜的问题"></a>关于Spark 的数据倾斜的问题</h1><h3 id="数据倾斜的现象"><a href="#数据倾斜的现象" class="headerlink" title="数据倾斜的现象"></a>数据倾斜的现象</h3><p>　　1、绝大多数task执行得都非常快，但个别task执行极慢。比如，总共有1000个task，997个task都在1分钟之内执行完了，但是剩余两三个task却要一两个小时。这种情况很常见。</p>
 <p>　　2、原本能够正常执行的Spark作业，某天突然报出OOM（内存溢出）异常，观察异常栈，是我们写的业务代码造成的。这种情况比较少见。</p>
 <h3 id="数据倾斜的原理"><a href="#数据倾斜的原理" class="headerlink" title="数据倾斜的原理"></a>数据倾斜的原理</h3><p>　　数据倾斜的原理很简单：在进行shuffle的时候，必须将各个节点上相同的key拉取到某个节点上的一个task来进行处理，比如按照key进行聚合或join等操作。此时如果某个key对应的数据量特别大的话，就会发生数据倾斜。比如大部分key对应10条数据，但是个别key却对应了100万条数据，那么大部分task可能就只会分配到10条数据，然后1秒钟就运行完了；但是个别task可能分配到了100万数据，要运行一两个小时。因此，整个Spark作业的运行进度是由运行时间最长的那个task决定的。</p>
@@ -1095,7 +1095,7 @@ JavaPairRDD&lt;String, Tuple2&lt;String, Row&gt;&gt; joinedRDD = mappedRDD.join(
   </entry>
   <entry>
     <title>浅谈SPARK 的 广播变量</title>
-    <url>/2016/12/12/2016/spark_broadcast/</url>
+    <url>/2016/spark_broadcast.html</url>
     <content><![CDATA[<h1 id="简单谈谈SPARK-广播变量的用法"><a href="#简单谈谈SPARK-广播变量的用法" class="headerlink" title="简单谈谈SPARK 广播变量的用法"></a>简单谈谈SPARK 广播变量的用法</h1><h3 id="首先我们看看官网的文档对Broadcast的描述："><a href="#首先我们看看官网的文档对Broadcast的描述：" class="headerlink" title="首先我们看看官网的文档对Broadcast的描述："></a>首先我们看看官网的文档对Broadcast的描述：</h3><ul>
 <li><p>Broadcast variables allow the programmer to keep a read-only variable cached on each machine rather than shipping a copy of it with tasks.</p>
 </li>
@@ -1132,7 +1132,7 @@ rdd.map(parse)
   </entry>
   <entry>
     <title>浅谈SPARK 的 combineByKey 算子</title>
-    <url>/2016/12/08/2016/spark_combinebykey/</url>
+    <url>/2016/spark_combinebykey.html</url>
     <content><![CDATA[<h1 id="理解comebineByKey的原理"><a href="#理解comebineByKey的原理" class="headerlink" title="理解comebineByKey的原理"></a>理解comebineByKey的原理</h1><h3 id="SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档："><a href="#SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档：" class="headerlink" title="SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档："></a>SPARK的combineByKey算子和aggregate类似。首先我们看看官网的文档：</h3><ul>
 <li><p>combineByKey(createCombiner, mergeValue, mergeCombiners, numPartitions=None, partitionFunc=<function portable_hash="" at="" 0x7ff5681b9d70="">)</function></p>
 </li>
@@ -1218,7 +1218,7 @@ Array( [A, (15., 3)], [B, (30., 2)], [Z, (28., 4)])
   </entry>
   <entry>
     <title>浅谈SPARK 的 aggregate 算子</title>
-    <url>/2016/11/30/2016/spark_aggregate/</url>
+    <url>/2016/spark_aggregate.html</url>
     <content><![CDATA[<h1 id="理解aggregate的原理"><a href="#理解aggregate的原理" class="headerlink" title="理解aggregate的原理"></a>理解aggregate的原理</h1><p>刚开始我觉得SPARK的aggregate算子比较难理解的。首先我们看看官网的example</p>
 <!-- python -->
 <pre><code>&gt;&gt;&gt; seqOp = (lambda x, y: (x[0] + y, x[1] + 1))
@@ -1266,7 +1266,7 @@ Out[8]: (10, 4)
   </entry>
   <entry>
     <title>Python的yield 问题</title>
-    <url>/2016/11/15/2016/python_yield/</url>
+    <url>/2016/python_yield.html</url>
     <content><![CDATA[<h2 id="Python-yield示范"><a href="#Python-yield示范" class="headerlink" title="Python yield示范"></a>Python yield示范</h2><p>yield 关键词在python中不算常用。以前我只知道它的作用和return相似，就是返回一个值。并不知道它具体的用途和用法。</p>
 <p>要理解yield，你必须知道generators（生成器）。而要知道生成器，需要了解iterables（可迭代对象）</p>
 <p>生成器（Generators）就是迭代器的一种特殊形式，只不过它只能迭代一次。这是因为生成器不是将所有的数值存储在内存里，而是，立即生成数值。<br>和迭代器相似，我们可以通过使用next()来从generator中获取下一个值</p>
@@ -1351,7 +1351,7 @@ sum_prime(2000000)
   </entry>
   <entry>
     <title>聊聊python的unicode 问题</title>
-    <url>/2016/11/14/2016/python_unicode/</url>
+    <url>/2016/python_unicode.html</url>
     <content><![CDATA[<h2 id="Python的中文字符处理"><a href="#Python的中文字符处理" class="headerlink" title="Python的中文字符处理"></a>Python的中文字符处理</h2><p>都说python对中文不太友好。</p>
 <p>我们看看下面两个例子：<br>测试环境是ubuntu;<br>python版本为2.7<br><!-- python --></p>
 <pre><code>》a = &apos;呵呵&apos;
@@ -1394,7 +1394,7 @@ sum_prime(2000000)
   </entry>
   <entry>
     <title>聊聊python的变量问题</title>
-    <url>/2016/11/14/2016/python_func_params/</url>
+    <url>/2016/python_func_params.html</url>
     <content><![CDATA[<h2 id="Python的参数作用范围"><a href="#Python的参数作用范围" class="headerlink" title="Python的参数作用范围"></a>Python的参数作用范围</h2><p>我们看看下面两个例子：</p>
 <!-- python -->
 <pre><code>a = &apos;hello&apos;
@@ -1460,7 +1460,7 @@ print Person.name  # [1]
   </entry>
   <entry>
     <title>Spark简易入门</title>
-    <url>/2016/10/20/2016/spark_guide/</url>
+    <url>/2016/spark_guide.html</url>
     <content><![CDATA[<h1 id="Spark简易入门"><a href="#Spark简易入门" class="headerlink" title="Spark简易入门"></a>Spark简易入门</h1><p>Spark，搞大数据的人都应该用过吧。spark作为主流的大数据处理框架，到底为什么这么多人用呢？我们少扯淡，直接动手写大数据界的HelloWorld：WordCount。</p>
 <p>先贴上代码（Scala版本):</p>
 <!-- java -->
@@ -1521,7 +1521,7 @@ object WordCount
   </entry>
   <entry>
     <title>Spark Streaming Dstream ForeachRDD的理解</title>
-    <url>/2016/10/20/2016/spark_foreachRDD/</url>
+    <url>/2016/spark_foreachRDD.html</url>
     <content><![CDATA[<h1 id="通俗理解Spark-Streaming-Dstream-的ForeachRDD"><a href="#通俗理解Spark-Streaming-Dstream-的ForeachRDD" class="headerlink" title="通俗理解Spark Streaming Dstream 的ForeachRDD"></a>通俗理解Spark Streaming Dstream 的ForeachRDD</h1><p>在SparkStreaming中，数据中的每个batch都是只有一个RDD，为什么我们还要用ForeachRDD 在每一个RDD呢？ 不是只有一个RDD吗？</p>
 <p>Dstream也就是离散stream，就是把连续的数据分成一小团一小团。我们用专业术语“microbatching”来描述。每个microbatch 变成一个RDD以便Spark的后续处理。在每一个batch interval中，每个DStream有且仅有一个RDD。</p>
 <p><img src="/images/2016/spark_foreachRDD/spark-streaming.png" alt="Sample Image Added via Markdown"></p>
@@ -1546,7 +1546,7 @@ userDStream.foreachRDD{usersRDD =&gt;
   </entry>
   <entry>
     <title>怎么变得更有效率 ————Aaron Swarts</title>
-    <url>/2016/10/18/2016/be_more_productive/</url>
+    <url>/2016/be_more_productive.html</url>
     <content><![CDATA[<h1 id="How-to-be-More-Productive–Aaron-Swartz"><a href="#How-to-be-More-Productive–Aaron-Swartz" class="headerlink" title="How to be More Productive–Aaron Swartz"></a>How to be More Productive–Aaron Swartz</h1><p>原文在 <a href="http://www.aaronsw.com/weblog/productivity" target="_blank" rel="external">http://www.aaronsw.com/weblog/productivity</a> </p>
 <p>有人跟我说：“你花在看电视上的时间足够用来写本书了。”毫无疑问，把时间花在写书上花在看电视上更好。但这里隐含了一个假设，即时间是“可互换的”。也就是说，看电视的时间可以轻松地用来写书。但悲催的是事实并非如此。</p>
 <p>不同的时间有不同的质量等级。如果我正走向地铁站而且忘带笔记本了，我就很难写什么文章。同样，如果你不停地被打断，也很难集中注意力。另外还有些心理和情感上的因素：有时候我心情不错，就愿意去主动做一些事；也有些时候我心情郁闷，就只能看看电视了。</p>

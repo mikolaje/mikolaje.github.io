@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/cat_favicon_32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/cat_favicon_16.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="cloudera," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="最近两天在自己电脑上搭建一个Cloudera Manager来玩玩。本来以为挺简单的，只是在Web UI上无脑下一步就好了，但其实还是遇到挺多问题的。
+安装在服务器上的操作刚开始基本上，就是按照官网的步骤来走，首先做一些前置工作:
+
+配置下apt
+安装JDK.
+安装下NTP时间同步的程序；
+安装好Mysql，MariaDB，Posgres。其中的一个数据库，刚开始以为都要安装。。。然后又把Mari">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CDH 在ubuntu上的部署和安装，以及一些坑">
+<meta property="og:url" content="http://mikolaje.github.io/2019/cdh_install.html">
+<meta property="og:site_name" content="Welcome to Dennis Blog">
+<meta property="og:description" content="最近两天在自己电脑上搭建一个Cloudera Manager来玩玩。本来以为挺简单的，只是在Web UI上无脑下一步就好了，但其实还是遇到挺多问题的。
+安装在服务器上的操作刚开始基本上，就是按照官网的步骤来走，首先做一些前置工作:
+
+配置下apt
+安装JDK.
+安装下NTP时间同步的程序；
+安装好Mysql，MariaDB，Posgres。其中的一个数据库，刚开始以为都要安装。。。然后又把Mari">
+<meta property="og:image" content="http://mikolaje.github.io/images/2019/cdh_install/323205c4.png">
+<meta property="og:image" content="http://mikolaje.github.io/images/2019/cdh_install/cloudera_install.jpg">
+<meta property="og:image" content="http://mikolaje.github.io/images/2019/cdh_install/yarn_rm_nm1.png">
+<meta property="og:image" content="http://mikolaje.github.io/images/2019/cdh_install/yarn_rm_nm1.png">
+<meta property="og:updated_time" content="2019-11-18T10:31:19.757Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CDH 在ubuntu上的部署和安装，以及一些坑">
+<meta name="twitter:description" content="最近两天在自己电脑上搭建一个Cloudera Manager来玩玩。本来以为挺简单的，只是在Web UI上无脑下一步就好了，但其实还是遇到挺多问题的。
+安装在服务器上的操作刚开始基本上，就是按照官网的步骤来走，首先做一些前置工作:
+
+配置下apt
+安装JDK.
+安装下NTP时间同步的程序；
+安装好Mysql，MariaDB，Posgres。其中的一个数据库，刚开始以为都要安装。。。然后又把Mari">
+<meta name="twitter:image" content="http://mikolaje.github.io/images/2019/cdh_install/323205c4.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://mikolaje.github.io/2019/cdh_install.html"/>
+
+
+
+
+
+  <title>CDH 在ubuntu上的部署和安装，以及一些坑 | Welcome to Dennis Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Welcome to Dennis Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2019/cdh_install.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dennis">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Welcome to Dennis Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">CDH 在ubuntu上的部署和安装，以及一些坑</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-02T10:24:10+08:00">
+                2019-01-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/大数据/" itemprop="url" rel="index">
+                    <span itemprop="name">大数据</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/大数据/cloudera/" itemprop="url" rel="index">
+                    <span itemprop="name">cloudera</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/cdh_install.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/cdh_install.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近两天在自己电脑上搭建一个Cloudera Manager来玩玩。本来以为挺简单的，只是在Web UI上无脑下一步就好了，<br>但其实还是遇到挺多问题的。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="在服务器上的操作"><a href="#在服务器上的操作" class="headerlink" title="在服务器上的操作"></a>在服务器上的操作</h3><p>刚开始基本上，就是按照官网的步骤来走，首先做一些前置工作:</p>
+<ol>
+<li>配置下apt</li>
+<li>安装JDK.</li>
+<li>安装下NTP时间同步的程序；</li>
+<li>安装好Mysql，MariaDB，Posgres。<br>其中的一个数据库，刚开始以为都要安装。。。然后又把MariaDB这些一个个卸载了；</li>
+<li>在Mysql中创建一些CM所需的数据库和表。如下所是。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">CREATE DATABASE scm DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;</div><div class="line">GRANT ALL ON scm.* TO &apos;scm&apos;@&apos;%&apos; IDENTIFIED BY &apos;123456&apos;;</div><div class="line"></div><div class="line">CREATE DATABASE amon DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;</div><div class="line">GRANT ALL ON amon.* TO &apos;amon&apos;@&apos;%&apos; IDENTIFIED BY &apos;123456&apos;;</div><div class="line"></div><div class="line">CREATE DATABASE rman DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;</div><div class="line">GRANT ALL ON rman.* TO &apos;rman&apos;@&apos;%&apos; IDENTIFIED BY &apos;123456&apos;;</div><div class="line"></div><div class="line">CREATE DATABASE hue DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;</div><div class="line">GRANT ALL ON hue.* TO &apos;hue&apos;@&apos;%&apos; IDENTIFIED BY &apos;123456&apos;;</div><div class="line"></div><div class="line">CREATE DATABASE metastore DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;</div><div class="line">GRANT ALL ON metastore.* TO &apos;hive&apos;@&apos;%&apos; IDENTIFIED BY &apos;123456&apos;;</div><div class="line"></div><div class="line">CREATE DATABASE sentry DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;</div><div class="line">GRANT ALL ON sentry.* TO &apos;sentry&apos;@&apos;%&apos; IDENTIFIED BY &apos;123456&apos;;</div><div class="line"></div><div class="line">CREATE DATABASE nav DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;</div><div class="line">GRANT ALL ON nav.* TO &apos;nav&apos;@&apos;%&apos; IDENTIFIED BY &apos;123456&apos;;</div><div class="line"></div><div class="line">CREATE DATABASE navms DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;</div><div class="line">GRANT ALL ON navms.* TO &apos;navms&apos;@&apos;%&apos; IDENTIFIED BY &apos;123456&apos;;</div><div class="line"></div><div class="line">CREATE DATABASE oozie DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;</div><div class="line">GRANT ALL ON oozie.* TO &apos;oozie&apos;@&apos;%&apos; IDENTIFIED BY &apos;123456&apos;;</div></pre></td></tr></table></figure>
+<ol>
+<li>通过scm_prepare_database.sh 脚本来进一步设置Manager Database<br>sudo /opt/cloudera/cm/schema/scm_prepare_database.sh [options] <databasetype> <databasename> <databaseuser> <password><br>只需要执行一次<code>sudo /opt/cloudera/cm/schema/scm_prepare_database.sh mysql scm scm mypassword</code>就好了。</password></databaseuser></databasename></databasetype></li>
+</ol>
+<h3 id="在Web-UI上的安装"><a href="#在Web-UI上的安装" class="headerlink" title="在Web UI上的安装"></a>在Web UI上的安装</h3><ol>
+<li>首先记得在每台机器上配置好/etc/hosts</li>
+<li>在Web上的安装基本上就是点继续。有些地方要注意。<br>这一步会等待比较长的时间，会下载安装一些parcels。</li>
+</ol>
+<p><img src="/images/2019/cdh_install/323205c4.png" alt="Sample Image Added via Markdown"></p>
+<ol>
+<li>然后，基本上就是下一步了。到这一步，我是创建了一个叫cloudera的用户，要给与它sudo以及password-exempt<br><img src="/images/2019/cdh_install/cloudera_install.jpg" alt="Sample Image Added via Markdown"></li>
+</ol>
+<p>对了，因为我的是单机版的，所以HDFS那边会报错一个叫：副本不足的块 存在隐患。<br>这是因为只有一个节点，Block块无法，分配到其它的节点作为备份。默认是有2个备份Block分发到其它节点。</p>
+<h3 id="启动CDH"><a href="#启动CDH" class="headerlink" title="启动CDH"></a>启动CDH</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo systemctl start cloudera-scm-server</div><div class="line"></div><div class="line"># 查看scm server日志，scm的全称是：The Service and Configuration Manager </div><div class="line">sudo tail -f /var/log/cloudera-scm-server/cloudera-scm-server.log</div></pre></td></tr></table></figure>
+<h3 id="停止CDH"><a href="#停止CDH" class="headerlink" title="停止CDH"></a>停止CDH</h3><p>有些时候我们要停机检修一下电脑，所以要停止Cluster。很简单，首先进入到CDH的Web UI的Cluster主界面, 左上角有个Action<br>，点一下弹出下拉条，然后选停止。等几分钟后集群的所有组件就会停止了。</p>
+<p>然后进入到主节点的终端，输入<code>sudo systemctl stop cloudera-scm-server</code>，就全部停止了。</p>
+<h2 id="CDH的一些配置"><a href="#CDH的一些配置" class="headerlink" title="CDH的一些配置"></a>CDH的一些配置</h2><h3 id="Yarn-RM-NM共用一个host"><a href="#Yarn-RM-NM共用一个host" class="headerlink" title="Yarn: RM,NM共用一个host"></a>Yarn: RM,NM共用一个host</h3><p>默认情况下Resource Manager会单独用一个节点。但是我的RM host内存和CPU都有剩余，跑app的时候把资源压在<br>device2上有点浪费了，我利用起device1的资源来。<br>首先进入到Yarn的版块，Action下拉框，点击Add Role Instance<br><img src="/images/2019/cdh_install/yarn_rm_nm1.png" alt="Sample Image Added via Markdown"><br><img src="/images/2019/cdh_install/yarn_rm_nm1.png" alt="Sample Image Added via Markdown"></p>
+<h3 id="增加服务"><a href="#增加服务" class="headerlink" title="增加服务"></a>增加服务</h3><p>如果我们想新增加一些组件，比如Kafka或Spark，然后我们可以点击Cluster版块的Action下拉框，选中第一个 Add Service<br>进入新增Service的页面。</p>
+<h2 id="一些问题"><a href="#一些问题" class="headerlink" title="一些问题"></a>一些问题</h2><h3 id="问题1"><a href="#问题1" class="headerlink" title="问题1"></a>问题1</h3><p>我增加一个节点的时候遇到如下报错<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Host with invalid Cloudera Manager GUID is detected</div><div class="line">...</div><div class="line">Error, CM server guid updated, expected c3b5fe15-5f29-434b-ae0a-4750b56c72ab, received dc1d28d4-4c78-4a07-919b-a9eaf7190d41</div></pre></td></tr></table></figure></p>
+<p>解决方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">验证如下配置文件，确定hostname是否正确</div><div class="line">$ nano /etc/cloudera-scm-agent/config.ini</div><div class="line">so that the hostname where the same as the command $ hostname returned.</div><div class="line">Then rm /var/lib/cloudera-scm-agent/cm_guid</div><div class="line">然后删除每个节点的cm_guid</div><div class="line">then I restarted the agent and the server of cloudera:</div><div class="line">然后重启</div><div class="line">$ service cloudera-scm-agent restart</div><div class="line">$ service cloudera-scm-server restart</div></pre></td></tr></table></figure></p>
+<h3 id="问题2"><a href="#问题2" class="headerlink" title="问题2"></a>问题2</h3><p>在NameNode Format的时候遇到如下报错<br>Running in non-interactive mode, and data appears to exist in Storage Directory /dfs/nn. Not formatting.</p>
+<p>解决方案：<br>删除/dfs/nn 以及 /dfs/dn里面的所有数据<br>因为之前我安装了一个单机集群，HDFS里面放了一些数据</p>
+<h3 id="问题3"><a href="#问题3" class="headerlink" title="问题3"></a>问题3</h3><p>Cloudera 在Validate Hive Metastore schema的时候出现如下错误，发现metastore里面没有VERSION table<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">Fri Jul 19 14:06:33 CST 2019 WARN: Establishing SSL connection without server&apos;s identity verification is not recommended. According to MySQL 5.5.45+, 5.6.26+ and 5.7.6+ requirements SSL connection must be established by default if explicit option isn&apos;t set. For compliance with existing applications not using SSL the verifyServerCertificate property is set to &apos;false&apos;. You need either to explicitly disable SSL by setting useSSL=false, or set useSSL=true and provide truststore for server certificate verification.</div><div class="line">org.apache.hadoop.hive.metastore.HiveMetaException: Failed to get schema version, Cause:Table &apos;metastore.VERSION&apos; doesn&apos;t exist</div><div class="line">org.apache.hadoop.hive.metastore.HiveMetaException: Failed to get schema version, Cause:Table &apos;metastore.VERSION&apos; doesn&apos;t exist</div><div class="line">	at org.apache.hadoop.hive.metastore.CDHMetaStoreSchemaInfo.getMetaStoreSchemaVersion(CDHMetaStoreSchemaInfo.java:342)</div><div class="line">	at org.apache.hive.beeline.HiveSchemaTool.validateSchemaVersions(HiveSchemaTool.java:685)</div><div class="line">	at org.apache.hive.beeline.HiveSchemaTool.doValidate(HiveSchemaTool.java:578)</div><div class="line">	at org.apache.hive.beeline.HiveSchemaTool.main(HiveSchemaTool.java:1142)</div><div class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</div><div class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</div><div class="line">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</div><div class="line">	at java.lang.reflect.Method.invoke(Method.java:498)</div><div class="line">	at org.apache.hadoop.util.RunJar.run(RunJar.java:313)</div><div class="line">	at org.apache.hadoop.util.RunJar.main(RunJar.java:227)</div><div class="line">*** schemaTool failed ***</div></pre></td></tr></table></figure></p>
+<p>解决方案：<br><code>dennis@device1:/opt/cloudera/parcels/CDH/lib/hive/bin$ schematool -dbType mysql -initSchema -passWord password -userName hive</code></p>
+<h3 id="问题4"><a href="#问题4" class="headerlink" title="问题4"></a>问题4</h3><p>在Hue上的hive上运行一些 insert 和count(*) 操作时候会一直卡住（stuck, hang），没有任何反应，也没报错。<br>看日志是说MR 还没有启动。在Cloudera的community上查到 要mapred-site.xml的参数 mapreduce.framework.name 设置为 local</p>
+<p>于是我在CDH中的Yarn集群下修改了mapreduce.framework.name 为 local，然后重启集群后就成功了。 select count(*) 和 insert就不会卡住了。</p>
+<h3 id="问题5"><a href="#问题5" class="headerlink" title="问题5"></a>问题5</h3><p>在hue上面可以正常地使用Hive。在device2下用hive cli没有问题。但在device1 下的bash执行hive command，里面输入show databases后报错：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SemanticException org.apache.hadoop.hive.ql.metadata.HiveException: java.lang.RuntimeException: Unable to instantiate org.apache.hadoop.hive.ql.metadata.SessionHiveMetaStoreClient</div></pre></td></tr></table></figure></p>
+<p> 解决方案：<br> 先用 hive -hiveconf hive.root.logger=DEBUG,console<br> 在调试，查看到更多有价值的报错信息。<br> 果然，查到如下信息：<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"> Caused by: java.io.IOException: Keystore was tampered with, or password was incorrect</div><div class="line">	at com.sun.crypto.provider.JceKeyStore.engineLoad(JceKeyStore.java:865) ~[sunjce_provider.jar:1.8.0_112]</div><div class="line">	at java.security.KeyStore.load(KeyStore.java:1445) ~[?:1.8.0_121]</div><div class="line">	at org.apache.hadoop.security.alias.AbstractJavaKeyStoreProvider.locateKeystore(AbstractJavaKeyStoreProvider.java:322) ~[hadoop-common-3.0.0-cdh6.2.0.jar:?]</div><div class="line">	at org.apache.hadoop.security.alias.AbstractJavaKeyStoreProvider.&lt;init&gt;(AbstractJavaKeyStoreProvider.java:86) ~[hadoop-common-3.0.0-cdh6.2.0.jar:?]</div><div class="line">	at org.apache.hadoop.security.alias.LocalJavaKeyStoreProvider.&lt;init&gt;(LocalJavaKeyStoreProvider.java:58) ~[hadoop-common-3.0.0-cdh6.2.0.jar:?]</div><div class="line"></div><div class="line">	at org.apache.hadoop.hive.ql.metadata.Hive.registerAllFunctionsOnce(Hive.java:237) ~[hive-exec-2.1.1-cdh6.2.0.jar:2.1.1-cdh6.2.0]</div><div class="line">	... 23 more</div><div class="line">Caused by: java.security.UnrecoverableKeyException: Password verification failed</div></pre></td></tr></table></figure></p>
+<p>按日志的报错信息来说是我的源数据库密码不对，于是我查看hive-site.xml配置文件，发现<br>/opt/cloudera/parcels/CDH-6.2.0-1.cdh6.2.0.p0.967373/lib/hive/conf/hive-site.xml<br>也就是/etc/hive/conf/hive-site.xml(我猜CDH会把上面目录的所有配置文件复制一遍到 /etc/hive/conf/下)<br>我之前把它改了，所以那配置有问题，我把它改为默认的配置重启后就恢复正常了！</p>
+<h3 id="问题6"><a href="#问题6" class="headerlink" title="问题6"></a>问题6</h3><p>启动 cloudera-scm-server 时候报错如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Table &apos;metastore.CM_VERSION&apos; doesn&apos;t exist</div></pre></td></tr></table></figure></p>
+<p> 解决方案：<br><code>sudo /opt/cloudera/cm/schema/scm_prepare_database.sh mysql scm scm mypassword</code><br>重新执行下这条命令。之前我把所有的服务都执行了一遍（amon, rman, … metastore, … etc)，是我误解了scm_prepare_database.sh的作用。<br>按官网所说的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Cloudera Manager Server includes a script that can create and configure a database for itself. The script can:</div><div class="line">Create the Cloudera Manager Server database configuration file.</div><div class="line">(MariaDB, MySQL, and PostgreSQL) Create and configure a database for Cloudera Manager Server to use.</div><div class="line">(MariaDB, MySQL, and PostgreSQL) Create and configure a user account for Cloudera Manager Server.</div></pre></td></tr></table></figure></p>
+<p>这个脚本只需要执行一次就好了，就是<code>sudo /opt/cloudera/cm/schema/scm_prepare_database.sh mysql scm scm mypassword</code><br>然后重启cloudera-scm-server解决问题。此外，通过<code>/etc/cloudera-scm-server/db.properties</code> 也可以确定目前scm用的是哪个数据库。</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://www.cloudera.com/documentation/enterprise/6/6.2/topics/introduction.html" target="_blank" rel="external">https://www.cloudera.com/documentation/enterprise/6/6.2/topics/introduction.html</a><br><a href="https://blog.csdn.net/qq_24409555/article/details/76139886" target="_blank" rel="external">https://blog.csdn.net/qq_24409555/article/details/76139886</a><br><a href="https://community.cloudera.com/t5/Batch-SQL-Apache-Hive/Hive-Errors-happend-when-execute-hive-service-metastore/m-p/93050#M3282" target="_blank" rel="external">https://community.cloudera.com/t5/Batch-SQL-Apache-Hive/Hive-Errors-happend-when-execute-hive-service-metastore/m-p/93050#M3282</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/cloudera/" rel="tag"># cloudera</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/huaqiangbei_black_market.html" rel="next" title="华强北被坑记">
+                <i class="fa fa-chevron-left"></i> 华强北被坑记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/ngrok_deployment.html" rel="prev" title="Ngrok服务器部署">
+                Ngrok服务器部署 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Dennis" />
+            
+              <p class="site-author-name" itemprop="name">Dennis</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/mikolaje" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/mikolaj" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-zhihu"></i>知乎</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com/users/6169688/dennisli" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i>StackOverflow</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在服务器上的操作"><span class="nav-number">1.1.</span> <span class="nav-text">在服务器上的操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在Web-UI上的安装"><span class="nav-number">1.2.</span> <span class="nav-text">在Web UI上的安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动CDH"><span class="nav-number">1.3.</span> <span class="nav-text">启动CDH</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#停止CDH"><span class="nav-number">1.4.</span> <span class="nav-text">停止CDH</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CDH的一些配置"><span class="nav-number">2.</span> <span class="nav-text">CDH的一些配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Yarn-RM-NM共用一个host"><span class="nav-number">2.1.</span> <span class="nav-text">Yarn: RM,NM共用一个host</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#增加服务"><span class="nav-number">2.2.</span> <span class="nav-text">增加服务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一些问题"><span class="nav-number">3.</span> <span class="nav-text">一些问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题1"><span class="nav-number">3.1.</span> <span class="nav-text">问题1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题2"><span class="nav-number">3.2.</span> <span class="nav-text">问题2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题3"><span class="nav-number">3.3.</span> <span class="nav-text">问题3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题4"><span class="nav-number">3.4.</span> <span class="nav-text">问题4</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题5"><span class="nav-number">3.5.</span> <span class="nav-text">问题5</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题6"><span class="nav-number">3.6.</span> <span class="nav-text">问题6</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">4.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dennis</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://mikolaje.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://mikolaje.github.io/2019/cdh_install.html';
+          this.page.identifier = '2019/cdh_install.html';
+          this.page.title = 'CDH 在ubuntu上的部署和安装，以及一些坑';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://mikolaje.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>
