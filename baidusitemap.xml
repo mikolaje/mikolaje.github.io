@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://mikolaje.github.io/2019/hexo_seo.html</loc>
-    <lastmod>2019-11-19</lastmod>
-  </url>  <url>
-    <loc>http://mikolaje.github.io/2019/ngrok_deployment.html</loc>
-    <lastmod>2019-11-19</lastmod>
-  </url>  <url>
-    <loc>http://mikolaje.github.io/2019/pyspark_slower.html</loc>
-    <lastmod>2019-11-19</lastmod>
-  </url>  <url>
-    <loc>http://mikolaje.github.io/2019/private_IDC.html</loc>
-    <lastmod>2019-11-19</lastmod>
-  </url>  <url>
-    <loc>http://mikolaje.github.io/2019/hive_orc.html</loc>
-    <lastmod>2019-11-19</lastmod>
-  </url>  <url>
-    <loc>http://mikolaje.github.io/2018/study_abroad_agency.html</loc>
-    <lastmod>2019-11-19</lastmod>
-  </url>  <url>
-    <loc>http://mikolaje.github.io/2019/typical_bigdata_interview_question.html</loc>
-    <lastmod>2019-11-19</lastmod>
-  </url>  <url>
-    <loc>http://mikolaje.github.io/2019/nz_travel.html</loc>
-    <lastmod>2019-11-19</lastmod>
-  </url>  <url>
-    <loc>http://mikolaje.github.io/2019/tmux_guide.html</loc>
-    <lastmod>2019-11-19</lastmod>
-  </url>  <url>
-    <loc>http://mikolaje.github.io/2019/spark_when_to_cache.html</loc>
+    <loc>http://mikolaje.github.io/2019/hive_bucket_partition.html</loc>
     <lastmod>2019-11-19</lastmod>
   </url>  <url>
     <loc>http://mikolaje.github.io/2019/sqlalchemy_with_multiprocess.html</loc>
     <lastmod>2019-11-19</lastmod>
   </url>  <url>
-    <loc>http://mikolaje.github.io/2019/hive_bucket_partition.html</loc>
+    <loc>http://mikolaje.github.io/2019/ngrok_deployment.html</loc>
+    <lastmod>2019-11-19</lastmod>
+  </url>  <url>
+    <loc>http://mikolaje.github.io/2019/typical_bigdata_interview_question.html</loc>
+    <lastmod>2019-11-19</lastmod>
+  </url>  <url>
+    <loc>http://mikolaje.github.io/2019/hexo_seo.html</loc>
+    <lastmod>2019-11-19</lastmod>
+  </url>  <url>
+    <loc>http://mikolaje.github.io/2019/pyspark_slower.html</loc>
+    <lastmod>2019-11-19</lastmod>
+  </url>  <url>
+    <loc>http://mikolaje.github.io/2019/hive_orc.html</loc>
+    <lastmod>2019-11-19</lastmod>
+  </url>  <url>
+    <loc>http://mikolaje.github.io/2019/private_IDC.html</loc>
+    <lastmod>2019-11-19</lastmod>
+  </url>  <url>
+    <loc>http://mikolaje.github.io/2018/study_abroad_agency.html</loc>
+    <lastmod>2019-11-19</lastmod>
+  </url>  <url>
+    <loc>http://mikolaje.github.io/2019/nz_travel.html</loc>
+    <lastmod>2019-11-19</lastmod>
+  </url>  <url>
+    <loc>http://mikolaje.github.io/2019/spark_when_to_cache.html</loc>
+    <lastmod>2019-11-19</lastmod>
+  </url>  <url>
+    <loc>http://mikolaje.github.io/2019/tmux_guide.html</loc>
     <lastmod>2019-11-19</lastmod>
   </url>  <url>
     <loc>http://mikolaje.github.io/2018/huaqiangbei_black_market.html</loc>

@@ -46,6 +46,8 @@
 <p>要使用<code>sitemap</code>我们需要安装两个hexo的插件：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">npm install hexo-generator-sitemap --save</div><div class="line">npm install hexo-generator-baidu-sitemap --save</div></pre></td></tr></table></figure></p>
 <p>然后，我们要在根目录下的<code>_config.yml</code> 的最后面添加如下内容：</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><div class="line"><span class="attr">sitemap:</span></div><div class="line"><span class="attr">  path:</span> sitemap.xml</div><div class="line"><span class="attr">baidusitemap:</span></div><div class="line"><span class="attr">  path:</span> baidusitemap.xml</div></pre></td></tr></table></figure>
+<h3 id="配置-google-analytics"><a href="#配置-google-analytics" class="headerlink" title="配置 google analytics"></a>配置 google analytics</h3><p>在theme/next/_config.yml文件下添加如下配置：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">google_analytics: UA-146421499-1</div></pre></td></tr></table></figure></p>
+<p>Track ID要到你自己的GA的页面里找</p>
 <h3 id="配置ads-txt"><a href="#配置ads-txt" class="headerlink" title="配置ads.txt"></a>配置ads.txt</h3><blockquote>
 <p>ads.txt是干什么用的？</p>
 <p>授权数字卖方 (ads.txt) 是一项 IAB 计划，可帮助确保您的数字广告资源只通过您认定为已获得授权的卖家（如 AdSense）进行销售。创建自己的 ads.txt 文件后，您可以更好地掌控允许谁在您的网站上销售广告，并可防止向广告客户展示仿冒广告资源。</p>
@@ -57,11 +59,11 @@
 </blockquote>
 ]]></content>
       <categories>
-        <category>SEO</category>
         <category>hexo</category>
       </categories>
       <tags>
         <tag>hexo</tag>
+        <tag>SEO</tag>
       </tags>
   </entry>
   <entry>
@@ -114,7 +116,6 @@
 ]]></content>
       <categories>
         <category>大数据</category>
-        <category>spark</category>
       </categories>
       <tags>
         <tag>spark</tag>
@@ -178,10 +179,10 @@
 ]]></content>
       <categories>
         <category>python</category>
-        <category>python</category>
       </categories>
       <tags>
         <tag>python</tag>
+        <tag>sqlalchemy</tag>
       </tags>
   </entry>
   <entry>
@@ -208,7 +209,6 @@
 ]]></content>
       <categories>
         <category>大数据</category>
-        <category>hive</category>
       </categories>
       <tags>
         <tag>hive</tag>
@@ -230,10 +230,10 @@
 ]]></content>
       <categories>
         <category>大数据</category>
-        <category>interview</category>
       </categories>
       <tags>
         <tag>interview</tag>
+        <tag>大数据</tag>
       </tags>
   </entry>
   <entry>
@@ -256,7 +256,6 @@
 ]]></content>
       <categories>
         <category>大数据</category>
-        <category>hive</category>
       </categories>
       <tags>
         <tag>hive</tag>
@@ -450,7 +449,6 @@
 ]]></content>
       <categories>
         <category>运维</category>
-        <category>ngrok</category>
       </categories>
       <tags>
         <tag>ngrok</tag>

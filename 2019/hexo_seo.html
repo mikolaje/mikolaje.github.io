@@ -89,7 +89,7 @@
 正文废话不说了，直接进入主题。都知道要想在百度搜索，Google搜索结果页中排得靠前，你得让人家的爬虫搜你嘛，所以我们得通过一个叫robots.txt的文件放在根目录上。这文件的目的，就是告诉搜索引擎应该搜索我这网站的那些内容。我们当然希望是搜索">
 <meta property="og:image" content="http://mikolaje.github.io/images/2019/hexo_seo/google_spyder.png">
 <meta property="og:image" content="http://mikolaje.github.io/images/2019/hexo_seo/adsense.png">
-<meta property="og:updated_time" content="2019-11-19T14:00:48.856Z">
+<meta property="og:updated_time" content="2019-11-19T14:32:20.781Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo博客SEO优化，添加robots.txt">
 <meta name="twitter:description" content="前言最近一时兴起，想提高自己博客的点击率，就尝试做了一些SEO优化，并且加入了Google Adsense广告。呵呵，写博客这么辛苦，赚点钱是应该的嘛。
@@ -362,18 +362,7 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/SEO/" itemprop="url" rel="index">
-                    <span itemprop="name">SEO</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/SEO/hexo/" itemprop="url" rel="index">
+                  <a href="/categories/hexo/" itemprop="url" rel="index">
                     <span itemprop="name">hexo</span>
                   </a>
                 </span>
@@ -430,6 +419,8 @@
 <p>要使用<code>sitemap</code>我们需要安装两个hexo的插件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">npm install hexo-generator-sitemap --save</div><div class="line">npm install hexo-generator-baidu-sitemap --save</div></pre></td></tr></table></figure></p>
 <p>然后，我们要在根目录下的<code>_config.yml</code> 的最后面添加如下内容：</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="attr">sitemap:</span></div><div class="line"><span class="attr">  path:</span> sitemap.xml</div><div class="line"><span class="attr">baidusitemap:</span></div><div class="line"><span class="attr">  path:</span> baidusitemap.xml</div></pre></td></tr></table></figure>
+<h3 id="配置-google-analytics"><a href="#配置-google-analytics" class="headerlink" title="配置 google analytics"></a>配置 google analytics</h3><p>在theme/next/_config.yml文件下添加如下配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">google_analytics: UA-146421499-1</div></pre></td></tr></table></figure></p>
+<p>Track ID要到你自己的GA的页面里找</p>
 <h3 id="配置ads-txt"><a href="#配置ads-txt" class="headerlink" title="配置ads.txt"></a>配置ads.txt</h3><blockquote>
 <p>ads.txt是干什么用的？</p>
 <p>授权数字卖方 (ads.txt) 是一项 IAB 计划，可帮助确保您的数字广告资源只通过您认定为已获得授权的卖家（如 AdSense）进行销售。创建自己的 ads.txt 文件后，您可以更好地掌控允许谁在您的网站上销售广告，并可防止向广告客户展示仿冒广告资源。</p>
@@ -457,6 +448,8 @@
         <div class="post-tags">
           
             <a href="/tags/hexo/" rel="tag"># hexo</a>
+          
+            <a href="/tags/SEO/" rel="tag"># SEO</a>
           
         </div>
       
@@ -583,7 +576,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -594,7 +587,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -649,7 +642,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正文"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-robots-txt"><span class="nav-number">2.1.</span> <span class="nav-text">配置 robots.txt</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sitemap即网站地图"><span class="nav-number">2.2.</span> <span class="nav-text">Sitemap即网站地图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置ads-txt"><span class="nav-number">2.3.</span> <span class="nav-text">配置ads.txt</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改博文链接"><span class="nav-number">2.4.</span> <span class="nav-text">修改博文链接</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正文"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-robots-txt"><span class="nav-number">2.1.</span> <span class="nav-text">配置 robots.txt</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sitemap即网站地图"><span class="nav-number">2.2.</span> <span class="nav-text">Sitemap即网站地图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-google-analytics"><span class="nav-number">2.3.</span> <span class="nav-text">配置 google analytics</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置ads-txt"><span class="nav-number">2.4.</span> <span class="nav-text">配置ads.txt</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改博文链接"><span class="nav-number">2.5.</span> <span class="nav-text">修改博文链接</span></a></li></ol></li></ol></div>
             
 
           </div>

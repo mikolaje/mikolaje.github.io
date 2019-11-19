@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="python," />
+  <meta name="keywords" content="python,sqlalchemy," />
 
 
 
@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Dennis' Blog">
 <meta property="og:description" content="前言最近上头说我写的ETL工具从MySQL导出为CSV的速度太慢了，需要性能优化。的确，有部分数据因为在MySQL里面做了分表分库，而我目前的导出实现是一个一个对小表进行导出。其实，这一步完全是可以并发多个表同时导出的。理论上如果网络IO没有瓶颈的话，多个表同时从MySQL里dump可以大大提升效率。
 正题查阅文档为了实现并发地使用sqlalchemy我花了不少时间在网上找资料，也在StackOv">
-<meta property="og:updated_time" content="2019-11-19T07:40:32.194Z">
+<meta property="og:updated_time" content="2019-11-19T14:32:20.781Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SQLAchemy的多进程实践">
 <meta name="twitter:description" content="前言最近上头说我写的ETL工具从MySQL导出为CSV的速度太慢了，需要性能优化。的确，有部分数据因为在MySQL里面做了分表分库，而我目前的导出实现是一个一个对小表进行导出。其实，这一步完全是可以并发多个表同时导出的。理论上如果网络IO没有瓶颈的话，多个表同时从MySQL里dump可以大大提升效率。
@@ -366,17 +366,6 @@
 
                 
                 
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python/python/" itemprop="url" rel="index">
-                    <span itemprop="name">python</span>
-                  </a>
-                </span>
-
-                
-                
               
             </span>
           
@@ -461,6 +450,8 @@
         <div class="post-tags">
           
             <a href="/tags/python/" rel="tag"># python</a>
+          
+            <a href="/tags/sqlalchemy/" rel="tag"># sqlalchemy</a>
           
         </div>
       
@@ -587,7 +578,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -598,7 +589,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
