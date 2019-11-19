@@ -1350,49 +1350,6 @@ sum_prime(2000000)
       </tags>
   </entry>
   <entry>
-    <title>聊聊python的unicode 问题</title>
-    <url>/2016/python_unicode.html</url>
-    <content><![CDATA[<h2 id="Python的中文字符处理"><a href="#Python的中文字符处理" class="headerlink" title="Python的中文字符处理"></a>Python的中文字符处理</h2><p>都说python对中文不太友好。</p>
-<p>我们看看下面两个例子：<br>测试环境是ubuntu;<br>python版本为2.7<br><!-- python --></p>
-<pre><code>》a = &apos;呵呵&apos;
-》a 
-》&apos;\xe5\x91\xb5\xe5\x91\xb5&apos;
-》print a
-》呵呵
-</code></pre><p>为什么print 和 直接输入变量回车显示的东西不一样呢？<br>\xe5\x91\xb5\xe5\x91\xb5这些是什么东西啊。一定很奇怪。其实bytes字符编码，是8进制的东西。</p>
-<a id="more"></a>
-<p>首先’呵呵‘ 字符串赋值给a。然而python 内部是以’\xe5\x91\xb5\xe5\x91\xb5’保存的，这应该是utf-8（因为ubuntu默认为uhf-8）的unicode 对应的8进制字符编码</p>
-<p>我们再看看：<br><!-- python --><br>    》a=u’呵呵’  #带上u表示将这字符串转为unicode<br>    》a<br>    》u’\u5475\u5475’<br>    》print a<br>    》呵呵</p>
-<p>我们发现print真是厉害，不管是字符串 还是 unicode 它都能显示为中文的字符。而回车显示的u’\u5475\u5475’是什么呢？这是’呵呵’对应的uncode编码</p>
-<p>我们知道unicode可以 通过encode 编码来转为str</p>
-<!-- python -->
-<pre><code>》a.encode(&apos;utf-8&apos;)
-》&apos;\xe5\x91\xb5\xe5\x91\xb5&apos;
-》print a.encode(&apos;utf-8&apos;)
-》呵呵
-</code></pre><p>我们看到encode后显示的str和我们最开始显示的’\xe5\x91\xb5\xe5\x91\xb5’一样。这说吗中文的字符串在python里就是用\x这种字符串编码保存的</p>
-<p>print 可以把这种编码自动地解码并且显示为对应的中文字符</p>
-<p>另外，有些时候会碰到这种情况，请看下面：</p>
-<!-- python -->
-<pre><code>》a=u&apos;呵呵&apos;
-》l=[a]
-》s=str(l)
-》s
-》&quot;[u&apos;\\u5475\\u5475&apos;]&quot;
-</code></pre><p>哟，怎么多了个\<br>有时候，python会以这种编码保存，这不知道是什么编码，多了一个斜杠的<br>遇到这种情况我们可以用如下办法<br><!-- python --></p>
-<pre><code>》s.decode(&apos;unicode_escape&apos;)
-》s
-》u&quot;[u&apos;\u5475\u5475&apos;]&quot;
-</code></pre><p>这样就可以把它变回来了。此外我们可以print s一下看看会出现什么呢？<br><!-- python --></p>
-<pre><code>》print s
-》[u&apos;\u5475\u5475&apos;]
-</code></pre><p>哈，其实print 就是把不好读的编码优化为比这种编码更好读的一种形式</p>
-<h3 id="总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟"><a href="#总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟" class="headerlink" title="总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟"></a>总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟</h3>]]></content>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>聊聊python的变量问题</title>
     <url>/2016/python_func_params.html</url>
     <content><![CDATA[<h2 id="Python的参数作用范围"><a href="#Python的参数作用范围" class="headerlink" title="Python的参数作用范围"></a>Python的参数作用范围</h2><p>我们看看下面两个例子：</p>
@@ -1454,6 +1411,49 @@ print p1.name  # [1]
 print p2.name  # [1]
 print Person.name  # [1]
 </code></pre>]]></content>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>聊聊python的unicode 问题</title>
+    <url>/2016/python_unicode.html</url>
+    <content><![CDATA[<h2 id="Python的中文字符处理"><a href="#Python的中文字符处理" class="headerlink" title="Python的中文字符处理"></a>Python的中文字符处理</h2><p>都说python对中文不太友好。</p>
+<p>我们看看下面两个例子：<br>测试环境是ubuntu;<br>python版本为2.7<br><!-- python --></p>
+<pre><code>》a = &apos;呵呵&apos;
+》a 
+》&apos;\xe5\x91\xb5\xe5\x91\xb5&apos;
+》print a
+》呵呵
+</code></pre><p>为什么print 和 直接输入变量回车显示的东西不一样呢？<br>\xe5\x91\xb5\xe5\x91\xb5这些是什么东西啊。一定很奇怪。其实bytes字符编码，是8进制的东西。</p>
+<a id="more"></a>
+<p>首先’呵呵‘ 字符串赋值给a。然而python 内部是以’\xe5\x91\xb5\xe5\x91\xb5’保存的，这应该是utf-8（因为ubuntu默认为uhf-8）的unicode 对应的8进制字符编码</p>
+<p>我们再看看：<br><!-- python --><br>    》a=u’呵呵’  #带上u表示将这字符串转为unicode<br>    》a<br>    》u’\u5475\u5475’<br>    》print a<br>    》呵呵</p>
+<p>我们发现print真是厉害，不管是字符串 还是 unicode 它都能显示为中文的字符。而回车显示的u’\u5475\u5475’是什么呢？这是’呵呵’对应的uncode编码</p>
+<p>我们知道unicode可以 通过encode 编码来转为str</p>
+<!-- python -->
+<pre><code>》a.encode(&apos;utf-8&apos;)
+》&apos;\xe5\x91\xb5\xe5\x91\xb5&apos;
+》print a.encode(&apos;utf-8&apos;)
+》呵呵
+</code></pre><p>我们看到encode后显示的str和我们最开始显示的’\xe5\x91\xb5\xe5\x91\xb5’一样。这说吗中文的字符串在python里就是用\x这种字符串编码保存的</p>
+<p>print 可以把这种编码自动地解码并且显示为对应的中文字符</p>
+<p>另外，有些时候会碰到这种情况，请看下面：</p>
+<!-- python -->
+<pre><code>》a=u&apos;呵呵&apos;
+》l=[a]
+》s=str(l)
+》s
+》&quot;[u&apos;\\u5475\\u5475&apos;]&quot;
+</code></pre><p>哟，怎么多了个\<br>有时候，python会以这种编码保存，这不知道是什么编码，多了一个斜杠的<br>遇到这种情况我们可以用如下办法<br><!-- python --></p>
+<pre><code>》s.decode(&apos;unicode_escape&apos;)
+》s
+》u&quot;[u&apos;\u5475\u5475&apos;]&quot;
+</code></pre><p>这样就可以把它变回来了。此外我们可以print s一下看看会出现什么呢？<br><!-- python --></p>
+<pre><code>》print s
+》[u&apos;\u5475\u5475&apos;]
+</code></pre><p>哈，其实print 就是把不好读的编码优化为比这种编码更好读的一种形式</p>
+<h3 id="总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟"><a href="#总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟" class="headerlink" title="总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟"></a>总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟</h3>]]></content>
       <tags>
         <tag>python</tag>
       </tags>
