@@ -2,9 +2,9 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://mikolaje.github.io/2019/hive_orc.html</loc>
+    <loc>http://mikolaje.github.io/2019/hexo_seo.html</loc>
     
-    <lastmod>2019-11-19T14:00:03.773Z</lastmod>
+    <lastmod>2019-11-19T14:00:48.856Z</lastmod>
     
   </url>
   
@@ -24,6 +24,13 @@
   
   <url>
     <loc>http://mikolaje.github.io/2019/private_IDC.html</loc>
+    
+    <lastmod>2019-11-19T14:00:03.773Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://mikolaje.github.io/2019/hive_orc.html</loc>
     
     <lastmod>2019-11-19T14:00:03.773Z</lastmod>
     
@@ -58,13 +65,6 @@
   </url>
   
   <url>
-    <loc>http://mikolaje.github.io/2019/spark_when_to_cache.html</loc>
-    
-    <lastmod>2019-11-19T07:40:32.198Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://mikolaje.github.io/2019/typical_bigdata_interview_question.html</loc>
     
     <lastmod>2019-11-19T07:40:32.198Z</lastmod>
@@ -86,6 +86,13 @@
   </url>
   
   <url>
+    <loc>http://mikolaje.github.io/2019/spark_when_to_cache.html</loc>
+    
+    <lastmod>2019-11-19T07:40:32.198Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://mikolaje.github.io/2019/sqlalchemy_with_multiprocess.html</loc>
     
     <lastmod>2019-11-19T07:40:32.194Z</lastmod>
@@ -96,13 +103,6 @@
     <loc>http://mikolaje.github.io/2019/hive_bucket_partition.html</loc>
     
     <lastmod>2019-11-19T07:40:32.194Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://mikolaje.github.io/2018/hive_udf.html</loc>
-    
-    <lastmod>2019-11-19T07:40:32.190Z</lastmod>
     
   </url>
   
@@ -135,14 +135,14 @@
   </url>
   
   <url>
-    <loc>http://mikolaje.github.io/2019/hexo_seo.html</loc>
+    <loc>http://mikolaje.github.io/2019/cdh_install.html</loc>
     
     <lastmod>2019-11-19T07:40:32.190Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://mikolaje.github.io/2019/cdh_install.html</loc>
+    <loc>http://mikolaje.github.io/2018/hive_udf.html</loc>
     
     <lastmod>2019-11-19T07:40:32.190Z</lastmod>
     
