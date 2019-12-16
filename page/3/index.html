@@ -420,83 +420,18 @@
       
         
           
-            <ul>
-<li>最近面试经常会被问到Kafka的问题。看了很多Kafka的介绍，发现还是美团技术团队总结的最清楚易懂。下面转了美团的关于Kafka的一篇文章</li>
-</ul>
-<h2 id="Kafka是什么"><a href="#Kafka是什么" class="headerlink" title="Kafka是什么"></a>Kafka是什么</h2><p>Kafka是最初由Linkedin公司开发，是一个分布式、分区的、多副本的、多订阅者，基于zookeeper协调的分布式日志系统(也可以当做MQ系统)，常见可以用于web/nginx日志、访问日志，消息服务等等，Linkedin于2010年贡献给了Apache基金会并成为顶级开源项目。</p>
-<p>一个商业化消息队列的性能好坏，其文件存储机制设计是衡量一个消息队列服务技术水平和最关键指标之一。 下面将从Kafka文件存储机制和物理结构角度，分析Kafka是如何实现高效文件存储，及实际应用效果。</p>
-<p>Kafka部分名词解释如下：</p>
-<ul>
-<li>Broker：消息中间件处理结点，一个Kafka节点就是一个broker，多个broker可以组成一个Kafka集群。</li>
-<li>Topic：一类消息，例如page view日志、click日志等都可以以topic的形式存在，Kafka集群能够同时负责多个topic的分发。</li>
-<li>Partition：topic物理上的分组，一个topic可以分为多个partition，每个partition是一个有序的队列。</li>
-<li>Segment：partition物理上由多个segment组成，下面2.2和2.3有详细说明。</li>
-<li>offset：每个partition都由一系列有序的、不可变的消息组成，这些消息被连续的追加到partition中。partition中的每个消息都有一个连续的序列号叫做offset,用于partition唯一标识一条消息.</li>
-</ul>
-<p>分析过程分为以下4个步骤：</p>
-<ul>
-<li>topic中partition存储分布</li>
-<li>partiton中文件存储方式</li>
-<li>partiton中segment文件存储结构</li>
-<li>在partition中如何通过offset查找message</li>
-</ul>
-<p>通过上述4过程详细分析，我们就可以清楚认识到kafka文件存储机制的奥秘。</p>
-<h2 id="2-1-topic中partition存储分布"><a href="#2-1-topic中partition存储分布" class="headerlink" title="2.1 topic中partition存储分布"></a>2.1 topic中partition存储分布</h2><p>假设实验环境中Kafka集群只有一个broker，xxx/message-folder为数据文件存储根目录，在Kafka broker中server.properties文件配置(参数log.dirs=xxx/message-folder)，例如创建2个topic名称分别为report_push、launch_info, partitions数量都为partitions=4 存储路径和目录规则为： xxx/message-folder<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">|--report_push-0</div><div class="line">|--report_push-1</div><div class="line">|--report_push-2</div><div class="line">|--report_push-3</div><div class="line">|--launch_info-0</div><div class="line">|--launch_info-1</div><div class="line">|--launch_info-2</div><div class="line">|--launch_info-3</div></pre></td></tr></table></figure></p>
-<p>在Kafka文件存储中，同一个topic下有多个不同partition，每个partition为一个目录，partiton命名规则为topic名称+有序序号，第一个partiton序号从0开始，序号最大值为partitions数量减1。 如果是多broker分布情况，请参考kafka集群partition分布原理分析</p>
-<h2 id="2-2-partiton中文件存储方式"><a href="#2-2-partiton中文件存储方式" class="headerlink" title="2.2 partiton中文件存储方式"></a>2.2 partiton中文件存储方式</h2><p>下面示意图形象说明了partition中文件存储方式:</p>
-<p><img src="/images/2018/kafka_intro/kafka_partition.png" alt="Sample Image Added via Markdown"></p>
-<ul>
-<li>每个partion(目录)相当于一个巨型文件被平均分配到多个大小相等segment(段)数据文件中。但每个段segment file消息数量不一定相等，这种特性方便old segment file快速被删除。</li>
-<li>每个partiton只需要支持顺序读写就行了，segment文件生命周期由服务端配置参数决定。</li>
-</ul>
-<p>这样做的好处就是能快速删除无用文件，有效提高磁盘利用率。</p>
-<h2 id="2-3-partiton中segment文件存储结构"><a href="#2-3-partiton中segment文件存储结构" class="headerlink" title="2.3 partiton中segment文件存储结构"></a>2.3 partiton中segment文件存储结构</h2><p>读者从2.2节了解到Kafka文件系统partition存储方式，本节深入分析partion中segment file组成和物理结构。</p>
-<ul>
-<li>segment file组成：由2大部分组成，分别为index file和data file，此2个文件一一对应，成对出现，后缀”.index”和“.log”分别表示为segment索引文件、数据文件.</li>
-<li>segment文件命名规则：partion全局的第一个segment从0开始，后续每个segment文件名为上一个segment文件最后一条消息的offset值。数值最大为64位long大小，19位数字字符长度，没有数字用0填充。</li>
-</ul>
-<p>下面文件列表是笔者在Kafka broker上做的一个实验，创建一个topicXXX包含1 partition，设置每个segment大小为500MB,并启动producer向Kafka broker写入大量数据,如下图2所示segment文件列表形象说明了上述2个规则：</p>
-<p><img src="/images/2018/kafka_intro/kafka_index.png" alt="Sample Image Added via Markdown"></p>
-<p>以上述图2中一对segment file文件为例，说明segment中index&lt;—-&gt;data file对应关系物理结构如下：</p>
-<p>上述图3中索引文件存储大量元数据，数据文件存储大量消息，索引文件中元数据指向对应数据文件中message的物理偏移地址。 其中以索引文件中元数据3,497为例，依次在数据文件中表示第3个message(在全局partiton表示第368772个message)、以及该消息的物理偏移地址为497。</p>
-<p>从上述图3了解到segment data file由许多message组成，下面详细说明message物理结构如下：<br><img src="/images/2018/kafka_intro/kafka_message.png" alt="Sample Image Added via Markdown"></p>
-<p>参数说明：<br>关键字    解释说明<br>8 byte offset    在parition(分区)内的每条消息都有一个有序的id号，这个id号被称为偏移(offset),它可以唯一确定每条消息在parition(分区)内的位置。即offset表示partiion的第多少message<br>4 byte message size    message大小<br>4 byte CRC32    用crc32校验message<br>1 byte “magic”    表示本次发布Kafka服务程序协议版本号<br>1 byte “attributes”    表示为独立版本、或标识压缩类型、或编码类型。<br>4 byte key length    表示key的长度,当key为-1时，K byte key字段不填<br>K byte key    可选<br>value bytes payload    表示实际消息数据。</p>
-<h2 id="2-4-在partition中如何通过offset查找message"><a href="#2-4-在partition中如何通过offset查找message" class="headerlink" title="2.4 在partition中如何通过offset查找message"></a>2.4 在partition中如何通过offset查找message</h2><p>例如读取offset=368776的message，需要通过下面2个步骤查找。</p>
-<p>第一步查找segment file 上述图2为例，其中00000000000000000000.index表示最开始的文件，起始偏移量(offset)为0.第二个文件00000000000000368769.index的消息量起始偏移量为368770 = 368769 + 1.同样，第三个文件00000000000000737337.index的起始偏移量为737338=737337 + 1，其他后续文件依次类推，以起始偏移量命名并排序这些文件，只要根据offset <strong>二分查找</strong>文件列表，就可以快速定位到具体文件。 当offset=368776时定位到00000000000000368769.index|log</p>
-<p>第二步通过segment file查找message 通过第一步定位到segment file，当offset=368776时，依次定位到00000000000000368769.index的元数据物理位置和00000000000000368769.log的物理偏移地址，然后再通过00000000000000368769.log顺序查找直到offset=368776为止。</p>
-<p>从上述图3可知这样做的优点，segment index file采取稀疏索引存储方式，它减少索引文件大小，通过mmap可以直接内存操作，稀疏索引为数据文件的每个对应message设置一个元数据指针,它比稠密索引节省了更多的存储空间，但查找起来需要消耗更多的时间。</p>
-<p>3 Kafka文件存储机制–实际运行效果<br>实验环境：</p>
-<p>Kafka集群：由2台虚拟机组成<br>cpu：4核<br>物理内存：8GB<br>网卡：千兆网卡<br>jvm heap: 4GB<br>详细Kafka服务端配置及其优化请参考：kafka server.properties配置详解<br><img src="/images/2018/kafka_intro/kafka_read_disk.png" alt="Sample Image Added via Markdown"></p>
-<p>从上述图5可以看出，Kafka运行时很少有大量读磁盘的操作，主要是定期批量写磁盘操作，因此操作磁盘很高效。这跟Kafka文件存储中读写message的设计是息息相关的。Kafka中读写message有如下特点:</p>
-<h3 id="写message"><a href="#写message" class="headerlink" title="写message"></a>写message</h3><ul>
-<li>消息从java堆转入page cache(即物理内存)。</li>
-<li>由异步线程刷盘,消息从page cache刷入磁盘。</li>
-</ul>
-<h3 id="读message"><a href="#读message" class="headerlink" title="读message"></a>读message</h3><ul>
-<li>消息直接从page cache转入socket发送出去。</li>
-<li>当从page cache没有找到相应数据时，此时会产生磁盘IO,从磁 盘Load消息到page cache,然后直接从socket发出去</li>
-</ul>
-<h3 id="Kafka高效文件存储设计特点"><a href="#Kafka高效文件存储设计特点" class="headerlink" title="Kafka高效文件存储设计特点"></a>Kafka高效文件存储设计特点</h3><ul>
-<li><p>Kafka把topic中一个partition大文件分成多个小文件段，通过多个小文件段，就容易定期清除或删除已经消费完文件，减少磁盘占用。</p>
-</li>
-<li><p>通过索引信息可以快速定位message和确定response的最大大小。</p>
-</li>
-<li>通过index元数据全部映射到memory，可以避免segment file的IO磁盘操作。</li>
-<li>通过索引文件稀疏存储，可以大幅降低index文件元数据占用空间大小。</li>
-</ul>
-<p>1.Linux Page Cache机制 </p>
-<p>2.Kafka官方文档</p>
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>面试的时候经常问到Kafka怎么防止重复消费</p>
-<ul>
-<li><p>比如，你拿到这个消息做数据库的insert操作，那就容易了，给这个消息做一个唯一的主键，那么就算出现重复消费的情况，就会导致主键冲突，避免数据库出现脏数据。</p>
-</li>
-<li><p>再比如，你拿到这个消息做Redis的set的操作，那就容易了，不用解决，因为你无论set几次结果都是一样的，set操作本来就算幂等操作。</p>
-</li>
-<li><p>如果上面两种情况还不行，上大招。准备一个第三方介质，来做消费记录。以Redis为例，给消息分配一个全局id，只要消费过该消息，将<id,message>以K-V形式写入Redis. 那消费者开始消费前，先去Redis中查询有没有消费记录即可。</id,message></p>
-</li>
-</ul>
-
           
+最近面试经常会被问到Kafka的问题。看了很多Kafka的介绍，发现还是美团技术团队总结的最清楚易懂。下面转了美团的关于Kafka的一篇文章
+
+Kafka是什么Kafka是最初由Linkedin公司
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/kafka_intro.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -647,24 +582,15 @@
       
         
           
-            <p>前言：最近在知乎上看到很多Python职位的面试都会问Python的数据结构。很多大公司，比如知乎，在面试python的工程师的时候都会很注重基础；<br>比如会问：python内置的list dict set等使用和原理。collections 模块里的deque，Counter，OrderDict等。 常用的排序算法和时间复杂度。</p>
-<p>今天我就简单说说我学到的关于Python Dict 的见闻。</p>
-<p>于是，首先我查看到《流畅的python》一书的第3章。</p>
-<ol>
-<li>首先我们看看Python是如何用散列表来实现dict类型。</li>
-</ol>
-<p>什么是散列表：<br>散列表其实是一个稀疏数组（总是有空白元素的数组称为稀疏数组）。<br>在一般的数据结构教材中，散列表里的单元通常叫作表元（bucket）。在 dict 的散列表当中，每个键值对都占用一个表元，每个表元都有两<br>个部分，一个是对键的引用，另一个是对值的引用。因为所有表元的大小一致，所以可以通过偏移量来读取某个表元。</p>
-<p>散列算法：<br>1.为了获取 my_dict[search_key] 背后的值，Python 首先会调用hash(search_key) 来计算 search_key 的散列值，把这个值最低的几位数字当作偏移量(貌似是hash(key) 和 数组的长度-1 作 与运算，hash(key)&amp; (size-1)，在散列表里查找表元（具体取几位，得看当前散列表的大小）。</p>
-<p>2.若找到的表元是空的，则抛出 KeyError 异常。若不是空的，则表元里会有一对 found_key:found_value。</p>
-<p>3.这时候 Python 会检验 search_key == found_key 是否为真，如果它们相等的话，就会返回 found_value。</p>
-<p>4.如果 search_key 和 found_key 不匹配的话，这种情况称为散列冲突。</p>
-<p>5.Python 解决散列冲突的方法用的是开放地址法。<br>如下图所示：<br><img src="/images/2018/python_dict/python_dict1.png" alt="Sample Image Added via Markdown"></p>
-<h3 id="Python-dict的特性："><a href="#Python-dict的特性：" class="headerlink" title="Python dict的特性："></a>Python dict的特性：</h3><p>1.字典在内存上的开销巨大。<br>由于字典使用了散列表，而散列表又必须是稀疏的，这导致它在空间上的效率低下。<br>2.键查询很快。<br>dict 的实现是典型的空间换时间：字典类型有着巨大的内存开销，但它们提供了无视数据量大小的快速访问——只要字典能被装在内存里。<br>3.往字典里添加新键可能会改变已有键的顺序。<br>无论何时往字典里添加新的键，Python 解释器都可能做出为字典扩容的决定。扩容导致的结果就是要新建一个更大的散列表，并把字典里已有的元素添加到新表里。</p>
-<p>关于Python的开放地制法解决hash冲突的实现可以参考下<br><a href="https://harveyqing.gitbooks.io/python-read-and-write/content/python_advance/python_dict_implementation.html" target="_blank" rel="external">https://harveyqing.gitbooks.io/python-read-and-write/content/python_advance/python_dict_implementation.html</a></p>
-<p><img src="/images/2018/python_dict/python_dict2.png" alt="Sample Image Added via Markdown"></p>
-<p><em>若要了解详细的内部机制，推荐阅读</em><br><a href="http://python.jobbole.com/85040/" target="_blank" rel="external">http://python.jobbole.com/85040/</a></p>
-
-          
+          前言：最近在知乎上看到很多Python职位的面试都会问Python的数据结构。很多大公司，比如知乎，在面试python的工程师的时候都会很注重基础；比如会问：python内置的list dict se
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/python_dict.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -815,33 +741,16 @@
       
         
           
-            <p>在学习《算法》一书中了解到：<br>优先队列是一种抽象的数据类型，优先队列最重要的操作就是删除最大元素和插入元素。<br>实现优先队列可以用数组，链表，最好的方式还是用堆。</p>
-<p>我们可以把任意优先队列变成一种排序方法。将所有元素插入一个查找最小化元素的优先队列，然后再重复调用删除最小元素的操作将它们按顺序删去。用无序数组实现的优先队列这么做相当于进行一次选择排序。用基于堆得优先队列这样做等同于堆排序！</p>
-<p>要了解堆首先得了解一下二叉树，在计算机科学中，二叉树是每个节点最多有两个子树的树结构。通常子树被称作“左子树”（left subtree）和“右子树”（right subtree）。</p>
-<p>二叉树又分为满二叉树（full binary tree） 和 完全二叉树（complete binary tree）</p>
-<p>满二叉树：一棵深度为 k，且有 2k - 1 个节点称之为满二叉树</p>
-<p><img src="/images/2017/heap_sort/full_binary_tree.png" alt="Sample Image Added via Markdown"></p>
-<p>完全二叉树则满足序号和满二叉树的完全对应。</p>
-<p><img src="/images/2017/heap_sort/complete_binary_tree.png" alt="Sample Image Added via Markdown"></p>
-<p>如下图，是一个堆和数组的相互关系<br><img src="/images/2017/heap_sort/heap_sort1.png" alt="Sample Image Added via Markdown"></p>
-<p>对于给定的某个结点的下标 i，可以很容易的计算出这个结点的父结点、孩子结点的下标：</p>
-<ul>
-<li>Parent(i) = floor(i/2)，i 的父节点下标</li>
-<li>Left(i) = 2i，i 的左子节点下标</li>
-<li>Right(i) = 2i + 1，i 的右子节点下标</li>
-</ul>
-<p>堆排序原理</p>
-<p>堆排序就是把最大堆堆顶的最大数取出，将剩余的堆继续调整为最大堆，再次将堆顶的最大数取出，这个过程持续到剩余数只有一个时结束。在堆中定义以下几种操作：</p>
-<p>最大堆调整（Max-Heapify）：将堆的末端子节点作调整，使得子节点永远小于父节点(左子树不一定大于右子树)<br>创建最大堆（Build-Max-Heap）：将堆所有数据重新排序，使其成为最大堆<br>堆排序（Heap-Sort）：移除位在第一个数据的根节点，并做最大堆调整的递归运算</p>
-<p>继续进行下面的讨论前，需要注意的一个问题是：数组都是 Zero-Based，这就意味着我们的堆数据结构模型要发生改变</p>
-<p>相应的，几个计算公式也要作出相应调整：</p>
-<p>Parent(i) = floor((i-1)/2)，i 的父节点下标<br>Left(i) = 2i + 1，i 的左子节点下标<br>Right(i) = 2(i + 1)，i 的右子节点下标</p>
-<p>最大堆调整（MAX‐HEAPIFY）的作用是保持最大堆的性质，是创建最大堆的核心子程序，作用过程如图所示：</p>
-<p><img src="/images/2017/heap_sort/heap_sort2.png" alt="Sample Image Added via Markdown"></p>
-<p>源码如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">heapsort</span><span class="params">(arr)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">max_heapify</span><span class="params">(arr, index, heap_size)</span>:</span></div><div class="line">        <span class="string">"""</span></div><div class="line">        # 最大堆调整（MAX‐HEAPIFY）的作用是保持最大堆的性质。 将堆的末端子节点作调整，使得子节点永远小于父节点</div><div class="line">        # 意思就是要让index这元素去到它该去的位置</div><div class="line">        《算法》P200</div><div class="line">        由上至下的对有序化（下沉）</div><div class="line">        如果我们把堆想象成一个严密的黑色会组织，每个子节点都表示一个下属（父节点则表示它的直接上级），name这些操作就可以得到很有趣的解释。</div><div class="line">        max_hepify这个方法就相当于一个领导，如果占着老大的位置，但如果自己下属有比自己厉害的就要退位让贤。自己去到该去的层次</div><div class="line"></div><div class="line">        注意的是：这方法是有惰性的。调用一次该方法仍然不行。如果该index的左右子树都小于自己的话，它就不会递归了。</div><div class="line">        这个方法只是让index尽量下沉下去。如果是堆有序的话，那么执行该方法后index位置就是该位置最大的值</div><div class="line">        """</div><div class="line"></div><div class="line">        <span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">            imax = index</div><div class="line">            ileft = <span class="number">2</span> * index + <span class="number">1</span></div><div class="line">            iright = <span class="number">2</span> * index + <span class="number">2</span></div><div class="line"></div><div class="line">            <span class="keyword">if</span> ileft &lt; heap_size <span class="keyword">and</span> arr[index] &lt; arr[ileft]:</div><div class="line">                imax = ileft</div><div class="line"></div><div class="line">            <span class="keyword">if</span> iright &lt; heap_size <span class="keyword">and</span> arr[imax] &lt; arr[iright]:</div><div class="line">                imax = iright</div><div class="line"></div><div class="line">            <span class="keyword">if</span> imax != index:</div><div class="line">                arr[imax], arr[index] = arr[index], arr[imax]</div><div class="line">                index = imax</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                <span class="keyword">break</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">build_maxheap</span><span class="params">(arr)</span>:</span></div><div class="line">        <span class="string">"""</span></div><div class="line">        # 将堆所有数据重新排序，使其成为最大堆</div><div class="line"></div><div class="line">        创建最大堆（Build-Max-Heap）的作用是将一个数组改造成一个最大堆，接受数组和堆大小两个参数，Build-Max-Heap 将自下而上的调用 Max-Heapify 来改造数组，建立最大堆。</div><div class="line">        因为 Max-Heapify 能够保证下标 i 的结点之后结点都满足最大堆的性质，所以自下而上的调用 Max-Heapify 能够在改造过程中保持这一性质。</div><div class="line">        如果最大堆的数量元素是 n，那么 Build-Max-Heap 从 Parent(n) 开始，往上依次调用 Max-Heapify。</div><div class="line">        """</div><div class="line"></div><div class="line">        iparent = len(arr) // <span class="number">2</span> - <span class="number">1</span>   <span class="comment"># 最后一个节点的父节点</span></div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(iparent, <span class="number">-1</span>, <span class="number">-1</span>):</div><div class="line">            max_heapify(arr, i, len(arr))</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">sort</span><span class="params">(arr)</span>:</span></div><div class="line">        build_maxheap(arr)  <span class="comment"># build后左子树 还是可能大于 右子树的.所以这并不是一个有序数组</span></div><div class="line">        print(arr)</div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(arr)<span class="number">-1</span>, <span class="number">0</span>, <span class="number">-1</span>):</div><div class="line">            arr[<span class="number">0</span>], arr[i] = arr[i], arr[<span class="number">0</span>]</div><div class="line"></div><div class="line">            max_heapify(arr, <span class="number">0</span>, i)  <span class="comment"># 这里这个i 相当于比当前的length - 1；第i个元素为当前最大的元素，就被固定死了。不再访问它</span></div><div class="line">        <span class="keyword">return</span> arr</div><div class="line"></div><div class="line">    <span class="keyword">return</span> sort(arr)</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line"></div><div class="line">    print(heapsort([<span class="number">5</span>,<span class="number">4</span>,<span class="number">7</span>,<span class="number">3</span>,<span class="number">8</span>,<span class="number">2</span>,<span class="number">11</span>,<span class="number">15</span>,<span class="number">17</span>,<span class="number">16</span>,<span class="number">13</span>,<span class="number">10</span>,<span class="number">9</span>,<span class="number">12</span>,<span class="number">1</span>]))</div></pre></td></tr></table></figure>
-
-          
+          在学习《算法》一书中了解到：优先队列是一种抽象的数据类型，优先队列最重要的操作就是删除最大元素和插入元素。实现优先队列可以用数组，链表，最好的方式还是用堆。
+我们可以把任意优先队列变成一种排序方法。将
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/heap_sort.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -992,17 +901,17 @@
       
         
           
-            <p>还记得两三年前，去一个大数据公司面试。首先要笔试，题目中有道题目就是填空TCP报文的表格。<br>首先我们看看TCP的报头：</p>
-<p> <img src="/images/2017/tcp_knowledge/tcp_head.jpg" alt="Sample Image Added via Markdown"></p>
-<p>当时觉得这是啥玩意呀。考这东西跟大数据有毛线关系。今天，才明白，这些都是计算机的基础。基本功来的，跑不了。</p>
-<p>下面我们可以通过一张图就能比较清晰地展现TCP/IP建立连接的过程。也就是我们常说的3次握手，4次挥手。</p>
-<p>我们先看3次握手的过程：<br><img src="/images/2017/tcp_knowledge/tcp_connection.png" alt="Sample Image Added via Markdown"></p>
-<p>1.首先Server端是处在一个Listen的状态。经常你用netstat可以看到，比如打开了一个web 服务，就卡看到80端口处在listen状态<br>2.由客户端发送一个Segment(传输层的数据包单位)到服务的，主要内容有 SYN=1，seq=x(一个随机数)。发送后，客户端状态变为SYN-SENT<br>3.服务端收到客户端发送的Segment，状态变为SYN-REVD，并发送一个SYN=1,ACK=1,seq=y,ack=x+1 的Segment返还给客户端。表示自己收到了你的消息。<br>4.客户端收到服务端返还的内容后，状态就变成了ESTABLISHED。表示成功建立了连接。并且再次发送一个ACK=1,ack=y+1,seq=x+1 的Segment。<br>5.服务端收到客户端发来的Segment后，状态变为ESTABLISHED。成功完成3次握手。</p>
-<p>建立一次连接，需要3次握手，也就是说发送3个数据包即可建立连接。发送的数据包内容中我们可以发现一点规律。ack的数值内容都是对方发送给自己的seq数值 +1  。</p>
-<p>接下来我们看看4次挥手的过程。<br><img src="/images/2017/tcp_knowledge/tcp_finish.png" alt="Sample Image Added via Markdown"></p>
-<p>1.首先由终端的提出方(假设是客户端)发送一个FIN=1,seq=u 的Segment到服务端。发送后客户端状态变为FIN-WAIT-1<br>2.服务端收到了客户端的Segment后状态变为CLOSE-WAIT，并反回一个ACK=1,seq=v,ack=u+1 的Segment给客户端。<br>3.客户端收到了服务端返回的消息后状态变为FIN-WAIT-2,此时服务端并没有关闭，意思是告诉客户端，请您耐心等待，我看看还有什么数据没有给你的，把剩下的数据发给你先。<br>4.过了片刻，服务端发送一个FIN=1,ACK=1,seq=w,ack=u+1 的Segment给客户端。然后服务端状态变为了LAST-ACK。<br>5.客户端收到了服务端发来的消息后，状态变为了TIME-WAIT。并发送ACK=1,seq=u+1,ack=w+1的Segment。表示我知道了，我再等等你(2MSL)还有什么话跟我说的。没有的话我就关了。<br>6.服务端收到客户端发送的消息后，状态就变为CLOSED了。</p>
-
-          
+          还记得两三年前，去一个大数据公司面试。首先要笔试，题目中有道题目就是填空TCP报文的表格。首先我们看看TCP的报头：
+ 
+当时觉得这是啥玩意呀。考这东西跟大数据有毛线关系。今天，才明白，这些都是计算机
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/tcp_knowledge.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1153,17 +1062,16 @@
       
         
           
-            <h2 id="游记"><a href="#游记" class="headerlink" title="游记"></a>游记</h2><h3 id="A380体验"><a href="#A380体验" class="headerlink" title="A380体验"></a>A380体验</h3><p>9点20分起飞。我们大概五点多一点到达了白云机场。国际航班一般都要提前3个小时到达机场</p>
-<p>到达白云机场，在登机之前。完全不知道要有EVUS才能登机。还好有补救措施。可以到咨询台那里办理，大概每人300块钱吧。当时很担心会因为这个耽误了登机。<br>幸好，那工作人员姐姐，还是很快就办理完成了，大概只花了15分钟两个人。</p>
-<p>在候机大厅里那里吃了面条，大概是70块钱这样吧。还不算很贵的。然后我们就坐在那儿等待起飞。<br>我们透过玻璃拍了一些A380的照片。那飞机特别大，有四个螺旋桨。</p>
-<p>八点半多久开始登记了。因为这飞机人多，所以登机的时间也需要提前比较长，所有人登机完都要花费一个多小时。我们的位置是在第一层最靠后的中间位置，我旁边就是上二层的楼梯口。</p>
-<p>晚上十一点的时候飞机的乘务人员就给我们准备了晚餐，确切说是夜宵吧。还不错，吃完就睡觉了。飞机的空调有点大，找空姐要了两张被子。在飞机上睡觉还是比较不舒服的。因为座椅并不能打很低。<br>勉强能睡着，在飞机上我大概睡了5-6个小时吧，就醒来了，打开窗看看风景吧，只看到底下是一片太平洋。</p>
-<h3 id="刚到美国"><a href="#刚到美国" class="headerlink" title="刚到美国"></a>刚到美国</h3><p>在美国走斑马线过马路。刚开始不知道白色的灯表示通过。有一次在比佛利山庄附近过马路时候，忘了是什么颜色的灯，本来是应该车通过的，结果我跑过马路，那些车都准备启动，我就这么跑过去了。<br>我不太确定是否可以过，然后就急急忙忙跑过去了。好尴尬。结果那些车还是让我了。</p>
-<p>还记得那天晚上接近凌晨2点钟的洛杉矶，我没有订到酒店，于是漫无目的地在洛杉矶街头上开着车，由于GTA5真人版。我一直往圣莫妮卡的方向前行。<br>走到快到海边附近，我尿急想附近找个地方解决，于是看到不远的地方有个麦当劳，于是我把车开到里，发现凌晨两点钟居然还有这么多人，大部分都是黑人，那个地方。<br>我走进麦当劳餐厅里面，我发现身边的都是黑人，白人都几乎没有，更没有黄种人了。我走进去他们都看着我，我很担心他们因为种族不同欺负我，我头不敢乱晃紧紧盯着前方，进去厕所后把尿撒完后赶紧就跑路了。<br>那里的人貌似都是homeless的，看起来都很穷。这么晚还不回家，应该就是无家可归的人吧。</p>
-<p>加州人开车非常生猛。起步通常都是地板油起步。有一次我要掉头没走到最左侧的道路。在等着红灯。绿灯亮了时候我打灯后向左边偏转，后面突然冲出一辆车，差点撞到我。我吓尿了，半天没缓过神来。<br>在旧金山时候，很多斜坡上等红灯时候，他们起步都会让车轮发出吱吱的尖叫声，因为油门踩得太猛了。</p>
-<p>在美国问了几次路。发现最友好的是黑人。黑人总是给人一种很热情，乐观的感觉。还记得，在斯坦福校园里迷路的时候，一直问路人。<br>最友好的是一个混血小哥，像亨利的那种肤色。在小哥，锁单车准备进图书馆的时候，我走过去问他。<br>小哥非常热情地告诉我路怎么走。真是很感激，真想当场要个联系方式，也是这么牛逼的人了，还这么热情。</p>
-
-          
+          游记A380体验9点20分起飞。我们大概五点多一点到达了白云机场。国际航班一般都要提前3个小时到达机场
+到达白云机场，在登机之前。完全不知道要有EVUS才能登机。还好有补救措施。可以到咨询台那里办理，
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/california_trip.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1314,22 +1222,15 @@
       
         
           
-            <h1 id="通往Apache-Contributor之路"><a href="#通往Apache-Contributor之路" class="headerlink" title="通往Apache Contributor之路"></a>通往Apache Contributor之路</h1><h2 id="根据个人贡献获得价值（Government-By-Merit）"><a href="#根据个人贡献获得价值（Government-By-Merit）" class="headerlink" title="根据个人贡献获得价值（Government By Merit）"></a>根据个人贡献获得价值（Government By Merit）</h2><p>回忆我刚参与ServiceComb项目，面对上万行的存量代码，总觉得无从下手，甚至认为开源社区高手如云，如果没有深厚且对口的技术功底，还是不要来掺和了。</p>
-<p>在这个困难而关键的时候，社区导师给了我明确的指导——不要怕，从小事做起，不要“善小而不为”。于是我静下心来，在Jira上寻找最简单的任务，主动请缨的第一个任务是支持配置兼容，具体需求是cse.xxx配置项和servicecomb.xxx配置项要具备等同效果，经过一番努力，成功Merge PR ；之后我又接下另一个简单任务，增加一个Annotation用于支持Json String作为请求参数……</p>
-<p>Apache Way非常看重个人贡献，没有贡献，一切无从谈起，与开源软件同行，不仅看你获得了多少，更要坚持长期贡献，这是它与商业软件最大的不同。贡献并不区分大小，无论是增加重大特性，还是小小的改进、Bug Fix和修订文档错误，这些同样是项目茁壮成长的关键。</p>
-<p>实际上大多数开源爱好者都是从修订文档错误开始的，例如改正错别字、格式不正确以及订正描述等等，我对ServiceComb的理解也绝大多数来自这方面的工作；这样不但能够在阅读文档的过程中更快的了解技术细节，也比较容易入手做出贡献。</p>
-<p>总之坚持下来，个人积累的贡献慢慢变厚，获得Apache的认可自然水到渠成。</p>
-<h2 id="社区驱动（Community）"><a href="#社区驱动（Community）" class="headerlink" title="社区驱动（Community）"></a>社区驱动（Community）</h2><p>参与社区是技术成长最快的方式之一，Follow Apache社区的方式有订阅邮件列表和加入Gitter聊天室；从看大家讨论（讨论邮件一般会使用[Discussion]开头），到回答大家的问题（回复邮件和发送Gitter聊天），相信用不了多久你就能收获颇丰，并冒出自己的想法，迈出第一步提交第一个PR也就不难了。</p>
-<p>ServiceComb作为一个微服务一站式解决方案，融合侵入式、非侵入式场景并支持多语言，解放开发者，帮助用户和开发者将企业应用轻松微服务化和上云；大家在这里讨论的话题、发起的投票、以及提交的代码，无不与微服务密切相关。在这个社区中我不但学习到了知识，完成了开源（也包含微服务）小白的蜕变，还进一步接受了开源的洗礼——前辈指导我进步，我将所学传递给新人；这个过程中我结识了很多新朋友，大家互通有无，不但极大的开阔了视野，也提高了自己的社交能力。</p>
-<p>Apache开发者来自全球，社区大多都是用英文来交流。通过阅读英文资料，使用英文在Gitter上与开发人员直接交流，通过英文邮件来探讨问题，在不知不觉中自己的英文水平也大大提高了。</p>
-<h2 id="协作开发（Collaborative-Development）"><a href="#协作开发（Collaborative-Development）" class="headerlink" title="协作开发（Collaborative Development）"></a>协作开发（Collaborative Development）</h2><p>这也是我极力推荐参与开源社区开发的重要原因之一，当你提交PR后，无论代码有多么烂，你总能收获宝贵的Comments，不花钱获得编程大师的指点——教你怎么写出优秀的代码，这是多么合算的买卖！</p>
-<p>我在参与ServiceComb社区前，只知道Java基本语法，IDE不熟练（之前一直是用VS写C#，不使用Eclipse和IntelliJ IDEA），不会Git，不懂Maven，还能有更糟糕的起点吗：）</p>
-<p>不用担心，社区会指导你。我前文提到的第一个简单的任务，花费了将近一周时间，被打回来了四五次后才被Merge；一个PR收获60+ Comments也是家常便饭。这个过程中我的Java水平成长得飞快，不久后就能独立承担新特性的设计和开发——Metrics，当然，完成这个新特性的过程中Committer和其他开发者给予了很多支持，所以，请大胆的提交你的第一个PR，成为一名Contributor吧。</p>
-<h2 id="民主，开放和透明（Consensus-Open-and-Transparency）"><a href="#民主，开放和透明（Consensus-Open-and-Transparency）" class="headerlink" title="民主，开放和透明（Consensus, Open and Transparency）"></a>民主，开放和透明（Consensus, Open and Transparency）</h2><p>在Apache社区里投票至关重要，你可以感受到你的建议将被充分重视，我很喜欢这种参与感；大家的讨论和建议也完全公开透明，并且能够长时间通过邮件列表查询到，沟通效率非常高。所以大家多多参与，一定能收获惊喜，从万能的社区里寻找自己想要的答案，请记住，当你对某个问题产生困惑，即使是强大的StackOverflow也不会有原作者的答复更为准确。</p>
-<p>写在最后，我想说从一名开源小白成长为Apache Committer并不是无比艰难又遥不可及的事情，只需要日积月累的在社区中投入一点业余时间，就能梦想成真。当然最好找到自己感兴趣的社区，这会让这段旅途更加愉快，也能交到更多志同道合的的朋友。</p>
-<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://servicecomb.apache.org/cn/docs/how-to-grow-up-to-be-an-apache-committer/" target="_blank" rel="external">https://servicecomb.apache.org/cn/docs/how-to-grow-up-to-be-an-apache-committer/</a></p>
-
-          
+          通往Apache Contributor之路根据个人贡献获得价值（Government By Merit）回忆我刚参与ServiceComb项目，面对上万行的存量代码，总觉得无从下手，甚至认为开源社区
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/how_tobe_apache_contributor.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1480,14 +1381,15 @@
       
         
           
-            <h3 id="20190924"><a href="#20190924" class="headerlink" title="20190924"></a>20190924</h3><p>早上喝了利动乳果糖口服溶液然后吃早餐，到公司九点多感觉肚子疼。于是拉肚子了。中午说拉肚子了就喝粥吧，就去红荔村吃皮蛋瘦肉粥，结果吃完后回来肚子不停地咕咕叫，叫的特别厉害。而且肚子很涨，越来越胀，然后开始涨疼了。我一直想忍过去，但一直都还会涨疼，还喝了矿泉水，冷的，更疼。下午三点多4楼看医生，说我不应该吃皮蛋瘦肉粥，他说腹泻后不能吃蛋白质类的食物，牛奶都不要喝。只能喝白粥。然后开了左氟沙星和奥美拉唑。他妈的，我以为肚子胀可以吃皮蛋瘦肉粥这些，因为这也算粥，但不知道是不能吃的。</p>
-<p>晚上十点终于把皮蛋瘦肉粥拉出来了，感觉轻松一点。以后再也不好喝皮蛋瘦肉粥了。</p>
-<h3 id="20191010"><a href="#20191010" class="headerlink" title="20191010"></a>20191010</h3><p>今天为了解决保存task result的task name花了很多时间看celery的源代码，也不断地尝试测试，收益很低，没有解决到问题。感觉看源码要有很强的专注力，而且要能记住很多各个不同调用的关系，不然看着就会发蒙，不知道自己要干什么。另外，Celery有些代码写着还是挺难懂的，比如说task 装饰品那部分代码。加上网络一直不稳定，尤其是连接国外的服务器。卡卡的很影响效率。然后tmux Pycharm这些工具用的不太熟练也对效率影响挺大的，要不停地去网上查文档。此外今天早上偶尔发现一个YOUTUBE的商机，偶尔看到了一个数据动态图，然后我觉得还是比较容易效仿的。最重要的是，收看率更好，而且貌似最近才兴起的，我看那些up主的历史记录都很短，最多也就半年多。</p>
-<h3 id="20191013"><a href="#20191013" class="headerlink" title="20191013"></a>20191013</h3><p>今天发现爬虫的airflow调度部署很不顺利，比我想象中遇到很多麻烦。主要是执行命令时候环境变量没有起作用。Python用的是默认的解析器。反正陆陆续续弄了两三天还没弄好。<br>今天还有一件事情挺让我生气的。下午电信宽带突然就抽风了，停网了一个小时，迫于没完成Airflow事情的压力，现在又上不了网了，感觉今天什么事情都没干成。不过后来，让我有些感觉柳暗花明又一村。那电信师傅告诉我挺多的，首先他让我不要用那个房间的路由器了，因为功率低，而且有线网络达不到两百兆。然后，他让我直接用路由器来拨号，厅里那个光猫就充当中继器的作用。这样不不会把房间的路由器作为一个二级路由。有钱的话可以在淘宝买个有光纤接口的路由器。</p>
-<h3 id="20191018"><a href="#20191018" class="headerlink" title="20191018"></a>20191018</h3><p>最近3天主要都是在搞Hive优化的工作，真是太难了，没有什么实质性进展，时间花费性价比很低。用了很多办法都没有实际性加快HQL运行的速度。主要是花了很多时间在Google搜索，然后各种查阅文档，然后尝试。包括在SO上发帖提问。<br>今天跟一面前同事霞琳吃饭饭聊天。收获还是挺多的，她说她已经收到了腾讯的Offer准备跳槽到。她是通过内推进去的。之前她也投过很多简历，很多也是石沉大海，也被不少公司面试后拒绝。有时候找工作真是要看运气。她和我不同的地方就是，她4月份就离开了一面，然后到9月份才开始工作。现在又拿到了腾讯的正式offer，真是苦尽甘来呀。不同的地方就是她大概经历了半年没有工作没有收入的压力，能够沉住气，这确实需要一定的勇气。而我找了一个月就来入职了。这点我还是非常佩服她的。<br>她说我可以参加一些分享会，认识一些行业内的人物。比如说她之前参加了TiDB的分享会，可以现场结识一些大牛。总结下来，就是找工作要运气，当然自身能力是前提。</p>
-<h3 id="20191021"><a href="#20191021" class="headerlink" title="20191021"></a>20191021</h3><p>到现在这个数据量，接近亿级的数量，明显感觉到服务器很卡，运行时间单位都是上小时的。不知道从哪里入手优化任务。即使是用spark on yarn，依然很慢。看个主机Htop的资源利用率并不高，50%都没有用到。不知道集群内部在搞什么，完全是个黑箱操作，我只能默默地等待着。哎，优化之路很艰难。最根本的原因我觉得还是我的硬件资源不够。有钱的话还是再买一台服务器好点，或者先加一16G内存也好。</p>
-
-          
+          20190924早上喝了利动乳果糖口服溶液然后吃早餐，到公司九点多感觉肚子疼。于是拉肚子了。中午说拉肚子了就喝粥吧，就去红荔村吃皮蛋瘦肉粥，结果吃完后回来肚子不停地咕咕叫，叫的特别厉害。而且肚子很涨，
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/dennis_weekly.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1638,10 +1540,16 @@
       
         
           
-            <p>You should start with:</p>
-<p>Read API Docs: Spark 2.4.3 Scala Doc<br>Join the mailing list: Community | Apache Spark<br>Now you should take a look at Jira (list of known bugs / issues): - ASF JIRA</p>
-
-          
+          You should start with:
+Read API Docs: Spark 2.4.3 Scala DocJoin the mailing list: Community | Apache
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/tobe_spark_contributor.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1953,24 +1861,15 @@
       
         
           
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>有些时候，在很多partition的时候，我们想减少点partition的数量，不然写到HDFS上的文件数量也会很多很多。<br>我们使用reparation呢，还是coalesce。所以我们得了解这两个算子的内在区别。</p>
-<h2 id="正题"><a href="#正题" class="headerlink" title="正题"></a>正题</h2><p>要知道，repartition是一个消耗比较昂贵的操作算子，Spark出了一个优化版的repartition叫做coalesce，它可以尽量避免数据迁移，<br>但是你只能减少RDD的partition.</p>
-<p>举个例子，有如下数据节点分布：</p>
-<p>Node 1 = 1,2,3<br>Node 2 = 4,5,6<br>Node 3 = 7,8,9<br>Node 4 = 10,11,12</p>
-<p>用coalesce，将partition减少到2个：</p>
-<p>Node 1 = 1,2,3 + (10,11,12)<br>Node 3 = 7,8,9 + (4,5,6)</p>
-<p>注意，Node1 和 Node3 不需要移动原始的数据</p>
-<p>The repartition algorithm does a full shuffle and creates new partitions with data that’s distributed evenly.<br>Let’s create a DataFrame with the numbers from 1 to 12.</p>
-<p>repartition 算法会做一个full shuffle然后均匀分布地创建新的partition。我们创建一个1-12数字的DataFrame测试一下。<br>刚开始数据是这样分布的：</p>
-<p>Partition 00000: 1, 2, 3<br>Partition 00001: 4, 5, 6<br>Partition 00002: 7, 8, 9<br>Partition 00003: 10, 11, 12</p>
-<p>我们做一个full shuffle，将其repartition为2个。</p>
-<p>这是在我机器上数据分布的情况：<br>Partition A: 1, 3, 4, 6, 7, 9, 10, 12<br>Partition B: 2, 5, 8, 11</p>
-<p>The repartition method makes new partitions and evenly distributes the data in the new partitions (the data distribution is more even for larger data sets).<br>repartition方法让新的partition均匀地分布了数据（数据量大的情况下其实会更均匀）</p>
-<h3 id="coalesce-和-repartition-的区别"><a href="#coalesce-和-repartition-的区别" class="headerlink" title="coalesce 和 repartition 的区别"></a>coalesce 和 repartition 的区别</h3><p>coalesce用已有的partition去尽量减少数据shuffle。<br>repartition创建新的partition并且使用 full shuffle。<br>coalesce会使得每个partition不同数量的数据分布（有些时候各个partition会有不同的size）<br>然而，repartition使得每个partition的数据大小都粗略地相等。</p>
-<h3 id="coalesce-会比-repartition-快速吗？"><a href="#coalesce-会比-repartition-快速吗？" class="headerlink" title="coalesce 会比 repartition 快速吗？"></a>coalesce 会比 repartition 快速吗？</h3><p>coalesce可能会比repartition更快，但是，在partition大小不相等的时候， 总体上会比repartition慢一些。<br>通常，在过滤掉大数据集后，你需要用repartition一下。<br>我发现repartition总体上会快一些，因为Spark一般都是用相同大小的partition。</p>
-<h2 id="Referrence"><a href="#Referrence" class="headerlink" title="Referrence"></a>Referrence</h2><p><a href="https://stackoverflow.com/questions/31610971/spark-repartition-vs-coalesce" target="_blank" rel="external">https://stackoverflow.com/questions/31610971/spark-repartition-vs-coalesce</a></p>
-
-          
+          前言有些时候，在很多partition的时候，我们想减少点partition的数量，不然写到HDFS上的文件数量也会很多很多。我们使用reparation呢，还是coalesce。所以我们得了解这两个
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/spark_repartition_coalesce.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
