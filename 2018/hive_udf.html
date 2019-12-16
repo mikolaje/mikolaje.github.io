@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="Dennis' Blog">
 <meta property="og:description" content="正文Step1首先，我们创建一个目录 udf_test/;创建子目录org/dennis/udf在子目录里创建一个MyUpper.java文件。里面内容为：123456789101112package org.dennis.udf;import org.apache.hadoop.hive.ql.exec.UDF;import org.apache.hadoop.io.Text;public fi">
 <meta property="og:image" content="http://mikolaje.github.io/images/2018/hive_udf/hue_udf_upload.jpg">
-<meta property="og:updated_time" content="2019-11-20T06:20:30.565Z">
+<meta property="og:updated_time" content="2019-12-16T02:20:40.217Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hive UDF 快速教程">
 <meta name="twitter:description" content="正文Step1首先，我们创建一个目录 udf_test/;创建子目录org/dennis/udf在子目录里创建一个MyUpper.java文件。里面内容为：123456789101112package org.dennis.udf;import org.apache.hadoop.hive.ql.exec.UDF;import org.apache.hadoop.io.Text;public fi">
@@ -191,7 +191,7 @@
       
         
         <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
+          <a href="/archives/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
@@ -419,16 +419,38 @@
 
       
         <h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><h3 id="Step1"><a href="#Step1" class="headerlink" title="Step1"></a>Step1</h3><p>首先，我们创建一个目录 udf_test/;<br>创建子目录org/dennis/udf<br>在子目录里创建一个MyUpper.java文件。里面内容为：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> org.dennis.udf;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.apache.hadoop.hive.ql.exec.UDF;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.io.Text;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">MyUpper</span> <span class="keyword">extends</span> <span class="title">UDF</span> </span>&#123;</div><div class="line">  <span class="function"><span class="keyword">public</span> Text <span class="title">evaluate</span><span class="params">(<span class="keyword">final</span> Text s)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (s == <span class="keyword">null</span>) &#123; <span class="keyword">return</span> <span class="keyword">null</span>; &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Text(s.toString().toUpperCase());</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h3 id="Step2"><a href="#Step2" class="headerlink" title="Step2"></a>Step2</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">javac -cp  /opt/cloudera/parcels/CDH-6.2.0-1.cdh6.2.0.p0.967373/hive-exec-2.1.1-cdh6.2.0.jar): \</div><div class="line">/opt/cloudera/parcels/CDH-6.2.0-1.cdh6.2.0.p0.967373/jars/hadoop-common.jar \</div><div class="line">org/dennis/udf/MyUpper.java</div></pre></td></tr></table></figure>
+<h3 id="Step2"><a href="#Step2" class="headerlink" title="Step2"></a>Step2</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">javac -cp  \</div><div class="line">/opt/cloudera/parcels/CDH-6.2.0-1.cdh6.2.0.p0.967373/jars/hive-exec-2.1.1-cdh6.2.0.jar: \</div><div class="line">/opt/cloudera/parcels/CDH-6.2.0-1.cdh6.2.0.p0.967373/jars/hadoop-common-3.0.0-cdh6.2.0.jar \</div><div class="line">org/dennis/udf/MyUpper.java</div></pre></td></tr></table></figure>
 <p>这里我们要把依赖的jar包写进来，这里我们依赖hive-exec*.jar 以及 hadoop-common.jar</p>
-<p>javac -cp 的作用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">javac -cp 指明了.java文件里import的类的位置</div><div class="line"></div><div class="line">java -cp 指明了执行这个class文件所需要的所有类的包路径-即系统类加载器的路径（涉及到类加载机制）</div><div class="line"></div><div class="line">路径在linux中用：隔开  在windows中用；隔开</div></pre></td></tr></table></figure></p>
+<ul>
+<li>javac -cp 的作用  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">javac -cp 指明了.java文件里import的类的位置</div><div class="line"></div><div class="line">java -cp 指明了执行这个class文件所需要的所有类的包路径-即系统类加载器的路径（涉及到类加载机制）</div><div class="line"></div><div class="line">路径在linux中用：隔开  在windows中用；隔开</div></pre></td></tr></table></figure>
+</li>
+</ul>
 <h3 id="Step3"><a href="#Step3" class="headerlink" title="Step3"></a>Step3</h3><p>生成一个jar文件。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">jar -cf myudfs.jar  -C . .</div><div class="line">会在当前目录下生成myudfs.jar 文件</div></pre></td></tr></table></figure></p>
-<h3 id="Step4"><a href="#Step4" class="headerlink" title="Step4"></a>Step4</h3><p>进入Hive命令行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">hive&gt; add jar myudfs.jar;</div><div class="line">Added [myudfs.jar] to class path</div><div class="line">Added resources: [myudfs.jar]</div><div class="line">hive&gt; create temporary function dennisUpper as &apos;org.dennis.udf.MyUpper&apos;;</div><div class="line">OK</div><div class="line">Time taken: 0.067 seconds</div><div class="line">hive&gt;</div></pre></td></tr></table></figure></p>
+<h3 id="Step4"><a href="#Step4" class="headerlink" title="Step4"></a>Step4</h3><h4 id="第一种方式"><a href="#第一种方式" class="headerlink" title="第一种方式"></a>第一种方式</h4><p>进入Hive命令行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">hive&gt; add jar myudfs.jar;</div><div class="line">Added [myudfs.jar] to class path</div><div class="line">Added resources: [myudfs.jar]</div><div class="line">hive&gt; create temporary function dennisUpper as &apos;org.dennis.udf.MyUpper&apos;;</div><div class="line">OK</div><div class="line">Time taken: 0.067 seconds</div><div class="line">hive&gt;</div></pre></td></tr></table></figure></p>
 <p>搞定！</p>
-<p>另外，也可以在Hue上点击 setting后，上传对应的jar文件，然后将对应的function name 和 class name也填一下就OK了。<br><img src="/images/2018/hive_udf/hue_udf_upload.jpg" alt="Sample Image Added via Markdown"></p>
-<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><p>有时候我们add jar后，create function时候会出现如下报错：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Added resources: [myudfs.jar]</div><div class="line">hive&gt; create temporary function dennisUpper as &apos;org.dennis.udf.MyUpper&apos;;</div><div class="line">FAILED: Class org.dennis.udf.MyUpper not found</div><div class="line">FAILED: Execution Error, return code 1 from org.apache.hadoop.hive.ql.exec.FunctionTask</div></pre></td></tr></table></figure></p>
+<h4 id="第二种方式"><a href="#第二种方式" class="headerlink" title="第二种方式"></a>第二种方式</h4><p>另外，也可以在Hue上点击 setting后，上传对应的jar文件，然后将对应的function name 和 class name也填一下就OK了。<br><img src="/images/2018/hive_udf/hue_udf_upload.jpg" alt="Sample Image Added via Markdown"></p>
+<p>然后再Hue上执行<code>create temporary function dennisUpper as &#39;org.dennis.udf.MyUpper&#39;;</code>  注册下对应信息。</p>
+<h3 id="Step5"><a href="#Step5" class="headerlink" title="Step5"></a>Step5</h3><p>执行SQL，检验一下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select dennisUpper(field) from table;</div></pre></td></tr></table></figure></p>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="找不到类"><a href="#找不到类" class="headerlink" title="找不到类"></a>找不到类</h3><p>有时候我们add jar后，create function时候会出现如下报错：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Added resources: [myudfs.jar]</div><div class="line">hive&gt; create temporary function dennisUpper as &apos;org.dennis.udf.MyUpper&apos;;</div><div class="line">FAILED: Class org.dennis.udf.MyUpper not found</div><div class="line">FAILED: Execution Error, return code 1 from org.apache.hadoop.hive.ql.exec.FunctionTask</div></pre></td></tr></table></figure></p>
 <p>我们可以解压一下jar包检查下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">unzip myudf.jar -d check_jar</div><div class="line">解压到 check_jar目录</div></pre></td></tr></table></figure></p>
 <p>如果有的话，check_dir下应该是有这么一个目录文件:<br><code>org/dennis/udf/MyUpper.class</code></p>
+<h3 id="reload更新的jar包"><a href="#reload更新的jar包" class="headerlink" title="reload更新的jar包"></a>reload更新的jar包</h3><p>我们更新了UDF，重新打个jar包替换掉原来的。但如果要让它生效需要做一些操作：</p>
+<ol>
+<li><p>added a config in hive-site.xml, then restart the hive server.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;property&gt;</div><div class="line">    &lt;name&gt;hive.reloadable.aux.jars.path&lt;/name&gt;</div><div class="line">    &lt;value&gt;/user/hive/udf&lt;/value&gt;</div><div class="line">&lt;/property&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>deleted the old jar file in HDFS, and upload the new jar file.</p>
+</li>
+<li><p>DROP TEMPORARY FUNCTION IF EXISTS isstopword;</p>
+</li>
+<li><p>in hive console, run <code>list jar;</code> to check the local jar files, it would print something like this:</p>
+</li>
+</ol>
+<p><code>/tmp/83ce8586-7311-4e97-813f-f2fbcec63a55_resources/isstopwordudf.jar</code><br>then delete them in your server file system.</p>
+<ol>
+<li>create a temp function again.<br>create temporary function isstopword as ‘org.dennis.udf.IsStopWord’;</li>
+</ol>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="http://bdlabs.edureka.co/static/help/topics/cm_mc_hive_udf.html#concept_zb2_rxr_lw_unique_1" target="_blank" rel="external">http://bdlabs.edureka.co/static/help/topics/cm_mc_hive_udf.html#concept_zb2_rxr_lw_unique_1</a></p>
 
       
     </div>
@@ -564,7 +586,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-count">41</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -575,7 +597,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -586,7 +608,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-count">25</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -647,7 +669,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#正文"><span class="nav-number">1.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Step1"><span class="nav-number">1.1.</span> <span class="nav-text">Step1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step2"><span class="nav-number">1.2.</span> <span class="nav-text">Step2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step3"><span class="nav-number">1.3.</span> <span class="nav-text">Step3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step4"><span class="nav-number">1.4.</span> <span class="nav-text">Step4</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常见问题"><span class="nav-number">2.</span> <span class="nav-text">常见问题</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#正文"><span class="nav-number">1.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Step1"><span class="nav-number">1.1.</span> <span class="nav-text">Step1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step2"><span class="nav-number">1.2.</span> <span class="nav-text">Step2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step3"><span class="nav-number">1.3.</span> <span class="nav-text">Step3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step4"><span class="nav-number">1.4.</span> <span class="nav-text">Step4</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#第一种方式"><span class="nav-number">1.4.1.</span> <span class="nav-text">第一种方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第二种方式"><span class="nav-number">1.4.2.</span> <span class="nav-text">第二种方式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step5"><span class="nav-number">1.5.</span> <span class="nav-text">Step5</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常见问题"><span class="nav-number">2.</span> <span class="nav-text">常见问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#找不到类"><span class="nav-number">2.1.</span> <span class="nav-text">找不到类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reload更新的jar包"><span class="nav-number">2.2.</span> <span class="nav-text">reload更新的jar包</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">3.</span> <span class="nav-text">Reference</span></a></li></ol></div>
             
 
           </div>

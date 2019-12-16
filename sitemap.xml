@@ -2,44 +2,44 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://mikolaje.github.io/about/index.html</loc>
+    
+    <lastmod>2019-12-16T02:20:40.265Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://mikolaje.github.io/2018/hive_udf.html</loc>
+    
+    <lastmod>2019-12-16T02:20:40.217Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://mikolaje.github.io/2018/git_rebase.html</loc>
+    
+    <lastmod>2019-12-16T02:20:40.217Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://mikolaje.github.io/2017/tobe_spark_contributor.html</loc>
+    
+    <lastmod>2019-12-16T02:20:40.213Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://mikolaje.github.io/2017/how_tobe_apache_contributor.html</loc>
+    
+    <lastmod>2019-12-16T02:20:40.213Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://mikolaje.github.io/tags/index.html</loc>
     
     <lastmod>2019-11-20T06:20:30.573Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://mikolaje.github.io/2019/git_filter_branch.html</loc>
-    
-    <lastmod>2019-11-20T06:20:30.565Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://mikolaje.github.io/categories/index.html</loc>
-    
-    <lastmod>2019-11-20T06:20:30.565Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://mikolaje.github.io/about/index.html</loc>
-    
-    <lastmod>2019-11-20T06:20:30.565Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://mikolaje.github.io/2016/spark_broadcast.html</loc>
-    
-    <lastmod>2019-11-20T06:20:30.565Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://mikolaje.github.io/2016/spark_dependency.html</loc>
-    
-    <lastmod>2019-11-20T06:20:30.565Z</lastmod>
     
   </url>
   
@@ -107,7 +107,7 @@
   </url>
   
   <url>
-    <loc>http://mikolaje.github.io/2018/hive_udf.html</loc>
+    <loc>http://mikolaje.github.io/categories/index.html</loc>
     
     <lastmod>2019-11-20T06:20:30.565Z</lastmod>
     
@@ -142,7 +142,7 @@
   </url>
   
   <url>
-    <loc>http://mikolaje.github.io/2016/spark_bias.html</loc>
+    <loc>http://mikolaje.github.io/2019/git_filter_branch.html</loc>
     
     <lastmod>2019-11-20T06:20:30.565Z</lastmod>
     
@@ -219,7 +219,7 @@
   </url>
   
   <url>
-    <loc>http://mikolaje.github.io/2018/hive_optimization.html</loc>
+    <loc>http://mikolaje.github.io/2016/spark_broadcast.html</loc>
     
     <lastmod>2019-11-20T06:20:30.565Z</lastmod>
     
@@ -248,6 +248,27 @@
   
   <url>
     <loc>http://mikolaje.github.io/2019/sqlalchemy_with_multiprocess.html</loc>
+    
+    <lastmod>2019-11-20T06:20:30.565Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://mikolaje.github.io/2018/hive_optimization.html</loc>
+    
+    <lastmod>2019-11-20T06:20:30.565Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://mikolaje.github.io/2016/spark_bias.html</loc>
+    
+    <lastmod>2019-11-20T06:20:30.565Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://mikolaje.github.io/2016/spark_dependency.html</loc>
     
     <lastmod>2019-11-20T06:20:30.565Z</lastmod>
     

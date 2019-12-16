@@ -592,16 +592,38 @@
     <title>Hive UDF 快速教程</title>
     <url>/2018/hive_udf.html</url>
     <content><![CDATA[<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><h3 id="Step1"><a href="#Step1" class="headerlink" title="Step1"></a>Step1</h3><p>首先，我们创建一个目录 udf_test/;<br>创建子目录org/dennis/udf<br>在子目录里创建一个MyUpper.java文件。里面内容为：<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">package</span> org.dennis.udf;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.apache.hadoop.hive.ql.exec.UDF;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.io.Text;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">MyUpper</span> <span class="keyword">extends</span> <span class="title">UDF</span> </span>&#123;</div><div class="line">  <span class="function"><span class="keyword">public</span> Text <span class="title">evaluate</span><span class="params">(<span class="keyword">final</span> Text s)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (s == <span class="keyword">null</span>) &#123; <span class="keyword">return</span> <span class="keyword">null</span>; &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Text(s.toString().toUpperCase());</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h3 id="Step2"><a href="#Step2" class="headerlink" title="Step2"></a>Step2</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">javac -cp  /opt/cloudera/parcels/CDH-6.2.0-1.cdh6.2.0.p0.967373/hive-exec-2.1.1-cdh6.2.0.jar): \</div><div class="line">/opt/cloudera/parcels/CDH-6.2.0-1.cdh6.2.0.p0.967373/jars/hadoop-common.jar \</div><div class="line">org/dennis/udf/MyUpper.java</div></pre></td></tr></table></figure>
+<h3 id="Step2"><a href="#Step2" class="headerlink" title="Step2"></a>Step2</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">javac -cp  \</div><div class="line">/opt/cloudera/parcels/CDH-6.2.0-1.cdh6.2.0.p0.967373/jars/hive-exec-2.1.1-cdh6.2.0.jar: \</div><div class="line">/opt/cloudera/parcels/CDH-6.2.0-1.cdh6.2.0.p0.967373/jars/hadoop-common-3.0.0-cdh6.2.0.jar \</div><div class="line">org/dennis/udf/MyUpper.java</div></pre></td></tr></table></figure>
 <p>这里我们要把依赖的jar包写进来，这里我们依赖hive-exec*.jar 以及 hadoop-common.jar</p>
-<p>javac -cp 的作用<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">javac -cp 指明了.java文件里import的类的位置</div><div class="line"></div><div class="line">java -cp 指明了执行这个class文件所需要的所有类的包路径-即系统类加载器的路径（涉及到类加载机制）</div><div class="line"></div><div class="line">路径在linux中用：隔开  在windows中用；隔开</div></pre></td></tr></table></figure></p>
+<ul>
+<li>javac -cp 的作用  <figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">javac -cp 指明了.java文件里import的类的位置</div><div class="line"></div><div class="line">java -cp 指明了执行这个class文件所需要的所有类的包路径-即系统类加载器的路径（涉及到类加载机制）</div><div class="line"></div><div class="line">路径在linux中用：隔开  在windows中用；隔开</div></pre></td></tr></table></figure>
+</li>
+</ul>
 <h3 id="Step3"><a href="#Step3" class="headerlink" title="Step3"></a>Step3</h3><p>生成一个jar文件。<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">jar -cf myudfs.jar  -C . .</div><div class="line">会在当前目录下生成myudfs.jar 文件</div></pre></td></tr></table></figure></p>
-<h3 id="Step4"><a href="#Step4" class="headerlink" title="Step4"></a>Step4</h3><p>进入Hive命令行<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">hive&gt; add jar myudfs.jar;</div><div class="line">Added [myudfs.jar] to class path</div><div class="line">Added resources: [myudfs.jar]</div><div class="line">hive&gt; create temporary function dennisUpper as &apos;org.dennis.udf.MyUpper&apos;;</div><div class="line">OK</div><div class="line">Time taken: 0.067 seconds</div><div class="line">hive&gt;</div></pre></td></tr></table></figure></p>
+<h3 id="Step4"><a href="#Step4" class="headerlink" title="Step4"></a>Step4</h3><h4 id="第一种方式"><a href="#第一种方式" class="headerlink" title="第一种方式"></a>第一种方式</h4><p>进入Hive命令行<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">hive&gt; add jar myudfs.jar;</div><div class="line">Added [myudfs.jar] to class path</div><div class="line">Added resources: [myudfs.jar]</div><div class="line">hive&gt; create temporary function dennisUpper as &apos;org.dennis.udf.MyUpper&apos;;</div><div class="line">OK</div><div class="line">Time taken: 0.067 seconds</div><div class="line">hive&gt;</div></pre></td></tr></table></figure></p>
 <p>搞定！</p>
-<p>另外，也可以在Hue上点击 setting后，上传对应的jar文件，然后将对应的function name 和 class name也填一下就OK了。<br><img src="/images/2018/hive_udf/hue_udf_upload.jpg" alt="Sample Image Added via Markdown"></p>
-<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><p>有时候我们add jar后，create function时候会出现如下报错：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Added resources: [myudfs.jar]</div><div class="line">hive&gt; create temporary function dennisUpper as &apos;org.dennis.udf.MyUpper&apos;;</div><div class="line">FAILED: Class org.dennis.udf.MyUpper not found</div><div class="line">FAILED: Execution Error, return code 1 from org.apache.hadoop.hive.ql.exec.FunctionTask</div></pre></td></tr></table></figure></p>
+<h4 id="第二种方式"><a href="#第二种方式" class="headerlink" title="第二种方式"></a>第二种方式</h4><p>另外，也可以在Hue上点击 setting后，上传对应的jar文件，然后将对应的function name 和 class name也填一下就OK了。<br><img src="/images/2018/hive_udf/hue_udf_upload.jpg" alt="Sample Image Added via Markdown"></p>
+<p>然后再Hue上执行<code>create temporary function dennisUpper as &#39;org.dennis.udf.MyUpper&#39;;</code>  注册下对应信息。</p>
+<h3 id="Step5"><a href="#Step5" class="headerlink" title="Step5"></a>Step5</h3><p>执行SQL，检验一下:<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">select dennisUpper(field) from table;</div></pre></td></tr></table></figure></p>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="找不到类"><a href="#找不到类" class="headerlink" title="找不到类"></a>找不到类</h3><p>有时候我们add jar后，create function时候会出现如下报错：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Added resources: [myudfs.jar]</div><div class="line">hive&gt; create temporary function dennisUpper as &apos;org.dennis.udf.MyUpper&apos;;</div><div class="line">FAILED: Class org.dennis.udf.MyUpper not found</div><div class="line">FAILED: Execution Error, return code 1 from org.apache.hadoop.hive.ql.exec.FunctionTask</div></pre></td></tr></table></figure></p>
 <p>我们可以解压一下jar包检查下:<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">unzip myudf.jar -d check_jar</div><div class="line">解压到 check_jar目录</div></pre></td></tr></table></figure></p>
 <p>如果有的话，check_dir下应该是有这么一个目录文件:<br><code>org/dennis/udf/MyUpper.class</code></p>
+<h3 id="reload更新的jar包"><a href="#reload更新的jar包" class="headerlink" title="reload更新的jar包"></a>reload更新的jar包</h3><p>我们更新了UDF，重新打个jar包替换掉原来的。但如果要让它生效需要做一些操作：</p>
+<ol>
+<li><p>added a config in hive-site.xml, then restart the hive server.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&lt;property&gt;</div><div class="line">    &lt;name&gt;hive.reloadable.aux.jars.path&lt;/name&gt;</div><div class="line">    &lt;value&gt;/user/hive/udf&lt;/value&gt;</div><div class="line">&lt;/property&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>deleted the old jar file in HDFS, and upload the new jar file.</p>
+</li>
+<li><p>DROP TEMPORARY FUNCTION IF EXISTS isstopword;</p>
+</li>
+<li><p>in hive console, run <code>list jar;</code> to check the local jar files, it would print something like this:</p>
+</li>
+</ol>
+<p><code>/tmp/83ce8586-7311-4e97-813f-f2fbcec63a55_resources/isstopwordudf.jar</code><br>then delete them in your server file system.</p>
+<ol>
+<li>create a temp function again.<br>create temporary function isstopword as ‘org.dennis.udf.IsStopWord’;</li>
+</ol>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="http://bdlabs.edureka.co/static/help/topics/cm_mc_hive_udf.html#concept_zb2_rxr_lw_unique_1" target="_blank" rel="external">http://bdlabs.edureka.co/static/help/topics/cm_mc_hive_udf.html#concept_zb2_rxr_lw_unique_1</a></p>
 ]]></content>
       <categories>
         <category>大数据</category>
@@ -636,6 +658,27 @@
       </categories>
       <tags>
         <tag>hive</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Git rebase的一些运用场景</title>
+    <url>/2018/git_rebase.html</url>
+    <content><![CDATA[<h2 id="Git-usage"><a href="#Git-usage" class="headerlink" title="Git usage"></a>Git usage</h2><p>最近在为github开源项目修修bug。提了几个Pull Request。又巩固了下git的知识，熟练了git的使用。</p>
+<p>我在提交PR后，发现有个地方改错了。那怎么改呢，其实很简单，只需要再次push 到自己fork的repo就可以了。</p>
+<p>PR的branch是和自己fork的repo的branch联动的。</p>
+<p>但是，这又有个问题，我再次commit后，就会有两个commit。这两个commit其实解决的都是同一个问题。<br>在正式的repo中尽量要精简commit，同一个问题的多个commit需要squash为一个commit。</p>
+<p>于是，我就得用git rebase 来帮我完成了。</p>
+<p>通过这个命令，可以重新修改最近的两个commit<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">git rebase -i HEAD~2</div></pre></td></tr></table></figure></p>
+<p>执行命令后会弹出一个vim编辑:<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">pick 01d1124 Message....</div><div class="line">pick 6340aaa Message....</div></pre></td></tr></table></figure></p>
+<p>然后，将要squash的commit的那行最前面的<code>pick</code> 改为 <code>squash</code><br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">p 01d1124 Message....</div><div class="line">s 6340aaa Message....</div></pre></td></tr></table></figure></p>
+<h3 id="改commit名字"><a href="#改commit名字" class="headerlink" title="改commit名字"></a>改commit名字</h3><p>大项目的commit的名字都有比较严格的要求，有些时候，我们要改下自己不规范的命名的话。<br>可以也可以用 git rebase.</p>
+<p>很简单，同样先用git rebase -i HEAD~n<br>在需要改的commit的最前面把 <code>pick</code> 改为<code>reword</code><br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">pick 01d1124 Message....</div><div class="line">reword 6340aaa Message....</div></pre></td></tr></table></figure></p>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -829,6 +872,31 @@
       </tags>
   </entry>
   <entry>
+    <title>怎么成为一个Apache Contributor贡献者？</title>
+    <url>/2017/how_tobe_apache_contributor.html</url>
+    <content><![CDATA[<h1 id="通往Apache-Contributor之路"><a href="#通往Apache-Contributor之路" class="headerlink" title="通往Apache Contributor之路"></a>通往Apache Contributor之路</h1><h2 id="根据个人贡献获得价值（Government-By-Merit）"><a href="#根据个人贡献获得价值（Government-By-Merit）" class="headerlink" title="根据个人贡献获得价值（Government By Merit）"></a>根据个人贡献获得价值（Government By Merit）</h2><p>回忆我刚参与ServiceComb项目，面对上万行的存量代码，总觉得无从下手，甚至认为开源社区高手如云，如果没有深厚且对口的技术功底，还是不要来掺和了。</p>
+<p>在这个困难而关键的时候，社区导师给了我明确的指导——不要怕，从小事做起，不要“善小而不为”。于是我静下心来，在Jira上寻找最简单的任务，主动请缨的第一个任务是支持配置兼容，具体需求是cse.xxx配置项和servicecomb.xxx配置项要具备等同效果，经过一番努力，成功Merge PR ；之后我又接下另一个简单任务，增加一个Annotation用于支持Json String作为请求参数……</p>
+<p>Apache Way非常看重个人贡献，没有贡献，一切无从谈起，与开源软件同行，不仅看你获得了多少，更要坚持长期贡献，这是它与商业软件最大的不同。贡献并不区分大小，无论是增加重大特性，还是小小的改进、Bug Fix和修订文档错误，这些同样是项目茁壮成长的关键。</p>
+<p>实际上大多数开源爱好者都是从修订文档错误开始的，例如改正错别字、格式不正确以及订正描述等等，我对ServiceComb的理解也绝大多数来自这方面的工作；这样不但能够在阅读文档的过程中更快的了解技术细节，也比较容易入手做出贡献。</p>
+<p>总之坚持下来，个人积累的贡献慢慢变厚，获得Apache的认可自然水到渠成。</p>
+<h2 id="社区驱动（Community）"><a href="#社区驱动（Community）" class="headerlink" title="社区驱动（Community）"></a>社区驱动（Community）</h2><p>参与社区是技术成长最快的方式之一，Follow Apache社区的方式有订阅邮件列表和加入Gitter聊天室；从看大家讨论（讨论邮件一般会使用[Discussion]开头），到回答大家的问题（回复邮件和发送Gitter聊天），相信用不了多久你就能收获颇丰，并冒出自己的想法，迈出第一步提交第一个PR也就不难了。</p>
+<p>ServiceComb作为一个微服务一站式解决方案，融合侵入式、非侵入式场景并支持多语言，解放开发者，帮助用户和开发者将企业应用轻松微服务化和上云；大家在这里讨论的话题、发起的投票、以及提交的代码，无不与微服务密切相关。在这个社区中我不但学习到了知识，完成了开源（也包含微服务）小白的蜕变，还进一步接受了开源的洗礼——前辈指导我进步，我将所学传递给新人；这个过程中我结识了很多新朋友，大家互通有无，不但极大的开阔了视野，也提高了自己的社交能力。</p>
+<p>Apache开发者来自全球，社区大多都是用英文来交流。通过阅读英文资料，使用英文在Gitter上与开发人员直接交流，通过英文邮件来探讨问题，在不知不觉中自己的英文水平也大大提高了。</p>
+<h2 id="协作开发（Collaborative-Development）"><a href="#协作开发（Collaborative-Development）" class="headerlink" title="协作开发（Collaborative Development）"></a>协作开发（Collaborative Development）</h2><p>这也是我极力推荐参与开源社区开发的重要原因之一，当你提交PR后，无论代码有多么烂，你总能收获宝贵的Comments，不花钱获得编程大师的指点——教你怎么写出优秀的代码，这是多么合算的买卖！</p>
+<p>我在参与ServiceComb社区前，只知道Java基本语法，IDE不熟练（之前一直是用VS写C#，不使用Eclipse和IntelliJ IDEA），不会Git，不懂Maven，还能有更糟糕的起点吗：）</p>
+<p>不用担心，社区会指导你。我前文提到的第一个简单的任务，花费了将近一周时间，被打回来了四五次后才被Merge；一个PR收获60+ Comments也是家常便饭。这个过程中我的Java水平成长得飞快，不久后就能独立承担新特性的设计和开发——Metrics，当然，完成这个新特性的过程中Committer和其他开发者给予了很多支持，所以，请大胆的提交你的第一个PR，成为一名Contributor吧。</p>
+<h2 id="民主，开放和透明（Consensus-Open-and-Transparency）"><a href="#民主，开放和透明（Consensus-Open-and-Transparency）" class="headerlink" title="民主，开放和透明（Consensus, Open and Transparency）"></a>民主，开放和透明（Consensus, Open and Transparency）</h2><p>在Apache社区里投票至关重要，你可以感受到你的建议将被充分重视，我很喜欢这种参与感；大家的讨论和建议也完全公开透明，并且能够长时间通过邮件列表查询到，沟通效率非常高。所以大家多多参与，一定能收获惊喜，从万能的社区里寻找自己想要的答案，请记住，当你对某个问题产生困惑，即使是强大的StackOverflow也不会有原作者的答复更为准确。</p>
+<p>写在最后，我想说从一名开源小白成长为Apache Committer并不是无比艰难又遥不可及的事情，只需要日积月累的在社区中投入一点业余时间，就能梦想成真。当然最好找到自己感兴趣的社区，这会让这段旅途更加愉快，也能交到更多志同道合的的朋友。</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://servicecomb.apache.org/cn/docs/how-to-grow-up-to-be-an-apache-committer/" target="_blank" rel="external">https://servicecomb.apache.org/cn/docs/how-to-grow-up-to-be-an-apache-committer/</a></p>
+]]></content>
+      <categories>
+        <category>github</category>
+      </categories>
+      <tags>
+        <tag>github</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>每周的总结与记录</title>
     <url>/2017/dennis_weekly.html</url>
     <content><![CDATA[<h3 id="20190924"><a href="#20190924" class="headerlink" title="20190924"></a>20190924</h3><p>早上喝了利动乳果糖口服溶液然后吃早餐，到公司九点多感觉肚子疼。于是拉肚子了。中午说拉肚子了就喝粥吧，就去红荔村吃皮蛋瘦肉粥，结果吃完后回来肚子不停地咕咕叫，叫的特别厉害。而且肚子很涨，越来越胀，然后开始涨疼了。我一直想忍过去，但一直都还会涨疼，还喝了矿泉水，冷的，更疼。下午三点多4楼看医生，说我不应该吃皮蛋瘦肉粥，他说腹泻后不能吃蛋白质类的食物，牛奶都不要喝。只能喝白粥。然后开了左氟沙星和奥美拉唑。他妈的，我以为肚子胀可以吃皮蛋瘦肉粥这些，因为这也算粥，但不知道是不能吃的。</p>
@@ -843,6 +911,19 @@
       </categories>
       <tags>
         <tag>daily</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>怎么成为Apache Spark贡献者</title>
+    <url>/2017/tobe_spark_contributor.html</url>
+    <content><![CDATA[<p>You should start with:</p>
+<p>Read API Docs: Spark 2.4.3 Scala Doc<br>Join the mailing list: Community | Apache Spark<br>Now you should take a look at Jira (list of known bugs / issues): - ASF JIRA</p>
+]]></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>spark</tag>
       </tags>
   </entry>
   <entry>
@@ -1540,6 +1621,34 @@ print Person.name  # [1]
       </tags>
   </entry>
   <entry>
+    <title>Spark Streaming Dstream ForeachRDD的理解</title>
+    <url>/2016/spark_foreachRDD.html</url>
+    <content><![CDATA[<h1 id="通俗理解Spark-Streaming-Dstream-的ForeachRDD"><a href="#通俗理解Spark-Streaming-Dstream-的ForeachRDD" class="headerlink" title="通俗理解Spark Streaming Dstream 的ForeachRDD"></a>通俗理解Spark Streaming Dstream 的ForeachRDD</h1><p>在SparkStreaming中，数据中的每个batch都是只有一个RDD，为什么我们还要用ForeachRDD 在每一个RDD呢？ 不是只有一个RDD吗？</p>
+<p>Dstream也就是离散stream，就是把连续的数据分成一小团一小团。我们用专业术语“microbatching”来描述。每个microbatch 变成一个RDD以便Spark的后续处理。在每一个batch interval中，每个DStream有且仅有一个RDD。</p>
+<p><img src="/images/2016/spark_foreachRDD/spark-streaming.png" alt="Sample Image Added via Markdown"></p>
+<p>然而RDD是什么呢，RDD是一个分布式数据集合。你可以认为它是一个告诉你实际数据在集群中具体什么地方的指南者（pointer）。</p>
+<a id="more"></a>
+<p>Dstream.foreachRDD在SparkStreaming中是一个“output operator”，它让你直接基于Dstream的RDDs去处理数据。比如说，用foreachRDD方法将数据写入数据库</p>
+<p>这里有个容易疑惑的地方，DStream是和时间有关的集合。我们来对比一下传统的集合。我们用一群客户（users）来举个例子：</p>
+<!-- scala -->
+<pre><code>val userDStream：DStream[User]=???
+userDStream.foreachRDD{usersRDD =&gt;
+    usersRDD.foreach{user =&gt; serveCoffee(user)}
+}
+</code></pre><p>注意：</p>
+<ul>
+<li>DStream.foreachRDD返回给你的是RDD[user],不是单单一个user。回到上面咖啡的这个例子，这个客户集合 是指某个时间区间(比如下午一点到两点)的集合</li>
+<li>为了处理单个集合的元素，需要进一步操作(operate) RDD。在这个案例中，我们用RDD.foreach来对每个客户serve coffee</li>
+</ul>
+]]></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>spark</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Spark简易入门</title>
     <url>/2016/spark_guide.html</url>
     <content><![CDATA[<h1 id="Spark简易入门"><a href="#Spark简易入门" class="headerlink" title="Spark简易入门"></a>Spark简易入门</h1><p>Spark，搞大数据的人都应该用过吧。spark作为主流的大数据处理框架，到底为什么这么多人用呢？我们少扯淡，直接动手写大数据界的HelloWorld：WordCount。</p>
@@ -1595,34 +1704,6 @@ object WordCount
 <p><code>spark-submit --class &quot;demo.WordCount&quot; SparkDemo-1.0-SNAPSHOT.jar</code><br></p>
 <p>其中demo.WordCount是main函数所在的ojbect，而SparkDemo-1.0-SNAPSHOT.jar就是打出来的jar包。</p>
 <p>Spark 最简单的流程，就这样Finish了。</p>
-]]></content>
-      <categories>
-        <category>大数据</category>
-      </categories>
-      <tags>
-        <tag>spark</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Spark Streaming Dstream ForeachRDD的理解</title>
-    <url>/2016/spark_foreachRDD.html</url>
-    <content><![CDATA[<h1 id="通俗理解Spark-Streaming-Dstream-的ForeachRDD"><a href="#通俗理解Spark-Streaming-Dstream-的ForeachRDD" class="headerlink" title="通俗理解Spark Streaming Dstream 的ForeachRDD"></a>通俗理解Spark Streaming Dstream 的ForeachRDD</h1><p>在SparkStreaming中，数据中的每个batch都是只有一个RDD，为什么我们还要用ForeachRDD 在每一个RDD呢？ 不是只有一个RDD吗？</p>
-<p>Dstream也就是离散stream，就是把连续的数据分成一小团一小团。我们用专业术语“microbatching”来描述。每个microbatch 变成一个RDD以便Spark的后续处理。在每一个batch interval中，每个DStream有且仅有一个RDD。</p>
-<p><img src="/images/2016/spark_foreachRDD/spark-streaming.png" alt="Sample Image Added via Markdown"></p>
-<p>然而RDD是什么呢，RDD是一个分布式数据集合。你可以认为它是一个告诉你实际数据在集群中具体什么地方的指南者（pointer）。</p>
-<a id="more"></a>
-<p>Dstream.foreachRDD在SparkStreaming中是一个“output operator”，它让你直接基于Dstream的RDDs去处理数据。比如说，用foreachRDD方法将数据写入数据库</p>
-<p>这里有个容易疑惑的地方，DStream是和时间有关的集合。我们来对比一下传统的集合。我们用一群客户（users）来举个例子：</p>
-<!-- scala -->
-<pre><code>val userDStream：DStream[User]=???
-userDStream.foreachRDD{usersRDD =&gt;
-    usersRDD.foreach{user =&gt; serveCoffee(user)}
-}
-</code></pre><p>注意：</p>
-<ul>
-<li>DStream.foreachRDD返回给你的是RDD[user],不是单单一个user。回到上面咖啡的这个例子，这个客户集合 是指某个时间区间(比如下午一点到两点)的集合</li>
-<li>为了处理单个集合的元素，需要进一步操作(operate) RDD。在这个案例中，我们用RDD.foreach来对每个客户serve coffee</li>
-</ul>
 ]]></content>
       <categories>
         <category>大数据</category>
