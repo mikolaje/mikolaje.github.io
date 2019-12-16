@@ -663,27 +663,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Git rebase的一些运用场景</title>
-    <url>/2018/git_rebase.html</url>
-    <content><![CDATA[<h2 id="Git-usage"><a href="#Git-usage" class="headerlink" title="Git usage"></a>Git usage</h2><p>最近在为github开源项目修修bug。提了几个Pull Request。又巩固了下git的知识，熟练了git的使用。</p>
-<p>我在提交PR后，发现有个地方改错了。那怎么改呢，其实很简单，只需要再次push 到自己fork的repo就可以了。</p>
-<p>PR的branch是和自己fork的repo的branch联动的。</p>
-<p>但是，这又有个问题，我再次commit后，就会有两个commit。这两个commit其实解决的都是同一个问题。<br>在正式的repo中尽量要精简commit，同一个问题的多个commit需要squash为一个commit。</p>
-<p>于是，我就得用git rebase 来帮我完成了。</p>
-<p>通过这个命令，可以重新修改最近的两个commit<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">git rebase -i HEAD~2</div></pre></td></tr></table></figure></p>
-<p>执行命令后会弹出一个vim编辑:<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">pick 01d1124 Message....</div><div class="line">pick 6340aaa Message....</div></pre></td></tr></table></figure></p>
-<p>然后，将要squash的commit的那行最前面的<code>pick</code> 改为 <code>squash</code><br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">p 01d1124 Message....</div><div class="line">s 6340aaa Message....</div></pre></td></tr></table></figure></p>
-<h3 id="改commit名字"><a href="#改commit名字" class="headerlink" title="改commit名字"></a>改commit名字</h3><p>大项目的commit的名字都有比较严格的要求，有些时候，我们要改下自己不规范的命名的话。<br>可以也可以用 git rebase.</p>
-<p>很简单，同样先用git rebase -i HEAD~n<br>在需要改的commit的最前面把 <code>pick</code> 改为<code>reword</code><br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">pick 01d1124 Message....</div><div class="line">reword 6340aaa Message....</div></pre></td></tr></table></figure></p>
-]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hive 优化</title>
     <url>/2018/hive_optimization.html</url>
     <content><![CDATA[<p>对于如果join中有小表的话，可以开启map</p>
@@ -708,6 +687,27 @@
       </categories>
       <tags>
         <tag>hive</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Git rebase的一些运用场景</title>
+    <url>/2018/git_rebase.html</url>
+    <content><![CDATA[<h2 id="Git-usage"><a href="#Git-usage" class="headerlink" title="Git usage"></a>Git usage</h2><p>最近在为github开源项目修修bug。提了几个Pull Request。又巩固了下git的知识，熟练了git的使用。</p>
+<p>我在提交PR后，发现有个地方改错了。那怎么改呢，其实很简单，只需要再次push 到自己fork的repo就可以了。</p>
+<p>PR的branch是和自己fork的repo的branch联动的。</p>
+<p>但是，这又有个问题，我再次commit后，就会有两个commit。这两个commit其实解决的都是同一个问题。<br>在正式的repo中尽量要精简commit，同一个问题的多个commit需要squash为一个commit。</p>
+<p>于是，我就得用git rebase 来帮我完成了。</p>
+<p>通过这个命令，可以重新修改最近的两个commit<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">git rebase -i HEAD~2</div></pre></td></tr></table></figure></p>
+<p>执行命令后会弹出一个vim编辑:<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">pick 01d1124 Message....</div><div class="line">pick 6340aaa Message....</div></pre></td></tr></table></figure></p>
+<p>然后，将要squash的commit的那行最前面的<code>pick</code> 改为 <code>squash</code><br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">p 01d1124 Message....</div><div class="line">s 6340aaa Message....</div></pre></td></tr></table></figure></p>
+<h3 id="改commit名字"><a href="#改commit名字" class="headerlink" title="改commit名字"></a>改commit名字</h3><p>大项目的commit的名字都有比较严格的要求，有些时候，我们要改下自己不规范的命名的话。<br>可以也可以用 git rebase.</p>
+<p>很简单，同样先用git rebase -i HEAD~n<br>在需要改的commit的最前面把 <code>pick</code> 改为<code>reword</code><br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">pick 01d1124 Message....</div><div class="line">reword 6340aaa Message....</div></pre></td></tr></table></figure></p>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -1565,6 +1565,52 @@ sum_prime(2000000)
       </tags>
   </entry>
   <entry>
+    <title>聊聊python的unicode 问题</title>
+    <url>/2016/python_unicode.html</url>
+    <content><![CDATA[<h2 id="Python的中文字符处理"><a href="#Python的中文字符处理" class="headerlink" title="Python的中文字符处理"></a>Python的中文字符处理</h2><p>都说python对中文不太友好。</p>
+<p>我们看看下面两个例子：<br>测试环境是ubuntu;<br>python版本为2.7<br><!-- python --></p>
+<pre><code>》a = &apos;呵呵&apos;
+》a 
+》&apos;\xe5\x91\xb5\xe5\x91\xb5&apos;
+》print a
+》呵呵
+</code></pre><p>为什么print 和 直接输入变量回车显示的东西不一样呢？<br>\xe5\x91\xb5\xe5\x91\xb5这些是什么东西啊。一定很奇怪。其实bytes字符编码，是8进制的东西。</p>
+<a id="more"></a>
+<p>首先’呵呵‘ 字符串赋值给a。然而python 内部是以’\xe5\x91\xb5\xe5\x91\xb5’保存的，这应该是utf-8（因为ubuntu默认为uhf-8）的unicode 对应的8进制字符编码</p>
+<p>我们再看看：<br><!-- python --><br>    》a=u’呵呵’  #带上u表示将这字符串转为unicode<br>    》a<br>    》u’\u5475\u5475’<br>    》print a<br>    》呵呵</p>
+<p>我们发现print真是厉害，不管是字符串 还是 unicode 它都能显示为中文的字符。而回车显示的u’\u5475\u5475’是什么呢？这是’呵呵’对应的uncode编码</p>
+<p>我们知道unicode可以 通过encode 编码来转为str</p>
+<!-- python -->
+<pre><code>》a.encode(&apos;utf-8&apos;)
+》&apos;\xe5\x91\xb5\xe5\x91\xb5&apos;
+》print a.encode(&apos;utf-8&apos;)
+》呵呵
+</code></pre><p>我们看到encode后显示的str和我们最开始显示的’\xe5\x91\xb5\xe5\x91\xb5’一样。这说吗中文的字符串在python里就是用\x这种字符串编码保存的</p>
+<p>print 可以把这种编码自动地解码并且显示为对应的中文字符</p>
+<p>另外，有些时候会碰到这种情况，请看下面：</p>
+<!-- python -->
+<pre><code>》a=u&apos;呵呵&apos;
+》l=[a]
+》s=str(l)
+》s
+》&quot;[u&apos;\\u5475\\u5475&apos;]&quot;
+</code></pre><p>哟，怎么多了个\<br>有时候，python会以这种编码保存，这不知道是什么编码，多了一个斜杠的<br>遇到这种情况我们可以用如下办法<br><!-- python --></p>
+<pre><code>》s.decode(&apos;unicode_escape&apos;)
+》s
+》u&quot;[u&apos;\u5475\u5475&apos;]&quot;
+</code></pre><p>这样就可以把它变回来了。此外我们可以print s一下看看会出现什么呢？<br><!-- python --></p>
+<pre><code>》print s
+》[u&apos;\u5475\u5475&apos;]
+</code></pre><p>哈，其实print 就是把不好读的编码优化为比这种编码更好读的一种形式</p>
+<h3 id="总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟"><a href="#总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟" class="headerlink" title="总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟"></a>总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟</h3>]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>聊聊python的变量问题</title>
     <url>/2016/python_func_params.html</url>
     <content><![CDATA[<h2 id="Python的参数作用范围"><a href="#Python的参数作用范围" class="headerlink" title="Python的参数作用范围"></a>Python的参数作用范围</h2><p>我们看看下面两个例子：</p>
@@ -1634,80 +1680,6 @@ print Person.name  # [1]
       </tags>
   </entry>
   <entry>
-    <title>聊聊python的unicode 问题</title>
-    <url>/2016/python_unicode.html</url>
-    <content><![CDATA[<h2 id="Python的中文字符处理"><a href="#Python的中文字符处理" class="headerlink" title="Python的中文字符处理"></a>Python的中文字符处理</h2><p>都说python对中文不太友好。</p>
-<p>我们看看下面两个例子：<br>测试环境是ubuntu;<br>python版本为2.7<br><!-- python --></p>
-<pre><code>》a = &apos;呵呵&apos;
-》a 
-》&apos;\xe5\x91\xb5\xe5\x91\xb5&apos;
-》print a
-》呵呵
-</code></pre><p>为什么print 和 直接输入变量回车显示的东西不一样呢？<br>\xe5\x91\xb5\xe5\x91\xb5这些是什么东西啊。一定很奇怪。其实bytes字符编码，是8进制的东西。</p>
-<a id="more"></a>
-<p>首先’呵呵‘ 字符串赋值给a。然而python 内部是以’\xe5\x91\xb5\xe5\x91\xb5’保存的，这应该是utf-8（因为ubuntu默认为uhf-8）的unicode 对应的8进制字符编码</p>
-<p>我们再看看：<br><!-- python --><br>    》a=u’呵呵’  #带上u表示将这字符串转为unicode<br>    》a<br>    》u’\u5475\u5475’<br>    》print a<br>    》呵呵</p>
-<p>我们发现print真是厉害，不管是字符串 还是 unicode 它都能显示为中文的字符。而回车显示的u’\u5475\u5475’是什么呢？这是’呵呵’对应的uncode编码</p>
-<p>我们知道unicode可以 通过encode 编码来转为str</p>
-<!-- python -->
-<pre><code>》a.encode(&apos;utf-8&apos;)
-》&apos;\xe5\x91\xb5\xe5\x91\xb5&apos;
-》print a.encode(&apos;utf-8&apos;)
-》呵呵
-</code></pre><p>我们看到encode后显示的str和我们最开始显示的’\xe5\x91\xb5\xe5\x91\xb5’一样。这说吗中文的字符串在python里就是用\x这种字符串编码保存的</p>
-<p>print 可以把这种编码自动地解码并且显示为对应的中文字符</p>
-<p>另外，有些时候会碰到这种情况，请看下面：</p>
-<!-- python -->
-<pre><code>》a=u&apos;呵呵&apos;
-》l=[a]
-》s=str(l)
-》s
-》&quot;[u&apos;\\u5475\\u5475&apos;]&quot;
-</code></pre><p>哟，怎么多了个\<br>有时候，python会以这种编码保存，这不知道是什么编码，多了一个斜杠的<br>遇到这种情况我们可以用如下办法<br><!-- python --></p>
-<pre><code>》s.decode(&apos;unicode_escape&apos;)
-》s
-》u&quot;[u&apos;\u5475\u5475&apos;]&quot;
-</code></pre><p>这样就可以把它变回来了。此外我们可以print s一下看看会出现什么呢？<br><!-- python --></p>
-<pre><code>》print s
-》[u&apos;\u5475\u5475&apos;]
-</code></pre><p>哈，其实print 就是把不好读的编码优化为比这种编码更好读的一种形式</p>
-<h3 id="总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟"><a href="#总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟" class="headerlink" title="总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟"></a>总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟</h3>]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Spark Streaming Dstream ForeachRDD的理解</title>
-    <url>/2016/spark_foreachRDD.html</url>
-    <content><![CDATA[<h1 id="通俗理解Spark-Streaming-Dstream-的ForeachRDD"><a href="#通俗理解Spark-Streaming-Dstream-的ForeachRDD" class="headerlink" title="通俗理解Spark Streaming Dstream 的ForeachRDD"></a>通俗理解Spark Streaming Dstream 的ForeachRDD</h1><p>在SparkStreaming中，数据中的每个batch都是只有一个RDD，为什么我们还要用ForeachRDD 在每一个RDD呢？ 不是只有一个RDD吗？</p>
-<p>Dstream也就是离散stream，就是把连续的数据分成一小团一小团。我们用专业术语“microbatching”来描述。每个microbatch 变成一个RDD以便Spark的后续处理。在每一个batch interval中，每个DStream有且仅有一个RDD。</p>
-<p><img src="/images/2016/spark_foreachRDD/spark-streaming.png" alt="Sample Image Added via Markdown"></p>
-<p>然而RDD是什么呢，RDD是一个分布式数据集合。你可以认为它是一个告诉你实际数据在集群中具体什么地方的指南者（pointer）。</p>
-<a id="more"></a>
-<p>Dstream.foreachRDD在SparkStreaming中是一个“output operator”，它让你直接基于Dstream的RDDs去处理数据。比如说，用foreachRDD方法将数据写入数据库</p>
-<p>这里有个容易疑惑的地方，DStream是和时间有关的集合。我们来对比一下传统的集合。我们用一群客户（users）来举个例子：</p>
-<!-- scala -->
-<pre><code>val userDStream：DStream[User]=???
-userDStream.foreachRDD{usersRDD =&gt;
-    usersRDD.foreach{user =&gt; serveCoffee(user)}
-}
-</code></pre><p>注意：</p>
-<ul>
-<li>DStream.foreachRDD返回给你的是RDD[user],不是单单一个user。回到上面咖啡的这个例子，这个客户集合 是指某个时间区间(比如下午一点到两点)的集合</li>
-<li>为了处理单个集合的元素，需要进一步操作(operate) RDD。在这个案例中，我们用RDD.foreach来对每个客户serve coffee</li>
-</ul>
-]]></content>
-      <categories>
-        <category>大数据</category>
-      </categories>
-      <tags>
-        <tag>spark</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Spark简易入门</title>
     <url>/2016/spark_guide.html</url>
     <content><![CDATA[<h1 id="Spark简易入门"><a href="#Spark简易入门" class="headerlink" title="Spark简易入门"></a>Spark简易入门</h1><p>Spark，搞大数据的人都应该用过吧。spark作为主流的大数据处理框架，到底为什么这么多人用呢？我们少扯淡，直接动手写大数据界的HelloWorld：WordCount。</p>
@@ -1763,6 +1735,34 @@ object WordCount
 <p><code>spark-submit --class &quot;demo.WordCount&quot; SparkDemo-1.0-SNAPSHOT.jar</code><br></p>
 <p>其中demo.WordCount是main函数所在的ojbect，而SparkDemo-1.0-SNAPSHOT.jar就是打出来的jar包。</p>
 <p>Spark 最简单的流程，就这样Finish了。</p>
+]]></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>spark</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Spark Streaming Dstream ForeachRDD的理解</title>
+    <url>/2016/spark_foreachRDD.html</url>
+    <content><![CDATA[<h1 id="通俗理解Spark-Streaming-Dstream-的ForeachRDD"><a href="#通俗理解Spark-Streaming-Dstream-的ForeachRDD" class="headerlink" title="通俗理解Spark Streaming Dstream 的ForeachRDD"></a>通俗理解Spark Streaming Dstream 的ForeachRDD</h1><p>在SparkStreaming中，数据中的每个batch都是只有一个RDD，为什么我们还要用ForeachRDD 在每一个RDD呢？ 不是只有一个RDD吗？</p>
+<p>Dstream也就是离散stream，就是把连续的数据分成一小团一小团。我们用专业术语“microbatching”来描述。每个microbatch 变成一个RDD以便Spark的后续处理。在每一个batch interval中，每个DStream有且仅有一个RDD。</p>
+<p><img src="/images/2016/spark_foreachRDD/spark-streaming.png" alt="Sample Image Added via Markdown"></p>
+<p>然而RDD是什么呢，RDD是一个分布式数据集合。你可以认为它是一个告诉你实际数据在集群中具体什么地方的指南者（pointer）。</p>
+<a id="more"></a>
+<p>Dstream.foreachRDD在SparkStreaming中是一个“output operator”，它让你直接基于Dstream的RDDs去处理数据。比如说，用foreachRDD方法将数据写入数据库</p>
+<p>这里有个容易疑惑的地方，DStream是和时间有关的集合。我们来对比一下传统的集合。我们用一群客户（users）来举个例子：</p>
+<!-- scala -->
+<pre><code>val userDStream：DStream[User]=???
+userDStream.foreachRDD{usersRDD =&gt;
+    usersRDD.foreach{user =&gt; serveCoffee(user)}
+}
+</code></pre><p>注意：</p>
+<ul>
+<li>DStream.foreachRDD返回给你的是RDD[user],不是单单一个user。回到上面咖啡的这个例子，这个客户集合 是指某个时间区间(比如下午一点到两点)的集合</li>
+<li>为了处理单个集合的元素，需要进一步操作(operate) RDD。在这个案例中，我们用RDD.foreach来对每个客户serve coffee</li>
+</ul>
 ]]></content>
       <categories>
         <category>大数据</category>
