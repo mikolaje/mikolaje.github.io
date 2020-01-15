@@ -1,6 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Kyligence面试经历</title>
+    <url>/2019/kyligence_interview.html</url>
+    <content><![CDATA[<h2 id="投简历"><a href="#投简历" class="headerlink" title="投简历"></a>投简历</h2><p>最近偶尔在Boss直聘上看工作机会，看到Kyligence这家公司在招Hadoop实施工程师，看了下，<br>好像还挺适合我的，公司的也挺牛的，这是Apache Kylin背后的公司。于是我就在上面询问面试官。<br>然后我发了份简历给他，本来也没报多大希望，毕竟自己的条件并不突出。</p>
+<h2 id="通知面试"><a href="#通知面试" class="headerlink" title="通知面试"></a>通知面试</h2><p>过了一天，我随口问了下面试官，我的条件符合吗？没想到的是，面试官居然说我挺合适的！这让我<br>感到非常惊喜，因为之前投了太多公司都没有回复，甚至投了很多很low的公司的没有任何下文。</p>
+<h2 id="第一次面试"><a href="#第一次面试" class="headerlink" title="第一次面试"></a>第一次面试</h2><p>我满怀着期待去参加面试。第一次面试地点是约在一个咖啡店（后来才知道这是因为面试官刚好要在<br>那边拜访客户）。面试官还请我喝了一杯咖啡。</p>
+<p>面试细节以后补充。。</p>
+<h2 id="第二次面试"><a href="#第二次面试" class="headerlink" title="第二次面试"></a>第二次面试</h2><p>回去不就，我就接到了上海Kyligence HR的电话。她说面试官对我的表现反馈还不错，我顿时又很惊喜，<br>我还以为我没机会了。然我约了我进行第二次面试的时间，第二次面试是一个电话面试。</p>
+<p>我觉得这个公司各方面都非常不错。首先，很尊重面试者，面试官都很nice；然后技术也非常强，可以说是<br>国内大数据行业的领头羊，我要是能加入是一种荣幸呀。</p>
+<p>面试细节以后补充。。</p>
+<p>整个通话时间在50分钟左右。</p>
+<p>面试完后，面试官说有消息会进一步联系我。我感觉自己有几个问题答得很含糊，不知道面试官会不会<br>把我pass掉。等了一天没有回复，内心很失落，以为自己被太太了。又过了一天，我鼓起勇气在Boss上问面试官我这轮面试过了吗？<br>很快便得到了回复，面试官的回复让我有点意外，他说会有下轮面试，让我耐心等候。</p>
+<h2 id="第三轮面试"><a href="#第三轮面试" class="headerlink" title="第三轮面试"></a>第三轮面试</h2><p>等了1天，果然，上海的HR小姐姐给我来电了，她说这两轮对我的表现比较满意，想邀请我到深圳这边的<br>驻点办公室进行第三轮面试，面试者是南区这边的负责人，也就是深圳这边的老大吧。<br>面试细节以后补充。。</p>
+<p>大概聊了半个多小时，就快到中午12点了。让我回去，有消息再进一步联系。。</p>
+<h2 id="第四轮面试"><a href="#第四轮面试" class="headerlink" title="第四轮面试"></a>第四轮面试</h2><p>过了两天，下午突然收到了上海总部HR打来的电话，说跟我聊个20分钟。首先，她说经过这么<br>多轮的面试，面试官们对我的表面都挺满意的。问我对公司的感觉怎么样，我说我对公司也非常<br>满意，公司的人都很Nice，很受尊重。</p>
+<h2 id="收到Offer"><a href="#收到Offer" class="headerlink" title="收到Offer"></a>收到Offer</h2><p>再过了一个工作日，上海的HR电话我，说公司领导对我都表示满意，正式给我发Offer。非常开心，能够<br>加入一个自己理想的公司，好好努力！</p>
+]]></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>spark</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>《Spark内核设计的艺术架构设计与实现》的笔记</title>
+    <url>/2019/spark_internal_reading_notes.html</url>
+    <content><![CDATA[<h2 id="为什么什么买这本书"><a href="#为什么什么买这本书" class="headerlink" title="为什么什么买这本书"></a>为什么什么买这本书</h2><p>最近想为Spark社区做点贡献吧，又不知道从何下手，就想先买本Spark原理的书来研究下先。<br>于是在淘宝上花了90多买了这本 《Spark内核设计的艺术架构设计与实现》</p>
+<h3 id="Akka-到-Netty"><a href="#Akka-到-Netty" class="headerlink" title="Akka 到 Netty"></a>Akka 到 Netty</h3><p>了解到Spark1.x使用了Akka做内部的通信架构。比如Spark各个组件之间的通信，用户文件与Jar包的上传，<br>节点之间的shuffle过程，Block数据的复制与备份等等。<br>然而，在Spark2.0 Akka被移除，而是写了自己基于Netty的RPC框架。</p>
+<h4 id="那么Netty为什么可以取代Akka？"><a href="#那么Netty为什么可以取代Akka？" class="headerlink" title="那么Netty为什么可以取代Akka？"></a>那么Netty为什么可以取代Akka？</h4><p>首先不容置疑的是Akka可以做到的，Netty也可以做到，但是Netty可以做到，Akka却无法做到，原因是啥？<br>在软件栈中，Akka相比Netty要Higher一点，它专门针对RPC做了很多事情，而Netty相比更加基础一点，可以为不同的应用层通信协议（RPC，FTP，HTTP等）提供支持，<br>在早期的Akka版本，底层的NIO通信就是用的Netty；其次一个优雅的工程师是不会允许一个系统中容纳两套通信框架，恶心！<br>最后，虽然Netty没有Akka协程级的性能优势，但是Netty内部高效的Reactor线程模型，无锁化的串行设计，<br>高效的序列化，零拷贝，内存池等特性也保证了Netty不会存在性能问题。</p>
+<h4 id="TransportClient"><a href="#TransportClient" class="headerlink" title="TransportClient"></a>TransportClient</h4><p>有了TransportClientFactory，Spark的各个模块就可以使用它创建RPC客户端TransportClient了。<br>每个TransportClient实例只能和一个远端的RPC服务通信，所以Spark中的<br>组件如果想要和多个RPC服务通信，就需要持有多个TransportClient实例。</p>
+]]></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>spark</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Tmux简明教程</title>
     <url>/2019/tmux_guide.html</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>你经常可能会遇到这样的情况：你在vim编辑你在远程服务器上面的代码，然后你要新开一个窗口再次ssh到<br>这个远程服务器来测试运行你的代码。此外，如果你的WIFI断线了，你的所有session都会挂掉，GG。<br>然后你又要麻烦地重新开两个session。</p>
@@ -56,6 +95,10 @@
 <h3 id="修改博文链接"><a href="#修改博文链接" class="headerlink" title="修改博文链接"></a>修改博文链接</h3><p>HEXO默认的文章链接形式为<code>domain/year/month/day/postname</code>，默认就是四级url，并且可能造成url过长，对搜索引擎是不太不友好，<br>我们可以改成domain/postname 的形式。编辑站点的_config.yml文件，<br>修改其中的permalink字段改为<code>permalink: :title.html</code>即可。</p>
 <blockquote>
 <p>配置完成后，重新部署hexo：<code>hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</code></p>
+</blockquote>
+<h2 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a>疑问</h2><h3 id="备用网页（有适当的规范标记）"><a href="#备用网页（有适当的规范标记）" class="headerlink" title="备用网页（有适当的规范标记）"></a>备用网页（有适当的规范标记）</h3><p>最近发现有77个页面处于这状态，为什么自己辛辛苦苦写的Blog，Google不给搜索？<br>我查了下文档：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">备用网页（有适当的规范标记）：</div><div class="line">相应网页与 Google 所识别出的规范网页重复。该网页正确地指向了这个规范网页，因此您无需执行任何操作。</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>什么是规范网页呢？<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">规范网址是 Google 认为在您网站上的一组重复网页中最具代表性的网页的网址。</div><div class="line">举例来说，如果同一个网页有多个网址（例如：example.com?dress=1234 和 example.com/dresses/1234），Google 便会从中选择一个网址作为规范网址。请注意，不完全相同的网页也可能被视为重复网页；通过对列表式页面的排序或过滤方式（例如，按价格排序或按服装颜色过滤）略做更改而生成的网页并不具有唯一性。</div><div class="line">规范网页所在的网域可以与相应重复网页的网域不同。</div></pre></td></tr></table></figure></p>
 </blockquote>
 ]]></content>
       <categories>
@@ -497,6 +540,8 @@
 <h3 id="问题6"><a href="#问题6" class="headerlink" title="问题6"></a>问题6</h3><p>启动 cloudera-scm-server 时候报错如下：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Table &apos;metastore.CM_VERSION&apos; doesn&apos;t exist</div></pre></td></tr></table></figure></p>
 <p> 解决方案：<br><code>sudo /opt/cloudera/cm/schema/scm_prepare_database.sh mysql scm scm mypassword</code><br>重新执行下这条命令。之前我把所有的服务都执行了一遍（amon, rman, … metastore, … etc)，是我误解了scm_prepare_database.sh的作用。<br>按官网所说的：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Cloudera Manager Server includes a script that can create and configure a database for itself. The script can:</div><div class="line">Create the Cloudera Manager Server database configuration file.</div><div class="line">(MariaDB, MySQL, and PostgreSQL) Create and configure a database for Cloudera Manager Server to use.</div><div class="line">(MariaDB, MySQL, and PostgreSQL) Create and configure a user account for Cloudera Manager Server.</div></pre></td></tr></table></figure></p>
 <p>这个脚本只需要执行一次就好了，就是<code>sudo /opt/cloudera/cm/schema/scm_prepare_database.sh mysql scm scm mypassword</code><br>然后重启cloudera-scm-server解决问题。此外，通过<code>/etc/cloudera-scm-server/db.properties</code> 也可以确定目前scm用的是哪个数据库。</p>
+<h3 id="问题7"><a href="#问题7" class="headerlink" title="问题7"></a>问题7</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">The host&apos;s NTP service could not be located or did not respond to a request for the clock offset.</div></pre></td></tr></table></figure>
+<p>解决方法：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">service ntp restart</div></pre></td></tr></table></figure></p>
 <h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://www.cloudera.com/documentation/enterprise/6/6.2/topics/introduction.html" target="_blank" rel="external">https://www.cloudera.com/documentation/enterprise/6/6.2/topics/introduction.html</a><br><a href="https://blog.csdn.net/qq_24409555/article/details/76139886" target="_blank" rel="external">https://blog.csdn.net/qq_24409555/article/details/76139886</a><br><a href="https://community.cloudera.com/t5/Batch-SQL-Apache-Hive/Hive-Errors-happend-when-execute-hive-service-metastore/m-p/93050#M3282" target="_blank" rel="external">https://community.cloudera.com/t5/Batch-SQL-Apache-Hive/Hive-Errors-happend-when-execute-hive-service-metastore/m-p/93050#M3282</a></p>
 ]]></content>
       <categories>
@@ -572,6 +617,20 @@
       </categories>
       <tags>
         <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用Python unittest来测试项目</title>
+    <url>/2018/python_unittest.html</url>
+    <content><![CDATA[<h2 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h2><p>比如，我在Airflow上新增了一个feature，我想测试一下，就需要在tests目录下新增一个功能测试。<br>目录结构大概是这样的：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">├── airflow</div><div class="line">│   ├── model.py</div><div class="line">│   ├── test</div><div class="line">│   │   ├── test_model.py</div></pre></td></tr></table></figure></p>
+<p>测试代码 test_model.py如下：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">import unittest</div><div class="line">from model import BaseModel</div><div class="line"></div><div class="line">class TestModel(unittest.TestCase):</div><div class="line">    def test1(self):</div><div class="line">         print(&apos;here is the test logic&apos;)</div></pre></td></tr></table></figure></p>
+<p>来主目录下，可以通过运行如下命令来启动测试:<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">python -m unittest test.test_model</div></pre></td></tr></table></figure></p>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -663,6 +722,27 @@
       </tags>
   </entry>
   <entry>
+    <title>Git rebase的一些运用场景</title>
+    <url>/2018/git_rebase.html</url>
+    <content><![CDATA[<h2 id="Git-usage"><a href="#Git-usage" class="headerlink" title="Git usage"></a>Git usage</h2><p>最近在为github开源项目修修bug。提了几个Pull Request。又巩固了下git的知识，熟练了git的使用。</p>
+<p>我在提交PR后，发现有个地方改错了。那怎么改呢，其实很简单，只需要再次push 到自己fork的repo就可以了。</p>
+<p>PR的branch是和自己fork的repo的branch联动的。</p>
+<p>但是，这又有个问题，我再次commit后，就会有两个commit。这两个commit其实解决的都是同一个问题。<br>在正式的repo中尽量要精简commit，同一个问题的多个commit需要squash为一个commit。</p>
+<p>于是，我就得用git rebase 来帮我完成了。</p>
+<p>通过这个命令，可以重新修改最近的两个commit<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">git rebase -i HEAD~2</div></pre></td></tr></table></figure></p>
+<p>执行命令后会弹出一个vim编辑:<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">pick 01d1124 Message....</div><div class="line">pick 6340aaa Message....</div></pre></td></tr></table></figure></p>
+<p>然后，将要squash的commit的那行最前面的<code>pick</code> 改为 <code>squash</code><br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">p 01d1124 Message....</div><div class="line">s 6340aaa Message....</div></pre></td></tr></table></figure></p>
+<h3 id="改commit名字"><a href="#改commit名字" class="headerlink" title="改commit名字"></a>改commit名字</h3><p>大项目的commit的名字都有比较严格的要求，有些时候，我们要改下自己不规范的命名的话。<br>可以也可以用 git rebase.</p>
+<p>很简单，同样先用git rebase -i HEAD~n<br>在需要改的commit的最前面把 <code>pick</code> 改为<code>reword</code><br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">pick 01d1124 Message....</div><div class="line">reword 6340aaa Message....</div></pre></td></tr></table></figure></p>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hive 优化</title>
     <url>/2018/hive_optimization.html</url>
     <content><![CDATA[<p>对于如果join中有小表的话，可以开启map</p>
@@ -687,27 +767,6 @@
       </categories>
       <tags>
         <tag>hive</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Git rebase的一些运用场景</title>
-    <url>/2018/git_rebase.html</url>
-    <content><![CDATA[<h2 id="Git-usage"><a href="#Git-usage" class="headerlink" title="Git usage"></a>Git usage</h2><p>最近在为github开源项目修修bug。提了几个Pull Request。又巩固了下git的知识，熟练了git的使用。</p>
-<p>我在提交PR后，发现有个地方改错了。那怎么改呢，其实很简单，只需要再次push 到自己fork的repo就可以了。</p>
-<p>PR的branch是和自己fork的repo的branch联动的。</p>
-<p>但是，这又有个问题，我再次commit后，就会有两个commit。这两个commit其实解决的都是同一个问题。<br>在正式的repo中尽量要精简commit，同一个问题的多个commit需要squash为一个commit。</p>
-<p>于是，我就得用git rebase 来帮我完成了。</p>
-<p>通过这个命令，可以重新修改最近的两个commit<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">git rebase -i HEAD~2</div></pre></td></tr></table></figure></p>
-<p>执行命令后会弹出一个vim编辑:<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">pick 01d1124 Message....</div><div class="line">pick 6340aaa Message....</div></pre></td></tr></table></figure></p>
-<p>然后，将要squash的commit的那行最前面的<code>pick</code> 改为 <code>squash</code><br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">p 01d1124 Message....</div><div class="line">s 6340aaa Message....</div></pre></td></tr></table></figure></p>
-<h3 id="改commit名字"><a href="#改commit名字" class="headerlink" title="改commit名字"></a>改commit名字</h3><p>大项目的commit的名字都有比较严格的要求，有些时候，我们要改下自己不规范的命名的话。<br>可以也可以用 git rebase.</p>
-<p>很简单，同样先用git rebase -i HEAD~n<br>在需要改的commit的最前面把 <code>pick</code> 改为<code>reword</code><br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">pick 01d1124 Message....</div><div class="line">reword 6340aaa Message....</div></pre></td></tr></table></figure></p>
-]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -883,6 +942,8 @@
     <title>第一次去加州 （下）</title>
     <url>/2017/california_trip2.html</url>
     <content><![CDATA[<h2 id="加州游记-下"><a href="#加州游记-下" class="headerlink" title="加州游记 下"></a>加州游记 下</h2><p>一路沿海的路途。本来应该比较好的方案是从旧金山开到洛杉矶，这样就可以靠海看风景了。<br><img src="/images/2017/california_trip/IMG_0737.jpg" alt=""></p>
+<h3 id="圣巴巴拉"><a href="#圣巴巴拉" class="headerlink" title="圣巴巴拉"></a>圣巴巴拉</h3><p>到圣巴巴拉时候，我们在Airbnb找了个当地一对年轻人的家。入住的时候，女房东发信息跟我说问我介不介意<br>房间里有很浓的大麻味。我说不介意。刚开始有点怕怕的，这到底是不是正经的人呀。出于好奇，我还是很想闻闻<br>大麻是什么味道的。我问我妈，你怕不怕，我妈说不怕，于是我们就定了这家<br><img src="/images/2017/california_trip/IMG_0750.jpg" alt=""><br><img src="/images/2017/california_trip/IMG_0752.jpg" alt=""></p>
+<p>房东是两个小年轻，挺热情友好的，非常开朗，男的跟我介绍哪里有中餐馆，他说他有个好朋友是香港人。女的也很轻，<br>我们谈笑风生一个晚上。边聊变抽，笑嘻嘻的，很过瘾。我都看得我都很想抽一口。</p>
 <p>在进旧金山之前，路上车非常少<br><img src="/images/2017/california_trip/IMG_0759.jpg" alt=""></p>
 <p><img src="/images/2017/california_trip/IMG_0763.jpg" alt=""></p>
 <p>都说国外的月亮比较远，记得那晚正是中秋节，我们来路途的一个医院附近休息赏月<br><img src="/images/2017/california_trip/IMG_0764.jpg" alt=""></p>
@@ -971,6 +1032,34 @@
       </tags>
   </entry>
   <entry>
+    <title>Kafka日常操作指南</title>
+    <url>/2017/kafka_daily_command.html</url>
+    <content><![CDATA[<h2 id="常用操作"><a href="#常用操作" class="headerlink" title="常用操作"></a>常用操作</h2><h3 id="查看topic"><a href="#查看topic" class="headerlink" title="查看topic"></a>查看topic</h3><p>kafka-topics –list –zookeeper device1:2181</p>
+<h3 id="创建topic"><a href="#创建topic" class="headerlink" title="创建topic"></a>创建topic</h3><p>kafka-topics –create –zookeeper device1:2181 –replication-factor 1 –partitions 1 –topic test</p>
+<h3 id="在console启动-producer-（一般可用来测试）"><a href="#在console启动-producer-（一般可用来测试）" class="headerlink" title="在console启动 producer （一般可用来测试）"></a>在console启动 producer （一般可用来测试）</h3><h3 id="删除某个topic的数据"><a href="#删除某个topic的数据" class="headerlink" title="删除某个topic的数据"></a>删除某个topic的数据</h3><h4 id="Solution1"><a href="#Solution1" class="headerlink" title="Solution1"></a>Solution1</h4><p>kafka-topics.sh –delete –zookeeper device1:2181 –topic zhihu_test</p>
+<h4 id="Solution2"><a href="#Solution2" class="headerlink" title="Solution2"></a>Solution2</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">#删除zhihu_profile topic 的所有数据</div><div class="line">kafka-configs --zookeeper device1:2181 --entity-type topics --alter --entity-name zhihu_profile --add-config retention.ms=1000</div><div class="line"># 再把retention设置调回来</div><div class="line">kafka-configs --zookeeper device1:2181 --entity-type topics --alter --entity-name zhihu_profile --add-config retention.ms=8640000000</div></pre></td></tr></table></figure>
+<p>但这种方法不能清除offset 和 commit的记录，因为我查了下某个group对应的offset如下：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">topic: zhihu_profile partition: 0 committed: 2515555 last: 2515558 lag: 3</div><div class="line">topic: zhihu_profile partition: 1 committed: 2519850 last: 2519853 lag: 3</div><div class="line">topic: zhihu_profile partition: 2 committed: 2520594 last: 2520596 lag: 2</div></pre></td></tr></table></figure></p>
+<p>查询某个group offset的代码：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">def get_current_offset(topic, group):</div><div class="line"></div><div class="line">    consumer = KafkaConsumer(</div><div class="line">            bootstrap_servers=broker_list,</div><div class="line">            group_id=group,</div><div class="line">            enable_auto_commit=False</div><div class="line">        )   </div><div class="line"></div><div class="line">    for p in consumer.partitions_for_topic(topic):</div><div class="line">        tp = TopicPartition(topic, p)</div><div class="line">        consumer.assign([tp])</div><div class="line">        committed = consumer.committed(tp)</div><div class="line">        consumer.seek_to_end(tp)</div><div class="line">        last_offset = consumer.position(tp)</div><div class="line">        print(&quot;topic: %s partition: %s committed: %s last: %s lag: %s&quot; % (topic, p, committed, last_offset, (last_offset - committed)))</div><div class="line"></div><div class="line">    consumer.close(autocommit=False)</div></pre></td></tr></table></figure></p>
+<h3 id="reset-offset"><a href="#reset-offset" class="headerlink" title="reset offset"></a>reset offset</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">kafka-consumer-groups --bootstrap-server device1:9092 \</div><div class="line">--group my-group --reset-offsets --to-earliest --all-topics --execute</div></pre></td></tr></table></figure>
+<blockquote>
+<p>Reset offset of topic foo partition 0 to 1</p>
+</blockquote>
+<p><code>--reset-offsets --group test.group --topic foo:0 --to-offset 1</code></p>
+<blockquote>
+<p>Reset offset of topic foo partition 0,1,2 to earliest</p>
+</blockquote>
+<p><code>--reset-offsets --group test.group --topic foo:0,1,2 --to-earliest</code></p>
+<h1 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h1><h2 id="关于-auto-offset-reset-和-offset"><a href="#关于-auto-offset-reset-和-offset" class="headerlink" title="关于 auto.offset.reset 和 offset"></a>关于 auto.offset.reset 和 offset</h2><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">241</div><div class="line"></div><div class="line">It is a bit more complex than you described. The auto.offset.reset config kicks in ONLY if your consumer group does not have a valid offset committed somewhere (2 supported offset storages now are Kafka and Zookeeper). And it also depends on what sort of consumer you use.</div><div class="line"></div><div class="line">If you use a high-level java consumer then imagine following scenarios:</div><div class="line"></div><div class="line">You have a consumer in a consumer group group1 that has consumed 5 messages and died. Next time you start this consumer it won&apos;t even use that auto.offset.reset config and will continue from the place it died because it will just fetch the stored offset from the offset storage (Kafka or ZK as I mentioned).</div><div class="line"></div><div class="line">You have messages in a topic (like you described) and you start a consumer in a new consumer group group2. There is no offset stored anywhere and this time the auto.offset.reset config will decide whether to start from the beginning of the topic (smallest) or from the end of the topic (largest)</div><div class="line"></div><div class="line">One more thing that affects what offset value will correspond to smallest and largest configs is log retention policy. Imagine you have a topic with retention configured to 1 hour. You produce 5 messages, and then an hour later you post 5 more messages. The largest offset will still remain the same as in previous example but the smallest one won&apos;t be able to be 0 because Kafka will already remove these messages and thus the smallest available offset will be 5.</div><div class="line"></div><div class="line">Everything mentioned above is not related to SimpleConsumer and every time you run it, it will decide where to start from using the auto.offset.reset config.</div></pre></td></tr></table></figure>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://stackoverflow.com/questions/29791268/how-to-change-start-offset-for-topic?utm_medium=organic&amp;utm_source=google_rich_qa&amp;utm_campaign=google_rich_qa" target="_blank" rel="external">https://stackoverflow.com/questions/29791268/how-to-change-start-offset-for-topic?utm_medium=organic&amp;utm_source=google_rich_qa&amp;utm_campaign=google_rich_qa</a></p>
+]]></content>
+      <categories>
+        <category>kafka</category>
+      </categories>
+      <tags>
+        <tag>kafka</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>每周的总结与记录</title>
     <url>/2017/dennis_weekly.html</url>
     <content><![CDATA[<h3 id="20190924"><a href="#20190924" class="headerlink" title="20190924"></a>20190924</h3><p>早上喝了利动乳果糖口服溶液然后吃早餐，到公司九点多感觉肚子疼。于是拉肚子了。中午说拉肚子了就喝粥吧，就去红荔村吃皮蛋瘦肉粥，结果吃完后回来肚子不停地咕咕叫，叫的特别厉害。而且肚子很涨，越来越胀，然后开始涨疼了。我一直想忍过去，但一直都还会涨疼，还喝了矿泉水，冷的，更疼。下午三点多4楼看医生，说我不应该吃皮蛋瘦肉粥，他说腹泻后不能吃蛋白质类的食物，牛奶都不要喝。只能喝白粥。然后开了左氟沙星和奥美拉唑。他妈的，我以为肚子胀可以吃皮蛋瘦肉粥这些，因为这也算粥，但不知道是不能吃的。</p>
@@ -979,6 +1068,9 @@
 <h3 id="20191013"><a href="#20191013" class="headerlink" title="20191013"></a>20191013</h3><p>今天发现爬虫的airflow调度部署很不顺利，比我想象中遇到很多麻烦。主要是执行命令时候环境变量没有起作用。Python用的是默认的解析器。反正陆陆续续弄了两三天还没弄好。<br>今天还有一件事情挺让我生气的。下午电信宽带突然就抽风了，停网了一个小时，迫于没完成Airflow事情的压力，现在又上不了网了，感觉今天什么事情都没干成。不过后来，让我有些感觉柳暗花明又一村。那电信师傅告诉我挺多的，首先他让我不要用那个房间的路由器了，因为功率低，而且有线网络达不到两百兆。然后，他让我直接用路由器来拨号，厅里那个光猫就充当中继器的作用。这样不不会把房间的路由器作为一个二级路由。有钱的话可以在淘宝买个有光纤接口的路由器。</p>
 <h3 id="20191018"><a href="#20191018" class="headerlink" title="20191018"></a>20191018</h3><p>最近3天主要都是在搞Hive优化的工作，真是太难了，没有什么实质性进展，时间花费性价比很低。用了很多办法都没有实际性加快HQL运行的速度。主要是花了很多时间在Google搜索，然后各种查阅文档，然后尝试。包括在SO上发帖提问。<br>今天跟一面前同事霞琳吃饭饭聊天。收获还是挺多的，她说她已经收到了腾讯的Offer准备跳槽到。她是通过内推进去的。之前她也投过很多简历，很多也是石沉大海，也被不少公司面试后拒绝。有时候找工作真是要看运气。她和我不同的地方就是，她4月份就离开了一面，然后到9月份才开始工作。现在又拿到了腾讯的正式offer，真是苦尽甘来呀。不同的地方就是她大概经历了半年没有工作没有收入的压力，能够沉住气，这确实需要一定的勇气。而我找了一个月就来入职了。这点我还是非常佩服她的。<br>她说我可以参加一些分享会，认识一些行业内的人物。比如说她之前参加了TiDB的分享会，可以现场结识一些大牛。总结下来，就是找工作要运气，当然自身能力是前提。</p>
 <h3 id="20191021"><a href="#20191021" class="headerlink" title="20191021"></a>20191021</h3><p>到现在这个数据量，接近亿级的数量，明显感觉到服务器很卡，运行时间单位都是上小时的。不知道从哪里入手优化任务。即使是用spark on yarn，依然很慢。看个主机Htop的资源利用率并不高，50%都没有用到。不知道集群内部在搞什么，完全是个黑箱操作，我只能默默地等待着。哎，优化之路很艰难。最根本的原因我觉得还是我的硬件资源不够。有钱的话还是再买一台服务器好点，或者先加一16G内存也好。</p>
+<h3 id="20191212"><a href="#20191212" class="headerlink" title="20191212"></a>20191212</h3><p>这周花了些时间为Aiflow提交PR，也是没有什么进展，没有别被merge也没有被拒绝，有点心塞。其它的时间主要看了下新买的书<br>《Spark内核设计的艺术》</p>
+<h3 id="20191220"><a href="#20191220" class="headerlink" title="20191220"></a>20191220</h3><p>这一个礼拜主要是忙着面试的准备。在看了Kyligence的职位后，感觉无论是公司和职位都是我非常青睐的职位，所以这周<br>我花了很多精力和时间在准备来面试这个岗位，甚至准备了一个面试的PPT，在经过两轮面试后，还是待定，比较失落。导致我<br>现在没有什么心思干别的事情了。</p>
+<h3 id="20190105"><a href="#20190105" class="headerlink" title="20190105"></a>20190105</h3><p>这个礼拜主要忙于接收Offer，提交离职，准备交接工作。周五请同事吃饭，周六请客吃饭。周天打台球，<br>打羽毛球。</p>
 ]]></content>
       <categories>
         <category>daily</category>
@@ -992,6 +1084,7 @@
     <url>/2017/tobe_spark_contributor.html</url>
     <content><![CDATA[<p>You should start with:</p>
 <p>Read API Docs: Spark 2.4.3 Scala Doc<br>Join the mailing list: Community | Apache Spark<br>Now you should take a look at Jira (list of known bugs / issues): - ASF JIRA</p>
+<h2 id="Jira"><a href="#Jira" class="headerlink" title="Jira"></a>Jira</h2><p>首先要到Spark 的 Jira里找找有没有什么自己可以解决的Issue。</p>
 ]]></content>
       <categories>
         <category>大数据</category>
@@ -1695,6 +1788,34 @@ print Person.name  # [1]
       </tags>
   </entry>
   <entry>
+    <title>Spark Streaming Dstream ForeachRDD的理解</title>
+    <url>/2016/spark_foreachRDD.html</url>
+    <content><![CDATA[<h1 id="通俗理解Spark-Streaming-Dstream-的ForeachRDD"><a href="#通俗理解Spark-Streaming-Dstream-的ForeachRDD" class="headerlink" title="通俗理解Spark Streaming Dstream 的ForeachRDD"></a>通俗理解Spark Streaming Dstream 的ForeachRDD</h1><p>在SparkStreaming中，数据中的每个batch都是只有一个RDD，为什么我们还要用ForeachRDD 在每一个RDD呢？ 不是只有一个RDD吗？</p>
+<p>Dstream也就是离散stream，就是把连续的数据分成一小团一小团。我们用专业术语“microbatching”来描述。每个microbatch 变成一个RDD以便Spark的后续处理。在每一个batch interval中，每个DStream有且仅有一个RDD。</p>
+<p><img src="/images/2016/spark_foreachRDD/spark-streaming.png" alt="Sample Image Added via Markdown"></p>
+<p>然而RDD是什么呢，RDD是一个分布式数据集合。你可以认为它是一个告诉你实际数据在集群中具体什么地方的指南者（pointer）。</p>
+<a id="more"></a>
+<p>Dstream.foreachRDD在SparkStreaming中是一个“output operator”，它让你直接基于Dstream的RDDs去处理数据。比如说，用foreachRDD方法将数据写入数据库</p>
+<p>这里有个容易疑惑的地方，DStream是和时间有关的集合。我们来对比一下传统的集合。我们用一群客户（users）来举个例子：</p>
+<!-- scala -->
+<pre><code>val userDStream：DStream[User]=???
+userDStream.foreachRDD{usersRDD =&gt;
+    usersRDD.foreach{user =&gt; serveCoffee(user)}
+}
+</code></pre><p>注意：</p>
+<ul>
+<li>DStream.foreachRDD返回给你的是RDD[user],不是单单一个user。回到上面咖啡的这个例子，这个客户集合 是指某个时间区间(比如下午一点到两点)的集合</li>
+<li>为了处理单个集合的元素，需要进一步操作(operate) RDD。在这个案例中，我们用RDD.foreach来对每个客户serve coffee</li>
+</ul>
+]]></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>spark</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Spark简易入门</title>
     <url>/2016/spark_guide.html</url>
     <content><![CDATA[<h1 id="Spark简易入门"><a href="#Spark简易入门" class="headerlink" title="Spark简易入门"></a>Spark简易入门</h1><p>Spark，搞大数据的人都应该用过吧。spark作为主流的大数据处理框架，到底为什么这么多人用呢？我们少扯淡，直接动手写大数据界的HelloWorld：WordCount。</p>
@@ -1750,34 +1871,6 @@ object WordCount
 <p><code>spark-submit --class &quot;demo.WordCount&quot; SparkDemo-1.0-SNAPSHOT.jar</code><br></p>
 <p>其中demo.WordCount是main函数所在的ojbect，而SparkDemo-1.0-SNAPSHOT.jar就是打出来的jar包。</p>
 <p>Spark 最简单的流程，就这样Finish了。</p>
-]]></content>
-      <categories>
-        <category>大数据</category>
-      </categories>
-      <tags>
-        <tag>spark</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Spark Streaming Dstream ForeachRDD的理解</title>
-    <url>/2016/spark_foreachRDD.html</url>
-    <content><![CDATA[<h1 id="通俗理解Spark-Streaming-Dstream-的ForeachRDD"><a href="#通俗理解Spark-Streaming-Dstream-的ForeachRDD" class="headerlink" title="通俗理解Spark Streaming Dstream 的ForeachRDD"></a>通俗理解Spark Streaming Dstream 的ForeachRDD</h1><p>在SparkStreaming中，数据中的每个batch都是只有一个RDD，为什么我们还要用ForeachRDD 在每一个RDD呢？ 不是只有一个RDD吗？</p>
-<p>Dstream也就是离散stream，就是把连续的数据分成一小团一小团。我们用专业术语“microbatching”来描述。每个microbatch 变成一个RDD以便Spark的后续处理。在每一个batch interval中，每个DStream有且仅有一个RDD。</p>
-<p><img src="/images/2016/spark_foreachRDD/spark-streaming.png" alt="Sample Image Added via Markdown"></p>
-<p>然而RDD是什么呢，RDD是一个分布式数据集合。你可以认为它是一个告诉你实际数据在集群中具体什么地方的指南者（pointer）。</p>
-<a id="more"></a>
-<p>Dstream.foreachRDD在SparkStreaming中是一个“output operator”，它让你直接基于Dstream的RDDs去处理数据。比如说，用foreachRDD方法将数据写入数据库</p>
-<p>这里有个容易疑惑的地方，DStream是和时间有关的集合。我们来对比一下传统的集合。我们用一群客户（users）来举个例子：</p>
-<!-- scala -->
-<pre><code>val userDStream：DStream[User]=???
-userDStream.foreachRDD{usersRDD =&gt;
-    usersRDD.foreach{user =&gt; serveCoffee(user)}
-}
-</code></pre><p>注意：</p>
-<ul>
-<li>DStream.foreachRDD返回给你的是RDD[user],不是单单一个user。回到上面咖啡的这个例子，这个客户集合 是指某个时间区间(比如下午一点到两点)的集合</li>
-<li>为了处理单个集合的元素，需要进一步操作(operate) RDD。在这个案例中，我们用RDD.foreach来对每个客户serve coffee</li>
-</ul>
 ]]></content>
       <categories>
         <category>大数据</category>

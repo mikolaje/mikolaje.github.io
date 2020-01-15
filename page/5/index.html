@@ -316,7 +316,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2016/spark_guide.html">
+    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2016/spark_aggregate.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Dennis">
@@ -335,7 +335,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/spark_guide.html" itemprop="url">Spark简易入门</a></h1>
+                <a class="post-title-link" href="/2016/spark_aggregate.html" itemprop="url">浅谈SPARK 的 aggregate 算子</a></h1>
         
 
         <div class="post-meta">
@@ -347,8 +347,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-20T11:07:10+08:00">
-                2016-10-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-30T11:07:10+08:00">
+                2016-11-30
               </time>
             
 
@@ -388,9 +388,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2016/spark_guide.html#comments" itemprop="discussionUrl">
+                <a href="/2016/spark_aggregate.html#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2016/spark_guide.html" itemprop="commentCount"></span>
+                        data-disqus-identifier="2016/spark_aggregate.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -419,27 +419,519 @@
 
       
         
-          <h1 id="Spark简易入门"><a href="#Spark简易入门" class="headerlink" title="Spark简易入门"></a>Spark简易入门</h1><p>Spark，搞大数据的人都应该用过吧。spark作为主流的大数据处理框架，到底为什么这么多人用呢？我们少扯淡，直接动手写大数据界的HelloWorld：WordCount。</p>
-<p>先贴上代码（Scala版本):</p>
-<!-- java -->
-<pre><code>import org.apache.spark.SparkConf
-import org.apache.spark.SparkContext
-object WordCount 
-  def main(args: Array[String]) {
-    val conf = new SparkConf()
-    conf.setAppName(&quot;WorkCount&quot;)
-    val sc = new SparkContext(conf)
-
-    val file = &quot;hdfs://127.0.0.1:9000/file.txt&quot;
-    val lines = sc.textFile(file)
-    val words = lines.flatMap(_.split(&quot;\\s+&quot;))
-    val wordCount = words.countByValue()
-    println(wordCount)
-}
-</code></pre><p>短短10多行代码，就已经完成了，比大家想象的要简单，完全看不出Spark背后做了什么处理。分布式，容错处理，这就是Spark给我们带来的福利。</p>
+          <h1 id="理解aggregate的原理"><a href="#理解aggregate的原理" class="headerlink" title="理解aggregate的原理"></a>理解aggregate的原理</h1><p>刚开始我觉得SPARK的aggregate算子比较难理解的。首先我们看看官网的example</p>
+<!-- python -->
+<pre><code>&gt;&gt;&gt; seqOp = (lambda x, y: (x[0] + y, x[1] + 1))
+&gt;&gt;&gt; combOp = (lambda x, y: (x[0] + y[0], x[1] + y[1]))
+&gt;&gt;&gt; sc.parallelize([1, 2, 3, 4]).aggregate((0, 0), seqOp, combOp)
+(10, 4)
+&gt;&gt;&gt; sc.parallelize([]).aggregate((0, 0), seqOp, combOp)
+(0, 0)    
+</code></pre><p>看了后，我就一脸懵逼了，两个lambda函数中的x,y各自代表什么东西呢？</p>
+<p>我们先看看官网的aggregate 用法说明：</p>
+<p>Aggregate the elements of each partition, and then the results for all the partitions, using a given combine functions and a neutral “zero value.”</p>
+<p>The functions op(t1, t2) is allowed to modify t1 and return it as its result value to avoid object allocation; however, it should not modify t2.</p>
+<p>The first function (seqOp) can return a different result type, U, than the type of this RDD. Thus, we need one operation for merging a T into an U and one operation for merging two U</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2016/spark_guide.html#more" rel="contents">
+            <a class="btn" href="/2016/spark_aggregate.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2016/python_yield.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dennis">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dennis' Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/python_yield.html" itemprop="url">Python的yield 问题</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-15T11:07:10+08:00">
+                2016-11-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/python_yield.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2016/python_yield.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="Python-yield示范"><a href="#Python-yield示范" class="headerlink" title="Python yield示范"></a>Python yield示范</h2><p>yield 关键词在python中不算常用。以前我只知道它的作用和return相似，就是返回一个值。并不知道它具体的用途和用法。</p>
+<p>要理解yield，你必须知道generators（生成器）。而要知道生成器，需要了解iterables（可迭代对象）</p>
+<p>生成器（Generators）就是迭代器的一种特殊形式，只不过它只能迭代一次。这是因为生成器不是将所有的数值存储在内存里，而是，立即生成数值。<br>和迭代器相似，我们可以通过使用next()来从generator中获取下一个值</p>
+<p>顺便说说：集合数据类型，如list、tuple、dict、set、str等，这些可以用for循环的对象都是可迭代对象（Iterable）。<br>但list、dict、str虽然是Iterable，却不是迭代器（Iterator）。把list、dict、str等Iterable变成Iterator可以使用iter()函数。</p>
+<p>迭代器对象可以被next()函数调用并不断返回下一个数据，直到没有数据时抛出StopIteration错误。</p>
+<p>Python的for循环本质上就是通过不断调用next()函数实现的</p>
+<p>我们看看下面例子：</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/python_yield.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2016/python_unicode.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dennis">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dennis' Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/python_unicode.html" itemprop="url">聊聊python的unicode 问题</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-14T11:07:10+08:00">
+                2016-11-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/python_unicode.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2016/python_unicode.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="Python的中文字符处理"><a href="#Python的中文字符处理" class="headerlink" title="Python的中文字符处理"></a>Python的中文字符处理</h2><p>都说python对中文不太友好。</p>
+<p>我们看看下面两个例子：<br>测试环境是ubuntu;<br>python版本为2.7<br><!-- python --></p>
+<pre><code>》a = &apos;呵呵&apos;
+》a 
+》&apos;\xe5\x91\xb5\xe5\x91\xb5&apos;
+》print a
+》呵呵
+</code></pre><p>为什么print 和 直接输入变量回车显示的东西不一样呢？<br>\xe5\x91\xb5\xe5\x91\xb5这些是什么东西啊。一定很奇怪。其实bytes字符编码，是8进制的东西。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/python_unicode.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2016/python_func_params.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dennis">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dennis' Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/python_func_params.html" itemprop="url">聊聊python的变量问题</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-14T11:07:10+08:00">
+                2016-11-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/python_func_params.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2016/python_func_params.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="Python的参数作用范围"><a href="#Python的参数作用范围" class="headerlink" title="Python的参数作用范围"></a>Python的参数作用范围</h2><p>我们看看下面两个例子：</p>
+<!-- python -->
+<pre><code>a = &apos;hello&apos;
+def fun(a):
+    a = &apos;lol&apos;
+fun(a)
+print a  # &apos;hello&apos;
+
+a=[]
+def fun(a):
+    a.append(1)
+fun(a)
+print a  # [1]
+</code></pre><p>为什么第一个例子print出来的是’hello’而不是’lol 呢?<br>为什么第二个例子print出来却是[1] 呢?</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/python_func_params.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -600,6 +1092,180 @@ object WordCount
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2016/spark_foreachRDD.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2016/spark_guide.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dennis">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dennis' Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/spark_guide.html" itemprop="url">Spark简易入门</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-20T11:07:10+08:00">
+                2016-10-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/大数据/" itemprop="url" rel="index">
+                    <span itemprop="name">大数据</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/spark_guide.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2016/spark_guide.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="Spark简易入门"><a href="#Spark简易入门" class="headerlink" title="Spark简易入门"></a>Spark简易入门</h1><p>Spark，搞大数据的人都应该用过吧。spark作为主流的大数据处理框架，到底为什么这么多人用呢？我们少扯淡，直接动手写大数据界的HelloWorld：WordCount。</p>
+<p>先贴上代码（Scala版本):</p>
+<!-- java -->
+<pre><code>import org.apache.spark.SparkConf
+import org.apache.spark.SparkContext
+object WordCount 
+  def main(args: Array[String]) {
+    val conf = new SparkConf()
+    conf.setAppName(&quot;WorkCount&quot;)
+    val sc = new SparkContext(conf)
+
+    val file = &quot;hdfs://127.0.0.1:9000/file.txt&quot;
+    val lines = sc.textFile(file)
+    val words = lines.flatMap(_.split(&quot;\\s+&quot;))
+    val wordCount = words.countByValue()
+    println(wordCount)
+}
+</code></pre><p>短短10多行代码，就已经完成了，比大家想象的要简单，完全看不出Spark背后做了什么处理。分布式，容错处理，这就是Spark给我们带来的福利。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/spark_guide.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -852,7 +1518,7 @@ object WordCount
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-count">47</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -863,7 +1529,7 @@ object WordCount
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -939,7 +1605,7 @@ object WordCount
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
