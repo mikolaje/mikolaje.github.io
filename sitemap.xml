@@ -2,9 +2,58 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://mikolaje.github.io/2020/delta_lake_intro.html</loc>
+    
+    <lastmod>2020-02-12T03:03:56.621Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://mikolaje.github.io/2019/spark_internal_reading_notes.html</loc>
     
-    <lastmod>2020-01-15T13:34:14.759Z</lastmod>
+    <lastmod>2020-02-12T03:03:56.621Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://mikolaje.github.io/2019/private_IDC.html</loc>
+    
+    <lastmod>2020-02-12T03:03:56.621Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://mikolaje.github.io/2018/git_rebase.html</loc>
+    
+    <lastmod>2020-02-12T03:03:56.597Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://mikolaje.github.io/2018/git_github.html</loc>
+    
+    <lastmod>2020-02-12T03:03:56.597Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://mikolaje.github.io/2018/zookeeper_service.html</loc>
+    
+    <lastmod>2020-02-12T03:03:56.597Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://mikolaje.github.io/2019/cdh_install.html</loc>
+    
+    <lastmod>2020-02-12T03:03:56.597Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://mikolaje.github.io/2017/dennis_weekly.html</loc>
+    
+    <lastmod>2020-02-12T03:03:56.569Z</lastmod>
     
   </url>
   
@@ -30,9 +79,9 @@
   </url>
   
   <url>
-    <loc>http://mikolaje.github.io/2019/cdh_install.html</loc>
+    <loc>http://mikolaje.github.io/2017/california_trip2.html</loc>
     
-    <lastmod>2020-01-15T13:34:14.399Z</lastmod>
+    <lastmod>2020-01-15T13:34:14.283Z</lastmod>
     
   </url>
   
@@ -45,20 +94,6 @@
   
   <url>
     <loc>http://mikolaje.github.io/2017/kafka_daily_command.html</loc>
-    
-    <lastmod>2020-01-15T13:34:14.283Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://mikolaje.github.io/2017/dennis_weekly.html</loc>
-    
-    <lastmod>2020-01-15T13:34:14.283Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://mikolaje.github.io/2017/california_trip2.html</loc>
     
     <lastmod>2020-01-15T13:34:14.283Z</lastmod>
     
@@ -79,35 +114,7 @@
   </url>
   
   <url>
-    <loc>http://mikolaje.github.io/2016/spark_aggregate.html</loc>
-    
-    <lastmod>2019-12-16T13:35:23.240Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://mikolaje.github.io/2016/python_yield.html</loc>
-    
-    <lastmod>2019-12-16T13:35:23.240Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://mikolaje.github.io/2017/heap_sort.html</loc>
-    
-    <lastmod>2019-12-16T13:35:23.240Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://mikolaje.github.io/2016/spark_broadcast.html</loc>
-    
-    <lastmod>2019-12-16T13:35:23.240Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://mikolaje.github.io/2017/tcp_knowledge.html</loc>
+    <loc>http://mikolaje.github.io/2019/tmux_guide.html</loc>
     
     <lastmod>2019-12-16T13:35:23.240Z</lastmod>
     
@@ -115,13 +122,6 @@
   
   <url>
     <loc>http://mikolaje.github.io/2017/how_tobe_apache_contributor.html</loc>
-    
-    <lastmod>2019-12-16T13:35:23.240Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://mikolaje.github.io/2018/git_rebase.html</loc>
     
     <lastmod>2019-12-16T13:35:23.240Z</lastmod>
     
@@ -177,14 +177,14 @@
   </url>
   
   <url>
-    <loc>http://mikolaje.github.io/2016/python_unicode.html</loc>
+    <loc>http://mikolaje.github.io/2019/git_filter_branch.html</loc>
     
     <lastmod>2019-12-16T13:35:23.240Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://mikolaje.github.io/2016/spark_combinebykey.html</loc>
+    <loc>http://mikolaje.github.io/2016/python_unicode.html</loc>
     
     <lastmod>2019-12-16T13:35:23.240Z</lastmod>
     
@@ -219,7 +219,7 @@
   </url>
   
   <url>
-    <loc>http://mikolaje.github.io/2019/private_IDC.html</loc>
+    <loc>http://mikolaje.github.io/2017/heap_sort.html</loc>
     
     <lastmod>2019-12-16T13:35:23.240Z</lastmod>
     
@@ -240,7 +240,7 @@
   </url>
   
   <url>
-    <loc>http://mikolaje.github.io/2019/tmux_guide.html</loc>
+    <loc>http://mikolaje.github.io/2017/tcp_knowledge.html</loc>
     
     <lastmod>2019-12-16T13:35:23.240Z</lastmod>
     
@@ -268,7 +268,7 @@
   </url>
   
   <url>
-    <loc>http://mikolaje.github.io/2016/spark_dependency.html</loc>
+    <loc>http://mikolaje.github.io/2017/find_your_answer.html</loc>
     
     <lastmod>2019-12-16T13:35:23.240Z</lastmod>
     
@@ -303,13 +303,6 @@
   </url>
   
   <url>
-    <loc>http://mikolaje.github.io/2016/spark_foreachRDD.html</loc>
-    
-    <lastmod>2019-12-16T13:35:23.240Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://mikolaje.github.io/2016/spark_guide.html</loc>
     
     <lastmod>2019-12-16T13:35:23.240Z</lastmod>
@@ -317,14 +310,42 @@
   </url>
   
   <url>
-    <loc>http://mikolaje.github.io/2016/python_func_params.html</loc>
+    <loc>http://mikolaje.github.io/2016/spark_foreachRDD.html</loc>
     
     <lastmod>2019-12-16T13:35:23.240Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://mikolaje.github.io/2017/find_your_answer.html</loc>
+    <loc>http://mikolaje.github.io/2016/spark_dependency.html</loc>
+    
+    <lastmod>2019-12-16T13:35:23.240Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://mikolaje.github.io/2016/spark_combinebykey.html</loc>
+    
+    <lastmod>2019-12-16T13:35:23.240Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://mikolaje.github.io/2016/spark_broadcast.html</loc>
+    
+    <lastmod>2019-12-16T13:35:23.240Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://mikolaje.github.io/2016/python_yield.html</loc>
+    
+    <lastmod>2019-12-16T13:35:23.240Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://mikolaje.github.io/2016/spark_aggregate.html</loc>
     
     <lastmod>2019-12-16T13:35:23.240Z</lastmod>
     
@@ -345,7 +366,7 @@
   </url>
   
   <url>
-    <loc>http://mikolaje.github.io/2019/git_filter_branch.html</loc>
+    <loc>http://mikolaje.github.io/2016/python_func_params.html</loc>
     
     <lastmod>2019-12-16T13:35:23.240Z</lastmod>
     

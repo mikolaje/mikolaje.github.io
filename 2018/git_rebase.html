@@ -79,25 +79,25 @@
 
 
 
-<meta name="description" content="Git usage最近在为github开源项目修修bug。提了几个Pull Request。又巩固了下git的知识，熟练了git的使用。
+<meta name="description" content="Git rebase的使用场景最近在为github开源项目修修bug。提了几个Pull Request。又巩固了下git的知识，熟练了git的使用。
 我在提交PR后，发现有个地方改错了。那怎么改呢，其实很简单，只需要再次push 到自己fork的repo就可以了。
 PR的branch是和自己fork的repo的branch联动的。
-但是，这又有个问题，我再次commit后，就会有两个commit。这两个com">
+但是，这又有个问题，我再次commit后，就会有两个commit。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Git rebase的一些运用场景">
 <meta property="og:url" content="http://mikolaje.github.io/2018/git_rebase.html">
 <meta property="og:site_name" content="Dennis' Blog">
-<meta property="og:description" content="Git usage最近在为github开源项目修修bug。提了几个Pull Request。又巩固了下git的知识，熟练了git的使用。
+<meta property="og:description" content="Git rebase的使用场景最近在为github开源项目修修bug。提了几个Pull Request。又巩固了下git的知识，熟练了git的使用。
 我在提交PR后，发现有个地方改错了。那怎么改呢，其实很简单，只需要再次push 到自己fork的repo就可以了。
 PR的branch是和自己fork的repo的branch联动的。
-但是，这又有个问题，我再次commit后，就会有两个commit。这两个com">
-<meta property="og:updated_time" content="2019-12-16T13:35:23.240Z">
+但是，这又有个问题，我再次commit后，就会有两个commit。">
+<meta property="og:updated_time" content="2020-02-12T03:03:56.597Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git rebase的一些运用场景">
-<meta name="twitter:description" content="Git usage最近在为github开源项目修修bug。提了几个Pull Request。又巩固了下git的知识，熟练了git的使用。
+<meta name="twitter:description" content="Git rebase的使用场景最近在为github开源项目修修bug。提了几个Pull Request。又巩固了下git的知识，熟练了git的使用。
 我在提交PR后，发现有个地方改错了。那怎么改呢，其实很简单，只需要再次push 到自己fork的repo就可以了。
 PR的branch是和自己fork的repo的branch联动的。
-但是，这又有个问题，我再次commit后，就会有两个commit。这两个com">
+但是，这又有个问题，我再次commit后，就会有两个commit。">
 
 
 
@@ -425,14 +425,15 @@ PR的branch是和自己fork的repo的branch联动的。
       
 
       
-        <h2 id="Git-usage"><a href="#Git-usage" class="headerlink" title="Git usage"></a>Git usage</h2><p>最近在为github开源项目修修bug。提了几个Pull Request。又巩固了下git的知识，熟练了git的使用。</p>
+        <h2 id="Git-rebase的使用场景"><a href="#Git-rebase的使用场景" class="headerlink" title="Git rebase的使用场景"></a>Git rebase的使用场景</h2><p>最近在为github开源项目修修bug。提了几个Pull Request。又巩固了下git的知识，熟练了git的使用。</p>
 <p>我在提交PR后，发现有个地方改错了。那怎么改呢，其实很简单，只需要再次push 到自己fork的repo就可以了。</p>
 <p>PR的branch是和自己fork的repo的branch联动的。</p>
 <p>但是，这又有个问题，我再次commit后，就会有两个commit。这两个commit其实解决的都是同一个问题。<br>在正式的repo中尽量要精简commit，同一个问题的多个commit需要squash为一个commit。</p>
 <p>于是，我就得用git rebase 来帮我完成了。</p>
-<p>通过这个命令，可以重新修改最近的两个commit<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git rebase -i HEAD~2</div></pre></td></tr></table></figure></p>
+<h3 id="精简commit"><a href="#精简commit" class="headerlink" title="精简commit"></a>精简commit</h3><p>通过这个命令，可以重新修改最近的两个commit<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git rebase -i HEAD~2</div></pre></td></tr></table></figure></p>
 <p>执行命令后会弹出一个vim编辑:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">pick 01d1124 Message....</div><div class="line">pick 6340aaa Message....</div></pre></td></tr></table></figure></p>
 <p>然后，将要squash的commit的那行最前面的<code>pick</code> 改为 <code>squash</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">p 01d1124 Message....</div><div class="line">s 6340aaa Message....</div></pre></td></tr></table></figure></p>
+<h3 id="删掉commit"><a href="#删掉commit" class="headerlink" title="删掉commit"></a>删掉commit</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git rebase -i HEAD~n</div><div class="line"></div><div class="line"># 在vim中直接把不要commit那行删掉即可</div></pre></td></tr></table></figure>
 <h3 id="改commit名字"><a href="#改commit名字" class="headerlink" title="改commit名字"></a>改commit名字</h3><p>大项目的commit的名字都有比较严格的要求，有些时候，我们要改下自己不规范的命名的话。<br>可以也可以用 git rebase.</p>
 <p>很简单，同样先用git rebase -i HEAD~n<br>在需要改的commit的最前面把 <code>pick</code> 改为<code>reword</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">pick 01d1124 Message....</div><div class="line">reword 6340aaa Message....</div></pre></td></tr></table></figure></p>
 
@@ -465,8 +466,8 @@ PR的branch是和自己fork的repo的branch联动的。
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/hive_optimization.html" rel="next" title="Hive 优化">
-                <i class="fa fa-chevron-left"></i> Hive 优化
+              <a href="/2018/kafka_intro.html" rel="next" title="Kafka Introduction">
+                <i class="fa fa-chevron-left"></i> Kafka Introduction
               </a>
             
           </div>
@@ -475,8 +476,8 @@ PR的branch是和自己fork的repo的branch联动的。
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/hive_udf.html" rel="prev" title="Hive UDF 快速教程">
-                Hive UDF 快速教程 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/hive_optimization.html" rel="prev" title="Hive 优化">
+                Hive 优化 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -568,7 +569,7 @@ PR的branch是和自己fork的repo的branch联动的。
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-count">50</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -579,7 +580,7 @@ PR的branch是和自己fork的repo的branch联动的。
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -590,7 +591,7 @@ PR的branch是和自己fork的repo的branch联动的。
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">27</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -651,7 +652,7 @@ PR的branch是和自己fork的repo的branch联动的。
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Git-usage"><span class="nav-number">1.</span> <span class="nav-text">Git usage</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#改commit名字"><span class="nav-number">1.1.</span> <span class="nav-text">改commit名字</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Git-rebase的使用场景"><span class="nav-number">1.</span> <span class="nav-text">Git rebase的使用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#精简commit"><span class="nav-number">1.1.</span> <span class="nav-text">精简commit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删掉commit"><span class="nav-number">1.2.</span> <span class="nav-text">删掉commit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#改commit名字"><span class="nav-number">1.3.</span> <span class="nav-text">改commit名字</span></a></li></ol></li></ol></div>
             
 
           </div>

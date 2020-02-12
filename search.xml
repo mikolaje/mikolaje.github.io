@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Databricks Delta Lake 简介</title>
+    <url>/2020/delta_lake_intro.html</url>
+    <content><![CDATA[<h2 id="百花齐放的大数据生态"><a href="#百花齐放的大数据生态" class="headerlink" title="百花齐放的大数据生态"></a>百花齐放的大数据生态</h2><p>17，18是计算引擎火热的两年，19年已然是红海了。计算引擎中的王者是Spark，综合指标最好，生态也好，当其他引擎还在ETL,交互查询，流上厮杀时，Spark已经在AI领域越走越远。</p>
+<p>对比明显的是，计算层的上层和下层在17,18年却乏善可陈。但是到19年整个局势开发生变化，向下走是存储层Delta Lake耀眼夺目，解决了原先数仓的诸多痛点，让数仓进化到数据湖。<br>向上走是交互应用层的Linkis一马当先，形成交互标准，粘合周边生态，很好的衔接了应用交互层和计算引擎层的衔接。</p>
+<p>问题重重的数据存储层<br>前面我们提到，早先基于Hive的数仓或者传统的文件存储形式（比如Parquet/ORC）,都存在一些长期难以解决的问题：</p>
+<p>小文件的问题<br>并发读写问题<br>有限的更新支持<br>海量元数据（例如分区）导致Hive metastore不堪重负<br>细节展开的话，你会发现每一个问题又会引发众多应用场景层面的问题。</p>
+<p>比如并发读写还有更新问题让实时数仓的实现变得很困难。小文件问题需要我们自己写合并代码，并且在合并过程中还会造成数据不可读的问题。如此种种不一而足。</p>
+<p>为了解决这些先天不足的问题，我们只能通过复杂的架构设计来解决这些问题（美其名曰lambda架构）。<br>比如为了解决先天不足的更新问题，我们可能需要先将数据写入一个其他的系统（如HBase）,然后再将HBase导出成Parquet文件/Hive表供下游使用。<br>在复杂的流程（超长的Pipeline）运行的过程中，还会不断涉及到Schema的变换以及磁盘的读取，所以架构复杂了不仅仅会导致运维成本高企，CPU/IO浪费也就变得异常严重。</p>
+<p>其实上面这些问题的根源，都是因为存储层不给力，为了曲线救国，我们无奈通过架构来弥补。<br>Delta Lake单刀直入，直接解决存储层的问题，带来的益处就是极大的简化我们的架构设计，简化运维成本，降低服务器成本。</p>
+<h2 id="Delta-Lake-生之逢时"><a href="#Delta-Lake-生之逢时" class="headerlink" title="Delta Lake 生之逢时"></a>Delta Lake 生之逢时</h2><p>天下苦传统数仓久已，Delta Lake 横空出世，那么它是如何解决上面的存储层问题呢？我列举了如下几个重要的特性：</p>
+<p>以元数据也是大数据思想武装自己，设计了基于HDFS存储的元数据系统，解决metastore不堪重负的问题。<br>支持更多种类的更新模式，比如Merge/Update/Delete等操作，配合流式写入或者读取的支持，让实时数据湖变得水到渠成。<br>流批操作可以共享同一张表<br>版本概念，可以随时回溯，避免一次误操作或者代码逻辑而无法恢复的灾难性后果。<br>Delta Lake 其实只是一个Lib库</p>
+<p>Delta Lake 是一个lib 而不是一个service,不同于HBase,他不需要单独部署，而是直接依附于计算引擎的。<br>目前只支持Spark引擎。这意味什么呢？<br>Delta Lake 和普通的parquet文件使用方式没有任何差异，你只要在你的Spark代码项目里引入delta包，按标准的Spark datasource操作即可，可谓部署和使用成本极低。</p>
+<h2 id="Delta-Lake到底是什么"><a href="#Delta-Lake到底是什么" class="headerlink" title="Delta Lake到底是什么"></a>Delta Lake到底是什么</h2><p>Parquet文件 + Meta 文件 + 一组操作的API = Delta Lake.</p>
+<p>所以Delta没啥神秘的，和parquet没有任何区别。但是他通过meta文件以及相应的API,提供众多特性功能的支持。<br>在Spark中使用它和使用parquet的唯一区别就是把format parquet换成detla。</p>
+<p>和Hive如何整合</p>
+<p>因为惯性以及历史的积累，大家还是希望能像使用hive那样使用delta,而不是去使用spark的datasource API。<br>截止到笔者写这些文字之前，官方还没有支持。不过官方透露阿里的同学已经在做这块的整合。</p>
+]]></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>delta lake</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Kyligence面试经历</title>
     <url>/2019/kyligence_interview.html</url>
     <content><![CDATA[<h2 id="投简历"><a href="#投简历" class="headerlink" title="投简历"></a>投简历</h2><p>最近偶尔在Boss直聘上看工作机会，看到Kyligence这家公司在招Hadoop实施工程师，看了下，<br>好像还挺适合我的，公司的也挺牛的，这是Apache Kylin背后的公司。于是我就在上面询问面试官。<br>然后我发了份简历给他，本来也没报多大希望，毕竟自己的条件并不突出。</p>
@@ -31,6 +56,55 @@
 <h3 id="Akka-到-Netty"><a href="#Akka-到-Netty" class="headerlink" title="Akka 到 Netty"></a>Akka 到 Netty</h3><p>了解到Spark1.x使用了Akka做内部的通信架构。比如Spark各个组件之间的通信，用户文件与Jar包的上传，<br>节点之间的shuffle过程，Block数据的复制与备份等等。<br>然而，在Spark2.0 Akka被移除，而是写了自己基于Netty的RPC框架。</p>
 <h4 id="那么Netty为什么可以取代Akka？"><a href="#那么Netty为什么可以取代Akka？" class="headerlink" title="那么Netty为什么可以取代Akka？"></a>那么Netty为什么可以取代Akka？</h4><p>首先不容置疑的是Akka可以做到的，Netty也可以做到，但是Netty可以做到，Akka却无法做到，原因是啥？<br>在软件栈中，Akka相比Netty要Higher一点，它专门针对RPC做了很多事情，而Netty相比更加基础一点，可以为不同的应用层通信协议（RPC，FTP，HTTP等）提供支持，<br>在早期的Akka版本，底层的NIO通信就是用的Netty；其次一个优雅的工程师是不会允许一个系统中容纳两套通信框架，恶心！<br>最后，虽然Netty没有Akka协程级的性能优势，但是Netty内部高效的Reactor线程模型，无锁化的串行设计，<br>高效的序列化，零拷贝，内存池等特性也保证了Netty不会存在性能问题。</p>
 <h4 id="TransportClient"><a href="#TransportClient" class="headerlink" title="TransportClient"></a>TransportClient</h4><p>有了TransportClientFactory，Spark的各个模块就可以使用它创建RPC客户端TransportClient了。<br>每个TransportClient实例只能和一个远端的RPC服务通信，所以Spark中的<br>组件如果想要和多个RPC服务通信，就需要持有多个TransportClient实例。</p>
+<h3 id="Metrics"><a href="#Metrics" class="headerlink" title="Metrics"></a>Metrics</h3><p>了解到了软件开发有个度量系统这么个东西，哈哈长见识了。Spark的度量系统是用的Metrics(<a href="https://github.com/dropwizard/metrics" target="_blank" rel="external">https://github.com/dropwizard/metrics</a>)</p>
+<h3 id="SparkContext"><a href="#SparkContext" class="headerlink" title="SparkContext"></a>SparkContext</h3><p>SparkContext 是Spark中的元老级API，从0.x.x版本就已经存在了。SparkContext相当于Spark应用程序的<br>发动机引擎，而SparkContext的参数则有SparkConf负责，SparkConf就是操作面板。</p>
+<h3 id="第五章Spark的执行环境"><a href="#第五章Spark的执行环境" class="headerlink" title="第五章Spark的执行环境"></a>第五章Spark的执行环境</h3><p>前几篇幅，主要讲了Spark的RPC，这玩意的作用比如说：从worker是怎么从Driver端去下载jar包之类的依赖文件。<br>看了十几页，完全没有头绪，细节代码也看不懂。总结一下：对于看不懂的篇章，并且不是很感兴趣的内容还是跳过吧。<br>不要在上面耗费太多的时间。我觉得看这种书还是要提前看看目录了解下再看内容，不要一章一章地阅读全书。</p>
+<p>另外，这里我想说说看书的状态。看书要在一个好的状态下才能有效率地阅读。我认为好的状态有两个方面：一个是<br>外界环境，另一个是自己的身心状态。<br>外界状态有这么几个方面吧：安静程度，受打扰程度，氛围环境等等。所以通常我在图书馆里面的阅读效率是比较高的。<br>身心状态有：身体状况，心情状态等等。比如最近几天我的坐骨神经就很不舒服，非常很勉强地去看书，效率非常低。<br>还是要先把身体状态调整好再去阅读吧。</p>
+<h3 id="第六章-Spark-Block"><a href="#第六章-Spark-Block" class="headerlink" title="第六章 Spark Block"></a>第六章 Spark Block</h3><p>文件系统的文件在存储到磁盘上时，都是以块为单位写入的。操作系统的块是以固定的大小读写的，例如：512字节、<br>1024字节、2048字节等。</p>
+<p>在Spark的存储体系中，数据的读写也是以块为单位，只不过这个块并非操作系统的块，而是涉及用于Spark存储体系的块。<br>每个Block都有唯一的标识，Spark把这个标识抽象为BlockId。</p>
+<p>Spark与Hadoop的重要区别之一就是对于内存的使用。Hadoop只讲内存作为计算资源，Spark除将内存作为计算资源外，<br>还将内存的一部分纳入到存储体系中。Spark使用MemoryManager对存储体系和内存计算所使用的内存进行管理。</p>
+<p>StorageMemoryPool是存储体系用到的内存池，ExecutionMemoryPool是计算引擎用到的内存池</p>
+<p><img src=".spark_internal_reading_notes_images/5fa6c7da.png" alt=""></p>
+<p>MemoryStore负责将Block存储到内存。Spark通过将广播数据、RDD、Shuffle数据存储到内存，减少了对磁盘IO<br>的依赖，提高了程序的读写效率。</p>
+<h3 id="第七章-调度系统"><a href="#第七章-调度系统" class="headerlink" title="第七章 调度系统"></a>第七章 调度系统</h3><p>Scheduler 分为DAGScheduler 和 TaskScheduler</p>
+<p>容错处理：当某个worker节点上的Task失败时，可以利用DAG重新调度计算这些失败的Task(执行已成功的Task可以从CheckPoint中读取<br>，而不用重新计算)。在流失计算的场景中，Spark需要记录日志和CheckPoint，以便利用CheckPoint和日志对数据恢复。</p>
+<p>Spark中的Job可能包含一个到多个Stage，这些Stage的划分是从ResultStage开始，从后往前边划分边创建的。（执行的时候应该不是）</p>
+<p><img src=".spark_internal_reading_notes_images/88070957.png" alt=""></p>
+<p>调度池对TaskSet的调度取决于调度算法，有两种可选的算法：FIFO；<br>Spark的调度池中的调度队列与YARN中调度队列的设计非常相似，也采用了层级队列的管理方式。</p>
+<p><img src=".spark_internal_reading_notes_images/4602d935.png" alt=""></p>
+<p>我看了一下官网的文档：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">## FIFO</div><div class="line">By default, Spark’s scheduler runs jobs in FIFO fashion. Each job is divided into “stages” (e.g. map and reduce phases), </div><div class="line">and the first job gets priority on all available resources while its stages have tasks to launch, then the second job gets priority, etc. </div><div class="line">If the jobs at the head of the queue don’t need to use the whole cluster, </div><div class="line">later jobs can start to run right away, but if the jobs at the head of the queue are large, </div><div class="line">then later jobs may be delayed significantly.</div><div class="line"></div><div class="line">## FAIR</div><div class="line">The fair scheduler also supports grouping jobs into pools, and setting different scheduling options (e.g. weight) for each pool. </div><div class="line">This can be useful to create a “high-priority” pool for more important jobs, </div><div class="line">for example, or to group the jobs of each user together and give users equal shares regardless of how many concurrent jobs they have </div><div class="line">instead of giving jobs equal shares. </div><div class="line">This approach is modeled after the Hadoop Fair Scheduler.</div><div class="line"></div><div class="line">Without any intervention, newly submitted jobs go into a default pool, </div><div class="line">but jobs’ pools can be set by adding the spark.scheduler.pool “local property” to the SparkContext in the thread that’s submitting them.</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>想法20200130<br>要看懂Spark的源码，设计模式得比较熟练呀。里面的这些类是怎么依赖的，是怎么设计的，我完全不懂，这是一拍脑袋决定的呢？还是有<br>这种设计相关的设计模式套路。所以，我觉得设计模式应该要掌握好才能让读代码更有意义。</p>
+</blockquote>
+<p>Spark的资源调度分为两层：<br>第一层是Cluster Manager（Yarn模式下是RM，Standalone模式为Master）将资源分配给Application<br>第二层是Application进一步将资源分配给Application的各个Task。</p>
+<p>ExecutorLossReason 有四个子类，分别代表四种不同的原因：<br>SlaveLost：Worker丢失<br>LossReasonPending：位置的原因导致的Executor退出。<br>ExecutorKilled：Executor被杀死了。<br>ExecutorExited：Executor退出了。</p>
+<p>OutputCommitCoordinator 是DAGScheduler中的重要组件，其实现方式简洁明了，有很高的借鉴意义。<br>TaskScheduler依赖于LaucherBackend和SchedulerBackend。通过对TaskSchedulerImpl的初始化、<br>启动、提交Task、资源分配等功能的分析，更深入地了解TaskSchedulerImpl的调度流程。</p>
+<h2 id="第八章计算引擎"><a href="#第八章计算引擎" class="headerlink" title="第八章计算引擎"></a>第八章计算引擎</h2><p>Tungsten最早是由Databricks公司提出的对Spark的内存和CPU使用进行优化的计划。Tungsten使用<br>sun.misc.Unsafe的API直接操作系统内存。</p>
+<p>在Tungsten中实现了一种与操作系统的内存Page非常相似的数据结构，这个对象就是MemoryBlock。</p>
+<p>Task的定义：<br>Task主要包括ShuffleMapTask和ResultTask两种。每次任务尝试都会申请单独的连续内存，以执行计算。</p>
+<p>Task中提供的抽象方法如下：</p>
+<ol>
+<li>runTask： 运行Task的接口</li>
+<li>preferredLocations：获取当前Task编好的位置信息。</li>
+</ol>
+<p>ShuffleMapTask类似于Hadoop中的MapTask，它对输入数据计算后，将输出的数据在Shuffle之前映射到<br>不同的分区，那么下游处理各个分区的Task将知道处理哪些数据。</p>
+<p>ResultTask类似于Hadoop中的ResultTask，它读取上游ShuffleMapTask输出的数据并计算得到最终的结果。</p>
+<h4 id="AppendOnlyMap"><a href="#AppendOnlyMap" class="headerlink" title="AppendOnlyMap"></a>AppendOnlyMap</h4><p>Spark 提供了AppendOnlyMap来对null值进行缓存。AppendOnlyMap还是在内存中对任务执行结果进行聚合运算的利器。</p>
+<p>AppendOnlyMap内置排序使用的TimSort，也就是优化版的归并排序。</p>
+<p><img src=".spark_internal_reading_notes_images/5d9fbd3b.png" alt=""></p>
+<p><img src=".spark_internal_reading_notes_images/7c8dce24.png" alt=""></p>
+<h4 id="本章小结"><a href="#本章小结" class="headerlink" title="本章小结"></a>本章小结</h4><p>为了提升程序执行效率，Spark有时需要在map端对数据进行缓存、聚合、内置排序等操作。reduce端为了提升<br>效率，也可能需要对数据进行缓存、聚合、排序。<br>Shuffle过程中，map任务通过将多个分区的数据写入同一个文件，减轻了读写大量小文件给磁盘IO效率带来的压力。<br>reduce任务通过对存储在同一个远端节点上的Shuffle Block进行积累，批量下载远端的Block，节省了网络IO。</p>
+<blockquote>
+<p>想法20200203<br>学习的本质是社交。<br>最近几天一个人在家看这本书，感觉非常枯燥乏味，很难坚持下去。我认为最好还是能加入<br>一个社区和其他志同道合的人一同分享并学习。或者想办法靠近比你厉害的人。<br>但是，要找到这样的环境很难！</p>
+</blockquote>
+<h3 id="第九章部署环境"><a href="#第九章部署环境" class="headerlink" title="第九章部署环境"></a>第九章部署环境</h3><p>Driver：应用驱动程序，有了Driver，Application才会被提交到Spark集群运行。Driver可以选择在客户端运行，<br>也可以选择项Master注册，然后由Master命令Worker启动Driver。</p>
+<p>Master：Spark的主控节点。在实际的生产环境中会有多个Master，只有一个Master处于active状态，<br>其余的Master处于slave状态</p>
+<p>Worker：Spark的工作节点，向Master汇报自身的资源、Executor执行状态的改变，并接受Master的命令<br>启动Executor或Driver。</p>
+<h4 id="HeartbeatReceiver"><a href="#HeartbeatReceiver" class="headerlink" title="HeartbeatReceiver"></a>HeartbeatReceiver</h4><p>HeartbeatReceiver 运行在Driver上，用以接收各个Executor的心跳（HeartBeat)消息，对各个Executor<br>的”生死”进行监控。</p>
+<h4 id="Master-详解"><a href="#Master-详解" class="headerlink" title="Master 详解"></a>Master 详解</h4><p>Master负责对整个集群中所有的资源的统一管理和分配，它接收各个Worker的注册、更新状态、心跳等信息，也接收Driver<br>和Application的注册。</p>
+<p>Worker向Master注册时会携带自身的身份和资源信息（ID、host、port、内核数、内存大小等），这些资源<br>将按照一定的资源调度策略分配给Driver或Application。Master给Driver分配了资源后，<br>将向Worker发送启动Driver的命令。</p>
+<p>Master给Application分配了资源后，将向Worker发送启动Executor的命令，后者在接收到启动Executor的<br>命令后启动Executor。</p>
+<p>启动Master有作为JVM进程内的对象启动和作为单独的进程启动的两种方式。</p>
 ]]></content>
       <categories>
         <category>大数据</category>
@@ -180,6 +254,8 @@
 <p>那天我看了两种服务器，一种是机架式服务器，另一种是踏实。机架式的风扇声比较大（虽然单路的会比双路的小一些，但比起塔式服务器会大挺多的。）</p>
 <h4 id="坑人的阵列卡"><a href="#坑人的阵列卡" class="headerlink" title="坑人的阵列卡"></a>坑人的阵列卡</h4><p>作为一个服务器装机菜鸟，我从网上下好的ubuntu服务器放在U盘里，然后改好U盘启动引导，开始安装。前几步没有啥问题，但到了选择安装磁盘路径的时候，找不到任何磁盘，<br>从而无法点击下一步继续。后来在老板的指导下，我才得知，原来是因为有阵列卡，BIOS没有设置对还是啥的，所以才读不到磁盘。于是，我在老板的远程指导下成功地拆卸掉阵列卡，<br>并重新接线好两块磁盘。之后，便正常地顺利正常地安装好ubuntu server了。</p>
 <p><img src="/images/2019/private_IDC/raid.jpg" alt="Sample Image Added via Markdown"></p>
+<h3 id="第一次在咸鱼买的服务器"><a href="#第一次在咸鱼买的服务器" class="headerlink" title="第一次在咸鱼买的服务器"></a>第一次在咸鱼买的服务器</h3><p>在咸鱼闲逛了下，看中了一台T20，看样子跟之前的DELL T30差不多：E3-1225，4G，1T。内存，硬盘这些我都可以自己另外再买零件组装进去。所以，这台配置虽然比之前的低了点，<br>但看在T20 只卖1200（包邮）我觉得还是挺划算的。不过买来后才发现，原来T20本来就是这价格，甚至1000都能买到。我当时买来还以为自己赚大了，毕竟T30我买的是3200。<br>收到货打开发现，比我想象中差些，因为这机子里面到处都是灰尘（从中学到了一个经验：以后网购服务器，一定要让卖家拍几个机子内部的照片或视频，确保没有太多灰尘）。</p>
+<p>我自己又另外花了几个小时来清理机器，主要是拿棉签一点点地把灰尘差掉。</p>
 <h4 id="交换机"><a href="#交换机" class="headerlink" title="交换机"></a>交换机</h4><p>哈哈，没钱买千兆网卡，千兆交换机，只能用路由器充当了。</p>
 <h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>玩硬件组装也是个超级无底洞，各个部件都可以扩展起来，内存，硬盘，CPU，可以水平扩展，也可以横向扩展。以后准备好好赚钱升级设备吧。如果比较缺钱的话可以上淘宝或闲鱼买点二手的配件，<br>比如内存条，硬盘这些。最好是可以和个人卖家交易，因为个人的话经常可以买到一些物美价廉的二手物品。另外，V2EX网站也有专门二手转让的版块，可以去看看。</p>
 ]]></content>
@@ -525,6 +601,9 @@
 <h3 id="停止CDH"><a href="#停止CDH" class="headerlink" title="停止CDH"></a>停止CDH</h3><p>有些时候我们要停机检修一下电脑，所以要停止Cluster。很简单，首先进入到CDH的Web UI的Cluster主界面, 左上角有个Action<br>，点一下弹出下拉条，然后选停止。等几分钟后集群的所有组件就会停止了。</p>
 <p>然后进入到主节点的终端，输入<code>sudo systemctl stop cloudera-scm-server</code>，就全部停止了。</p>
 <h2 id="CDH的一些配置"><a href="#CDH的一些配置" class="headerlink" title="CDH的一些配置"></a>CDH的一些配置</h2><h3 id="Yarn-RM-NM共用一个host"><a href="#Yarn-RM-NM共用一个host" class="headerlink" title="Yarn: RM,NM共用一个host"></a>Yarn: RM,NM共用一个host</h3><p>默认情况下Resource Manager会单独用一个节点。但是我的RM host内存和CPU都有剩余，跑app的时候把资源压在<br>device2上有点浪费了，我利用起device1的资源来。<br>首先进入到Yarn的版块，Action下拉框，点击Add Role Instance<br><img src="/images/2019/cdh_install/yarn_rm_nm1.png" alt="Sample Image Added via Markdown"><br><img src="/images/2019/cdh_install/yarn_rm_nm1.png" alt="Sample Image Added via Markdown"></p>
+<blockquote>
+<p>注意，如果该instance的commission state为decommissioned的话要把它改为commissioned</p>
+</blockquote>
 <h3 id="增加服务"><a href="#增加服务" class="headerlink" title="增加服务"></a>增加服务</h3><p>如果我们想新增加一些组件，比如Kafka或Spark，然后我们可以点击Cluster版块的Action下拉框，选中第一个 Add Service<br>进入新增Service的页面。</p>
 <h2 id="一些问题"><a href="#一些问题" class="headerlink" title="一些问题"></a>一些问题</h2><h3 id="问题1"><a href="#问题1" class="headerlink" title="问题1"></a>问题1</h3><p>我增加一个节点的时候遇到如下报错<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Host with invalid Cloudera Manager GUID is detected</div><div class="line">...</div><div class="line">Error, CM server guid updated, expected c3b5fe15-5f29-434b-ae0a-4750b56c72ab, received dc1d28d4-4c78-4a07-919b-a9eaf7190d41</div></pre></td></tr></table></figure></p>
 <p>解决方法：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">验证如下配置文件，确定hostname是否正确</div><div class="line">$ nano /etc/cloudera-scm-agent/config.ini</div><div class="line">so that the hostname where the same as the command $ hostname returned.</div><div class="line">Then rm /var/lib/cloudera-scm-agent/cm_guid</div><div class="line">然后删除每个节点的cm_guid</div><div class="line">then I restarted the agent and the server of cloudera:</div><div class="line">然后重启</div><div class="line">$ service cloudera-scm-agent restart</div><div class="line">$ service cloudera-scm-server restart</div></pre></td></tr></table></figure></p>
@@ -722,24 +801,22 @@
       </tags>
   </entry>
   <entry>
-    <title>Git rebase的一些运用场景</title>
-    <url>/2018/git_rebase.html</url>
-    <content><![CDATA[<h2 id="Git-usage"><a href="#Git-usage" class="headerlink" title="Git usage"></a>Git usage</h2><p>最近在为github开源项目修修bug。提了几个Pull Request。又巩固了下git的知识，熟练了git的使用。</p>
-<p>我在提交PR后，发现有个地方改错了。那怎么改呢，其实很简单，只需要再次push 到自己fork的repo就可以了。</p>
-<p>PR的branch是和自己fork的repo的branch联动的。</p>
-<p>但是，这又有个问题，我再次commit后，就会有两个commit。这两个commit其实解决的都是同一个问题。<br>在正式的repo中尽量要精简commit，同一个问题的多个commit需要squash为一个commit。</p>
-<p>于是，我就得用git rebase 来帮我完成了。</p>
-<p>通过这个命令，可以重新修改最近的两个commit<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">git rebase -i HEAD~2</div></pre></td></tr></table></figure></p>
-<p>执行命令后会弹出一个vim编辑:<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">pick 01d1124 Message....</div><div class="line">pick 6340aaa Message....</div></pre></td></tr></table></figure></p>
-<p>然后，将要squash的commit的那行最前面的<code>pick</code> 改为 <code>squash</code><br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">p 01d1124 Message....</div><div class="line">s 6340aaa Message....</div></pre></td></tr></table></figure></p>
-<h3 id="改commit名字"><a href="#改commit名字" class="headerlink" title="改commit名字"></a>改commit名字</h3><p>大项目的commit的名字都有比较严格的要求，有些时候，我们要改下自己不规范的命名的话。<br>可以也可以用 git rebase.</p>
-<p>很简单，同样先用git rebase -i HEAD~n<br>在需要改的commit的最前面把 <code>pick</code> 改为<code>reword</code><br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">pick 01d1124 Message....</div><div class="line">reword 6340aaa Message....</div></pre></td></tr></table></figure></p>
+    <title>Zookeeper的用途</title>
+    <url>/2018/zookeeper_service.html</url>
+    <content><![CDATA[<p>数据发布与订阅（配置中心）发布与订阅模型，即所谓的配置中心，顾名思义就是发布者将数据发布到ZK节点上，供订阅者动态获取数据，实现配置信息的集中式管理和动态更新。<br>例如全局的配置信息，服务式服务框架的服务地址列表等就非常适合使用。应用中用到的一些配置信息放到ZK上进行集中管理。<br>这类场景通常是这样：应用在启动的时候会主动来获取一次配置，同时，在节点上注册一个Watcher，这样一来，以后每次配置有更新的时候，都会实时通知到订阅的客户端，从来达到获取最新配置信息的目的。<br>分布式搜索服务中，索引的元信息和服务器集群机器的节点状态存放在ZK的一些指定节点，供各个客户端订阅使用。分布式日志收集系统。这个系统的核心工作是收集分布在不同机器的日志。</p>
+<p>收集器通常是按照应用来分配收集任务单元，因此需要在ZK上创建一个以应用名作为path的节点P，并将这个应用的所有机器ip，以子节点的形式注册到节点P上，这样一来就能够实现机器变动的时候，能够实时通知到收集器调整任务分配。<br>系统中有些信息需要动态获取，并且还会存在人工手动去修改这个信息的发问。通常是暴露出接口，例如JMX接口，来获取一些运行时的信息。引入ZK之后，就不用自己实现一套方案了，只要将这些信息存放到指定的ZK节点上即可。<br>注意：在上面提到的应用场景中，有个默认前提是：数据量很小，但是数据更新可能会比较快的场景。负载均衡这里说的负载均衡是指软负载均衡。<br>在分布式环境中，为了保证高可用性，通常同一个应用或同一个服务的提供方都会部署多份，达到对等服务。而消费者就须要在这些对等的服务器中选择一个来执行相关的业务逻辑，其中比较典型的是消息中间件中的生产者，消费者负载均衡。消息中间件中发布者和订阅者的负载均衡，linkedin开源的KafkaMQ和阿里开源的metaq都是通过zookeeper来做到生产者、消费者的负载均衡。<br>这里以metaq为例如讲下：<br>生产者负载均衡：metaq发送消息的时候，生产者在发送消息的时候必须选择一台broker上的一个分区来发送消息，因此metaq在运行过程中，会把所有broker和对应的分区信息全部注册到ZK指定节点上，默认的策略是一个依次轮询的过程，生产者在通过ZK获取分区列表之后，会按照brokerId和partition的顺序排列组织成一个有序的分区列表，发送的时候按照从头到尾循环往复的方式选择一个分区来发送消息。</p>
+<p>消费负载均衡：在消费过程中，一个消费者会消费一个或多个分区中的消息，但是一个分区只会由一个消费者来消费。<br>MetaQ的消费策略是：每个分区针对同一个group只挂载一个消费者。如果同一个group的消费者数目大于分区数目，则多出来的消费者将不参与消费。如果同一个group的消费者数目小于分区数目，则有部分消费者需要额外承担消费任务。<br>在某个消费者故障或者重启等情况下，其他消费者会感知到这一变化（通过 zookeeper watch消费者列表），然后重新进行负载均衡，保证所有的分区都有消费者进行消费。</p>
+<h3 id="命名服务-Naming-Service"><a href="#命名服务-Naming-Service" class="headerlink" title="命名服务(Naming Service)"></a>命名服务(Naming Service)</h3><p>命名服务也是分布式系统中比较常见的一类场景。在分布式系统中，通过使用命名服务，客户端应用能够根据指定名字来获取资源或服务的地址，提供者等信息。被命名的实体通常可以是集群中的机器，提供的服务地址，远程对象等等——这些我们都可以统称他们为名字（Name）。其中较为常见的就是一些分布式服务框架中的服务地址列表。<br>通过调用ZK提供的创建节点的API，能够很容易创建一个全局唯一的path，这个path就可以作为一个名称。阿里巴巴集团开源的分布式服务框架Dubbo中使用ZooKeeper来作为其命名服务，维护全局的服务地址列表，点击这里查看Dubbo开源项目。<br>在Dubbo实现中：服务提供者在启动的时候，向ZK上的指定节点/dubbo/${serviceName}/providers目录下写入自己的URL地址，这个操作就完成了服务的发布。<br>服务消费者启动的时候，订阅/dubbo/${serviceName}/providers目录下的提供者URL地址， 并向/dubbo/${serviceName} /consumers目录下写入自己的URL地址。注意，所有向ZK上注册的地址都是临时节点，这样就能够保证服务提供者和消费者能够自动感应资源的变化。<br>另外，Dubbo还有针对服务粒度的监控，方法是订阅/dubbo/${serviceName}目录下所有提供者和消费者的信息。</p>
+<h3 id="分布式通知-协调"><a href="#分布式通知-协调" class="headerlink" title="分布式通知/协调"></a>分布式通知/协调</h3><p>ZooKeeper中特有watcher注册与异步通知机制，能够很好的实现分布式环境下不同系统之间的通知与协调，实现对数据变更的实时处理。<br>使用方法通常是不同系统都对ZK上同一个znode进行注册，监听znode的变化（包括znode本身内容及子节点的），其中一个系统update了znode，那么另一个系统能够收到通知，并作出相应处理另一种心跳检测机制：检测系统和被检测系统之间并不直接关联起来，而是通过zk上某个节点关联，大大减少系统耦合。<br>另一种系统调度模式：某系统有控制台和推送系统两部分组成，控制台的职责是控制推送系统进行相应的推送工作。管理人员在控制台作的一些操作，实际上是修改了ZK上某些节点的状态，而ZK就把这些变化通知给他们注册Watcher的客户端，即推送系统，于是，作出相应的推送任务。<br>另一种工作汇报模式：一些类似于任务分发系统，子任务启动后，到zk来注册一个临时节点，并且定时将自己的进度进行汇报（将进度写回这个临时节点），这样任务管理者就能够实时知道任务进度。<br>总之，使用zookeeper来进行分布式通知和协调能够大大降低系统之间的耦合</p>
+<h3 id="集群管理与Master选举"><a href="#集群管理与Master选举" class="headerlink" title="集群管理与Master选举"></a>集群管理与Master选举</h3><p>集群机器监控：这通常用于那种对集群中机器状态，机器在线率有较高要求的场景，能够快速对集群中机器变化作出响应。这样的场景中，往往有一个监控系统，实时检测集群机器是否存活。过去的做法通常是：监控系统通过某种手段（比如ping）定时检测每个机器，或者每个机器自己定时向监控系统汇报“我还活着”。<br>这种做法可行，但是存在两个比较明显的问题：集群中机器有变动的时候，牵连修改的东西比较多。有一定的延时。<br>利用ZooKeeper有两个特性，就可以实时另一种集群机器存活性监控系统：客户端在节点 x 上注册一个Watcher，那么如果 x?的子节点变化了，会通知该客户端。创建EPHEMERAL类型的节点，一旦客户端和服务器的会话结束或过期，那么该节点就会消失。<br>例如，监控系统在 /clusterServers 节点上注册一个Watcher，以后每动态加机器，那么就往 /clusterServers 下创建一个 EPHEMERAL类型的节点：/clusterServers/{hostname}. 这样，监控系统就能够实时知道机器的增减情况，至于后续处理就是监控系统的业务了。Master选举则是zookeeper中最为经典的应用场景了。<br>在分布式环境中，相同的业务应用分布在不同的机器上，有些业务逻辑（例如一些耗时的计算，网络I/O处理），往往只需要让整个集群中的某一台机器进行执行，其余机器可以共享这个结果，这样可以大大减少重复劳动，提高性能，于是这个master选举便是这种场景下的碰到的主要问题。<br>利用ZooKeeper的强一致性，能够保证在分布式高并发情况下节点创建的全局唯一性，即：同时有多个客户端请求创建 /currentMaster 节点，最终一定只有一个客户端请求能够创建成功。<br>利用这个特性，就能很轻易的在分布式环境中进行集群选取了。另外，这种场景演化一下，就是动态Master选举。<br>这就要用到?EPHEMERAL_SEQUENTIAL类型节点的特性了。上文中提到，所有客户端创建请求，最终只有一个能够创建成功。<br>在这里稍微变化下，就是允许所有请求都能够创建成功，但是得有个创建顺序，于是所有的请求最终在ZK上创建结果的一种可能情况是这样： /currentMaster/{sessionId}-1 ,?/currentMaster/{sessionId}-2 ,?/currentMaster/{sessionId}-3 ….. 每次选取序列号最小的那个机器作为Master，如果这个机器挂了，由于他创建的节点会马上小时，那么之后最小的那个机器就是Master了。<br>在搜索系统中，如果集群中每个机器都生成一份全量索引，不仅耗时，而且不能保证彼此之间索引数据一致。因此让集群中的Master来进行全量索引的生成，然后同步到集群中其它机器。另外，Master选举的容灾措施是，可以随时进行手动指定master，就是说应用在zk在无法获取master信息时，可以通过比如http方式，向一个地方获取master。在Hbase中，也是使用ZooKeeper来实现动态HMaster的选举。<br>在Hbase实现中，会在ZK上存储一些ROOT表的地址和HMaster的地址，HRegionServer也会把自己以临时节点（Ephemeral）的方式注册到Zookeeper中，使得HMaster可以随时感知到各个HRegionServer的存活状态，同时，一旦HMaster出现问题，会重新选举出一个HMaster来运行，从而避免了HMaster的单点问题。</p>
+<h3 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h3><p>分布式锁，这个主要得益于ZooKeeper为我们保证了数据的强一致性。<br>锁服务可以分为两类，一个是保持独占，另一个是控制时序。所谓保持独占，就是所有试图来获取这个锁的客户端，最终只有一个可以成功获得这把锁。<br>通常的做法是把zk上的一个znode看作是一把锁，通过create znode的方式来实现。所有客户端都去创建 /distribute_lock 节点，最终成功创建的那个客户端也即拥有了这把锁。<br>控制时序，就是所有视图来获取这个锁的客户端，最终都是会被安排执行，只是有个全局时序了。做法和上面基本类似，只是这里 /distribute_lock 已经预先存在，客户端在它下面创建临时有序节点（这个可以通过节点的属性控制：CreateMode.EPHEMERAL_SEQUENTIAL来指定）。<br>Zk的父节点（/distribute_lock）维持一份sequence,保证子节点创建的时序性，从而也形成了每个客户端的全局时序。</p>
+<h3 id="分布式队列"><a href="#分布式队列" class="headerlink" title="分布式队列"></a>分布式队列</h3><p>队列方面，简单地讲有两种，一种是常规的先进先出队列，另一种是要等到队列成员聚齐之后的才统一按序执行。对于第一种先进先出队列，和分布式锁服务中的控制时序场景基本原理一致，这里不再赘述。第二种队列其实是在FIFO队列的基础上作了一个增强。通常可以在 /queue 这个znode下预先建立一个/queue/num 节点，并且赋值为n（或者直接给/queue赋值n），表示队列大小，之后每次有队列成员加入后，就判断下是否已经到达队列大小，决定是否可以开始执行了。<br>这种用法的典型场景是，分布式环境中，一个大任务Task A，需要在很多子任务完成（或条件就绪）情况下才能进行。这个时候，凡是其中一个子任务完成（就绪），那么就去 /taskList 下建立自己的临时时序节点（CreateMode.EPHEMERAL_SEQUENTIAL），当 /taskList 发现自己下面的子节点满足指定个数，就可以进行下一步按序进行处理了。</p>
 ]]></content>
       <categories>
-        <category>git</category>
+        <category>zookeeper</category>
       </categories>
       <tags>
-        <tag>git</tag>
+        <tag>zookeeper</tag>
       </tags>
   </entry>
   <entry>
@@ -767,6 +844,28 @@
       </categories>
       <tags>
         <tag>hive</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Git rebase的一些运用场景</title>
+    <url>/2018/git_rebase.html</url>
+    <content><![CDATA[<h2 id="Git-rebase的使用场景"><a href="#Git-rebase的使用场景" class="headerlink" title="Git rebase的使用场景"></a>Git rebase的使用场景</h2><p>最近在为github开源项目修修bug。提了几个Pull Request。又巩固了下git的知识，熟练了git的使用。</p>
+<p>我在提交PR后，发现有个地方改错了。那怎么改呢，其实很简单，只需要再次push 到自己fork的repo就可以了。</p>
+<p>PR的branch是和自己fork的repo的branch联动的。</p>
+<p>但是，这又有个问题，我再次commit后，就会有两个commit。这两个commit其实解决的都是同一个问题。<br>在正式的repo中尽量要精简commit，同一个问题的多个commit需要squash为一个commit。</p>
+<p>于是，我就得用git rebase 来帮我完成了。</p>
+<h3 id="精简commit"><a href="#精简commit" class="headerlink" title="精简commit"></a>精简commit</h3><p>通过这个命令，可以重新修改最近的两个commit<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">git rebase -i HEAD~2</div></pre></td></tr></table></figure></p>
+<p>执行命令后会弹出一个vim编辑:<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">pick 01d1124 Message....</div><div class="line">pick 6340aaa Message....</div></pre></td></tr></table></figure></p>
+<p>然后，将要squash的commit的那行最前面的<code>pick</code> 改为 <code>squash</code><br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">p 01d1124 Message....</div><div class="line">s 6340aaa Message....</div></pre></td></tr></table></figure></p>
+<h3 id="删掉commit"><a href="#删掉commit" class="headerlink" title="删掉commit"></a>删掉commit</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">git rebase -i HEAD~n</div><div class="line"></div><div class="line"># 在vim中直接把不要commit那行删掉即可</div></pre></td></tr></table></figure>
+<h3 id="改commit名字"><a href="#改commit名字" class="headerlink" title="改commit名字"></a>改commit名字</h3><p>大项目的commit的名字都有比较严格的要求，有些时候，我们要改下自己不规范的命名的话。<br>可以也可以用 git rebase.</p>
+<p>很简单，同样先用git rebase -i HEAD~n<br>在需要改的commit的最前面把 <code>pick</code> 改为<code>reword</code><br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">pick 01d1124 Message....</div><div class="line">reword 6340aaa Message....</div></pre></td></tr></table></figure></p>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -880,6 +979,22 @@
       </categories>
       <tags>
         <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>在Github开车需要需要了解的git技能</title>
+    <url>/2018/git_github.html</url>
+    <content><![CDATA[<h2 id="更新forked项目"><a href="#更新forked项目" class="headerlink" title="更新forked项目"></a>更新forked项目</h2><p>比如：我之前fork了Airflow这个仓库，隔了一段时间（官方的仓库已经有很多更新了）又想提交点PR，<br>那要不要重新删了这个repo再fork一次呢？<br>答案显示是：不用的。</p>
+<p>首先我们添加下官方的remote，然后再fetch一下。<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">git remote add upstream https://github.com/whoever/whatever.git</div><div class="line"></div><div class="line"># Fetch all the branches of that remote into remote-tracking branches,</div><div class="line"># such as upstream/master:</div><div class="line"></div><div class="line">git fetch upstream</div></pre></td></tr></table></figure></p>
+<p>然后：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">git pull --rebase upstream master</div><div class="line"># pull = fetch + merge</div></pre></td></tr></table></figure></p>
+<p>rebase的过程中可以把自己提交的不要的commit删掉。</p>
+<p>最后再强推覆盖掉自己的repo<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">git push -f origin master</div></pre></td></tr></table></figure></p>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -1071,6 +1186,7 @@
 <h3 id="20191212"><a href="#20191212" class="headerlink" title="20191212"></a>20191212</h3><p>这周花了些时间为Aiflow提交PR，也是没有什么进展，没有别被merge也没有被拒绝，有点心塞。其它的时间主要看了下新买的书<br>《Spark内核设计的艺术》</p>
 <h3 id="20191220"><a href="#20191220" class="headerlink" title="20191220"></a>20191220</h3><p>这一个礼拜主要是忙着面试的准备。在看了Kyligence的职位后，感觉无论是公司和职位都是我非常青睐的职位，所以这周<br>我花了很多精力和时间在准备来面试这个岗位，甚至准备了一个面试的PPT，在经过两轮面试后，还是待定，比较失落。导致我<br>现在没有什么心思干别的事情了。</p>
 <h3 id="20190105"><a href="#20190105" class="headerlink" title="20190105"></a>20190105</h3><p>这个礼拜主要忙于接收Offer，提交离职，准备交接工作。周五请同事吃饭，周六请客吃饭。周天打台球，<br>打羽毛球。</p>
+<h3 id="20200126"><a href="#20200126" class="headerlink" title="20200126"></a>20200126</h3><p>本周主要回家过年了。大部分时间都上YouTube追踪最新的武汉肺炎的疫情，国内的信息真是太闭塞了。政府一味地去隐瞒<br>真相，呵呵，和HBO拍的《切尔诺贝利》一模一样啊。<br>然后花了点时间看了看Spark Internal这书，不过效率不是很高。</p>
 ]]></content>
       <categories>
         <category>daily</category>
@@ -1788,34 +1904,6 @@ print Person.name  # [1]
       </tags>
   </entry>
   <entry>
-    <title>Spark Streaming Dstream ForeachRDD的理解</title>
-    <url>/2016/spark_foreachRDD.html</url>
-    <content><![CDATA[<h1 id="通俗理解Spark-Streaming-Dstream-的ForeachRDD"><a href="#通俗理解Spark-Streaming-Dstream-的ForeachRDD" class="headerlink" title="通俗理解Spark Streaming Dstream 的ForeachRDD"></a>通俗理解Spark Streaming Dstream 的ForeachRDD</h1><p>在SparkStreaming中，数据中的每个batch都是只有一个RDD，为什么我们还要用ForeachRDD 在每一个RDD呢？ 不是只有一个RDD吗？</p>
-<p>Dstream也就是离散stream，就是把连续的数据分成一小团一小团。我们用专业术语“microbatching”来描述。每个microbatch 变成一个RDD以便Spark的后续处理。在每一个batch interval中，每个DStream有且仅有一个RDD。</p>
-<p><img src="/images/2016/spark_foreachRDD/spark-streaming.png" alt="Sample Image Added via Markdown"></p>
-<p>然而RDD是什么呢，RDD是一个分布式数据集合。你可以认为它是一个告诉你实际数据在集群中具体什么地方的指南者（pointer）。</p>
-<a id="more"></a>
-<p>Dstream.foreachRDD在SparkStreaming中是一个“output operator”，它让你直接基于Dstream的RDDs去处理数据。比如说，用foreachRDD方法将数据写入数据库</p>
-<p>这里有个容易疑惑的地方，DStream是和时间有关的集合。我们来对比一下传统的集合。我们用一群客户（users）来举个例子：</p>
-<!-- scala -->
-<pre><code>val userDStream：DStream[User]=???
-userDStream.foreachRDD{usersRDD =&gt;
-    usersRDD.foreach{user =&gt; serveCoffee(user)}
-}
-</code></pre><p>注意：</p>
-<ul>
-<li>DStream.foreachRDD返回给你的是RDD[user],不是单单一个user。回到上面咖啡的这个例子，这个客户集合 是指某个时间区间(比如下午一点到两点)的集合</li>
-<li>为了处理单个集合的元素，需要进一步操作(operate) RDD。在这个案例中，我们用RDD.foreach来对每个客户serve coffee</li>
-</ul>
-]]></content>
-      <categories>
-        <category>大数据</category>
-      </categories>
-      <tags>
-        <tag>spark</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Spark简易入门</title>
     <url>/2016/spark_guide.html</url>
     <content><![CDATA[<h1 id="Spark简易入门"><a href="#Spark简易入门" class="headerlink" title="Spark简易入门"></a>Spark简易入门</h1><p>Spark，搞大数据的人都应该用过吧。spark作为主流的大数据处理框架，到底为什么这么多人用呢？我们少扯淡，直接动手写大数据界的HelloWorld：WordCount。</p>
@@ -1871,6 +1959,34 @@ object WordCount
 <p><code>spark-submit --class &quot;demo.WordCount&quot; SparkDemo-1.0-SNAPSHOT.jar</code><br></p>
 <p>其中demo.WordCount是main函数所在的ojbect，而SparkDemo-1.0-SNAPSHOT.jar就是打出来的jar包。</p>
 <p>Spark 最简单的流程，就这样Finish了。</p>
+]]></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>spark</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Spark Streaming Dstream ForeachRDD的理解</title>
+    <url>/2016/spark_foreachRDD.html</url>
+    <content><![CDATA[<h1 id="通俗理解Spark-Streaming-Dstream-的ForeachRDD"><a href="#通俗理解Spark-Streaming-Dstream-的ForeachRDD" class="headerlink" title="通俗理解Spark Streaming Dstream 的ForeachRDD"></a>通俗理解Spark Streaming Dstream 的ForeachRDD</h1><p>在SparkStreaming中，数据中的每个batch都是只有一个RDD，为什么我们还要用ForeachRDD 在每一个RDD呢？ 不是只有一个RDD吗？</p>
+<p>Dstream也就是离散stream，就是把连续的数据分成一小团一小团。我们用专业术语“microbatching”来描述。每个microbatch 变成一个RDD以便Spark的后续处理。在每一个batch interval中，每个DStream有且仅有一个RDD。</p>
+<p><img src="/images/2016/spark_foreachRDD/spark-streaming.png" alt="Sample Image Added via Markdown"></p>
+<p>然而RDD是什么呢，RDD是一个分布式数据集合。你可以认为它是一个告诉你实际数据在集群中具体什么地方的指南者（pointer）。</p>
+<a id="more"></a>
+<p>Dstream.foreachRDD在SparkStreaming中是一个“output operator”，它让你直接基于Dstream的RDDs去处理数据。比如说，用foreachRDD方法将数据写入数据库</p>
+<p>这里有个容易疑惑的地方，DStream是和时间有关的集合。我们来对比一下传统的集合。我们用一群客户（users）来举个例子：</p>
+<!-- scala -->
+<pre><code>val userDStream：DStream[User]=???
+userDStream.foreachRDD{usersRDD =&gt;
+    usersRDD.foreach{user =&gt; serveCoffee(user)}
+}
+</code></pre><p>注意：</p>
+<ul>
+<li>DStream.foreachRDD返回给你的是RDD[user],不是单单一个user。回到上面咖啡的这个例子，这个客户集合 是指某个时间区间(比如下午一点到两点)的集合</li>
+<li>为了处理单个集合的元素，需要进一步操作(operate) RDD。在这个案例中，我们用RDD.foreach来对每个客户serve coffee</li>
+</ul>
 ]]></content>
       <categories>
         <category>大数据</category>
