@@ -80,21 +80,21 @@
 
 
 <meta name="description" content="常用操作查看topickafka-topics –list –zookeeper device1:2181
-创建topickafka-topics –create –zookeeper device1:2181 –replication-factor 1 –partitions 1 –topic test
-在console启动 producer （一般可用来测试）删除某个topic的数据Solut">
+
+这个命令很有用。有一次我的consumer全部设置正常，但无论如何都不能commit current offset。就想这是不会zookeeper的问题呢？因为zookeeper是存放commit offset 信息的地方经过仔细盘查，我发现在另外的topic却可以正常的commit，所以">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Kafka日常操作指南">
 <meta property="og:url" content="http://mikolaje.github.io/2017/kafka_daily_command.html">
 <meta property="og:site_name" content="Dennis' Blog">
 <meta property="og:description" content="常用操作查看topickafka-topics –list –zookeeper device1:2181
-创建topickafka-topics –create –zookeeper device1:2181 –replication-factor 1 –partitions 1 –topic test
-在console启动 producer （一般可用来测试）删除某个topic的数据Solut">
-<meta property="og:updated_time" content="2020-01-15T13:34:14.283Z">
+
+这个命令很有用。有一次我的consumer全部设置正常，但无论如何都不能commit current offset。就想这是不会zookeeper的问题呢？因为zookeeper是存放commit offset 信息的地方经过仔细盘查，我发现在另外的topic却可以正常的commit，所以">
+<meta property="og:updated_time" content="2020-02-23T05:16:42.291Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Kafka日常操作指南">
 <meta name="twitter:description" content="常用操作查看topickafka-topics –list –zookeeper device1:2181
-创建topickafka-topics –create –zookeeper device1:2181 –replication-factor 1 –partitions 1 –topic test
-在console启动 producer （一般可用来测试）删除某个topic的数据Solut">
+
+这个命令很有用。有一次我的consumer全部设置正常，但无论如何都不能commit current offset。就想这是不会zookeeper的问题呢？因为zookeeper是存放commit offset 信息的地方经过仔细盘查，我发现在另外的topic却可以正常的commit，所以">
 
 
 
@@ -423,9 +423,16 @@
 
       
         <h2 id="常用操作"><a href="#常用操作" class="headerlink" title="常用操作"></a>常用操作</h2><h3 id="查看topic"><a href="#查看topic" class="headerlink" title="查看topic"></a>查看topic</h3><p>kafka-topics –list –zookeeper device1:2181</p>
+<blockquote>
+<p>这个命令很有用。有一次我的consumer全部设置正常，但无论如何都不能commit current offset。就想这是不会zookeeper的问题呢？<br>因为zookeeper是存放commit offset 信息的地方<br>经过仔细盘查，我发现在另外的topic却可以正常的commit，所以这是该topic的问题，于是要检查下这个<br>topic哪里出了问题，就用上了这个命令。结果发现有2个partition莫名的消失了，也不知道是为什么。但<br>总的来说还是把问题定位出来了。<br>因为，这个问题，我花了不少精力，时间不说，我还特意花了50美金去upwork上找人才解决的。</p>
+</blockquote>
+<p>后来又发现，因为我是用kafka-python来创建的topic，这样的创建导致了 committed offset 没有显示。<br>但用console创建的topic则不会。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_topic</span><span class="params">(topic)</span>:</span></div><div class="line">    admin_client = KafkaAdminClient(bootstrap_servers=broker_list, client_id=<span class="string">'test'</span>)</div><div class="line">    topic_list = []</div><div class="line">    topic_list.append(NewTopic(name=topic, num_partitions=<span class="number">3</span>, replication_factor=<span class="number">1</span>))</div><div class="line">    admin_client.create_topics(new_topics=topic_list, validate_only=<span class="keyword">False</span>)</div></pre></td></tr></table></figure></p>
 <h3 id="创建topic"><a href="#创建topic" class="headerlink" title="创建topic"></a>创建topic</h3><p>kafka-topics –create –zookeeper device1:2181 –replication-factor 1 –partitions 1 –topic test</p>
-<h3 id="在console启动-producer-（一般可用来测试）"><a href="#在console启动-producer-（一般可用来测试）" class="headerlink" title="在console启动 producer （一般可用来测试）"></a>在console启动 producer （一般可用来测试）</h3><h3 id="删除某个topic的数据"><a href="#删除某个topic的数据" class="headerlink" title="删除某个topic的数据"></a>删除某个topic的数据</h3><h4 id="Solution1"><a href="#Solution1" class="headerlink" title="Solution1"></a>Solution1</h4><p>kafka-topics.sh –delete –zookeeper device1:2181 –topic zhihu_test</p>
-<h4 id="Solution2"><a href="#Solution2" class="headerlink" title="Solution2"></a>Solution2</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">#删除zhihu_profile topic 的所有数据</div><div class="line">kafka-configs --zookeeper device1:2181 --entity-type topics --alter --entity-name zhihu_profile --add-config retention.ms=1000</div><div class="line"># 再把retention设置调回来</div><div class="line">kafka-configs --zookeeper device1:2181 --entity-type topics --alter --entity-name zhihu_profile --add-config retention.ms=8640000000</div></pre></td></tr></table></figure>
+<h3 id="查看group每个partition-offset的状态"><a href="#查看group每个partition-offset的状态" class="headerlink" title="查看group每个partition offset的状态"></a>查看group每个partition offset的状态</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kafka-consumer-groups --bootstra-server device1:9092 --group test --describe</div></pre></td></tr></table></figure>
+<h3 id="在console启动-producer-（一般可用来测试）"><a href="#在console启动-producer-（一般可用来测试）" class="headerlink" title="在console启动 producer （一般可用来测试）"></a>在console启动 producer （一般可用来测试）</h3><h4 id="删除某个topic的数据"><a href="#删除某个topic的数据" class="headerlink" title="删除某个topic的数据"></a>删除某个topic的数据</h4><blockquote>
+<p>Solution1<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kafka-topics.sh --delete --zookeeper device1:2181 --topic zhihu_test</div></pre></td></tr></table></figure></p>
+<p>Solution2<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">#删除zhihu_profile topic 的所有数据</div><div class="line">kafka-configs --zookeeper device1:2181 --entity-type topics --alter --entity-name zhihu_profile --add-config retention.ms=1000</div><div class="line"># 再把retention设置调回来</div><div class="line">kafka-configs --zookeeper device1:2181 --entity-type topics --alter --entity-name zhihu_profile --add-config retention.ms=8640000000</div></pre></td></tr></table></figure></p>
+</blockquote>
 <p>但这种方法不能清除offset 和 commit的记录，因为我查了下某个group对应的offset如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">topic: zhihu_profile partition: 0 committed: 2515555 last: 2515558 lag: 3</div><div class="line">topic: zhihu_profile partition: 1 committed: 2519850 last: 2519853 lag: 3</div><div class="line">topic: zhihu_profile partition: 2 committed: 2520594 last: 2520596 lag: 2</div></pre></td></tr></table></figure></p>
 <p>查询某个group offset的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">def get_current_offset(topic, group):</div><div class="line"></div><div class="line">    consumer = KafkaConsumer(</div><div class="line">            bootstrap_servers=broker_list,</div><div class="line">            group_id=group,</div><div class="line">            enable_auto_commit=False</div><div class="line">        )   </div><div class="line"></div><div class="line">    for p in consumer.partitions_for_topic(topic):</div><div class="line">        tp = TopicPartition(topic, p)</div><div class="line">        consumer.assign([tp])</div><div class="line">        committed = consumer.committed(tp)</div><div class="line">        consumer.seek_to_end(tp)</div><div class="line">        last_offset = consumer.position(tp)</div><div class="line">        print(&quot;topic: %s partition: %s committed: %s last: %s lag: %s&quot; % (topic, p, committed, last_offset, (last_offset - committed)))</div><div class="line"></div><div class="line">    consumer.close(autocommit=False)</div></pre></td></tr></table></figure></p>
 <h3 id="reset-offset"><a href="#reset-offset" class="headerlink" title="reset offset"></a>reset offset</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">kafka-consumer-groups --bootstrap-server device1:9092 \</div><div class="line">--group my-group --reset-offsets --to-earliest --all-topics --execute</div></pre></td></tr></table></figure>
@@ -437,6 +444,8 @@
 <p>Reset offset of topic foo partition 0,1,2 to earliest</p>
 </blockquote>
 <p><code>--reset-offsets --group test.group --topic foo:0,1,2 --to-earliest</code></p>
+<h3 id="增加broker节点"><a href="#增加broker节点" class="headerlink" title="增加broker节点"></a>增加broker节点</h3><p>增加节点后，要重新新建Topic才能用到该broker。另外，kafka要依赖zookeeper，因为会把<br>offset写入到zk。这样，如果zk的集群很大（zk节点多）的时候，会影响zk的写入速度。建议是用<br>SSD配置给ZK（只给zk就行），然后这组zk专门服务于kafka，不要做其他用。</p>
+<p>这是我看公司的Kafka讲座是学的。</p>
 <h1 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h1><h2 id="关于-auto-offset-reset-和-offset"><a href="#关于-auto-offset-reset-和-offset" class="headerlink" title="关于 auto.offset.reset 和 offset"></a>关于 auto.offset.reset 和 offset</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">241</div><div class="line"></div><div class="line">It is a bit more complex than you described. The auto.offset.reset config kicks in ONLY if your consumer group does not have a valid offset committed somewhere (2 supported offset storages now are Kafka and Zookeeper). And it also depends on what sort of consumer you use.</div><div class="line"></div><div class="line">If you use a high-level java consumer then imagine following scenarios:</div><div class="line"></div><div class="line">You have a consumer in a consumer group group1 that has consumed 5 messages and died. Next time you start this consumer it won&apos;t even use that auto.offset.reset config and will continue from the place it died because it will just fetch the stored offset from the offset storage (Kafka or ZK as I mentioned).</div><div class="line"></div><div class="line">You have messages in a topic (like you described) and you start a consumer in a new consumer group group2. There is no offset stored anywhere and this time the auto.offset.reset config will decide whether to start from the beginning of the topic (smallest) or from the end of the topic (largest)</div><div class="line"></div><div class="line">One more thing that affects what offset value will correspond to smallest and largest configs is log retention policy. Imagine you have a topic with retention configured to 1 hour. You produce 5 messages, and then an hour later you post 5 more messages. The largest offset will still remain the same as in previous example but the smallest one won&apos;t be able to be 0 because Kafka will already remove these messages and thus the smallest available offset will be 5.</div><div class="line"></div><div class="line">Everything mentioned above is not related to SimpleConsumer and every time you run it, it will decide where to start from using the auto.offset.reset config.</div></pre></td></tr></table></figure>
 <h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://stackoverflow.com/questions/29791268/how-to-change-start-offset-for-topic?utm_medium=organic&amp;utm_source=google_rich_qa&amp;utm_campaign=google_rich_qa" target="_blank" rel="external">https://stackoverflow.com/questions/29791268/how-to-change-start-offset-for-topic?utm_medium=organic&amp;utm_source=google_rich_qa&amp;utm_campaign=google_rich_qa</a></p>
 
@@ -572,7 +581,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">50</span>
+                  <span class="site-state-item-count">55</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -583,7 +592,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -594,7 +603,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-count">32</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -655,7 +664,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#常用操作"><span class="nav-number">1.</span> <span class="nav-text">常用操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#查看topic"><span class="nav-number">1.1.</span> <span class="nav-text">查看topic</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建topic"><span class="nav-number">1.2.</span> <span class="nav-text">创建topic</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在console启动-producer-（一般可用来测试）"><span class="nav-number">1.3.</span> <span class="nav-text">在console启动 producer （一般可用来测试）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除某个topic的数据"><span class="nav-number">1.4.</span> <span class="nav-text">删除某个topic的数据</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Solution1"><span class="nav-number">1.4.1.</span> <span class="nav-text">Solution1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Solution2"><span class="nav-number">1.4.2.</span> <span class="nav-text">Solution2</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reset-offset"><span class="nav-number">1.5.</span> <span class="nav-text">reset offset</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TL-DR"><span class="nav-number"></span> <span class="nav-text">TL;DR</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#关于-auto-offset-reset-和-offset"><span class="nav-number">1.</span> <span class="nav-text">关于 auto.offset.reset 和 offset</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reference"><span class="nav-number"></span> <span class="nav-text">Reference</span></a></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#常用操作"><span class="nav-number">1.</span> <span class="nav-text">常用操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#查看topic"><span class="nav-number">1.1.</span> <span class="nav-text">查看topic</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建topic"><span class="nav-number">1.2.</span> <span class="nav-text">创建topic</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看group每个partition-offset的状态"><span class="nav-number">1.3.</span> <span class="nav-text">查看group每个partition offset的状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在console启动-producer-（一般可用来测试）"><span class="nav-number">1.4.</span> <span class="nav-text">在console启动 producer （一般可用来测试）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#删除某个topic的数据"><span class="nav-number">1.4.1.</span> <span class="nav-text">删除某个topic的数据</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reset-offset"><span class="nav-number">1.5.</span> <span class="nav-text">reset offset</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#增加broker节点"><span class="nav-number">1.6.</span> <span class="nav-text">增加broker节点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TL-DR"><span class="nav-number"></span> <span class="nav-text">TL;DR</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#关于-auto-offset-reset-和-offset"><span class="nav-number">1.</span> <span class="nav-text">关于 auto.offset.reset 和 offset</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reference"><span class="nav-number"></span> <span class="nav-text">Reference</span></a></div>
             
 
           </div>

@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/cat_favicon_32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/cat_favicon_16.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="kylin" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Kylin术语
+维度(Dimension)一组属性，提供结构化的标签信息，一般作为报表的坐标轴。
+
+度量(Measure)一类可以进行聚合分析的特殊维度，聚合后的结果称为指标。
+
+事实表(Fact Table)数据仓库中的中央表，用于描述业务内特定事件的数据。
+
+维度表(Lookup Table)维度属性的集合，人们观察数据的特定角度。
+
+基度（Cardinality）指数据表中某一列数据去重后的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kylin 基础介绍">
+<meta property="og:url" content="http://mikolaje.github.io/2017/kylin_basic.html">
+<meta property="og:site_name" content="Dennis' Blog">
+<meta property="og:description" content="Kylin术语
+维度(Dimension)一组属性，提供结构化的标签信息，一般作为报表的坐标轴。
+
+度量(Measure)一类可以进行聚合分析的特殊维度，聚合后的结果称为指标。
+
+事实表(Fact Table)数据仓库中的中央表，用于描述业务内特定事件的数据。
+
+维度表(Lookup Table)维度属性的集合，人们观察数据的特定角度。
+
+基度（Cardinality）指数据表中某一列数据去重后的">
+<meta property="og:image" content="http://mikolaje.github.io/.kylin_basic_images/367a4515.png">
+<meta property="og:image" content="http://mikolaje.github.io/.kylin_basic_images/b447988e.png">
+<meta property="og:updated_time" content="2020-02-23T05:16:42.291Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Kylin 基础介绍">
+<meta name="twitter:description" content="Kylin术语
+维度(Dimension)一组属性，提供结构化的标签信息，一般作为报表的坐标轴。
+
+度量(Measure)一类可以进行聚合分析的特殊维度，聚合后的结果称为指标。
+
+事实表(Fact Table)数据仓库中的中央表，用于描述业务内特定事件的数据。
+
+维度表(Lookup Table)维度属性的集合，人们观察数据的特定角度。
+
+基度（Cardinality）指数据表中某一列数据去重后的">
+<meta name="twitter:image" content="http://mikolaje.github.io/.kylin_basic_images/367a4515.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://mikolaje.github.io/2017/kylin_basic.html"/>
+
+
+
+
+
+  <title>Kylin 基础介绍 | Dennis' Blog</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-146421461-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Dennis' Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">欢迎各位领导前来指导工作</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- side -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9293695697921628"
+     data-ad-slot="4837815018"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> 
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2017/kylin_basic.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dennis">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dennis' Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Kylin 基础介绍</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-02T12:07:10+08:00">
+                2017-05-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/大数据/" itemprop="url" rel="index">
+                    <span itemprop="name">大数据</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/kylin_basic.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/kylin_basic.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Kylin术语"><a href="#Kylin术语" class="headerlink" title="Kylin术语"></a>Kylin术语</h2><ul>
+<li><p>维度(Dimension)<br>一组属性，提供结构化的标签信息，一般作为报表的坐标轴。</p>
+</li>
+<li><p>度量(Measure)<br>一类可以进行聚合分析的特殊维度，聚合后的结果称为指标。</p>
+</li>
+<li><p>事实表(Fact Table)<br>数据仓库中的中央表，用于描述业务内特定事件的数据。</p>
+</li>
+<li><p>维度表(Lookup Table)<br>维度属性的集合，人们观察数据的特定角度。</p>
+</li>
+<li><p>基度（Cardinality）<br>指数据表中某一列数据去重后的元素个数。</p>
+</li>
+<li><p>星型模型(Star Schema)<br>一种多维的数据关系，由一张事实表和一组维度表组成。</p>
+</li>
+<li><p>cube<br>一个cube就是一个Hive表的数据按照指定维度与指标计算出的所有组合结果。</p>
+</li>
+<li><p>cuboid<br>某一维度组合下，度量聚合后的结果集合。有个特殊的cuboid叫 base cuboid，比如维度有ABCD，（A,B,C,D）称为Base cuboid</p>
+</li>
+<li><p>数据立方体(cube)<br>一组用于分析数据的相关度量值和维度，是所有cuboid的集合，作为存储和分析的基本单位</p>
+</li>
+<li><p>衍生维度<br>维度表上的某一列通过PK可推的，换句话是可查询到的 比如由身份证可以推导性别，所以能通过PK推导的维度都可以设置为衍生维度。<br>衍生维度是放在snapshot中</p>
+</li>
+</ul>
+<h3 id="Kylin核心技术：Cube与计算"><a href="#Kylin核心技术：Cube与计算" class="headerlink" title="Kylin核心技术：Cube与计算"></a>Kylin核心技术：Cube与计算</h3><p>比如我们有10多亿中国人口数据，要统计男女比例这么个需求。如果直接从硬盘里提取数据来统计肯定会很慢，磁盘速度大概是几百兆/秒。<br>即使把数据放到内存中也最多提升100倍的速度。</p>
+<p>所以，可以用与计算来统计男女比例</p>
+<h3 id="维度表和事实表"><a href="#维度表和事实表" class="headerlink" title="维度表和事实表"></a>维度表和事实表</h3><p>我学到了一个数据仓库的概念，维度表（Fact Table）和事实表（Lookup Table）。<br>通过下面例子就让我明白了：<br>学过数据库的童鞋应该都知道星型模型，星型模型在数据仓库的设计中可以为是一种典型的维度模型。<br>我们在进行维度建模的时候会建一张事实表，这个事实表就是星型模型的中心，然后会有一堆维度表，这些维度表就是向外发散的星星。<br>那么什么是事实表、什么又是维度表吗，下面会专门来解释。</p>
+<p><img src=".kylin_basic_images/367a4515.png" alt=""></p>
+<p>中间的chat表就是事实表。其它周边的表就是维度表。</p>
+<h3 id="维度设计"><a href="#维度设计" class="headerlink" title="维度设计"></a>维度设计</h3><p>只有普通维度会影响Cuboid的数量和存储膨胀率，衍生维度并不参与Cuboid计算，而是有衍生维度对应的外键FK参与计算Cuboid。<br>在查询时，对衍生维度的查询会首先转换为对外键所在维度的查询，因此会牺牲少量查询性能。</p>
+<p>Kylin暂时不支持星座模型</p>
+<p>默认情况下，系统将会为所有的维度表创建快照。<br>设计新的模型，将大维度表改为事实表</p>
+<p>设计规则如下：<br>经常出现在规律条件中的维度应当设为普通维度，以达到更好的查询性能。</p>
+<p>Derived 衍生类型的前提是要放到快照表里的</p>
+<ul>
+<li>For normal dimensions, Kyligence has max number restriction of 62</li>
+<li>If a dimension table is used in cube design, its corresponding fact table foreign key will be added as normal dimension even it’s not used.</li>
+</ul>
+<h3 id="维度优化"><a href="#维度优化" class="headerlink" title="维度优化"></a>维度优化</h3><p>Mandatory Dimension: 一定group by的字段<br>Hierarchy Dimension: 国家、省、市<br>Joint Dimension: 要么一起出现，要么不出现，比如：A、B、C绑在了一起 （很少有这样的场景）</p>
+<h3 id="Rowkey"><a href="#Rowkey" class="headerlink" title="Rowkey"></a>Rowkey</h3><p>UHC不要用Dict作为encoding;<br>常用的字段比如日期字段要放在Rowkey的前面<br>高基维放置在低基维前面<br>过滤的维度放置在非过滤前面</p>
+<p>max length of FixedLength(N) for UHC of varchar/char type will be 256</p>
+<h3 id="Cube-Build"><a href="#Cube-Build" class="headerlink" title="Cube Build"></a>Cube Build</h3><p>Supported Cube Build Types:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Full Build</div><div class="line">By Date/time</div><div class="line">Streaming(by offset)</div><div class="line">By File(Beta)</div><div class="line">Customize(Beta)</div></pre></td></tr></table></figure></p>
+<p>尽量使用增量加载<br>计划合并你的增量segment<br>用增量加载的时候要考虑下SCD</p>
+<h3 id="星型模型和雪花模型"><a href="#星型模型和雪花模型" class="headerlink" title="星型模型和雪花模型"></a>星型模型和雪花模型</h3><p>fact table 外围一圈 dimension table 就是星型模型<br>dimension table 外再围一圈 dimension table就是雪花模型</p>
+<h3 id="System-Configuration"><a href="#System-Configuration" class="headerlink" title="System Configuration"></a>System Configuration</h3><p>Important configurations:<br>Job retry<br>Pushdown：对于没有cube能查得结果的sql，Kylin支持将这类查询通过JDBC下压至备用查询引擎如Hive, SparkSQL, Impala等来查得结果<br>Query cache(process level/shared)<br>Compression</p>
+<p>Configuration override<br>System<br>Project<br>Cube</p>
+<h3 id="Authorization-Management"><a href="#Authorization-Management" class="headerlink" title="Authorization Management"></a>Authorization Management</h3><p>project: Query, Operation , Managment, Admin<br>table: Table query, Row query, Column query</p>
+<p>Caution: column ACL is a blacklist.</p>
+<h3 id="Resource-Isolation"><a href="#Resource-Isolation" class="headerlink" title="Resource Isolation"></a>Resource Isolation</h3><p>KE can submit cube build jobs to specified Yarn queues per: system level;project level;cube level</p>
+<h3 id="应用发布流程"><a href="#应用发布流程" class="headerlink" title="应用发布流程"></a>应用发布流程</h3><p>DEV -&gt; QA -&gt;(sign off) PROD</p>
+<h3 id="Daily-Operation"><a href="#Daily-Operation" class="headerlink" title="Daily Operation"></a>Daily Operation</h3><ol>
+<li><p>Garbage cleanup<br>e.g.: segment merged, cube purged</p>
+</li>
+<li><p>System upgrade<br>Minor version upgrade<br>Major version upgrade</p>
+</li>
+<li><p>System backup/restore<br>System level<br>Project level</p>
+</li>
+</ol>
+<h3 id="Rest-API"><a href="#Rest-API" class="headerlink" title="Rest API"></a>Rest API</h3><p>Authorization 这个Header的内容是 “ADMIN:yourpassword”的base64 encode</p>
+<h3 id="Hadoop生态和和MPP数据库的区别"><a href="#Hadoop生态和和MPP数据库的区别" class="headerlink" title="Hadoop生态和和MPP数据库的区别"></a>Hadoop生态和和MPP数据库的区别</h3><p>Hadoop跟MPP的存储模型不一样。<br>Hadoop生态的存储用HDFS，HDFS的扩展是通过元数据来做的，它有中心节点用来存元数据，在加入新的节点的时候，<br>只需要修改元数据就可以，所以HDFS可扩展能力是收到管理元数据那台机器的性能限制的。一般来说可以到10K这个<br>规模，再向上就不行了。</p>
+<p>而MPP要自己做切分，自己做切分就带来动态调整的问题。MPP通常采用的是没有中心节点的存储模式，比如hash，<br>每增加节点的时候，都需要rehash，这样当规模到了几百台的时候，扩展能力就下来了。</p>
+<p>Hive在内存管理上方式不大一样。<br>MPP内存管理比较精细，他主要的想法是在每个机器上放个数据库，传统数据库的内存管理比较复杂，主要是内外存<br>交互的东西，这样的架构决定了MPP在小数据量的时候，latency可以做的比较小，但是数据量大的时候，<br>throughput做不上去了。<br>而Hive的内存管理非常粗放，它后来就是MapReduce的job，MR的job是没有太多精细的内存管理，就是拼命地<br>scan，完了就是spill，这样的架构导致throughput很大，但是latency很高。</p>
+<p>failover机制，<br>Hive的failover就是MR的failover，job挂掉了重新换机器跑就完了。</p>
+<p>MPP它的计算是要attach到数据节点上去的，如果你规模上去，那么fail的可能性就上去了，这样如果你每次计算<br>都有台机器挂了，一挂，别人就要等你，而不是换台机器继续跑。可以用木桶效应类比。</p>
+<h3 id="Cube设计"><a href="#Cube设计" class="headerlink" title="Cube设计"></a>Cube设计</h3><p>Rowkey的具体格式是cuboid id + 具体的维度值（最新的Rowkey中为了并发查询还加入了ShardKey）<br><img src=".kylin_basic_images/b447988e.png" alt=""><br>前面4个框着的作为Rowkey，比如，2015-10-1的维度序号为1，BJ的序号为0，item-A序号为0，则最终Rowkey为 111+100</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://blog.bcmeng.com/post/kylin-cube.html#cuboid-%E7%9A%84%E7%BB%B4%E5%BA%A6%E5%92%8C%E6%8C%87%E6%A0%87%E5%A6%82%E4%BD%95%E8%BD%AC%E6%8D%A2%E4%B8%BAhbase%E7%9A%84kv%E7%BB%93%E6%9E%84" target="_blank" rel="external">https://blog.bcmeng.com/post/kylin-cube.html#cuboid-%E7%9A%84%E7%BB%B4%E5%BA%A6%E5%92%8C%E6%8C%87%E6%A0%87%E5%A6%82%E4%BD%95%E8%BD%AC%E6%8D%A2%E4%B8%BAhbase%E7%9A%84kv%E7%BB%93%E6%9E%84</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/kylin/" rel="tag"># kylin</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/hbase_intro.html" rel="next" title="Hbase 基础介绍">
+                <i class="fa fa-chevron-left"></i> Hbase 基础介绍
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/dennis_weekly.html" rel="prev" title="每周的总结与记录">
+                每周的总结与记录 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Dennis" />
+            
+              <p class="site-author-name" itemprop="name">Dennis</p>
+              <p class="site-description motion-element" itemprop="description">Hi, I'm a data engineer for several years being enthusiastic about programming (Python and Java), studying and making money. Regarding entertainments, I enjoy playing badminton and travelling.</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">55</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/mikolaje" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/mikolaj" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-zhihu"></i>知乎</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com/users/6169688/dennisli" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i>StackOverflow</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.quora.com/profile/Dennis-271" target="_blank" title="Quora">
+                      
+                        <i class="fa fa-fw fa-quora"></i>Quora</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Kylin术语"><span class="nav-number">1.</span> <span class="nav-text">Kylin术语</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Kylin核心技术：Cube与计算"><span class="nav-number">1.1.</span> <span class="nav-text">Kylin核心技术：Cube与计算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#维度表和事实表"><span class="nav-number">1.2.</span> <span class="nav-text">维度表和事实表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#维度设计"><span class="nav-number">1.3.</span> <span class="nav-text">维度设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#维度优化"><span class="nav-number">1.4.</span> <span class="nav-text">维度优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Rowkey"><span class="nav-number">1.5.</span> <span class="nav-text">Rowkey</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cube-Build"><span class="nav-number">1.6.</span> <span class="nav-text">Cube Build</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#星型模型和雪花模型"><span class="nav-number">1.7.</span> <span class="nav-text">星型模型和雪花模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#System-Configuration"><span class="nav-number">1.8.</span> <span class="nav-text">System Configuration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Authorization-Management"><span class="nav-number">1.9.</span> <span class="nav-text">Authorization Management</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Resource-Isolation"><span class="nav-number">1.10.</span> <span class="nav-text">Resource Isolation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用发布流程"><span class="nav-number">1.11.</span> <span class="nav-text">应用发布流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Daily-Operation"><span class="nav-number">1.12.</span> <span class="nav-text">Daily Operation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Rest-API"><span class="nav-number">1.13.</span> <span class="nav-text">Rest API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hadoop生态和和MPP数据库的区别"><span class="nav-number">1.14.</span> <span class="nav-text">Hadoop生态和和MPP数据库的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cube设计"><span class="nav-number">1.15.</span> <span class="nav-text">Cube设计</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">2.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dennis</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://mikolaje.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://mikolaje.github.io/2017/kylin_basic.html';
+          this.page.identifier = '2017/kylin_basic.html';
+          this.page.title = 'Kylin 基础介绍';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://mikolaje.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>

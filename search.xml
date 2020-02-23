@@ -1,6 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>关于LDAP和Kerberos</title>
+    <url>/2020/ldap_kerberos.html</url>
+    <content><![CDATA[<h3 id="两个对比"><a href="#两个对比" class="headerlink" title="两个对比"></a>两个对比</h3><p>首先，Kerberos是一个认证的方法。LDAP是一个为了沟通兼容LDAP数据库的协议。</p>
+<p>LDAP比较不方便(刚开始上手感觉很难)，但是简单。相反，Kerberos比较方便但更复杂。</p>
+<p>Kerberos比LDAP更安全。</p>
+<p>它们是完全不同用途的完全不同协议。<br>我认为人们倾向于将两者放在一起是因为通常一个项目会把它们会放到同一个package下</p>
+<p>简单地说：<br>LDAP是一个访问目录的协议（比如：OpenLDAP或者目录）。<br>它的部分功能是，它有能力去通过账号密码认证一个连接。</p>
+<p>Kerberos是一个认证和一个单登入协议。<br>它让一个进程去认证一个提供登陆后并且加密的ticket（进程用来访问文件，程序等资源）的服务器<br>因为进程可以保存ticket然后用它来访问不同的程序，同时避免了用户再次认证。</p>
+<h3 id="LDAP是干嘛的"><a href="#LDAP是干嘛的" class="headerlink" title="LDAP是干嘛的"></a>LDAP是干嘛的</h3><p>LDAP就是花名册，LDAP服务器就是门卫处的老大爷。<br>对着花名册看你是不是里面的人，决定放不放你进来。</p>
+<p>没人喜欢记忆一大堆混乱的账号和密码，员工不喜欢，企业更不喜欢。<br>这样基于LDAP的统一账号体系就搭建完成了，员工可以用一个账号和密码来访问和对接全部软件和研发工具，<br>公司的众多软件基础设施也开始能从账户层面进行简单明确的管理了。</p>
+<h3 id="Kerberos在Ubuntu18上的安装"><a href="#Kerberos在Ubuntu18上的安装" class="headerlink" title="Kerberos在Ubuntu18上的安装"></a>Kerberos在Ubuntu18上的安装</h3><h4 id="安装server端"><a href="#安装server端" class="headerlink" title="安装server端"></a>安装server端</h4><p>sudo apt-get install krb5-admin-server krb5-kdc<br>然后会弹出一个输入框：输入realm（这里我设为DENNIS.COM)<br>然后输入kerberos server for your realm：我输入为我当前的hostname device2<br>然后输入administrative server for kerberos realm：我输入为我当前的hostname device2</p>
+<p>下一步是：<br>sudo kdb5_util create -r DENNIS.COM -s</p>
+<p>下一步启动service：<br>sudo service krb5-kdc restart<br>sudo service krb5-admin-server restart</p>
+<p>测试新用户：<br>kinit dennis/admin<br>klist 列出缓存的Kerberos票据<br>klist</p>
+<h4 id="安装client"><a href="#安装client" class="headerlink" title="安装client"></a>安装client</h4><p>一旦用户成功登陆到操作系统，他即可访问任何kerberized服务。<br>sudo apt-get install krb5-user</p>
+<p>创建新的管理员用户（实体）<br>sudo kadmin.local<br>进入shell交互<br>输入 addprinc dennis/admin<br>然后输入两次密码<br>再quit退出</p>
+<p>验证用户：<br>kinit dennis/admin<br>然后klist查看</p>
+<p>为kdc-client添加秘钥 keytab<br>先进入kdc-server， kadmin.local 进入交互模式<br>addprinc hdfs/agent@DENNIS.COM</p>
+<p>xst -norandkey -k hdfs.keytab hdfs/agent@DENNIS.COM</p>
+<p>然后回到client机器上, 新增hdfs的Linux账号，输入命令kinit加载秘钥。<br>执行：kinit -k -t hdfs.keytab hdfs/agent@DENNIS.COM</p>
+<blockquote>
+<p>如下是principals的介绍<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Kerberos Principals</div><div class="line">kerberos中最重要的概念是principal，在这里就再带一遍。</div><div class="line"></div><div class="line">Principal可以理解为用户或服务的名字，全集群唯一，由三部分组成：username(or servicename)/instance@realm，</div><div class="line">例如：nn/host001@TEST.COM，host001为集群中的一台机器；或admin/admin@TEST.COM，管理员账户。</div><div class="line"></div><div class="line">username or servicename：在本文里为服务，HDFS的2个服务分别取名为nn和dn，即namenode和datanode</div><div class="line">instance：在本文里为具体的FQDN机器名，用来保证全局唯一（比如多个datanode节点，各节点需要各自独立认证）</div><div class="line">realm：域，我这里为http://TEST.COM（全大写哟）</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><p><a href="https://juejin.im/entry/5aec6ac46fb9a07ac3635884" target="_blank" rel="external">https://juejin.im/entry/5aec6ac46fb9a07ac3635884</a><br><a href="https://zhuanlan.zhihu.com/p/32732045" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/32732045</a><br><a href="https://help.ubuntu.com/lts/serverguide/openldap-server.html" target="_blank" rel="external">https://help.ubuntu.com/lts/serverguide/openldap-server.html</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/34556597" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/34556597</a><br><a href="https://www.cnblogs.com/yinzhengjie/p/10765503.html" target="_blank" rel="external">https://www.cnblogs.com/yinzhengjie/p/10765503.html</a><br><a href="https://blog.gmem.cc/kerberos-under-ubuntu" target="_blank" rel="external">https://blog.gmem.cc/kerberos-under-ubuntu</a><br><a href="http://www.out1kiss.me/?p=538" target="_blank" rel="external">http://www.out1kiss.me/?p=538</a></p>
+]]></content>
+      <categories>
+        <category>security</category>
+      </categories>
+      <tags>
+        <tag>security</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Databricks Delta Lake 简介</title>
     <url>/2020/delta_lake_intro.html</url>
     <content><![CDATA[<h2 id="百花齐放的大数据生态"><a href="#百花齐放的大数据生态" class="headerlink" title="百花齐放的大数据生态"></a>百花齐放的大数据生态</h2><p>17，18是计算引擎火热的两年，19年已然是红海了。计算引擎中的王者是Spark，综合指标最好，生态也好，当其他引擎还在ETL,交互查询，流上厮杀时，Spark已经在AI领域越走越远。</p>
@@ -257,6 +291,7 @@
 <h3 id="第一次在咸鱼买的服务器"><a href="#第一次在咸鱼买的服务器" class="headerlink" title="第一次在咸鱼买的服务器"></a>第一次在咸鱼买的服务器</h3><p>在咸鱼闲逛了下，看中了一台T20，看样子跟之前的DELL T30差不多：E3-1225，4G，1T。内存，硬盘这些我都可以自己另外再买零件组装进去。所以，这台配置虽然比之前的低了点，<br>但看在T20 只卖1200（包邮）我觉得还是挺划算的。不过买来后才发现，原来T20本来就是这价格，甚至1000都能买到。我当时买来还以为自己赚大了，毕竟T30我买的是3200。<br>收到货打开发现，比我想象中差些，因为这机子里面到处都是灰尘（从中学到了一个经验：以后网购服务器，一定要让卖家拍几个机子内部的照片或视频，确保没有太多灰尘）。</p>
 <p>我自己又另外花了几个小时来清理机器，主要是拿棉签一点点地把灰尘差掉。</p>
 <h4 id="交换机"><a href="#交换机" class="headerlink" title="交换机"></a>交换机</h4><p>哈哈，没钱买千兆网卡，千兆交换机，只能用路由器充当了。</p>
+<h3 id="机器的container–机柜"><a href="#机器的container–机柜" class="headerlink" title="机器的container–机柜"></a>机器的container–机柜</h3><p>2020年初买了个小机柜，1。2米的。机柜挺好用的，如果你设备多的话（主机，电源排插，路由器），可以都放进去。其实，机柜对我最大的好处就是防尘。我方面里的灰尘太大了，<br>几个礼拜就可以把主机风扇上的灰尘粘的满满的。<br><img src="/images/2019/private_IDC/92e826b2.png" alt=""></p>
 <h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>玩硬件组装也是个超级无底洞，各个部件都可以扩展起来，内存，硬盘，CPU，可以水平扩展，也可以横向扩展。以后准备好好赚钱升级设备吧。如果比较缺钱的话可以上淘宝或闲鱼买点二手的配件，<br>比如内存条，硬盘这些。最好是可以和个人卖家交易，因为个人的话经常可以买到一些物美价廉的二手物品。另外，V2EX网站也有专门二手转让的版块，可以去看看。</p>
 ]]></content>
       <categories>
@@ -670,6 +705,73 @@
       </tags>
   </entry>
   <entry>
+    <title>Calcite介绍</title>
+    <url>/2018/calcite_intro.html</url>
+    <content><![CDATA[<h1 id="什么是Apache-Calcite"><a href="#什么是Apache-Calcite" class="headerlink" title="什么是Apache Calcite ?"></a>什么是Apache Calcite ?</h1><p>Apache Calcite 是一款开源SQL解析工具, 可以将各种SQL语句解析成抽象语法术AST(Abstract Syntax Tree),<br>之后通过操作AST就可以把SQL中所要表达的算法与关系体现在具体代码之中。</p>
+<p>Calcite的生前为Optiq(也为Farrago), 为Java语言编写, 通过十多年的发展, 在2013年成为Apache旗下顶级项目，并还在持续发展中。<br>该项目的创始人为Julian Hyde, 其拥有多年的SQL引擎开发经验, 目前在Hortonworks工作, 主要负责Calcite项目的开发与维护。</p>
+<p>目前, 使用Calcite作为SQL解析与处理引擎有Hive、Drill、Flink、Phoenix和Storm。<br>可以肯定的是还会有越来越多的数据处理引擎采用Calcite作为SQL解析工具。</p>
+<h1 id="Calcite-主要功能"><a href="#Calcite-主要功能" class="headerlink" title="Calcite 主要功能"></a>Calcite 主要功能</h1><p>总结来说Calcite有以下主要功能：</p>
+<ul>
+<li>SQL 解析</li>
+<li>SQL 校验</li>
+<li>查询优化</li>
+<li>SQL 生成器</li>
+<li>数据连接</li>
+</ul>
+<h1 id="3-Calcite-解析SQl的步骤"><a href="#3-Calcite-解析SQl的步骤" class="headerlink" title="3. Calcite 解析SQl的步骤"></a>3. Calcite 解析SQl的步骤</h1><p><img src=".calcite_intro_images/391eae29.png" alt=""><br>如上图中所述，一般来说Calcite解析SQL有以下几步:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Parser. 此步中Calcite通过Java CC将SQL解析成未经校验的AST</div><div class="line">Validate. 该步骤主要作用是校证Parser步骤中的AST是否合法,如验证SQL scheme、字段、函数等是否存在; SQL语句是否合法等. 此步完成之后就生成了RelNode树（关于RelNode树, 请参考下文）</div><div class="line">Optimize. 该步骤主要的作用优化RelNode树, 并将其转化成物理执行计划。主要涉及SQL规则优化如:基于规则优化(RBO)及基于代价(CBO)优化; Optimze 这一步原则上来说是可选的, 通过Validate后的RelNode树已经可以直接转化物理执行计划，但现代的SQL解析器基本上都包括有这一步，目的是优化SQL执行计划。此步得到的结果为物理执行计划。</div><div class="line">Execute，即执行阶段。此阶段主要做的是:将物理执行计划转化成可在特定的平台执行的程序。如Hive与Flink都在在此阶段将物理执行计划CodeGen生成相应的可执行代码。</div></pre></td></tr></table></figure>
+<h1 id="Calcite相关组件"><a href="#Calcite相关组件" class="headerlink" title="Calcite相关组件"></a>Calcite相关组件</h1><p>Calcite主要有以下概念：</p>
+<p>Catelog: 主要定义SQL语义相关的元数据与命名空间。<br>SQL parser: 主要是把SQL转化成AST.<br>SQL validator: 通过Catalog来校证AST.<br>Query optimizer: 将AST转化成物理执行计划、优化物理执行计划.<br>SQL generator: 反向将物理执行计划转化成SQL语句.</p>
+<h2 id="category"><a href="#category" class="headerlink" title="category"></a>category</h2><p>Catalog:主要定义被SQL访问的命名空间，主要包括以下几点：</p>
+<p>schema: 主要定义schema与表的集合，schame 并不是强制一定需要的，比如说有两张同名的表T1, T2，就需要schema要区分这两张表，如A.T1, B.T1<br>表:对应关系数据库的表，代表一类数据，在calcite中由RelDataType定义<br>RelDataType 代表表的数据定义，如表的数据列名称、类型等。</p>
+<p>一句Sql<br><figure class="highlight sql"><table><tr><td class="code"><pre><div class="line">selcct id, name, cast(age as bigint) from A.INFO</div></pre></td></tr></table></figure></p>
+<p>id, name则为data type field<br>bigint为 data type<br>A 为schema<br>INFO 为表</p>
+<h2 id="SQL-Parser"><a href="#SQL-Parser" class="headerlink" title="SQL Parser"></a>SQL Parser</h2><p>由Java CC编写，将SQL转化成AST.</p>
+<p>Java CC 指的是Java Compiler Compiler, 可以将一种特定域相关的语言转化成Java语言<br>在Calcite中将标记（Token)表示为 SqlNode, 并且Sqlnode可以通过unparse方法反向转化成SQL<br>cast(id as float)<br>Java CC 可表示为</p>
+<p><cast></cast></p>
+<p><lparen><br>e = Expression(ExprContext.ACCEPT_SUBQUERY)</lparen></p>
+<p><as><br>dt = DataType() {agrs.add(dt);}</as></p>
+<p><rparen><br>….</rparen></p>
+<h2 id="Query-Optimizer"><a href="#Query-Optimizer" class="headerlink" title="Query Optimizer"></a>Query Optimizer</h2><p>首先看一下<br><figure class="highlight sql"><table><tr><td class="code"><pre><div class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> tmp_node</div><div class="line"><span class="keyword">SELECT</span> s1.id1, s1.id2, s2.val1</div><div class="line"><span class="keyword">FROM</span> source1 <span class="keyword">as</span> s1 <span class="keyword">INNER</span> <span class="keyword">JOIN</span> source2 <span class="keyword">AS</span> s2</div><div class="line"><span class="keyword">ON</span> s1.id1 = s2.id1 <span class="keyword">and</span> s1.id2 = s2.id2 <span class="keyword">where</span> s1.val1 &gt; <span class="number">5</span> <span class="keyword">and</span> s2.val2 = <span class="number">3</span>;</div></pre></td></tr></table></figure></p>
+<p>通过Calcite转化为：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">LogicalTableModify(table=[[TMP_NODE]], operation=[INSERT], flattened=[false])</div><div class="line">  LogicalProject(ID1=[$0], ID2=[$1], VAL1=[$7])</div><div class="line">    LogicalFilter(condition=[AND(&gt;($2, 5), =($8, 3))])</div><div class="line">      LogicalJoin(condition=[AND(=($0, $5), =($1, $6))], joinType=[INNER])</div><div class="line">        LogicalTableScan(table=[[SOURCE1]])</div><div class="line">        LogicalTableScan(table=[[SOURCE2]])</div></pre></td></tr></table></figure></p>
+<p>是未经优化的RelNode树，可以发现最底层是TableScan，也是读取表的原始数据，紧接着是LogicalJoin,Joiner的类型为INNER JOIN, LogicalJoin之后接下做LogicalFilter 操作，对应SQL中的WHERE条件，最后做Project也就是投影操作。</p>
+<p>但是我们可以观察到对于INNER JOIN而言, WHERE 条件是可以下推，如<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">LogicalTableModify(table=[[TMP_NODE]], operation=[INSERT], flattened=[false])</div><div class="line">  LogicalProject(ID1=[$0], ID2=[$1], VAL1=[$7])</div><div class="line">      LogicalJoin(condition=[AND(=($0, $5), =($1, $6))], joinType=[inner])</div><div class="line">        LogicalFilter(condition=[=($4, 3)])  </div><div class="line">          LogicalProject(ID1=[$0], ID2=[$1],      ID3=[$2], VAL1=[$3], VAL2=[$4],VAL3=[$5])</div><div class="line">            LogicalTableScan(table=[[SOURCE1]])</div><div class="line">        LogicalFilter(condition=[&gt;($3,5)])    </div><div class="line">          LogicalProject(ID1=[$0], ID2=[$1], ID3=[$2], VAL1=[$3], VAL2=[$4],VAL3=[$5])</div><div class="line">            LogicalTableScan(table=[[SOURCE2]])</div></pre></td></tr></table></figure></p>
+<p>这样可以减少JOIN的数据量，提高SQL效率</p>
+<p>实际过程中可以将JOIN 的中条件下推以较少Join的数据量<br><figure class="highlight sql"><table><tr><td class="code"><pre><div class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> tmp_node</div><div class="line"><span class="keyword">SELECT</span> s1.id1, s1.id2, s2.val1</div><div class="line"><span class="keyword">FROM</span> source1 <span class="keyword">as</span> s1 <span class="keyword">LEFT</span> <span class="keyword">JOIN</span> source2 <span class="keyword">AS</span> s2</div><div class="line"><span class="keyword">ON</span> s1.id1 = s2.id1 <span class="keyword">and</span> s1.id2 = s2.id2 <span class="keyword">and</span> s1.id3 = <span class="number">5</span></div><div class="line">s1.id3 = <span class="number">5</span></div></pre></td></tr></table></figure></p>
+<p>这个条件可以先下推过滤s1中的数据, 但在特定场景下，有些不能下推，如下sql:<br><figure class="highlight sql"><table><tr><td class="code"><pre><div class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> tmp_node</div><div class="line"><span class="keyword">SELECT</span> s1.id1, s1.id2, s2.val1</div><div class="line"><span class="keyword">FROM</span> source1 <span class="keyword">as</span> s1 <span class="keyword">LEFT</span> <span class="keyword">JOIN</span> source2 <span class="keyword">AS</span> s2</div><div class="line"><span class="keyword">ON</span> s1.id1 = s2.id1 <span class="keyword">and</span> s1.id2 = s2.id2 <span class="keyword">and</span> s2.id3 = <span class="number">5</span></div></pre></td></tr></table></figure></p>
+<p>如果s1,s2是流式表（动态表，请参考Flink流式概念）的话，就不能下推，因为s1下推的话，由于过滤后没有数据驱动join操作，因而得不到想要的结果（详见Flink/Sparking-Streaming)</p>
+<p>那接下来我们可能有一个疑问，在什么情况下可以做类似下推、上推操作，又是根据什么原则进行的呢？如下图所示</p>
+<p><img src=".calcite_intro_images/43aec32e.png" alt=""><br><figure class="highlight sql"><table><tr><td class="code"><pre><div class="line">T1 JOIN T2 JOIN T3</div></pre></td></tr></table></figure></p>
+<p>类似于此种情况JOIN的顺序是上图的前者还是后者？这就涉及到Optimizer所使用的方法，Optimizer主要目的就是减小SQL所处理的数据量、减少所消耗的资源并最大程度提高SQL执行效率如:剪掉无用的列、合并投影、子查询转化成JOIN、JOIN重排序、下推投影、下推过滤等。目前主要有两类优化方法:基于语法(RBO)与基于代价(CBO)的优化</p>
+<p>RBO(Rule Based Optimization)<br>通俗一点的话就是事先定义一系列的规则，然后根据这些规则来优化执行计划。<br>如</p>
+<p>ProjectFilterRule</p>
+<p>此Rule的使用场景为Filter在Project之上，可以将Filter下推。假如某一个RelNode树<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">LogicalFilter</div><div class="line">  LogicalProject</div><div class="line">    LogicalTableScan</div></pre></td></tr></table></figure></p>
+<p>则可优化成<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">    LogicalProject</div><div class="line">      LogicalFilter</div><div class="line">        LogicalTableScan</div><div class="line">FilterJoinRule</div></pre></td></tr></table></figure></p>
+<p>此Rule的使用场景为Filter在Join之上，可以先做Filter然后再做Join, 以减少Join的数量</p>
+<p>等等，还有很多类似的规则。但RBO一定程度上是经验试的优化方法，无法有一个公式上的判断哪种优化更优。 在Calcite中实现方法为 HepPlanner</p>
+<p>CBO(Cost Based Optimization)<br>通俗一点的说法是：通过某种算法计算SQL所有可能的执行计划的“代价”，选择某一个代价较低的执行计划，如上文中三张表作JOIN, 一般来说RBO无法判断哪种执行计划优化更好，只有分别计算每一种JOIN方法的代价。</p>
+<p>Calcite会将每一种操作（如LogicaJoin、LocialFilter、 LogicalProject、LogicalScan) 结合实际的Schema转化成具体的代价数，比较不同的执行计划所具有的代价，然后选择相对小计划作为最终的结果，之所以说相对小，这是因为如果要完全遍历计算所有可能的代价可能得不偿失，花费更多的人力与资源，因此只是说选择相对最优的执行计划。CBO目的是“避免使用最差的执行计划，而不是找到最好的”</p>
+<p>目前Calcite中就是采用CBO进行优化,实现方法为VolcanoPlanner,有关此算法的具体内容可以参考原码</p>
+<ol>
+<li>如何使用Calcite<br>由于Calcite是Java语言编写，因此只需要在工程或项目中引入相应的Jar包即可，下面为一个可以运行的例子：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">public class TestOne &#123;</div><div class="line">    public static class TestSchema &#123;</div><div class="line">        public final Triple[] rdf = &#123;new Triple(&quot;s&quot;, &quot;p&quot;, &quot;o&quot;)&#125;;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">        SchemaPlus schemaPlus = Frameworks.createRootSchema(true);</div><div class="line">        </div><div class="line">        //给schema T中添加表</div><div class="line">        schemaPlus.add(&quot;T&quot;, new ReflectiveSchema(new TestSchema()));</div><div class="line">        Frameworks.ConfigBuilder configBuilder = Frameworks.newConfigBuilder();</div><div class="line">        //设置默认schema</div><div class="line">        configBuilder.defaultSchema(schemaPlus);</div><div class="line"></div><div class="line">        FrameworkConfig frameworkConfig = configBuilder.build();</div><div class="line"></div><div class="line">        SqlParser.ConfigBuilder paresrConfig = SqlParser.configBuilder(frameworkConfig.getParserConfig());</div><div class="line">        </div><div class="line">        //SQL 大小写不敏感</div><div class="line">        paresrConfig.setCaseSensitive(false).setConfig(paresrConfig.build());</div><div class="line"></div><div class="line">        Planner planner = Frameworks.getPlanner(frameworkConfig);</div><div class="line"></div><div class="line">        SqlNode sqlNode;</div><div class="line">        RelRoot relRoot = null;</div><div class="line">        try &#123;</div><div class="line">            //parser阶段</div><div class="line">            sqlNode = planner.parse(&quot;select \&quot;a\&quot;.\&quot;s\&quot;, count(\&quot;a\&quot;.\&quot;s\&quot;) from \&quot;T\&quot;.\&quot;rdf\&quot; \&quot;a\&quot; group by \&quot;a\&quot;.\&quot;s\&quot;&quot;);</div><div class="line">            //validate阶段</div><div class="line">            planner.validate(sqlNode);</div><div class="line">            //获取RelNode树的根</div><div class="line">            relRoot = planner.rel(sqlNode);</div><div class="line">        &#125; catch (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        RelNode relNode = relRoot.project();</div><div class="line">        System.out.print(RelOptUtil.toString(relNode));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>类Triple 对应的表定义:<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">public class Triple &#123;</div><div class="line">    public String s;</div><div class="line">    public String p;</div><div class="line">    public String o;</div><div class="line"></div><div class="line">    public Triple(String s, String p, String o) &#123;</div><div class="line">        super();</div><div class="line">        this.s = s;</div><div class="line">        this.p = p;</div><div class="line">        this.o = o;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="Calcite-其它方面"><a href="#Calcite-其它方面" class="headerlink" title="Calcite 其它方面"></a>Calcite 其它方面</h1><p>Calcite的功能远不止以上介绍，除了标准SQL的，还支持以下内容：</p>
+<p>对流相对概念支持，如在SQL层面支持Window概念,如Session Window, Hopping Window等。<br>支持物化视图等复杂概念。<br>独立于编程语言和数据源，可以支持不同的前端和后端。</p>
+<p>值得一提的是，Calcite支持异构数据源查询，比如数据存在es和mysql，可以通过写sql join之类的操作，<br>让calcite分别先从不同的数据源查询数据，然后再在内存里进行合并计算；<br>另外，它本身提供了许多优化规则，也支持我们自定义优化规则，来优化整个查询。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>以上内容主要介绍上Calcite相关概念并通过相例子说明了Calcite使用方法, 希望通过上述内容，读者能对Calcite有初步的了解。</p>
+<p>由于笔者使用和探索Calcite时间也不长，以上内容难免有错误与不准确之处，还望各位读者不吝指正，相互学习。</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://www.jianshu.com/p/2dfbd71b7f0f" target="_blank" rel="external">https://www.jianshu.com/p/2dfbd71b7f0f</a><br><a href="https://www.infoq.cn/article/new-big-data-hadoop-query-engine-apache-calcite/" target="_blank" rel="external">https://www.infoq.cn/article/new-big-data-hadoop-query-engine-apache-calcite/</a></p>
+]]></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>Calcite</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Git stash的用处</title>
     <url>/2018/git_stash.html</url>
     <content><![CDATA[<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><p>1 当正在dev分支上开发某个项目，这时项目中出现一个bug，需要紧急修复，<br>但是正在开发的内容只是完成一半，还不想提交，这时可以用git stash命令将修改的内容保存至堆栈区，<br>然后顺利切换到hotfix分支进行bug修复，修复完成后，再次切回到dev分支，从堆栈中恢复刚刚保存的内容。</p>
@@ -820,6 +922,28 @@
       </tags>
   </entry>
   <entry>
+    <title>Git rebase的一些运用场景</title>
+    <url>/2018/git_rebase.html</url>
+    <content><![CDATA[<h2 id="Git-rebase的使用场景"><a href="#Git-rebase的使用场景" class="headerlink" title="Git rebase的使用场景"></a>Git rebase的使用场景</h2><p>最近在为github开源项目修修bug。提了几个Pull Request。又巩固了下git的知识，熟练了git的使用。</p>
+<p>我在提交PR后，发现有个地方改错了。那怎么改呢，其实很简单，只需要再次push 到自己fork的repo就可以了。</p>
+<p>PR的branch是和自己fork的repo的branch联动的。</p>
+<p>但是，这又有个问题，我再次commit后，就会有两个commit。这两个commit其实解决的都是同一个问题。<br>在正式的repo中尽量要精简commit，同一个问题的多个commit需要squash为一个commit。</p>
+<p>于是，我就得用git rebase 来帮我完成了。</p>
+<h3 id="精简commit"><a href="#精简commit" class="headerlink" title="精简commit"></a>精简commit</h3><p>通过这个命令，可以重新修改最近的两个commit<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">git rebase -i HEAD~2</div></pre></td></tr></table></figure></p>
+<p>执行命令后会弹出一个vim编辑:<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">pick 01d1124 Message....</div><div class="line">pick 6340aaa Message....</div></pre></td></tr></table></figure></p>
+<p>然后，将要squash的commit的那行最前面的<code>pick</code> 改为 <code>squash</code><br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">p 01d1124 Message....</div><div class="line">s 6340aaa Message....</div></pre></td></tr></table></figure></p>
+<h3 id="删掉commit"><a href="#删掉commit" class="headerlink" title="删掉commit"></a>删掉commit</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">git rebase -i HEAD~n</div><div class="line"></div><div class="line"># 在vim中直接把不要commit那行删掉即可</div></pre></td></tr></table></figure>
+<h3 id="改commit名字"><a href="#改commit名字" class="headerlink" title="改commit名字"></a>改commit名字</h3><p>大项目的commit的名字都有比较严格的要求，有些时候，我们要改下自己不规范的命名的话。<br>可以也可以用 git rebase.</p>
+<p>很简单，同样先用git rebase -i HEAD~n<br>在需要改的commit的最前面把 <code>pick</code> 改为<code>reword</code><br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">pick 01d1124 Message....</div><div class="line">reword 6340aaa Message....</div></pre></td></tr></table></figure></p>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hive 优化</title>
     <url>/2018/hive_optimization.html</url>
     <content><![CDATA[<p>对于如果join中有小表的话，可以开启map</p>
@@ -847,25 +971,22 @@
       </tags>
   </entry>
   <entry>
-    <title>Git rebase的一些运用场景</title>
-    <url>/2018/git_rebase.html</url>
-    <content><![CDATA[<h2 id="Git-rebase的使用场景"><a href="#Git-rebase的使用场景" class="headerlink" title="Git rebase的使用场景"></a>Git rebase的使用场景</h2><p>最近在为github开源项目修修bug。提了几个Pull Request。又巩固了下git的知识，熟练了git的使用。</p>
-<p>我在提交PR后，发现有个地方改错了。那怎么改呢，其实很简单，只需要再次push 到自己fork的repo就可以了。</p>
-<p>PR的branch是和自己fork的repo的branch联动的。</p>
-<p>但是，这又有个问题，我再次commit后，就会有两个commit。这两个commit其实解决的都是同一个问题。<br>在正式的repo中尽量要精简commit，同一个问题的多个commit需要squash为一个commit。</p>
-<p>于是，我就得用git rebase 来帮我完成了。</p>
-<h3 id="精简commit"><a href="#精简commit" class="headerlink" title="精简commit"></a>精简commit</h3><p>通过这个命令，可以重新修改最近的两个commit<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">git rebase -i HEAD~2</div></pre></td></tr></table></figure></p>
-<p>执行命令后会弹出一个vim编辑:<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">pick 01d1124 Message....</div><div class="line">pick 6340aaa Message....</div></pre></td></tr></table></figure></p>
-<p>然后，将要squash的commit的那行最前面的<code>pick</code> 改为 <code>squash</code><br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">p 01d1124 Message....</div><div class="line">s 6340aaa Message....</div></pre></td></tr></table></figure></p>
-<h3 id="删掉commit"><a href="#删掉commit" class="headerlink" title="删掉commit"></a>删掉commit</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">git rebase -i HEAD~n</div><div class="line"></div><div class="line"># 在vim中直接把不要commit那行删掉即可</div></pre></td></tr></table></figure>
-<h3 id="改commit名字"><a href="#改commit名字" class="headerlink" title="改commit名字"></a>改commit名字</h3><p>大项目的commit的名字都有比较严格的要求，有些时候，我们要改下自己不规范的命名的话。<br>可以也可以用 git rebase.</p>
-<p>很简单，同样先用git rebase -i HEAD~n<br>在需要改的commit的最前面把 <code>pick</code> 改为<code>reword</code><br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">pick 01d1124 Message....</div><div class="line">reword 6340aaa Message....</div></pre></td></tr></table></figure></p>
+    <title>Hadoop 基础学习笔记</title>
+    <url>/2018/hadoop_basic.html</url>
+    <content><![CDATA[<h2 id="Secondary和standby"><a href="#Secondary和standby" class="headerlink" title="Secondary和standby"></a>Secondary和standby</h2><p>Secondary Namenode: 主要在1.x 版本中使用。这相当于一个辅助</p>
+<p>Standby Namenode：只要是2.x版本使用。如果用Standby的时候，Secondary就用不了了。<br>相当于一个替身（完全和原来的Namenode一样）</p>
+<h3 id="HDFS读写过程"><a href="#HDFS读写过程" class="headerlink" title="HDFS读写过程"></a>HDFS读写过程</h3><p>要掌握Hadoop，HDFS读写过程一定要了解。这里我摘抄了一段网络上比较清晰的解释：</p>
+<p>写的过程：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">1. CLIENT（客户端）：用来发起读写请求，并拆分文件成多个 Block；</div><div class="line">2. NAMENODE：全局的协调和把控所有的请求，提供 Block 存放在 DataNode 上的地址；</div><div class="line">3. DATANODE：负责数据的存储，可以有很多个；</div><div class="line"></div><div class="line">1. 客户端想 NameNode 发出请求（包含 Blocksize 和 副本数）；</div><div class="line">2. NameNode 经过计算，反馈给客户端相同副本数的 DataNode，切给出的 DataNode 有优先存储顺序要求；（数据与 DataNode 对应时，一般移动计算，不移动数据）</div><div class="line">3. 客户端得到信息后开始写数据，当第一个 DataNode 接受 Block 时，会将该数据传给第二个 DataNode ，第二个 DataNode 接受到数据时，也会将该数据传递给第三个 DataNode；在最后一个 DataNode 接受数据完毕时，则该 Block 全部传输完毕；</div><div class="line">4. DataNode 在接受数据完毕后，每一个 DataNode 都会将完毕信息传递给 NameNode；</div><div class="line">5. NameNode 将所有 DataNode 反馈的信息（所有数据以传输完毕），反馈给客户端；</div><div class="line">6. 客户端接受到 NamaNode 反馈的信息后（第一个 Block 传输完毕），开始发送请求传输第二个 Block；</div><div class="line">7. 传输完毕后，在关闭请求之前，NameNode 将该文件所有 Block 存放在 DataNode 上的 ID 保存在文件中；</div></pre></td></tr></table></figure></p>
+<p>读过程：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">1. 客户端：提供文件名、副本数、Block 数量、Block 地址；</div><div class="line">2. NameNode：提供 DataNode 地址及内部位置；</div><div class="line"></div><div class="line">1. 客户端提供提供文件名、副本数、Block 数量、Block 地址给 NameNode；</div><div class="line">2. NameNode 收到请求后，根据请求给出 副本及其 Block 所存放的 DataNode，以及Block 在 DataNode 中存放的位置；</div><div class="line">3. 客户端根据 NameNode 给的信息，给 DataNode 发出请求，由 DataNode 给出数据所在的具体块的信息；</div><div class="line">4. 客户端根据 DataNode 提供的信息，下载数据；</div></pre></td></tr></table></figure></p>
+<p>HDFS优缺点：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">优点：</div><div class="line">数据冗余（文件以 Block 并且多副本的方式存储在集群的节点上）、硬件容错；</div><div class="line">处理流式的数据访问；（一次写入，多次读取）</div><div class="line">适合存储大文件；（通过扩展 DataNode 来实现存储大文件）</div><div class="line">可构建在廉价的机器上；（降低成本）</div><div class="line"> </div><div class="line">缺点：</div><div class="line">低延迟的数据访问；（一般数据较大，不容易实现在秒级别检索数据）</div><div class="line">不适合小文件的存储；（无论文件大小，都有对应的元数据存放在 NameNode 上，如果小文件较多，则对应的元数据较多，对应的元数据所占用的内存信息较大，给NameNode 压力较大）</div></pre></td></tr></table></figure></p>
+<h3 id="练习题"><a href="#练习题" class="headerlink" title="练习题"></a>练习题</h3><p>我看有个选择题答案的正确选项是：<br>同一个MapReduce job的mapper和reducer可能同时在一台nodemanager上执行。<br>（像Spark的Narrow dependency那样，不同的mapper和reducer可能同时进行？）<br>然而我选的选项是：同一台nodemanager一次只会处理一个MapReduce job的作业。(一次可以同时处理很多个job？)</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://www.cnblogs.com/volcao/p/11446657.html" target="_blank" rel="external">https://www.cnblogs.com/volcao/p/11446657.html</a></p>
 ]]></content>
       <categories>
-        <category>git</category>
+        <category>hadoop</category>
       </categories>
       <tags>
-        <tag>git</tag>
+        <tag>hadoop</tag>
       </tags>
   </entry>
   <entry>
@@ -1150,9 +1271,16 @@
     <title>Kafka日常操作指南</title>
     <url>/2017/kafka_daily_command.html</url>
     <content><![CDATA[<h2 id="常用操作"><a href="#常用操作" class="headerlink" title="常用操作"></a>常用操作</h2><h3 id="查看topic"><a href="#查看topic" class="headerlink" title="查看topic"></a>查看topic</h3><p>kafka-topics –list –zookeeper device1:2181</p>
+<blockquote>
+<p>这个命令很有用。有一次我的consumer全部设置正常，但无论如何都不能commit current offset。就想这是不会zookeeper的问题呢？<br>因为zookeeper是存放commit offset 信息的地方<br>经过仔细盘查，我发现在另外的topic却可以正常的commit，所以这是该topic的问题，于是要检查下这个<br>topic哪里出了问题，就用上了这个命令。结果发现有2个partition莫名的消失了，也不知道是为什么。但<br>总的来说还是把问题定位出来了。<br>因为，这个问题，我花了不少精力，时间不说，我还特意花了50美金去upwork上找人才解决的。</p>
+</blockquote>
+<p>后来又发现，因为我是用kafka-python来创建的topic，这样的创建导致了 committed offset 没有显示。<br>但用console创建的topic则不会。<br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_topic</span><span class="params">(topic)</span>:</span></div><div class="line">    admin_client = KafkaAdminClient(bootstrap_servers=broker_list, client_id=<span class="string">'test'</span>)</div><div class="line">    topic_list = []</div><div class="line">    topic_list.append(NewTopic(name=topic, num_partitions=<span class="number">3</span>, replication_factor=<span class="number">1</span>))</div><div class="line">    admin_client.create_topics(new_topics=topic_list, validate_only=<span class="keyword">False</span>)</div></pre></td></tr></table></figure></p>
 <h3 id="创建topic"><a href="#创建topic" class="headerlink" title="创建topic"></a>创建topic</h3><p>kafka-topics –create –zookeeper device1:2181 –replication-factor 1 –partitions 1 –topic test</p>
-<h3 id="在console启动-producer-（一般可用来测试）"><a href="#在console启动-producer-（一般可用来测试）" class="headerlink" title="在console启动 producer （一般可用来测试）"></a>在console启动 producer （一般可用来测试）</h3><h3 id="删除某个topic的数据"><a href="#删除某个topic的数据" class="headerlink" title="删除某个topic的数据"></a>删除某个topic的数据</h3><h4 id="Solution1"><a href="#Solution1" class="headerlink" title="Solution1"></a>Solution1</h4><p>kafka-topics.sh –delete –zookeeper device1:2181 –topic zhihu_test</p>
-<h4 id="Solution2"><a href="#Solution2" class="headerlink" title="Solution2"></a>Solution2</h4><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">#删除zhihu_profile topic 的所有数据</div><div class="line">kafka-configs --zookeeper device1:2181 --entity-type topics --alter --entity-name zhihu_profile --add-config retention.ms=1000</div><div class="line"># 再把retention设置调回来</div><div class="line">kafka-configs --zookeeper device1:2181 --entity-type topics --alter --entity-name zhihu_profile --add-config retention.ms=8640000000</div></pre></td></tr></table></figure>
+<h3 id="查看group每个partition-offset的状态"><a href="#查看group每个partition-offset的状态" class="headerlink" title="查看group每个partition offset的状态"></a>查看group每个partition offset的状态</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">kafka-consumer-groups --bootstra-server device1:9092 --group test --describe</div></pre></td></tr></table></figure>
+<h3 id="在console启动-producer-（一般可用来测试）"><a href="#在console启动-producer-（一般可用来测试）" class="headerlink" title="在console启动 producer （一般可用来测试）"></a>在console启动 producer （一般可用来测试）</h3><h4 id="删除某个topic的数据"><a href="#删除某个topic的数据" class="headerlink" title="删除某个topic的数据"></a>删除某个topic的数据</h4><blockquote>
+<p>Solution1<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">kafka-topics.sh --delete --zookeeper device1:2181 --topic zhihu_test</div></pre></td></tr></table></figure></p>
+<p>Solution2<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">#删除zhihu_profile topic 的所有数据</div><div class="line">kafka-configs --zookeeper device1:2181 --entity-type topics --alter --entity-name zhihu_profile --add-config retention.ms=1000</div><div class="line"># 再把retention设置调回来</div><div class="line">kafka-configs --zookeeper device1:2181 --entity-type topics --alter --entity-name zhihu_profile --add-config retention.ms=8640000000</div></pre></td></tr></table></figure></p>
+</blockquote>
 <p>但这种方法不能清除offset 和 commit的记录，因为我查了下某个group对应的offset如下：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">topic: zhihu_profile partition: 0 committed: 2515555 last: 2515558 lag: 3</div><div class="line">topic: zhihu_profile partition: 1 committed: 2519850 last: 2519853 lag: 3</div><div class="line">topic: zhihu_profile partition: 2 committed: 2520594 last: 2520596 lag: 2</div></pre></td></tr></table></figure></p>
 <p>查询某个group offset的代码：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">def get_current_offset(topic, group):</div><div class="line"></div><div class="line">    consumer = KafkaConsumer(</div><div class="line">            bootstrap_servers=broker_list,</div><div class="line">            group_id=group,</div><div class="line">            enable_auto_commit=False</div><div class="line">        )   </div><div class="line"></div><div class="line">    for p in consumer.partitions_for_topic(topic):</div><div class="line">        tp = TopicPartition(topic, p)</div><div class="line">        consumer.assign([tp])</div><div class="line">        committed = consumer.committed(tp)</div><div class="line">        consumer.seek_to_end(tp)</div><div class="line">        last_offset = consumer.position(tp)</div><div class="line">        print(&quot;topic: %s partition: %s committed: %s last: %s lag: %s&quot; % (topic, p, committed, last_offset, (last_offset - committed)))</div><div class="line"></div><div class="line">    consumer.close(autocommit=False)</div></pre></td></tr></table></figure></p>
 <h3 id="reset-offset"><a href="#reset-offset" class="headerlink" title="reset offset"></a>reset offset</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">kafka-consumer-groups --bootstrap-server device1:9092 \</div><div class="line">--group my-group --reset-offsets --to-earliest --all-topics --execute</div></pre></td></tr></table></figure>
@@ -1164,6 +1292,8 @@
 <p>Reset offset of topic foo partition 0,1,2 to earliest</p>
 </blockquote>
 <p><code>--reset-offsets --group test.group --topic foo:0,1,2 --to-earliest</code></p>
+<h3 id="增加broker节点"><a href="#增加broker节点" class="headerlink" title="增加broker节点"></a>增加broker节点</h3><p>增加节点后，要重新新建Topic才能用到该broker。另外，kafka要依赖zookeeper，因为会把<br>offset写入到zk。这样，如果zk的集群很大（zk节点多）的时候，会影响zk的写入速度。建议是用<br>SSD配置给ZK（只给zk就行），然后这组zk专门服务于kafka，不要做其他用。</p>
+<p>这是我看公司的Kafka讲座是学的。</p>
 <h1 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h1><h2 id="关于-auto-offset-reset-和-offset"><a href="#关于-auto-offset-reset-和-offset" class="headerlink" title="关于 auto.offset.reset 和 offset"></a>关于 auto.offset.reset 和 offset</h2><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">241</div><div class="line"></div><div class="line">It is a bit more complex than you described. The auto.offset.reset config kicks in ONLY if your consumer group does not have a valid offset committed somewhere (2 supported offset storages now are Kafka and Zookeeper). And it also depends on what sort of consumer you use.</div><div class="line"></div><div class="line">If you use a high-level java consumer then imagine following scenarios:</div><div class="line"></div><div class="line">You have a consumer in a consumer group group1 that has consumed 5 messages and died. Next time you start this consumer it won&apos;t even use that auto.offset.reset config and will continue from the place it died because it will just fetch the stored offset from the offset storage (Kafka or ZK as I mentioned).</div><div class="line"></div><div class="line">You have messages in a topic (like you described) and you start a consumer in a new consumer group group2. There is no offset stored anywhere and this time the auto.offset.reset config will decide whether to start from the beginning of the topic (smallest) or from the end of the topic (largest)</div><div class="line"></div><div class="line">One more thing that affects what offset value will correspond to smallest and largest configs is log retention policy. Imagine you have a topic with retention configured to 1 hour. You produce 5 messages, and then an hour later you post 5 more messages. The largest offset will still remain the same as in previous example but the smallest one won&apos;t be able to be 0 because Kafka will already remove these messages and thus the smallest available offset will be 5.</div><div class="line"></div><div class="line">Everything mentioned above is not related to SimpleConsumer and every time you run it, it will decide where to start from using the auto.offset.reset config.</div></pre></td></tr></table></figure>
 <h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://stackoverflow.com/questions/29791268/how-to-change-start-offset-for-topic?utm_medium=organic&amp;utm_source=google_rich_qa&amp;utm_campaign=google_rich_qa" target="_blank" rel="external">https://stackoverflow.com/questions/29791268/how-to-change-start-offset-for-topic?utm_medium=organic&amp;utm_source=google_rich_qa&amp;utm_campaign=google_rich_qa</a></p>
 ]]></content>
@@ -1187,12 +1317,216 @@
 <h3 id="20191220"><a href="#20191220" class="headerlink" title="20191220"></a>20191220</h3><p>这一个礼拜主要是忙着面试的准备。在看了Kyligence的职位后，感觉无论是公司和职位都是我非常青睐的职位，所以这周<br>我花了很多精力和时间在准备来面试这个岗位，甚至准备了一个面试的PPT，在经过两轮面试后，还是待定，比较失落。导致我<br>现在没有什么心思干别的事情了。</p>
 <h3 id="20190105"><a href="#20190105" class="headerlink" title="20190105"></a>20190105</h3><p>这个礼拜主要忙于接收Offer，提交离职，准备交接工作。周五请同事吃饭，周六请客吃饭。周天打台球，<br>打羽毛球。</p>
 <h3 id="20200126"><a href="#20200126" class="headerlink" title="20200126"></a>20200126</h3><p>本周主要回家过年了。大部分时间都上YouTube追踪最新的武汉肺炎的疫情，国内的信息真是太闭塞了。政府一味地去隐瞒<br>真相，呵呵，和HBO拍的《切尔诺贝利》一模一样啊。<br>然后花了点时间看了看Spark Internal这书，不过效率不是很高。</p>
+<h3 id="20202016"><a href="#20202016" class="headerlink" title="20202016"></a>20202016</h3><p>回顾下昨天，昨天的一部分效率还可以，自己实现了一个gitlab backup程序。但是有一大段时间过得效率很低。<br>这是因为，要进行一个公司的在线技术测试。测试内容是Hadoop基础。首先要在内网上下载了一个很大的视频文件，<br>大概6G多。下载完后，让我感到失望的是，我在视频中收益与时间的比太低了，两段视频看了我3个多小时，都是一些<br>很入门我早就知道的内容，而且讲得很啰嗦。然后测试的题目质量也比较低，有的答案还是不对的。这让我很失望，<br>感觉让费我时间了。</p>
+<p>上面这段经历只能说比较无奈吧，碰到这样也难以改变。下面，对这周做的事情，我还是有些东西可以总结的。首先，<br>整体上这周的效率都不错，入职第一周，全面大概地实操学习了KE，学到了很多kylin的思想和原理。</p>
+<p>另外，在执行效率上，我发现了自己的一个问题。我不会平衡工作和休息，就是会很容易沉溺于寻思解决某个问题，<br>不能自拔。比如：在编写一段代码的时候，一直坐在电脑前，一坐就是几个小时，没解决完就不舒服。中途甚至憋着<br>尿也不愿意上趟厕所休息下。<br>还有一种例子就是：成功做完了某个事情，或说完成了当天的计划，但却不甘心，老是想着再来一点，再多做一些事情。<br>这种贪婪的心思导致让我又做在电脑前继续搞事情。<br>总结一下就是：不懂得如何达到平衡，而是一味地蛮干。不懂得休息，这很可能会对自己身体造成损伤，我后面几天<br>坐久了就又开始屁股痛了。前两天坐久了就休息下，换个姿势，点点眼药水，这对屁股眼镜都好。<br>其实，如果不懂得寻寻渐进，一味地沉溺于某件事不能自拔，这看似很努力，但很可能是丢了西瓜拣芝麻。并不是一种<br>良性循环。<br>解决问题的方案：我想尝试一下番茄工作法，比如每工作30分钟休息5分钟，看看效果。</p>
 ]]></content>
       <categories>
         <category>daily</category>
       </categories>
       <tags>
         <tag>daily</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Kylin 基础介绍</title>
+    <url>/2017/kylin_basic.html</url>
+    <content><![CDATA[<h2 id="Kylin术语"><a href="#Kylin术语" class="headerlink" title="Kylin术语"></a>Kylin术语</h2><ul>
+<li><p>维度(Dimension)<br>一组属性，提供结构化的标签信息，一般作为报表的坐标轴。</p>
+</li>
+<li><p>度量(Measure)<br>一类可以进行聚合分析的特殊维度，聚合后的结果称为指标。</p>
+</li>
+<li><p>事实表(Fact Table)<br>数据仓库中的中央表，用于描述业务内特定事件的数据。</p>
+</li>
+<li><p>维度表(Lookup Table)<br>维度属性的集合，人们观察数据的特定角度。</p>
+</li>
+<li><p>基度（Cardinality）<br>指数据表中某一列数据去重后的元素个数。</p>
+</li>
+<li><p>星型模型(Star Schema)<br>一种多维的数据关系，由一张事实表和一组维度表组成。</p>
+</li>
+<li><p>cube<br>一个cube就是一个Hive表的数据按照指定维度与指标计算出的所有组合结果。</p>
+</li>
+<li><p>cuboid<br>某一维度组合下，度量聚合后的结果集合。有个特殊的cuboid叫 base cuboid，比如维度有ABCD，（A,B,C,D）称为Base cuboid</p>
+</li>
+<li><p>数据立方体(cube)<br>一组用于分析数据的相关度量值和维度，是所有cuboid的集合，作为存储和分析的基本单位</p>
+</li>
+<li><p>衍生维度<br>维度表上的某一列通过PK可推的，换句话是可查询到的 比如由身份证可以推导性别，所以能通过PK推导的维度都可以设置为衍生维度。<br>衍生维度是放在snapshot中</p>
+</li>
+</ul>
+<h3 id="Kylin核心技术：Cube与计算"><a href="#Kylin核心技术：Cube与计算" class="headerlink" title="Kylin核心技术：Cube与计算"></a>Kylin核心技术：Cube与计算</h3><p>比如我们有10多亿中国人口数据，要统计男女比例这么个需求。如果直接从硬盘里提取数据来统计肯定会很慢，磁盘速度大概是几百兆/秒。<br>即使把数据放到内存中也最多提升100倍的速度。</p>
+<p>所以，可以用与计算来统计男女比例</p>
+<h3 id="维度表和事实表"><a href="#维度表和事实表" class="headerlink" title="维度表和事实表"></a>维度表和事实表</h3><p>我学到了一个数据仓库的概念，维度表（Fact Table）和事实表（Lookup Table）。<br>通过下面例子就让我明白了：<br>学过数据库的童鞋应该都知道星型模型，星型模型在数据仓库的设计中可以为是一种典型的维度模型。<br>我们在进行维度建模的时候会建一张事实表，这个事实表就是星型模型的中心，然后会有一堆维度表，这些维度表就是向外发散的星星。<br>那么什么是事实表、什么又是维度表吗，下面会专门来解释。</p>
+<p><img src=".kylin_basic_images/367a4515.png" alt=""></p>
+<p>中间的chat表就是事实表。其它周边的表就是维度表。</p>
+<h3 id="维度设计"><a href="#维度设计" class="headerlink" title="维度设计"></a>维度设计</h3><p>只有普通维度会影响Cuboid的数量和存储膨胀率，衍生维度并不参与Cuboid计算，而是有衍生维度对应的外键FK参与计算Cuboid。<br>在查询时，对衍生维度的查询会首先转换为对外键所在维度的查询，因此会牺牲少量查询性能。</p>
+<p>Kylin暂时不支持星座模型</p>
+<p>默认情况下，系统将会为所有的维度表创建快照。<br>设计新的模型，将大维度表改为事实表</p>
+<p>设计规则如下：<br>经常出现在规律条件中的维度应当设为普通维度，以达到更好的查询性能。</p>
+<p>Derived 衍生类型的前提是要放到快照表里的</p>
+<ul>
+<li>For normal dimensions, Kyligence has max number restriction of 62</li>
+<li>If a dimension table is used in cube design, its corresponding fact table foreign key will be added as normal dimension even it’s not used.</li>
+</ul>
+<h3 id="维度优化"><a href="#维度优化" class="headerlink" title="维度优化"></a>维度优化</h3><p>Mandatory Dimension: 一定group by的字段<br>Hierarchy Dimension: 国家、省、市<br>Joint Dimension: 要么一起出现，要么不出现，比如：A、B、C绑在了一起 （很少有这样的场景）</p>
+<h3 id="Rowkey"><a href="#Rowkey" class="headerlink" title="Rowkey"></a>Rowkey</h3><p>UHC不要用Dict作为encoding;<br>常用的字段比如日期字段要放在Rowkey的前面<br>高基维放置在低基维前面<br>过滤的维度放置在非过滤前面</p>
+<p>max length of FixedLength(N) for UHC of varchar/char type will be 256</p>
+<h3 id="Cube-Build"><a href="#Cube-Build" class="headerlink" title="Cube Build"></a>Cube Build</h3><p>Supported Cube Build Types:<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Full Build</div><div class="line">By Date/time</div><div class="line">Streaming(by offset)</div><div class="line">By File(Beta)</div><div class="line">Customize(Beta)</div></pre></td></tr></table></figure></p>
+<p>尽量使用增量加载<br>计划合并你的增量segment<br>用增量加载的时候要考虑下SCD</p>
+<h3 id="星型模型和雪花模型"><a href="#星型模型和雪花模型" class="headerlink" title="星型模型和雪花模型"></a>星型模型和雪花模型</h3><p>fact table 外围一圈 dimension table 就是星型模型<br>dimension table 外再围一圈 dimension table就是雪花模型</p>
+<h3 id="System-Configuration"><a href="#System-Configuration" class="headerlink" title="System Configuration"></a>System Configuration</h3><p>Important configurations:<br>Job retry<br>Pushdown：对于没有cube能查得结果的sql，Kylin支持将这类查询通过JDBC下压至备用查询引擎如Hive, SparkSQL, Impala等来查得结果<br>Query cache(process level/shared)<br>Compression</p>
+<p>Configuration override<br>System<br>Project<br>Cube</p>
+<h3 id="Authorization-Management"><a href="#Authorization-Management" class="headerlink" title="Authorization Management"></a>Authorization Management</h3><p>project: Query, Operation , Managment, Admin<br>table: Table query, Row query, Column query</p>
+<p>Caution: column ACL is a blacklist.</p>
+<h3 id="Resource-Isolation"><a href="#Resource-Isolation" class="headerlink" title="Resource Isolation"></a>Resource Isolation</h3><p>KE can submit cube build jobs to specified Yarn queues per: system level;project level;cube level</p>
+<h3 id="应用发布流程"><a href="#应用发布流程" class="headerlink" title="应用发布流程"></a>应用发布流程</h3><p>DEV -&gt; QA -&gt;(sign off) PROD</p>
+<h3 id="Daily-Operation"><a href="#Daily-Operation" class="headerlink" title="Daily Operation"></a>Daily Operation</h3><ol>
+<li><p>Garbage cleanup<br>e.g.: segment merged, cube purged</p>
+</li>
+<li><p>System upgrade<br>Minor version upgrade<br>Major version upgrade</p>
+</li>
+<li><p>System backup/restore<br>System level<br>Project level</p>
+</li>
+</ol>
+<h3 id="Rest-API"><a href="#Rest-API" class="headerlink" title="Rest API"></a>Rest API</h3><p>Authorization 这个Header的内容是 “ADMIN:yourpassword”的base64 encode</p>
+<h3 id="Hadoop生态和和MPP数据库的区别"><a href="#Hadoop生态和和MPP数据库的区别" class="headerlink" title="Hadoop生态和和MPP数据库的区别"></a>Hadoop生态和和MPP数据库的区别</h3><p>Hadoop跟MPP的存储模型不一样。<br>Hadoop生态的存储用HDFS，HDFS的扩展是通过元数据来做的，它有中心节点用来存元数据，在加入新的节点的时候，<br>只需要修改元数据就可以，所以HDFS可扩展能力是收到管理元数据那台机器的性能限制的。一般来说可以到10K这个<br>规模，再向上就不行了。</p>
+<p>而MPP要自己做切分，自己做切分就带来动态调整的问题。MPP通常采用的是没有中心节点的存储模式，比如hash，<br>每增加节点的时候，都需要rehash，这样当规模到了几百台的时候，扩展能力就下来了。</p>
+<p>Hive在内存管理上方式不大一样。<br>MPP内存管理比较精细，他主要的想法是在每个机器上放个数据库，传统数据库的内存管理比较复杂，主要是内外存<br>交互的东西，这样的架构决定了MPP在小数据量的时候，latency可以做的比较小，但是数据量大的时候，<br>throughput做不上去了。<br>而Hive的内存管理非常粗放，它后来就是MapReduce的job，MR的job是没有太多精细的内存管理，就是拼命地<br>scan，完了就是spill，这样的架构导致throughput很大，但是latency很高。</p>
+<p>failover机制，<br>Hive的failover就是MR的failover，job挂掉了重新换机器跑就完了。</p>
+<p>MPP它的计算是要attach到数据节点上去的，如果你规模上去，那么fail的可能性就上去了，这样如果你每次计算<br>都有台机器挂了，一挂，别人就要等你，而不是换台机器继续跑。可以用木桶效应类比。</p>
+<h3 id="Cube设计"><a href="#Cube设计" class="headerlink" title="Cube设计"></a>Cube设计</h3><p>Rowkey的具体格式是cuboid id + 具体的维度值（最新的Rowkey中为了并发查询还加入了ShardKey）<br><img src=".kylin_basic_images/b447988e.png" alt=""><br>前面4个框着的作为Rowkey，比如，2015-10-1的维度序号为1，BJ的序号为0，item-A序号为0，则最终Rowkey为 111+100</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://blog.bcmeng.com/post/kylin-cube.html#cuboid-%E7%9A%84%E7%BB%B4%E5%BA%A6%E5%92%8C%E6%8C%87%E6%A0%87%E5%A6%82%E4%BD%95%E8%BD%AC%E6%8D%A2%E4%B8%BAhbase%E7%9A%84kv%E7%BB%93%E6%9E%84" target="_blank" rel="external">https://blog.bcmeng.com/post/kylin-cube.html#cuboid-%E7%9A%84%E7%BB%B4%E5%BA%A6%E5%92%8C%E6%8C%87%E6%A0%87%E5%A6%82%E4%BD%95%E8%BD%AC%E6%8D%A2%E4%B8%BAhbase%E7%9A%84kv%E7%BB%93%E6%9E%84</a></p>
+]]></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>kylin</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hbase 基础介绍</title>
+    <url>/2016/hbase_intro.html</url>
+    <content><![CDATA[<h1 id="Hbase的由来"><a href="#Hbase的由来" class="headerlink" title="Hbase的由来"></a>Hbase的由来</h1><p>Hbase是Bigtable的开源山寨版本。</p>
+<p>是建立的HDFS之上，提供高可靠性、高性能、列存储、可伸缩、实时读写的数据库系统。</p>
+<p>它介于NoSQL和RDBMS之间，仅能通过主键(row key)和主键的range来检索数据，仅支持单行事务(可通过hive支持来实现多表join等复杂操作)。<br>主要用来存储非结构化和半结构化的松散数据。</p>
+<p>与Hadoop一样，Hbase目标主要依靠横向扩展，通过不断增加廉价的商用服务器，来增加计算和存储能力。</p>
+<p>大：一个表可以有上亿行，上百万列</p>
+<p>面向列: 面向列(族)的存储和权限控制，列(族)独立检索。</p>
+<p>稀疏:对于为空(null)的列，并不占用存储空间，因此，表可以设计的非常稀疏。</p>
+<h1 id="逻辑视图"><a href="#逻辑视图" class="headerlink" title="逻辑视图"></a>逻辑视图</h1><p>HBase以表的形式存储数据。表有行和列组成。列划分为若干个列族(row family)</p>
+<h2 id="1-Hbase的检索"><a href="#1-Hbase的检索" class="headerlink" title="1.Hbase的检索"></a>1.Hbase的检索</h2><p>与NoSQL数据库们一样, Row key 是用来检索记录的主键。访问Hbase table中的行，只有三种方式：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">1. 通过单个row key访问</div><div class="line"></div><div class="line">2. 通过row key的range</div><div class="line"></div><div class="line">3. 全表扫描</div></pre></td></tr></table></figure></p>
+<h2 id="2-Row-key的大小"><a href="#2-Row-key的大小" class="headerlink" title="2. Row key的大小"></a>2. Row key的大小</h2><p>Row key行键 (Row key)可以是任意字符串(最大长度是 64KB，实际应用中长度一般为 10-100bytes)，在hbase内部，row key保存为字节数组。</p>
+<ol>
+<li>Row key的内部存储方式<br>存储时，数据按照Row key的字典序(byte order)排序存储。设计key时，要充分利用排序存储这个特性，将经常一起读取的行存储放到一起。(位置相关性)</li>
+</ol>
+<p>注意：字典序对int排序的结果是：</p>
+<p>1,10,100,11,12,13,14,15,16,17,18,19,2,20,21,…,9,91,92,93,94,95,96,97,98,99。</p>
+<p>要保持整形的自然序，行键必须用0作左填充。</p>
+<ol>
+<li>原子性<br>行的一次读写是原子操作 (不论一次读写多少列)。这个设计决策能够使用户很容易的理解程序在对同一个行进行并发更新操作时的行为。</li>
+</ol>
+<p>列族</p>
+<ol>
+<li>列蔟<br>hbase表中的每个列，都归属与某个列族。列族是表的schema的一部分(而列不是)，必须在使用表之前定义。<br>列名都以列族作为前缀。例如courses:history，courses:math都属于courses 这个列族。</li>
+</ol>
+<p>访问控制、磁盘和内存的使用统计都是在列族层面进行的。<br>实际应用中，列族上的控制权限能帮助我们管理不同类型的应用：我们允许一些应用可以添加新的基本数据,<br>一些应用可以读取基本数据并创建继承的列族、一些应用则只允许浏览数据（甚至可能因为隐私的原因不能浏览所有数据）。</p>
+<ol>
+<li>时间戳<br>HBase中通过row和columns确定的为一个存贮单元称为cell。<br>每个 cell都保存着同一份数据的多个版本。版本通过时间戳来索引。<br>时间戳的类型是 64位整型。时间戳可以由hbase(在数据写入时自动 )赋值，此时时间戳是精确到毫秒的当前系统时间。<br>时间戳也可以由客户显式赋值。如果应用程序要避免数据版本冲突，就必须自己生成具有唯一性的时间戳。<br>每个 cell中，不同版本的数据按照时间倒序排序，即最新的数据排在最前面。</li>
+</ol>
+<p>为了避免数据存在过多版本造成的的管理 (包括存贮和索引)负担，Hbase提供了两种数据版本回收方式。<br>一是保存数据的最后n个版本，二是保存最近一段时间内的版本（比如最近七天）。用户可以针对每个列族进行设置。</p>
+<p>7.Cell<br>由{row key, column(=<family> + <label>), version} 唯一确定的单元。cell中的数据是没有类型的，全部是字节码形式存贮。</label></family></p>
+<h1 id="物理存储"><a href="#物理存储" class="headerlink" title="物理存储"></a>物理存储</h1><p>1． 已经提到过，Table中的所有行都按照row key的字典序排列。</p>
+<p>2． Table 在行的方向上分割为多个Hregion。<br><img src="/images/2016/hbase_intro/1e8cda78.png" alt=""></p>
+<p>3． region按大小分割的，每个表一开始只有一个region，随着数据不断插入表，region不断增大，当增大到一个阀值的时候，Hregion就会等分会两个新的Hregion。<br>当table中的行不断增多，就会有越来越多的Hregion。<br><img src="/images/2016/hbase_intro/b9c752bf.png" alt=""></p>
+<p>4． HRegion是Hbase中分布式存储和负载均衡的最小单元。<br>最小单元就表示不同的Hregion可以分布在不同的HRegion server上。但一个Hregion是不会拆分到多个server上的。</p>
+<p>5． HRegion虽然是分布式存储的最小单元，但并不是存储的最小单元。<br>事实上，HRegion由一个或者多个Store组成，每个store保存一个columns family。每个Store又由一个memStore和0至多个StoreFile组成。<br>如图：StoreFile以HFile格式保存在HDFS上。<br><img src="/images/2016/hbase_intro/38134f95.png" alt=""></p>
+<ol>
+<li>HFile</li>
+</ol>
+<p>HFile分为六个部分：</p>
+<ul>
+<li><p>Data Block 段：保存表中的数据，这部分可以被压缩</p>
+</li>
+<li><p>Meta Block 段： (可选的)–保存用户自定义的kv对，可以被压缩。</p>
+</li>
+<li><p>File Info 段： Hfile的元信息，不被压缩，用户也可以在这一部分添加自己的元信息。</p>
+</li>
+<li><p>Data Block Index 段：Data Block的索引。每条索引的key是被索引的block的第一条记录的key。</p>
+</li>
+<li><p>Meta Block Index段： (可选的)–Meta Block的索引。</p>
+</li>
+<li><p>Traile：这一段是定长的。保存了每一段的偏移量，读取一个HFile时，会首先读取Trailer，Trailer保存了每个段的起始位置(段的Magic Number用来做安全check).<br>然后，DataBlock Index会被读取到内存中，这样，当检索某个key时，不需要扫描整个HFile，而只需从内存中找到key所在的block，<br>通过一次磁盘io将整个block读取到内存中，再找到需要的key。DataBlock Index采用LRU机制淘汰。</p>
+</li>
+</ul>
+<p>HFile的Data Block，Meta Block通常采用压缩方式存储，压缩之后可以大大减少网络IO和磁盘IO，随之而来的开销当然是需要花费cpu进行压缩和解压缩。<br>目前HFile的压缩支持两种方式：Gzip，Lzo。</p>
+<ol>
+<li>HLog(WAL log)</li>
+</ol>
+<p>WAL 意为Write ahead log(<a href="http://en.wikipedia.org/wiki/Write-ahead_logging)。" target="_blank" rel="external">http://en.wikipedia.org/wiki/Write-ahead_logging)。</a><br>类似mysql中的binlog,用来做灾难恢复之用，Hlog记录数据的所有变更,一旦数据修改，就可以从log中进行恢复。</p>
+<p>每个Region Server维护一个Hlog,而不是每个Region一个。<br>这样不同region(来自不同table)的日志会混在一起，这样做的目的是不断追加单个文件相对于同时写多个文件而言，可以减少磁盘寻址次数.<br>因此可以提高对table的写性能。带来的麻烦是，如果一台region server下线，为了恢复其上的region，<br>需要将region server上的log进行拆分，然后分发到其它region server上进行恢复。</p>
+<p>HLog文件就是一个普通的Hadoop Sequence File，Sequence File 的Key是HLogKey对象，HLogKey中记录了写入数据的归属信息。<br>除了table和region名字外，同时还包括 sequence number和timestamp，timestamp是”写入时间”，<br>sequence number的起始值为0，或者是最近一次存入文件系统中sequence number。<br>HLog Sequece File的Value是HBase的KeyValue对象，即对应HFile中的KeyValue，可参见上文描述。</p>
+<h1 id="四、系统架构"><a href="#四、系统架构" class="headerlink" title="四、系统架构"></a>四、系统架构</h1><ul>
+<li>Client</li>
+</ul>
+<p>包含访问Hbase的接口，client维护着一些cache来加快对Hbase的访问，比如Region的位置信息。</p>
+<ul>
+<li><p>Zookeeper</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">1． 保证任何时候，集群中只有一个master</div><div class="line">2． 存贮所有Region的寻址入口。</div><div class="line">3． 实时监控Region Server的状态，将Region server的上线和下线信息实时通知给Master</div><div class="line">4. 存储Hbase的schema,包括有哪些table，每个table有哪些column family</div></pre></td></tr></table></figure>
+</li>
+<li><p>Master</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">1. 为Region server分配region</div><div class="line">2. 负责region server的负载均衡</div><div class="line">3. 发现失效的region server并重新分配其上的region上的垃圾文件回收</div><div class="line">4. 处理schema更新请求</div></pre></td></tr></table></figure>
+</li>
+<li><p>Region Server</p>
+</li>
+</ul>
+<p>维护Master分配给它的region，处理对这些region的IO请求</p>
+<p>负责切分在运行过程中变得过大的region</p>
+<p>可以看到，client访问Hbase上数据的过程并不需要master参与（寻址访问zookeeper和region server，数据读写访问region server），<br>master仅仅维护者table和region的元数据信息，负载很低。</p>
+<h1 id="五、关键算法-流程"><a href="#五、关键算法-流程" class="headerlink" title="五、关键算法/流程"></a>五、关键算法/流程</h1><h3 id="1-region定位"><a href="#1-region定位" class="headerlink" title="1. region定位"></a>1. region定位</h3><p>系统如何找到某个row key (或者某个 row key range)所在的region</p>
+<p>bigtable 使用三层类似B+树的结构来保存region位置。</p>
+<p>第一层：保存zookeeper里面的文件，它持有root region的位置。</p>
+<p>第二层：root region是.META.表的第一个region其中保存了.META.z表其它region的位置。<br>通过root region，我们就可以访问.META.表的数据。</p>
+<p>第三层：.META.，它是一个特殊的表，保存了hbase中所有数据表的region 位置信息。</p>
+<p>说明：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">1. root region永远不会被split，保证了最需要三次跳转，就能定位到任意region 。</div><div class="line"></div><div class="line">2. META.表每行保存一个region的位置信息，row key 采用表名+表的最后一样编码而成。</div><div class="line"></div><div class="line">3. 为了加快访问，.META.表的全部region都保存在内存中。</div><div class="line"></div><div class="line">假设，.META.表的一行在内存中大约占用1KB。并且每个region限制为128MB。</div><div class="line"></div><div class="line">那么上面的三层结构可以保存的region数目为：(128MB/1KB) * (128MB/1KB) = = 2(34)个region</div><div class="line"></div><div class="line">4. client会将查询过的位置信息保存缓存起来，缓存不会主动失效，</div><div class="line">因此如果client上的缓存全部失效，则需要进行6次网络来回，才能定位到正确的region(其中三次用来发现缓存失效，另外三次用来获取位置信息)。</div></pre></td></tr></table></figure></p>
+<h3 id="2-读过程"><a href="#2-读过程" class="headerlink" title="2. 读过程"></a>2. 读过程</h3><p>上文提到，HBase使用MemStore和StoreFile存储对表的更新。</p>
+<p>数据在更新时首先写入Log(WAL log)和内存(MemStore)中，MemStore中的数据是排序的，<br>当MemStore累计到一定阈值时，就会创建一个新的MemStore，并且将老的MemStore添加到flush队列，由单独的线程flush到磁盘上，成为一个StoreFile。<br>与此同时，系统会在zookeeper中记录一个redo point，表示这个时刻之前的变更已经持久化了(minor compact)。<br>当系统出现意外时，可能导致内存(MemStore)中的数据丢失，此时使用Log(WAL log)来恢复checkpoint之后的数据。</p>
+<p>前面提到过StoreFile是只读的，一旦创建后就不可以再修改。因此Hbase的更新其实是不断追加的操作。<br>当一个Store中的StoreFile达到一定的阈值后，就会进行一次合并(major compact),将对同一个key的修改合并到一起，形成一个大的StoreFile，<br>当StoreFile的大小达到一定阈值后，又会对StoreFile进行split，等分为两个StoreFile。</p>
+<p>由于对表的更新是不断追加的，处理读请求时，需要访问Store中全部的StoreFile和MemStore，将他们的按照row key进行合并，<br>由于StoreFile和MemStore都是经过排序的，并且StoreFile带有内存中索引，合并的过程还是比较快。</p>
+<h3 id="3-写过程"><a href="#3-写过程" class="headerlink" title="3.写过程"></a>3.写过程</h3><ol>
+<li><p>client向region server提交写请求</p>
+</li>
+<li><p>region server找到目标region</p>
+</li>
+<li><p>region检查数据是否与schema一致</p>
+</li>
+<li><p>如果客户端没有指定版本，则获取当前系统时间作为数据版本</p>
+</li>
+<li><p>将更新写入WAL log</p>
+</li>
+<li><p>将更新写入Memstore</p>
+</li>
+<li><p>判断Memstore的是否需要flush为Store文件。</p>
+</li>
+</ol>
+<h3 id="4-region分配"><a href="#4-region分配" class="headerlink" title="4.region分配"></a>4.region分配</h3><p>任何时刻，一个region只能分配给一个region server。<br>master记录了当前有哪些可用的region server。以及当前哪些region分配给了哪些region server，哪些region还没有分配。<br>当存在未分配的region，并且有一个region server上有可用空间时，master就给这个region server发送一个装载请求，把region分配给这个region server。<br>region server得到请求后，就开始对此region提供服务。</p>
+<h3 id="5-region-server上线"><a href="#5-region-server上线" class="headerlink" title="5. region server上线"></a>5. region server上线</h3><p>master使用zookeeper来跟踪region server状态。<br>当某个region server启动时，会首先在zookeeper上的server目录下建立代表自己的文件，并获得该文件的独占锁。<br>由于master订阅了server目录上的变更消息，当server目录下的文件出现新增或删除操作时，master可以得到来自zookeeper的实时通知。<br>因此一旦region server上线，master能马上得到消息。</p>
+<h3 id="6-region-server下线"><a href="#6-region-server下线" class="headerlink" title="6.region server下线"></a>6.region server下线</h3><p>当region server下线时，它和zookeeper的会话断开，zookeeper而自动释放代表这台server的文件上的独占锁。<br>而master不断轮询server目录下文件的锁状态。如果master发现某个region server丢失了它自己的独占锁，<br>(或者master连续几次和region server通信都无法成功),master就是尝试去获取代表这个region server的读写锁，<br>一旦获取成功，就可以确定：</p>
+<ol>
+<li><p>region server和zookeeper之间的网络断开了。</p>
+</li>
+<li><p>region server挂了。</p>
+</li>
+</ol>
+<p>上面的其中一种情况发生了，无论哪种情况，region server都无法继续为它的region提供服务了，<br>此时master会删除server目录下代表这台region server的文件，并将这台region server的region分配给其它还活着的同志。</p>
+<p>如果网络短暂出现问题导致region server丢失了它的锁，那么region server重新连接到zookeeper之后，<br>只要代表它的文件还在，它就会不断尝试获取这个文件上的锁，一旦获取到了，就可以继续提供服务。</p>
+<h3 id="7-master上线"><a href="#7-master上线" class="headerlink" title="7.master上线"></a>7.master上线</h3><p>master启动进行以下步骤:<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">1. 从zookeeper上获取唯一一个代码master的锁，用来阻止其它master成为master。</div><div class="line">2. 扫描zookeeper上的server目录，获得当前可用的region server列表。</div><div class="line">3. 和2中的每个region server通信，获得当前已分配的region和region server的对应关系。</div><div class="line">4. 扫描.META.region的集合，计算得到当前还未分配的region，将他们放入待分配region列表。</div></pre></td></tr></table></figure></p>
+<h3 id="8-master下线"><a href="#8-master下线" class="headerlink" title="8. master下线"></a>8. master下线</h3><p>由于master只维护表和region的元数据，而不参与表数据IO的过程，<br>master下线仅导致所有元数据的修改被冻结(无法创建删除表，无法修改表的schema，无法进行region的负载均衡，<br>无法处理region上下线，无法进行region的合并，唯一例外的是region的split可以正常进行，因为只有region server参与)，表的数据读写还可以正常进行。<br>因此master下线短时间内对整个HBase集群没有影响。从上线过程可以看到，master保存的信息全是可以冗余信息（都可以从系统其它地方收集到或者计算出来），<br>因此，一般HBase集群中总是有一个master在提供服务，还有一个以上的’master’在等待时机抢占它的位置。</p>
+]]></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>hbase</tag>
       </tags>
   </entry>
   <entry>
@@ -1789,52 +2123,6 @@ sum_prime(2000000)
       </tags>
   </entry>
   <entry>
-    <title>聊聊python的unicode 问题</title>
-    <url>/2016/python_unicode.html</url>
-    <content><![CDATA[<h2 id="Python的中文字符处理"><a href="#Python的中文字符处理" class="headerlink" title="Python的中文字符处理"></a>Python的中文字符处理</h2><p>都说python对中文不太友好。</p>
-<p>我们看看下面两个例子：<br>测试环境是ubuntu;<br>python版本为2.7<br><!-- python --></p>
-<pre><code>》a = &apos;呵呵&apos;
-》a 
-》&apos;\xe5\x91\xb5\xe5\x91\xb5&apos;
-》print a
-》呵呵
-</code></pre><p>为什么print 和 直接输入变量回车显示的东西不一样呢？<br>\xe5\x91\xb5\xe5\x91\xb5这些是什么东西啊。一定很奇怪。其实bytes字符编码，是8进制的东西。</p>
-<a id="more"></a>
-<p>首先’呵呵‘ 字符串赋值给a。然而python 内部是以’\xe5\x91\xb5\xe5\x91\xb5’保存的，这应该是utf-8（因为ubuntu默认为uhf-8）的unicode 对应的8进制字符编码</p>
-<p>我们再看看：<br><!-- python --><br>    》a=u’呵呵’  #带上u表示将这字符串转为unicode<br>    》a<br>    》u’\u5475\u5475’<br>    》print a<br>    》呵呵</p>
-<p>我们发现print真是厉害，不管是字符串 还是 unicode 它都能显示为中文的字符。而回车显示的u’\u5475\u5475’是什么呢？这是’呵呵’对应的uncode编码</p>
-<p>我们知道unicode可以 通过encode 编码来转为str</p>
-<!-- python -->
-<pre><code>》a.encode(&apos;utf-8&apos;)
-》&apos;\xe5\x91\xb5\xe5\x91\xb5&apos;
-》print a.encode(&apos;utf-8&apos;)
-》呵呵
-</code></pre><p>我们看到encode后显示的str和我们最开始显示的’\xe5\x91\xb5\xe5\x91\xb5’一样。这说吗中文的字符串在python里就是用\x这种字符串编码保存的</p>
-<p>print 可以把这种编码自动地解码并且显示为对应的中文字符</p>
-<p>另外，有些时候会碰到这种情况，请看下面：</p>
-<!-- python -->
-<pre><code>》a=u&apos;呵呵&apos;
-》l=[a]
-》s=str(l)
-》s
-》&quot;[u&apos;\\u5475\\u5475&apos;]&quot;
-</code></pre><p>哟，怎么多了个\<br>有时候，python会以这种编码保存，这不知道是什么编码，多了一个斜杠的<br>遇到这种情况我们可以用如下办法<br><!-- python --></p>
-<pre><code>》s.decode(&apos;unicode_escape&apos;)
-》s
-》u&quot;[u&apos;\u5475\u5475&apos;]&quot;
-</code></pre><p>这样就可以把它变回来了。此外我们可以print s一下看看会出现什么呢？<br><!-- python --></p>
-<pre><code>》print s
-》[u&apos;\u5475\u5475&apos;]
-</code></pre><p>哈，其实print 就是把不好读的编码优化为比这种编码更好读的一种形式</p>
-<h3 id="总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟"><a href="#总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟" class="headerlink" title="总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟"></a>总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟</h3>]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>聊聊python的变量问题</title>
     <url>/2016/python_func_params.html</url>
     <content><![CDATA[<h2 id="Python的参数作用范围"><a href="#Python的参数作用范围" class="headerlink" title="Python的参数作用范围"></a>Python的参数作用范围</h2><p>我们看看下面两个例子：</p>
@@ -1904,6 +2192,80 @@ print Person.name  # [1]
       </tags>
   </entry>
   <entry>
+    <title>聊聊python的unicode 问题</title>
+    <url>/2016/python_unicode.html</url>
+    <content><![CDATA[<h2 id="Python的中文字符处理"><a href="#Python的中文字符处理" class="headerlink" title="Python的中文字符处理"></a>Python的中文字符处理</h2><p>都说python对中文不太友好。</p>
+<p>我们看看下面两个例子：<br>测试环境是ubuntu;<br>python版本为2.7<br><!-- python --></p>
+<pre><code>》a = &apos;呵呵&apos;
+》a 
+》&apos;\xe5\x91\xb5\xe5\x91\xb5&apos;
+》print a
+》呵呵
+</code></pre><p>为什么print 和 直接输入变量回车显示的东西不一样呢？<br>\xe5\x91\xb5\xe5\x91\xb5这些是什么东西啊。一定很奇怪。其实bytes字符编码，是8进制的东西。</p>
+<a id="more"></a>
+<p>首先’呵呵‘ 字符串赋值给a。然而python 内部是以’\xe5\x91\xb5\xe5\x91\xb5’保存的，这应该是utf-8（因为ubuntu默认为uhf-8）的unicode 对应的8进制字符编码</p>
+<p>我们再看看：<br><!-- python --><br>    》a=u’呵呵’  #带上u表示将这字符串转为unicode<br>    》a<br>    》u’\u5475\u5475’<br>    》print a<br>    》呵呵</p>
+<p>我们发现print真是厉害，不管是字符串 还是 unicode 它都能显示为中文的字符。而回车显示的u’\u5475\u5475’是什么呢？这是’呵呵’对应的uncode编码</p>
+<p>我们知道unicode可以 通过encode 编码来转为str</p>
+<!-- python -->
+<pre><code>》a.encode(&apos;utf-8&apos;)
+》&apos;\xe5\x91\xb5\xe5\x91\xb5&apos;
+》print a.encode(&apos;utf-8&apos;)
+》呵呵
+</code></pre><p>我们看到encode后显示的str和我们最开始显示的’\xe5\x91\xb5\xe5\x91\xb5’一样。这说吗中文的字符串在python里就是用\x这种字符串编码保存的</p>
+<p>print 可以把这种编码自动地解码并且显示为对应的中文字符</p>
+<p>另外，有些时候会碰到这种情况，请看下面：</p>
+<!-- python -->
+<pre><code>》a=u&apos;呵呵&apos;
+》l=[a]
+》s=str(l)
+》s
+》&quot;[u&apos;\\u5475\\u5475&apos;]&quot;
+</code></pre><p>哟，怎么多了个\<br>有时候，python会以这种编码保存，这不知道是什么编码，多了一个斜杠的<br>遇到这种情况我们可以用如下办法<br><!-- python --></p>
+<pre><code>》s.decode(&apos;unicode_escape&apos;)
+》s
+》u&quot;[u&apos;\u5475\u5475&apos;]&quot;
+</code></pre><p>这样就可以把它变回来了。此外我们可以print s一下看看会出现什么呢？<br><!-- python --></p>
+<pre><code>》print s
+》[u&apos;\u5475\u5475&apos;]
+</code></pre><p>哈，其实print 就是把不好读的编码优化为比这种编码更好读的一种形式</p>
+<h3 id="总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟"><a href="#总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟" class="headerlink" title="总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟"></a>总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟</h3>]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Spark Streaming Dstream ForeachRDD的理解</title>
+    <url>/2016/spark_foreachRDD.html</url>
+    <content><![CDATA[<h1 id="通俗理解Spark-Streaming-Dstream-的ForeachRDD"><a href="#通俗理解Spark-Streaming-Dstream-的ForeachRDD" class="headerlink" title="通俗理解Spark Streaming Dstream 的ForeachRDD"></a>通俗理解Spark Streaming Dstream 的ForeachRDD</h1><p>在SparkStreaming中，数据中的每个batch都是只有一个RDD，为什么我们还要用ForeachRDD 在每一个RDD呢？ 不是只有一个RDD吗？</p>
+<p>Dstream也就是离散stream，就是把连续的数据分成一小团一小团。我们用专业术语“microbatching”来描述。每个microbatch 变成一个RDD以便Spark的后续处理。在每一个batch interval中，每个DStream有且仅有一个RDD。</p>
+<p><img src="/images/2016/spark_foreachRDD/spark-streaming.png" alt="Sample Image Added via Markdown"></p>
+<p>然而RDD是什么呢，RDD是一个分布式数据集合。你可以认为它是一个告诉你实际数据在集群中具体什么地方的指南者（pointer）。</p>
+<a id="more"></a>
+<p>Dstream.foreachRDD在SparkStreaming中是一个“output operator”，它让你直接基于Dstream的RDDs去处理数据。比如说，用foreachRDD方法将数据写入数据库</p>
+<p>这里有个容易疑惑的地方，DStream是和时间有关的集合。我们来对比一下传统的集合。我们用一群客户（users）来举个例子：</p>
+<!-- scala -->
+<pre><code>val userDStream：DStream[User]=???
+userDStream.foreachRDD{usersRDD =&gt;
+    usersRDD.foreach{user =&gt; serveCoffee(user)}
+}
+</code></pre><p>注意：</p>
+<ul>
+<li>DStream.foreachRDD返回给你的是RDD[user],不是单单一个user。回到上面咖啡的这个例子，这个客户集合 是指某个时间区间(比如下午一点到两点)的集合</li>
+<li>为了处理单个集合的元素，需要进一步操作(operate) RDD。在这个案例中，我们用RDD.foreach来对每个客户serve coffee</li>
+</ul>
+]]></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>spark</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Spark简易入门</title>
     <url>/2016/spark_guide.html</url>
     <content><![CDATA[<h1 id="Spark简易入门"><a href="#Spark简易入门" class="headerlink" title="Spark简易入门"></a>Spark简易入门</h1><p>Spark，搞大数据的人都应该用过吧。spark作为主流的大数据处理框架，到底为什么这么多人用呢？我们少扯淡，直接动手写大数据界的HelloWorld：WordCount。</p>
@@ -1959,34 +2321,6 @@ object WordCount
 <p><code>spark-submit --class &quot;demo.WordCount&quot; SparkDemo-1.0-SNAPSHOT.jar</code><br></p>
 <p>其中demo.WordCount是main函数所在的ojbect，而SparkDemo-1.0-SNAPSHOT.jar就是打出来的jar包。</p>
 <p>Spark 最简单的流程，就这样Finish了。</p>
-]]></content>
-      <categories>
-        <category>大数据</category>
-      </categories>
-      <tags>
-        <tag>spark</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Spark Streaming Dstream ForeachRDD的理解</title>
-    <url>/2016/spark_foreachRDD.html</url>
-    <content><![CDATA[<h1 id="通俗理解Spark-Streaming-Dstream-的ForeachRDD"><a href="#通俗理解Spark-Streaming-Dstream-的ForeachRDD" class="headerlink" title="通俗理解Spark Streaming Dstream 的ForeachRDD"></a>通俗理解Spark Streaming Dstream 的ForeachRDD</h1><p>在SparkStreaming中，数据中的每个batch都是只有一个RDD，为什么我们还要用ForeachRDD 在每一个RDD呢？ 不是只有一个RDD吗？</p>
-<p>Dstream也就是离散stream，就是把连续的数据分成一小团一小团。我们用专业术语“microbatching”来描述。每个microbatch 变成一个RDD以便Spark的后续处理。在每一个batch interval中，每个DStream有且仅有一个RDD。</p>
-<p><img src="/images/2016/spark_foreachRDD/spark-streaming.png" alt="Sample Image Added via Markdown"></p>
-<p>然而RDD是什么呢，RDD是一个分布式数据集合。你可以认为它是一个告诉你实际数据在集群中具体什么地方的指南者（pointer）。</p>
-<a id="more"></a>
-<p>Dstream.foreachRDD在SparkStreaming中是一个“output operator”，它让你直接基于Dstream的RDDs去处理数据。比如说，用foreachRDD方法将数据写入数据库</p>
-<p>这里有个容易疑惑的地方，DStream是和时间有关的集合。我们来对比一下传统的集合。我们用一群客户（users）来举个例子：</p>
-<!-- scala -->
-<pre><code>val userDStream：DStream[User]=???
-userDStream.foreachRDD{usersRDD =&gt;
-    usersRDD.foreach{user =&gt; serveCoffee(user)}
-}
-</code></pre><p>注意：</p>
-<ul>
-<li>DStream.foreachRDD返回给你的是RDD[user],不是单单一个user。回到上面咖啡的这个例子，这个客户集合 是指某个时间区间(比如下午一点到两点)的集合</li>
-<li>为了处理单个集合的元素，需要进一步操作(operate) RDD。在这个案例中，我们用RDD.foreach来对每个客户serve coffee</li>
-</ul>
 ]]></content>
       <categories>
         <category>大数据</category>
