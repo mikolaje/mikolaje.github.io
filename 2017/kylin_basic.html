@@ -105,7 +105,7 @@
 基度（Cardinality）指数据表中某一列数据去重后的">
 <meta property="og:image" content="http://mikolaje.github.io/.kylin_basic_images/367a4515.png">
 <meta property="og:image" content="http://mikolaje.github.io/.kylin_basic_images/b447988e.png">
-<meta property="og:updated_time" content="2020-02-23T05:16:42.291Z">
+<meta property="og:updated_time" content="2020-02-28T03:05:25.024Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Kylin 基础介绍">
 <meta name="twitter:description" content="Kylin术语
@@ -465,6 +465,8 @@
 </li>
 <li><p>数据立方体(cube)<br>一组用于分析数据的相关度量值和维度，是所有cuboid的集合，作为存储和分析的基本单位</p>
 </li>
+<li><p>segment<br>Cube Segment 是指针对源数据中的某一个片段，计算出来的 Cube 数据。<br>通常数据仓库中的数据数量会随着时间的增长而增长，而 Cube Segment 也是按时间顺序来构建的。</p>
+</li>
 <li><p>衍生维度<br>维度表上的某一列通过PK可推的，换句话是可查询到的 比如由身份证可以推导性别，所以能通过PK推导的维度都可以设置为衍生维度。<br>衍生维度是放在snapshot中</p>
 </li>
 </ul>
@@ -509,6 +511,23 @@
 <p>failover机制，<br>Hive的failover就是MR的failover，job挂掉了重新换机器跑就完了。</p>
 <p>MPP它的计算是要attach到数据节点上去的，如果你规模上去，那么fail的可能性就上去了，这样如果你每次计算<br>都有台机器挂了，一挂，别人就要等你，而不是换台机器继续跑。可以用木桶效应类比。</p>
 <h3 id="Cube设计"><a href="#Cube设计" class="headerlink" title="Cube设计"></a>Cube设计</h3><p>Rowkey的具体格式是cuboid id + 具体的维度值（最新的Rowkey中为了并发查询还加入了ShardKey）<br><img src=".kylin_basic_images/b447988e.png" alt=""><br>前面4个框着的作为Rowkey，比如，2015-10-1的维度序号为1，BJ的序号为0，item-A序号为0，则最终Rowkey为 111+100</p>
+<p>Rowkey的设计原则：</p>
+<ol>
+<li>结合业务场景特点，按照查询频次来放置字段顺序</li>
+<li>通过设计的Rowkey尽可能的将数据打散到整个集群中，负载均衡</li>
+<li>设计的Rowkey尽量简短</li>
+</ol>
+<p>有3个方面要考虑：</p>
+<ul>
+<li><p>Encoding<br>我们的编码方式能够大大减少每行Cube数据的体积。<br>而Cube中可能存在数以亿计的行数，使用编码节约的空间累加起来将是一个非常巨大的数字。</p>
+</li>
+<li><p>排序<br>高概率用于过滤的列<br>基数高的列（用它进行过滤时，返回的结果集小）<br>排序评分=过滤概率*过滤强度<br>经常使用到的维度提前—在需要进行后聚合的场景中效率会更高。</p>
+</li>
+<li><p>分片<br>按维度分片（Shard by Dimension）提供了一种更加高效的分片策略，那就是按照某个特定维度进行分片。<br>简单地说，如果Cuboid中某两个行的Shard by Dimension的值相同，<br>那么无论这个Cuboid最终会被划分成多少个分片，这两行数据必然会被分配到同一个分片中。</p>
+</li>
+</ul>
+<p>Shard by维度要求<br>仅支持单一维度<br>基数足够高（几十万）<br>分布均匀<br>经常进行group by和filter</p>
+<p>更多的优化原理要参考Rowkey的设计</p>
 <h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://blog.bcmeng.com/post/kylin-cube.html#cuboid-%E7%9A%84%E7%BB%B4%E5%BA%A6%E5%92%8C%E6%8C%87%E6%A0%87%E5%A6%82%E4%BD%95%E8%BD%AC%E6%8D%A2%E4%B8%BAhbase%E7%9A%84kv%E7%BB%93%E6%9E%84" target="_blank" rel="external">https://blog.bcmeng.com/post/kylin-cube.html#cuboid-%E7%9A%84%E7%BB%B4%E5%BA%A6%E5%92%8C%E6%8C%87%E6%A0%87%E5%A6%82%E4%BD%95%E8%BD%AC%E6%8D%A2%E4%B8%BAhbase%E7%9A%84kv%E7%BB%93%E6%9E%84</a></p>
 
       

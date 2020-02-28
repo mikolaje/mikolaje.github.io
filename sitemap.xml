@@ -2,16 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://mikolaje.github.io/2020/ldap_kerberos.html</loc>
+    <loc>http://mikolaje.github.io/2019/private_IDC.html</loc>
     
-    <lastmod>2020-02-23T05:16:42.399Z</lastmod>
+    <lastmod>2020-02-28T03:05:25.072Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://mikolaje.github.io/2019/private_IDC.html</loc>
+    <loc>http://mikolaje.github.io/2017/kylin_basic.html</loc>
     
-    <lastmod>2020-02-23T05:16:42.359Z</lastmod>
+    <lastmod>2020-02-28T03:05:25.024Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://mikolaje.github.io/2020/ldap_kerberos.html</loc>
+    
+    <lastmod>2020-02-23T05:16:42.399Z</lastmod>
     
   </url>
   
@@ -26,13 +33,6 @@
     <loc>http://mikolaje.github.io/2018/hadoop_basic.html</loc>
     
     <lastmod>2020-02-23T05:16:42.327Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://mikolaje.github.io/2017/kylin_basic.html</loc>
-    
-    <lastmod>2020-02-23T05:16:42.291Z</lastmod>
     
   </url>
   

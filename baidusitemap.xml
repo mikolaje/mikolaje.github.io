@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://mikolaje.github.io/2020/ldap_kerberos.html</loc>
-    <lastmod>2020-02-23</lastmod>
-  </url>  <url>
     <loc>http://mikolaje.github.io/2019/private_IDC.html</loc>
+    <lastmod>2020-02-28</lastmod>
+  </url>  <url>
+    <loc>http://mikolaje.github.io/2017/kylin_basic.html</loc>
+    <lastmod>2020-02-28</lastmod>
+  </url>  <url>
+    <loc>http://mikolaje.github.io/2020/ldap_kerberos.html</loc>
     <lastmod>2020-02-23</lastmod>
   </url>  <url>
     <loc>http://mikolaje.github.io/2018/calcite_intro.html</loc>
     <lastmod>2020-02-23</lastmod>
   </url>  <url>
     <loc>http://mikolaje.github.io/2018/hadoop_basic.html</loc>
-    <lastmod>2020-02-23</lastmod>
-  </url>  <url>
-    <loc>http://mikolaje.github.io/2017/kylin_basic.html</loc>
     <lastmod>2020-02-23</lastmod>
   </url>  <url>
     <loc>http://mikolaje.github.io/2017/kafka_daily_command.html</loc>

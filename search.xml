@@ -293,6 +293,13 @@
 <h4 id="交换机"><a href="#交换机" class="headerlink" title="交换机"></a>交换机</h4><p>哈哈，没钱买千兆网卡，千兆交换机，只能用路由器充当了。</p>
 <h3 id="机器的container–机柜"><a href="#机器的container–机柜" class="headerlink" title="机器的container–机柜"></a>机器的container–机柜</h3><p>2020年初买了个小机柜，1。2米的。机柜挺好用的，如果你设备多的话（主机，电源排插，路由器），可以都放进去。其实，机柜对我最大的好处就是防尘。我方面里的灰尘太大了，<br>几个礼拜就可以把主机风扇上的灰尘粘的满满的。<br><img src="/images/2019/private_IDC/92e826b2.png" alt=""></p>
 <h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>玩硬件组装也是个超级无底洞，各个部件都可以扩展起来，内存，硬盘，CPU，可以水平扩展，也可以横向扩展。以后准备好好赚钱升级设备吧。如果比较缺钱的话可以上淘宝或闲鱼买点二手的配件，<br>比如内存条，硬盘这些。最好是可以和个人卖家交易，因为个人的话经常可以买到一些物美价廉的二手物品。另外，V2EX网站也有专门二手转让的版块，可以去看看。</p>
+<h2 id="20200225-Update"><a href="#20200225-Update" class="headerlink" title="20200225 Update"></a>20200225 Update</h2><h3 id="购买内存发现好多坑"><a href="#购买内存发现好多坑" class="headerlink" title="购买内存发现好多坑"></a>购买内存发现好多坑</h3><p>服务器用了一段时间了，想升级下内存配置。于是去咸鱼上搜服务器内存，挨家挨户地去问，这内存我的服务器可以用吗？当我说出是DELL 塔式服务器<br>的时候，很多商家就直接不搭理了，或者直接说不行。感觉很是失落，买个东西还被这么多人拒绝。</p>
+<p>也是怪自己在内存这方面完全没什么经验，也不知道自己的服务器到底需要买什么样子的内存。之前我对服务器的知识范围知识在DDR 代数，还设有<br>它的频率 2133、2400等等。却不知道内存还有很多规格和知识。比如 纯ECC，RECC，非ECC；2Rx8，2Rx4；这些到底是神马意思啊。然后最主要<br>的是这些不同规则的内存之间能否共存兼容，和我的机器是否兼容。</p>
+<p>这两天咸鱼上几乎搜了遍，然后在网上也搜了很多相关资料，然后在牙医的Q群上咨询，学到了好多。比如，2Rx8，2Rx4有的机器是可以混用的<br>有的不能。内存是玄学，不实际通电啥也不知道，不过不建议混用。</p>
+<p>纯ECC的内存比较少，所以比较贵。一些初级服务器才会用，比如说DELL T30 T130 等等都是只能用纯ECC内存。这种内存8G的DDR4都要300块。<br>在淘宝搜关键词 纯ECC+DDR4 即可找到。ERCC的会便宜一些，但是需要比较高端的机型，比如一些E5 CPU的机器。</p>
+<p>对于这些概念可以在这里学学：<a href="https://www.bilibili.com/read/cv2879006" target="_blank" rel="external">https://www.bilibili.com/read/cv2879006</a></p>
+<p>ECC 的全程是 Error Checking and Correcting。ECC是一种校验，ECC的R表示register，即寄存器，所以RECC就是在ECC的基础上加了一个寄存器。<br>ECC是控制器直接读内存颗粒，REG ECC是控制器读寄存器，寄存器读颗粒。</p>
+<p>2Rx8： 表示2个rank组成，每个rank八个内存颗粒</p>
 ]]></content>
       <categories>
         <category>运维</category>
@@ -1350,6 +1357,8 @@
 </li>
 <li><p>数据立方体(cube)<br>一组用于分析数据的相关度量值和维度，是所有cuboid的集合，作为存储和分析的基本单位</p>
 </li>
+<li><p>segment<br>Cube Segment 是指针对源数据中的某一个片段，计算出来的 Cube 数据。<br>通常数据仓库中的数据数量会随着时间的增长而增长，而 Cube Segment 也是按时间顺序来构建的。</p>
+</li>
 <li><p>衍生维度<br>维度表上的某一列通过PK可推的，换句话是可查询到的 比如由身份证可以推导性别，所以能通过PK推导的维度都可以设置为衍生维度。<br>衍生维度是放在snapshot中</p>
 </li>
 </ul>
@@ -1394,6 +1403,23 @@
 <p>failover机制，<br>Hive的failover就是MR的failover，job挂掉了重新换机器跑就完了。</p>
 <p>MPP它的计算是要attach到数据节点上去的，如果你规模上去，那么fail的可能性就上去了，这样如果你每次计算<br>都有台机器挂了，一挂，别人就要等你，而不是换台机器继续跑。可以用木桶效应类比。</p>
 <h3 id="Cube设计"><a href="#Cube设计" class="headerlink" title="Cube设计"></a>Cube设计</h3><p>Rowkey的具体格式是cuboid id + 具体的维度值（最新的Rowkey中为了并发查询还加入了ShardKey）<br><img src=".kylin_basic_images/b447988e.png" alt=""><br>前面4个框着的作为Rowkey，比如，2015-10-1的维度序号为1，BJ的序号为0，item-A序号为0，则最终Rowkey为 111+100</p>
+<p>Rowkey的设计原则：</p>
+<ol>
+<li>结合业务场景特点，按照查询频次来放置字段顺序</li>
+<li>通过设计的Rowkey尽可能的将数据打散到整个集群中，负载均衡</li>
+<li>设计的Rowkey尽量简短</li>
+</ol>
+<p>有3个方面要考虑：</p>
+<ul>
+<li><p>Encoding<br>我们的编码方式能够大大减少每行Cube数据的体积。<br>而Cube中可能存在数以亿计的行数，使用编码节约的空间累加起来将是一个非常巨大的数字。</p>
+</li>
+<li><p>排序<br>高概率用于过滤的列<br>基数高的列（用它进行过滤时，返回的结果集小）<br>排序评分=过滤概率*过滤强度<br>经常使用到的维度提前—在需要进行后聚合的场景中效率会更高。</p>
+</li>
+<li><p>分片<br>按维度分片（Shard by Dimension）提供了一种更加高效的分片策略，那就是按照某个特定维度进行分片。<br>简单地说，如果Cuboid中某两个行的Shard by Dimension的值相同，<br>那么无论这个Cuboid最终会被划分成多少个分片，这两行数据必然会被分配到同一个分片中。</p>
+</li>
+</ul>
+<p>Shard by维度要求<br>仅支持单一维度<br>基数足够高（几十万）<br>分布均匀<br>经常进行group by和filter</p>
+<p>更多的优化原理要参考Rowkey的设计</p>
 <h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://blog.bcmeng.com/post/kylin-cube.html#cuboid-%E7%9A%84%E7%BB%B4%E5%BA%A6%E5%92%8C%E6%8C%87%E6%A0%87%E5%A6%82%E4%BD%95%E8%BD%AC%E6%8D%A2%E4%B8%BAhbase%E7%9A%84kv%E7%BB%93%E6%9E%84" target="_blank" rel="external">https://blog.bcmeng.com/post/kylin-cube.html#cuboid-%E7%9A%84%E7%BB%B4%E5%BA%A6%E5%92%8C%E6%8C%87%E6%A0%87%E5%A6%82%E4%BD%95%E8%BD%AC%E6%8D%A2%E4%B8%BAhbase%E7%9A%84kv%E7%BB%93%E6%9E%84</a></p>
 ]]></content>
       <categories>

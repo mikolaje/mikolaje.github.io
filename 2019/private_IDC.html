@@ -91,7 +91,7 @@
 <meta property="og:image" content="http://mikolaje.github.io/images/2019/private_IDC/t30.jpg">
 <meta property="og:image" content="http://mikolaje.github.io/images/2019/private_IDC/raid.jpg">
 <meta property="og:image" content="http://mikolaje.github.io/images/2019/private_IDC/92e826b2.png">
-<meta property="og:updated_time" content="2020-02-23T05:16:42.359Z">
+<meta property="og:updated_time" content="2020-02-28T03:05:25.072Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="自建家用服务器集群，打造一个私有云">
 <meta name="twitter:description" content="背景我的战神还记得17年的时候，那时深度学习刚火起来，幼稚的我居然打算往这个领域去研究（根本没有意识到这领域需要的数学功底要多深）。俗话说，工欲善其事，必先利其器，于是乎，一股脑地跑到广州的岗顶那买了台神舟战神 超级本（GTX-1060）。当时，经常都听到东哥在提到GPU，CUDA，GTX1080提到这些关键词。哈，为什当时会选择买一台笔记本，而不是台式呢？
@@ -441,6 +441,13 @@
 <h4 id="交换机"><a href="#交换机" class="headerlink" title="交换机"></a>交换机</h4><p>哈哈，没钱买千兆网卡，千兆交换机，只能用路由器充当了。</p>
 <h3 id="机器的container–机柜"><a href="#机器的container–机柜" class="headerlink" title="机器的container–机柜"></a>机器的container–机柜</h3><p>2020年初买了个小机柜，1。2米的。机柜挺好用的，如果你设备多的话（主机，电源排插，路由器），可以都放进去。其实，机柜对我最大的好处就是防尘。我方面里的灰尘太大了，<br>几个礼拜就可以把主机风扇上的灰尘粘的满满的。<br><img src="/images/2019/private_IDC/92e826b2.png" alt=""></p>
 <h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>玩硬件组装也是个超级无底洞，各个部件都可以扩展起来，内存，硬盘，CPU，可以水平扩展，也可以横向扩展。以后准备好好赚钱升级设备吧。如果比较缺钱的话可以上淘宝或闲鱼买点二手的配件，<br>比如内存条，硬盘这些。最好是可以和个人卖家交易，因为个人的话经常可以买到一些物美价廉的二手物品。另外，V2EX网站也有专门二手转让的版块，可以去看看。</p>
+<h2 id="20200225-Update"><a href="#20200225-Update" class="headerlink" title="20200225 Update"></a>20200225 Update</h2><h3 id="购买内存发现好多坑"><a href="#购买内存发现好多坑" class="headerlink" title="购买内存发现好多坑"></a>购买内存发现好多坑</h3><p>服务器用了一段时间了，想升级下内存配置。于是去咸鱼上搜服务器内存，挨家挨户地去问，这内存我的服务器可以用吗？当我说出是DELL 塔式服务器<br>的时候，很多商家就直接不搭理了，或者直接说不行。感觉很是失落，买个东西还被这么多人拒绝。</p>
+<p>也是怪自己在内存这方面完全没什么经验，也不知道自己的服务器到底需要买什么样子的内存。之前我对服务器的知识范围知识在DDR 代数，还设有<br>它的频率 2133、2400等等。却不知道内存还有很多规格和知识。比如 纯ECC，RECC，非ECC；2Rx8，2Rx4；这些到底是神马意思啊。然后最主要<br>的是这些不同规则的内存之间能否共存兼容，和我的机器是否兼容。</p>
+<p>这两天咸鱼上几乎搜了遍，然后在网上也搜了很多相关资料，然后在牙医的Q群上咨询，学到了好多。比如，2Rx8，2Rx4有的机器是可以混用的<br>有的不能。内存是玄学，不实际通电啥也不知道，不过不建议混用。</p>
+<p>纯ECC的内存比较少，所以比较贵。一些初级服务器才会用，比如说DELL T30 T130 等等都是只能用纯ECC内存。这种内存8G的DDR4都要300块。<br>在淘宝搜关键词 纯ECC+DDR4 即可找到。ERCC的会便宜一些，但是需要比较高端的机型，比如一些E5 CPU的机器。</p>
+<p>对于这些概念可以在这里学学：<a href="https://www.bilibili.com/read/cv2879006" target="_blank" rel="external">https://www.bilibili.com/read/cv2879006</a></p>
+<p>ECC 的全程是 Error Checking and Correcting。ECC是一种校验，ECC的R表示register，即寄存器，所以RECC就是在ECC的基础上加了一个寄存器。<br>ECC是控制器直接读内存颗粒，REG ECC是控制器读寄存器，寄存器读颗粒。</p>
+<p>2Rx8： 表示2个rank组成，每个rank八个内存颗粒</p>
 
       
     </div>
@@ -659,7 +666,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#我的战神"><span class="nav-number">1.1.</span> <span class="nav-text">我的战神</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第一台组装台式机"><span class="nav-number">1.2.</span> <span class="nav-text">第一台组装台式机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第一台真正的服务器"><span class="nav-number">1.3.</span> <span class="nav-text">第一台真正的服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#坑人的阵列卡"><span class="nav-number">1.3.1.</span> <span class="nav-text">坑人的阵列卡</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第一次在咸鱼买的服务器"><span class="nav-number">1.4.</span> <span class="nav-text">第一次在咸鱼买的服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#交换机"><span class="nav-number">1.4.1.</span> <span class="nav-text">交换机</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#机器的container–机柜"><span class="nav-number">1.5.</span> <span class="nav-text">机器的container–机柜</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后记"><span class="nav-number">2.</span> <span class="nav-text">后记</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#我的战神"><span class="nav-number">1.1.</span> <span class="nav-text">我的战神</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第一台组装台式机"><span class="nav-number">1.2.</span> <span class="nav-text">第一台组装台式机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第一台真正的服务器"><span class="nav-number">1.3.</span> <span class="nav-text">第一台真正的服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#坑人的阵列卡"><span class="nav-number">1.3.1.</span> <span class="nav-text">坑人的阵列卡</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第一次在咸鱼买的服务器"><span class="nav-number">1.4.</span> <span class="nav-text">第一次在咸鱼买的服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#交换机"><span class="nav-number">1.4.1.</span> <span class="nav-text">交换机</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#机器的container–机柜"><span class="nav-number">1.5.</span> <span class="nav-text">机器的container–机柜</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后记"><span class="nav-number">2.</span> <span class="nav-text">后记</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#20200225-Update"><span class="nav-number">3.</span> <span class="nav-text">20200225 Update</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#购买内存发现好多坑"><span class="nav-number">3.1.</span> <span class="nav-text">购买内存发现好多坑</span></a></li></ol></li></ol></div>
             
 
           </div>
