@@ -1,28 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://mikolaje.github.io/2019/private_IDC.html</loc>
-    <lastmod>2020-02-28</lastmod>
-  </url>  <url>
-    <loc>http://mikolaje.github.io/2017/kylin_basic.html</loc>
-    <lastmod>2020-02-28</lastmod>
-  </url>  <url>
     <loc>http://mikolaje.github.io/2020/ldap_kerberos.html</loc>
-    <lastmod>2020-02-23</lastmod>
+    <lastmod>2020-03-14</lastmod>
+  </url>  <url>
+    <loc>http://mikolaje.github.io/2019/private_IDC.html</loc>
+    <lastmod>2020-03-14</lastmod>
+  </url>  <url>
+    <loc>http://mikolaje.github.io/2019/cdh_install.html</loc>
+    <lastmod>2020-03-14</lastmod>
   </url>  <url>
     <loc>http://mikolaje.github.io/2018/calcite_intro.html</loc>
-    <lastmod>2020-02-23</lastmod>
+    <lastmod>2020-03-14</lastmod>
+  </url>  <url>
+    <loc>http://mikolaje.github.io/2017/kylin_basic.html</loc>
+    <lastmod>2020-03-14</lastmod>
+  </url>  <url>
+    <loc>http://mikolaje.github.io/2017/kafka_daily_command.html</loc>
+    <lastmod>2020-03-14</lastmod>
   </url>  <url>
     <loc>http://mikolaje.github.io/2018/hadoop_basic.html</loc>
     <lastmod>2020-02-23</lastmod>
   </url>  <url>
-    <loc>http://mikolaje.github.io/2017/kafka_daily_command.html</loc>
+    <loc>http://mikolaje.github.io/2017/dennis_weekly.html</loc>
     <lastmod>2020-02-23</lastmod>
   </url>  <url>
     <loc>http://mikolaje.github.io/2016/hbase_intro.html</loc>
-    <lastmod>2020-02-23</lastmod>
-  </url>  <url>
-    <loc>http://mikolaje.github.io/2017/dennis_weekly.html</loc>
     <lastmod>2020-02-23</lastmod>
   </url>  <url>
     <loc>http://mikolaje.github.io/2019/spark_internal_reading_notes.html</loc>
@@ -32,9 +35,6 @@
     <lastmod>2020-02-12</lastmod>
   </url>  <url>
     <loc>http://mikolaje.github.io/2018/git_rebase.html</loc>
-    <lastmod>2020-02-12</lastmod>
-  </url>  <url>
-    <loc>http://mikolaje.github.io/2019/cdh_install.html</loc>
     <lastmod>2020-02-12</lastmod>
   </url>  <url>
     <loc>http://mikolaje.github.io/2018/git_github.html</loc>

@@ -87,14 +87,14 @@ Calcite的生前为Optiq(也为Farrago), 为Java语言编写, 通过十多年的
 <meta property="og:site_name" content="Dennis' Blog">
 <meta property="og:description" content="什么是Apache Calcite ?Apache Calcite 是一款开源SQL解析工具, 可以将各种SQL语句解析成抽象语法术AST(Abstract Syntax Tree),之后通过操作AST就可以把SQL中所要表达的算法与关系体现在具体代码之中。
 Calcite的生前为Optiq(也为Farrago), 为Java语言编写, 通过十多年的发展, 在2013年成为Apache旗下顶级项目">
-<meta property="og:image" content="http://mikolaje.github.io/.calcite_intro_images/391eae29.png">
-<meta property="og:image" content="http://mikolaje.github.io/.calcite_intro_images/43aec32e.png">
-<meta property="og:updated_time" content="2020-02-23T05:16:42.327Z">
+<meta property="og:image" content="http://mikolaje.github.io/images/2018/calcite_intro/391eae29.png">
+<meta property="og:image" content="http://mikolaje.github.io/images/2018/calcite_intro/43aec32e.png">
+<meta property="og:updated_time" content="2020-03-14T12:31:15.714Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Calcite介绍">
 <meta name="twitter:description" content="什么是Apache Calcite ?Apache Calcite 是一款开源SQL解析工具, 可以将各种SQL语句解析成抽象语法术AST(Abstract Syntax Tree),之后通过操作AST就可以把SQL中所要表达的算法与关系体现在具体代码之中。
 Calcite的生前为Optiq(也为Farrago), 为Java语言编写, 通过十多年的发展, 在2013年成为Apache旗下顶级项目">
-<meta name="twitter:image" content="http://mikolaje.github.io/.calcite_intro_images/391eae29.png">
+<meta name="twitter:image" content="http://mikolaje.github.io/images/2018/calcite_intro/391eae29.png">
 
 
 
@@ -433,7 +433,7 @@ Calcite的生前为Optiq(也为Farrago), 为Java语言编写, 通过十多年的
 <li>SQL 生成器</li>
 <li>数据连接</li>
 </ul>
-<h1 id="3-Calcite-解析SQl的步骤"><a href="#3-Calcite-解析SQl的步骤" class="headerlink" title="3. Calcite 解析SQl的步骤"></a>3. Calcite 解析SQl的步骤</h1><p><img src=".calcite_intro_images/391eae29.png" alt=""><br>如上图中所述，一般来说Calcite解析SQL有以下几步:</p>
+<h1 id="3-Calcite-解析SQl的步骤"><a href="#3-Calcite-解析SQl的步骤" class="headerlink" title="3. Calcite 解析SQl的步骤"></a>3. Calcite 解析SQl的步骤</h1><p><img src="/images/2018/calcite_intro/391eae29.png" alt=""><br>如上图中所述，一般来说Calcite解析SQL有以下几步:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Parser. 此步中Calcite通过Java CC将SQL解析成未经校验的AST</div><div class="line">Validate. 该步骤主要作用是校证Parser步骤中的AST是否合法,如验证SQL scheme、字段、函数等是否存在; SQL语句是否合法等. 此步完成之后就生成了RelNode树（关于RelNode树, 请参考下文）</div><div class="line">Optimize. 该步骤主要的作用优化RelNode树, 并将其转化成物理执行计划。主要涉及SQL规则优化如:基于规则优化(RBO)及基于代价(CBO)优化; Optimze 这一步原则上来说是可选的, 通过Validate后的RelNode树已经可以直接转化物理执行计划，但现代的SQL解析器基本上都包括有这一步，目的是优化SQL执行计划。此步得到的结果为物理执行计划。</div><div class="line">Execute，即执行阶段。此阶段主要做的是:将物理执行计划转化成可在特定的平台执行的程序。如Hive与Flink都在在此阶段将物理执行计划CodeGen生成相应的可执行代码。</div></pre></td></tr></table></figure>
 <h1 id="Calcite相关组件"><a href="#Calcite相关组件" class="headerlink" title="Calcite相关组件"></a>Calcite相关组件</h1><p>Calcite主要有以下概念：</p>
 <p>Catelog: 主要定义SQL语义相关的元数据与命名空间。<br>SQL parser: 主要是把SQL转化成AST.<br>SQL validator: 通过Catalog来校证AST.<br>Query optimizer: 将AST转化成物理执行计划、优化物理执行计划.<br>SQL generator: 反向将物理执行计划转化成SQL语句.</p>
@@ -456,7 +456,7 @@ Calcite的生前为Optiq(也为Farrago), 为Java语言编写, 通过十多年的
 <p>这个条件可以先下推过滤s1中的数据, 但在特定场景下，有些不能下推，如下sql:<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> tmp_node</div><div class="line"><span class="keyword">SELECT</span> s1.id1, s1.id2, s2.val1</div><div class="line"><span class="keyword">FROM</span> source1 <span class="keyword">as</span> s1 <span class="keyword">LEFT</span> <span class="keyword">JOIN</span> source2 <span class="keyword">AS</span> s2</div><div class="line"><span class="keyword">ON</span> s1.id1 = s2.id1 <span class="keyword">and</span> s1.id2 = s2.id2 <span class="keyword">and</span> s2.id3 = <span class="number">5</span></div></pre></td></tr></table></figure></p>
 <p>如果s1,s2是流式表（动态表，请参考Flink流式概念）的话，就不能下推，因为s1下推的话，由于过滤后没有数据驱动join操作，因而得不到想要的结果（详见Flink/Sparking-Streaming)</p>
 <p>那接下来我们可能有一个疑问，在什么情况下可以做类似下推、上推操作，又是根据什么原则进行的呢？如下图所示</p>
-<p><img src=".calcite_intro_images/43aec32e.png" alt=""><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">T1 JOIN T2 JOIN T3</div></pre></td></tr></table></figure></p>
+<p><img src="/images/2018/calcite_intro/43aec32e.png" alt=""><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">T1 JOIN T2 JOIN T3</div></pre></td></tr></table></figure></p>
 <p>类似于此种情况JOIN的顺序是上图的前者还是后者？这就涉及到Optimizer所使用的方法，Optimizer主要目的就是减小SQL所处理的数据量、减少所消耗的资源并最大程度提高SQL执行效率如:剪掉无用的列、合并投影、子查询转化成JOIN、JOIN重排序、下推投影、下推过滤等。目前主要有两类优化方法:基于语法(RBO)与基于代价(CBO)的优化</p>
 <p>RBO(Rule Based Optimization)<br>通俗一点的话就是事先定义一系列的规则，然后根据这些规则来优化执行计划。<br>如</p>
 <p>ProjectFilterRule</p>

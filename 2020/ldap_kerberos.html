@@ -93,7 +93,7 @@ LDAP比较不方便(刚开始上手感觉很难)，但是简单。相反，Kerbe
 Kerberos比LDAP更安全。
 它们是完全不同用途的完全不同协议。我认为人们倾向于将两者放在一起是因为通常一个项目会把它们会放到同一个package下
 简单地说：LDAP是一个访问目录的协议（比如：Ope">
-<meta property="og:updated_time" content="2020-02-23T05:16:42.399Z">
+<meta property="og:updated_time" content="2020-03-14T12:31:15.766Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于LDAP和Kerberos">
 <meta name="twitter:description" content="两个对比首先，Kerberos是一个认证的方法。LDAP是一个为了沟通兼容LDAP数据库的协议。
@@ -450,7 +450,7 @@ Kerberos比LDAP更安全。
 <p>如下是principals的介绍<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Kerberos Principals</div><div class="line">kerberos中最重要的概念是principal，在这里就再带一遍。</div><div class="line"></div><div class="line">Principal可以理解为用户或服务的名字，全集群唯一，由三部分组成：username(or servicename)/instance@realm，</div><div class="line">例如：nn/host001@TEST.COM，host001为集群中的一台机器；或admin/admin@TEST.COM，管理员账户。</div><div class="line"></div><div class="line">username or servicename：在本文里为服务，HDFS的2个服务分别取名为nn和dn，即namenode和datanode</div><div class="line">instance：在本文里为具体的FQDN机器名，用来保证全局唯一（比如多个datanode节点，各节点需要各自独立认证）</div><div class="line">realm：域，我这里为http://TEST.COM（全大写哟）</div></pre></td></tr></table></figure></p>
 </blockquote>
 <h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><p><a href="https://juejin.im/entry/5aec6ac46fb9a07ac3635884" target="_blank" rel="external">https://juejin.im/entry/5aec6ac46fb9a07ac3635884</a><br><a href="https://zhuanlan.zhihu.com/p/32732045" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/32732045</a><br><a href="https://help.ubuntu.com/lts/serverguide/openldap-server.html" target="_blank" rel="external">https://help.ubuntu.com/lts/serverguide/openldap-server.html</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/34556597" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/34556597</a><br><a href="https://www.cnblogs.com/yinzhengjie/p/10765503.html" target="_blank" rel="external">https://www.cnblogs.com/yinzhengjie/p/10765503.html</a><br><a href="https://blog.gmem.cc/kerberos-under-ubuntu" target="_blank" rel="external">https://blog.gmem.cc/kerberos-under-ubuntu</a><br><a href="http://www.out1kiss.me/?p=538" target="_blank" rel="external">http://www.out1kiss.me/?p=538</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/34556597" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/34556597</a><br><a href="https://www.cnblogs.com/yinzhengjie/p/10765503.html" target="_blank" rel="external">https://www.cnblogs.com/yinzhengjie/p/10765503.html</a><br><a href="https://blog.gmem.cc/kerberos-under-ubuntu" target="_blank" rel="external">https://blog.gmem.cc/kerberos-under-ubuntu</a><br><a href="http://www.out1kiss.me/?p=538" target="_blank" rel="external">http://www.out1kiss.me/?p=538</a><br><a href="https://blog.csdn.net/bluishglc/article/details/84892155" target="_blank" rel="external">https://blog.csdn.net/bluishglc/article/details/84892155</a></p>
 
       
     </div>

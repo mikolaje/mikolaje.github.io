@@ -103,9 +103,9 @@
 维度表(Lookup Table)维度属性的集合，人们观察数据的特定角度。
 
 基度（Cardinality）指数据表中某一列数据去重后的">
-<meta property="og:image" content="http://mikolaje.github.io/.kylin_basic_images/367a4515.png">
-<meta property="og:image" content="http://mikolaje.github.io/.kylin_basic_images/b447988e.png">
-<meta property="og:updated_time" content="2020-02-28T03:05:25.024Z">
+<meta property="og:image" content="http://mikolaje.github.io/images/2017/kylin_basic/367a4515.png">
+<meta property="og:image" content="http://mikolaje.github.io/images/2017/kylin_basic/b447988e.png">
+<meta property="og:updated_time" content="2020-03-14T12:31:15.698Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Kylin 基础介绍">
 <meta name="twitter:description" content="Kylin术语
@@ -118,7 +118,7 @@
 维度表(Lookup Table)维度属性的集合，人们观察数据的特定角度。
 
 基度（Cardinality）指数据表中某一列数据去重后的">
-<meta name="twitter:image" content="http://mikolaje.github.io/.kylin_basic_images/367a4515.png">
+<meta name="twitter:image" content="http://mikolaje.github.io/images/2017/kylin_basic/367a4515.png">
 
 
 
@@ -473,7 +473,7 @@
 <h3 id="Kylin核心技术：Cube与计算"><a href="#Kylin核心技术：Cube与计算" class="headerlink" title="Kylin核心技术：Cube与计算"></a>Kylin核心技术：Cube与计算</h3><p>比如我们有10多亿中国人口数据，要统计男女比例这么个需求。如果直接从硬盘里提取数据来统计肯定会很慢，磁盘速度大概是几百兆/秒。<br>即使把数据放到内存中也最多提升100倍的速度。</p>
 <p>所以，可以用与计算来统计男女比例</p>
 <h3 id="维度表和事实表"><a href="#维度表和事实表" class="headerlink" title="维度表和事实表"></a>维度表和事实表</h3><p>我学到了一个数据仓库的概念，维度表（Fact Table）和事实表（Lookup Table）。<br>通过下面例子就让我明白了：<br>学过数据库的童鞋应该都知道星型模型，星型模型在数据仓库的设计中可以为是一种典型的维度模型。<br>我们在进行维度建模的时候会建一张事实表，这个事实表就是星型模型的中心，然后会有一堆维度表，这些维度表就是向外发散的星星。<br>那么什么是事实表、什么又是维度表吗，下面会专门来解释。</p>
-<p><img src=".kylin_basic_images/367a4515.png" alt=""></p>
+<p><img src="/images/2017/kylin_basic/367a4515.png" alt=""></p>
 <p>中间的chat表就是事实表。其它周边的表就是维度表。</p>
 <h3 id="维度设计"><a href="#维度设计" class="headerlink" title="维度设计"></a>维度设计</h3><p>只有普通维度会影响Cuboid的数量和存储膨胀率，衍生维度并不参与Cuboid计算，而是有衍生维度对应的外键FK参与计算Cuboid。<br>在查询时，对衍生维度的查询会首先转换为对外键所在维度的查询，因此会牺牲少量查询性能。</p>
 <p>Kylin暂时不支持星座模型</p>
@@ -510,7 +510,7 @@
 <p>Hive在内存管理上方式不大一样。<br>MPP内存管理比较精细，他主要的想法是在每个机器上放个数据库，传统数据库的内存管理比较复杂，主要是内外存<br>交互的东西，这样的架构决定了MPP在小数据量的时候，latency可以做的比较小，但是数据量大的时候，<br>throughput做不上去了。<br>而Hive的内存管理非常粗放，它后来就是MapReduce的job，MR的job是没有太多精细的内存管理，就是拼命地<br>scan，完了就是spill，这样的架构导致throughput很大，但是latency很高。</p>
 <p>failover机制，<br>Hive的failover就是MR的failover，job挂掉了重新换机器跑就完了。</p>
 <p>MPP它的计算是要attach到数据节点上去的，如果你规模上去，那么fail的可能性就上去了，这样如果你每次计算<br>都有台机器挂了，一挂，别人就要等你，而不是换台机器继续跑。可以用木桶效应类比。</p>
-<h3 id="Cube设计"><a href="#Cube设计" class="headerlink" title="Cube设计"></a>Cube设计</h3><p>Rowkey的具体格式是cuboid id + 具体的维度值（最新的Rowkey中为了并发查询还加入了ShardKey）<br><img src=".kylin_basic_images/b447988e.png" alt=""><br>前面4个框着的作为Rowkey，比如，2015-10-1的维度序号为1，BJ的序号为0，item-A序号为0，则最终Rowkey为 111+100</p>
+<h3 id="Cube设计"><a href="#Cube设计" class="headerlink" title="Cube设计"></a>Cube设计</h3><p>Rowkey的具体格式是cuboid id + 具体的维度值（最新的Rowkey中为了并发查询还加入了ShardKey）<br><img src="/images/2017/kylin_basic/b447988e.png" alt=""><br>前面4个框着的作为Rowkey，比如，2015-10-1的维度序号为1，BJ的序号为0，item-A序号为0，则最终Rowkey为 111+100</p>
 <p>Rowkey的设计原则：</p>
 <ol>
 <li>结合业务场景特点，按照查询频次来放置字段顺序</li>
