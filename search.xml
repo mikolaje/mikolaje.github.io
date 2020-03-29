@@ -667,7 +667,7 @@
 <p> 解决方案：<br><code>sudo /opt/cloudera/cm/schema/scm_prepare_database.sh mysql scm scm mypassword</code><br>重新执行下这条命令。之前我把所有的服务都执行了一遍（amon, rman, … metastore, … etc)，是我误解了scm_prepare_database.sh的作用。<br>按官网所说的：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Cloudera Manager Server includes a script that can create and configure a database for itself. The script can:</div><div class="line">Create the Cloudera Manager Server database configuration file.</div><div class="line">(MariaDB, MySQL, and PostgreSQL) Create and configure a database for Cloudera Manager Server to use.</div><div class="line">(MariaDB, MySQL, and PostgreSQL) Create and configure a user account for Cloudera Manager Server.</div></pre></td></tr></table></figure></p>
 <p>这个脚本只需要执行一次就好了，就是<code>sudo /opt/cloudera/cm/schema/scm_prepare_database.sh mysql scm scm mypassword</code><br>然后重启cloudera-scm-server解决问题。此外，通过<code>/etc/cloudera-scm-server/db.properties</code> 也可以确定目前scm用的是哪个数据库。</p>
 <h3 id="问题7"><a href="#问题7" class="headerlink" title="问题7"></a>问题7</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">The host&apos;s NTP service could not be located or did not respond to a request for the clock offset.</div></pre></td></tr></table></figure>
-<p>解决方法：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">service ntp restart</div></pre></td></tr></table></figure></p>
+<p>解决方法：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">service ntp restart</div><div class="line"># 加上自启动</div><div class="line">sudo systemctl enable ntp</div></pre></td></tr></table></figure></p>
 <h3 id="问题8"><a href="#问题8" class="headerlink" title="问题8"></a>问题8</h3><blockquote>
 <p>CDH官方是要求安装Oracle的JDK的，其它版本的JDK使用的话也行，但不保证一定兼容。<br>在增加节点的时候，在安装agent的时候 apt报错:<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">root@device3:/data/software/jdk1.8.0_121# apt --fix-broken install</div><div class="line">Reading package lists... Done</div><div class="line">Building dependency tree       </div><div class="line">Reading state information... Done</div><div class="line">Correcting dependencies... Done</div><div class="line">The following additional packages will be installed:</div><div class="line">  cloudera-manager-daemons</div><div class="line">  The following NEW packages will be installed:</div><div class="line">    cloudera-manager-daemons</div><div class="line">    0 upgraded, 1 newly installed, 0 to remove and 106 not upgraded.</div><div class="line">    26 not fully installed or removed.</div><div class="line">    Need to get 0 B/1,218 MB of archives.</div><div class="line">    After this operation, 1,420 MB of additional disk space will be used.</div><div class="line">    Do you want to continue? [Y/n] y</div><div class="line">    (Reading database ... 106482 files and directories currently installed.)</div><div class="line">    Preparing to unpack .../cloudera-manager-daemons_6.2.0~968826.ubuntu1804_all.deb ...</div><div class="line">    +======================================================================+</div><div class="line">    |      Error: Unable to find a compatible version of Java on this host,|</div><div class="line">    |             either because JAVA_HOME has not been set or because a   |</div><div class="line">    |             compatible version of Java is not installed.             |</div><div class="line">    +----------------------------------------------------------------------+</div><div class="line">    | Please download a supported version of the Oracle JDK from the       |</div><div class="line">    | Oracle Java web site:                                                |</div><div class="line">    |                                                                      |</div><div class="line">    |  &gt; http://www.oracle.com/technetwork/java/javase/index.html &lt;        |</div><div class="line">    |                                                                      |</div><div class="line">    | Cloudera Manager requires Oracle JDK 1.8 or later.                   |</div><div class="line">    | NOTE: Cloudera Manager will find the Oracle JDK when starting,       |</div><div class="line">    |       regardless of whether you installed the JDK using a binary     |</div><div class="line">    |       installer or the RPM-based installer.                          |</div><div class="line">    +======================================================================+</div><div class="line">    dpkg: error processing archive /var/cache/apt/archives/cloudera-manager-daemons_6.2.0~968826.ubuntu1804_all.deb (--unpack):</div><div class="line">     new cloudera-manager-daemons package pre-installation script subprocess returned error exit status 1</div><div class="line">     Errors were encountered while processing:</div><div class="line">      /var/cache/apt/archives/cloudera-manager-daemons_6.2.0~968826.ubuntu1804_all.deb</div><div class="line">      E: Sub-process /usr/bin/dpkg returned an error code (1)</div></pre></td></tr></table></figure></p>
 </blockquote>
@@ -786,6 +786,37 @@
       </categories>
       <tags>
         <tag>Calcite</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>新疆北疆自驾12日游（上）</title>
+    <url>/2018/xinjiang_trip.html</url>
+    <content><![CDATA[<h1 id="出发"><a href="#出发" class="headerlink" title="出发"></a>出发</h1><p>辞职后已经有一段时间了，每天都是在家Remote着帮香港人干活。虽然钱不多，但很自由，当时想，要不要趁现在<br>有自由时间来一场旅行吧。想来想去还是决定在国内吧，第一，国内方便，不用另外去办护照。第二，国内便宜点，<br>还是穷啊。</p>
+<p>新疆，国内是最异域风情的一片土地，对我来说一直很神秘。趁这次机会我去那边探个究竟。</p>
+<p>从罗湖火车站正式出发。即将开始我48小时的火车旅程<br><img src=".xinjiang_trip_images/678583b0.png" alt=""></p>
+<p>我的床位。我将在这里睡两天两夜。我的舍友还挺好的。一个在新疆哈密上班的湖南大哥，一个区甘肃读书的年轻小伙子</p>
+<p><img src=".xinjiang_trip_images/bed_in_train.png" alt=""></p>
+<p>在漫长的火车路途中，我除了玩手机电脑打发时间，就是和舍友聊天。我从来没去过中国的西北，就跟他们聊<br>西北那边的文化，主要聊得是那边吃的饮食吧。我对那里充满着憧憬。</p>
+<p>做了两个晚上的火车，到兰州站歇歇，出来活动活动。<br><img src=".xinjiang_trip_images/lanzhou_station.png" alt=""></p>
+<h1 id="踏上新疆"><a href="#踏上新疆" class="headerlink" title="踏上新疆"></a>踏上新疆</h1><p>快到新疆的路上，看到路边已经没有什么绿色的植物了，都是辽阔的荒漠地带。<br><img src=".xinjiang_trip_images/on_the_way.png" alt=""></p>
+<p>第一晚住的乌鲁木齐市区的酒店，还不错。两百多吧<br><img src=".xinjiang_trip_images/Urumqi_hotel.png" alt=""></p>
+<p>乌鲁木齐市区。到了新疆移动网络都很差，因为这里的4G 被shutdown了。<br><img src=".xinjiang_trip_images/Urumuqi_city_road.png" alt=""></p>
+<p>第一餐吃的拉面。这边一碗面的价格跟广州深圳差不多吧，十几二十块一碗。但口味远远比广东的好吃。<br><img src=".xinjiang_trip_images/first_lunch.png" alt=""></p>
+<p>乌鲁木齐夜景，这边路上的人不是很多<br><img src=".xinjiang_trip_images/Urumuqi_road_night.png" alt=""></p>
+<h1 id="第一天景点游"><a href="#第一天景点游" class="headerlink" title="第一天景点游"></a>第一天景点游</h1><p>在乌鲁木齐独自闲逛了一天后的第二天，我和网友在指定的地点汇合了。我是在豆瓣上加的，上面会有很多人<br>寻找驴友伙伴的。<br>我们是一共4个人，2个女的来自广西，一个男的来自北京。一起在乌鲁木齐租了一辆CRV，在新疆租车还挺贵的，<br>CRV 用了10天大概每天要4-5百加上汽油费。</p>
+<p>广西的一个妹子是女老司机，开车开得很好。超过一半时间都是她开的。另外，在新疆开车的感觉是路比较大，车<br>又不多，比较畅通。更重要的是风景很辽阔，视野很好。<br><img src=".xinjiang_trip_images/driving_on_highway.png" alt=""></p>
+<h2 id="火焰山"><a href="#火焰山" class="headerlink" title="火焰山"></a>火焰山</h2><p>我们看的一个大景点是火焰山。主要就是看一些西游记人物的雕像，没啥好看的，我也没买票，就在外面观望<br>了一下。<br><img src=".xinjiang_trip_images/huoyanshan.png" alt=""></p>
+<h2 id="一个城堡"><a href="#一个城堡" class="headerlink" title="一个城堡"></a>一个城堡</h2><p>然后是在吐鲁番的一个城堡里游览，忘了叫什么名。就拍个照片到此一游吧，我只是跟着来的哈<br><img src=".xinjiang_trip_images/castle.png" alt=""></p>
+<p>哦，这应该是阿凡提的家</p>
+<p><img src=".xinjiang_trip_images/apanti_home.png" alt=""></p>
+<h2 id="吐鲁番市"><a href="#吐鲁番市" class="headerlink" title="吐鲁番市"></a>吐鲁番市</h2><p>吐鲁番市我在游逛新疆以来，最推荐的一个城市，原因很简单，这里物美价廉！哈密瓜满地都是，吃不完直接扔了。<br>吃得东西很好吃很正宗，又很便宜。<br>住宿就更能体现了，我们住了个两房，一晚上才一百多。还有一点我挺喜欢的是这边的空气湿度非常低，我衣服晚上洗，<br>洗完不用晒，第二天早上就干了。</p>
+<p>路边一个可爱的小女孩<br><img src=".xinjiang_trip_images/lovely_girl.png" alt=""></p>
+]]></content>
+      <categories>
+        <category>travel</category>
+      </categories>
+      <tags>
+        <tag>travel</tag>
       </tags>
   </entry>
   <entry>
@@ -1122,11 +1153,12 @@
   <entry>
     <title>在Github开车需要需要了解的git技能</title>
     <url>/2018/git_github.html</url>
-    <content><![CDATA[<h2 id="更新forked项目"><a href="#更新forked项目" class="headerlink" title="更新forked项目"></a>更新forked项目</h2><p>比如：我之前fork了Airflow这个仓库，隔了一段时间（官方的仓库已经有很多更新了）又想提交点PR，<br>那要不要重新删了这个repo再fork一次呢？<br>答案显示是：不用的。</p>
+    <content><![CDATA[<h2 id="更新forked项目"><a href="#更新forked项目" class="headerlink" title="更新forked项目"></a>更新forked项目</h2><p>比如：我之前fork了Airflow这个仓库，隔了一段时间（官方的仓库已经有很多更新了）又想提交点PR，<br>那要不要重新删了这个repo再fork一次呢？<br>答案显然是：不用的。</p>
 <p>首先我们添加下官方的remote，然后再fetch一下。<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">git remote add upstream https://github.com/whoever/whatever.git</div><div class="line"></div><div class="line"># Fetch all the branches of that remote into remote-tracking branches,</div><div class="line"># such as upstream/master:</div><div class="line"></div><div class="line">git fetch upstream</div></pre></td></tr></table></figure></p>
 <p>然后：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">git pull --rebase upstream master</div><div class="line"># pull = fetch + merge</div></pre></td></tr></table></figure></p>
 <p>rebase的过程中可以把自己提交的不要的commit删掉。</p>
 <p>最后再强推覆盖掉自己的repo<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">git push -f origin master</div></pre></td></tr></table></figure></p>
+<p>更新后，如果本地的 代码想全部舍弃掉，重新把remote的 clone下来的话，可以用如下命令：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">git reset --hard origin/master</div></pre></td></tr></table></figure></p>
 ]]></content>
       <categories>
         <category>git</category>
@@ -1287,7 +1319,8 @@
   <entry>
     <title>Kafka日常操作指南</title>
     <url>/2017/kafka_daily_command.html</url>
-    <content><![CDATA[<h2 id="常用操作"><a href="#常用操作" class="headerlink" title="常用操作"></a>常用操作</h2><h3 id="查看topic"><a href="#查看topic" class="headerlink" title="查看topic"></a>查看topic</h3><p>kafka-topics –list –zookeeper device1:2181</p>
+    <content><![CDATA[<h2 id="常用操作"><a href="#常用操作" class="headerlink" title="常用操作"></a>常用操作</h2><h3 id="查看topic"><a href="#查看topic" class="headerlink" title="查看topic"></a>查看topic</h3><p><code>kafka-topics --list --zookeeper device1:2181</code></p>
+<h3 id="查看topic-partitions状态"><a href="#查看topic-partitions状态" class="headerlink" title="查看topic partitions状态"></a>查看topic partitions状态</h3><p><code>kafka-topics --describe --zookeeper device1:2181 --topic zhihu_comment</code></p>
 <blockquote>
 <p>这个命令很有用。有一次我的consumer全部设置正常，但无论如何都不能commit current offset。就想这是不会zookeeper的问题呢？<br>因为zookeeper是存放commit offset 信息的地方<br>经过仔细盘查，我发现在另外的topic却可以正常的commit，所以这是该topic的问题，于是要检查下这个<br>topic哪里出了问题，就用上了这个命令。结果发现有2个partition莫名的消失了，也不知道是为什么。但<br>总的来说还是把问题定位出来了。<br>因为，这个问题，我花了不少精力，时间不说，我还特意花了50美金去upwork上找人才解决的。</p>
 </blockquote>
@@ -1295,10 +1328,11 @@
 <h3 id="创建topic"><a href="#创建topic" class="headerlink" title="创建topic"></a>创建topic</h3><p>kafka-topics –create –zookeeper device1:2181 –replication-factor 1 –partitions 1 –topic test</p>
 <h3 id="查看group每个partition-offset的状态"><a href="#查看group每个partition-offset的状态" class="headerlink" title="查看group每个partition offset的状态"></a>查看group每个partition offset的状态</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">kafka-consumer-groups --bootstrap-server device1:9092 --group test --describe</div></pre></td></tr></table></figure>
 <h3 id="在console启动-producer-（一般可用来测试）"><a href="#在console启动-producer-（一般可用来测试）" class="headerlink" title="在console启动 producer （一般可用来测试）"></a>在console启动 producer （一般可用来测试）</h3><h4 id="删除某个topic的数据"><a href="#删除某个topic的数据" class="headerlink" title="删除某个topic的数据"></a>删除某个topic的数据</h4><blockquote>
-<p>Solution1<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">kafka-topics.sh --delete --zookeeper device1:2181 --topic zhihu_test</div><div class="line"></div><div class="line">#### Solution2</div></pre></td></tr></table></figure></p>
-</blockquote>
+<p>Solution1<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">kafka-topics.sh --delete --zookeeper device1:2181 --topic zhihu_test</div></pre></td></tr></table></figure></p>
+<p>Solution2</p>
 <p>#删除zhihu_profile topic 的所有数据<br>kafka-configs –zookeeper device1:2181 –entity-type topics –alter –entity-name zhihu_profile –add-config retention.ms=1000</p>
 <h1 id="再把retention设置调回来"><a href="#再把retention设置调回来" class="headerlink" title="再把retention设置调回来"></a>再把retention设置调回来</h1><p>kafka-configs –zookeeper device1:2181 –entity-type topics –alter –entity-name zhihu_profile –add-config retention.ms=8640000000<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">但这种方法不能清除offset 和 commit的记录，因为我查了下某个group对应的offset如下：</div></pre></td></tr></table></figure></p>
+</blockquote>
 <p>topic: zhihu_profile partition: 0 committed: 2515555 last: 2515558 lag: 3<br>topic: zhihu_profile partition: 1 committed: 2519850 last: 2519853 lag: 3<br>topic: zhihu_profile partition: 2 committed: 2520594 last: 2520596 lag: 2</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">查询某个group offset的代码：</div></pre></td></tr></table></figure>
 <p>def get_current_offset(topic, group):</p>
@@ -1357,100 +1391,6 @@ consumer.close(autocommit=False)
       </categories>
       <tags>
         <tag>daily</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Kylin 基础介绍</title>
-    <url>/2017/kylin_basic.html</url>
-    <content><![CDATA[<h2 id="Kylin术语"><a href="#Kylin术语" class="headerlink" title="Kylin术语"></a>Kylin术语</h2><ul>
-<li><p>维度(Dimension)<br>一组属性，提供结构化的标签信息，一般作为报表的坐标轴。</p>
-</li>
-<li><p>度量(Measure)<br>一类可以进行聚合分析的特殊维度，聚合后的结果称为指标。</p>
-</li>
-<li><p>事实表(Fact Table)<br>数据仓库中的中央表，用于描述业务内特定事件的数据。</p>
-</li>
-<li><p>维度表(Lookup Table)<br>维度属性的集合，人们观察数据的特定角度。</p>
-</li>
-<li><p>基度（Cardinality）<br>指数据表中某一列数据去重后的元素个数。</p>
-</li>
-<li><p>星型模型(Star Schema)<br>一种多维的数据关系，由一张事实表和一组维度表组成。</p>
-</li>
-<li><p>cube<br>一个cube就是一个Hive表的数据按照指定维度与指标计算出的所有组合结果。</p>
-</li>
-<li><p>cuboid<br>某一维度组合下，度量聚合后的结果集合。有个特殊的cuboid叫 base cuboid，比如维度有ABCD，（A,B,C,D）称为Base cuboid</p>
-</li>
-<li><p>数据立方体(cube)<br>一组用于分析数据的相关度量值和维度，是所有cuboid的集合，作为存储和分析的基本单位</p>
-</li>
-<li><p>segment<br>Cube Segment 是指针对源数据中的某一个片段，计算出来的 Cube 数据。<br>通常数据仓库中的数据数量会随着时间的增长而增长，而 Cube Segment 也是按时间顺序来构建的。</p>
-</li>
-<li><p>衍生维度<br>维度表上的某一列通过PK可推的，换句话是可查询到的 比如由身份证可以推导性别，所以能通过PK推导的维度都可以设置为衍生维度。<br>衍生维度是放在snapshot中</p>
-</li>
-</ul>
-<h3 id="Kylin核心技术：Cube与计算"><a href="#Kylin核心技术：Cube与计算" class="headerlink" title="Kylin核心技术：Cube与计算"></a>Kylin核心技术：Cube与计算</h3><p>比如我们有10多亿中国人口数据，要统计男女比例这么个需求。如果直接从硬盘里提取数据来统计肯定会很慢，磁盘速度大概是几百兆/秒。<br>即使把数据放到内存中也最多提升100倍的速度。</p>
-<p>所以，可以用与计算来统计男女比例</p>
-<h3 id="维度表和事实表"><a href="#维度表和事实表" class="headerlink" title="维度表和事实表"></a>维度表和事实表</h3><p>我学到了一个数据仓库的概念，维度表（Fact Table）和事实表（Lookup Table）。<br>通过下面例子就让我明白了：<br>学过数据库的童鞋应该都知道星型模型，星型模型在数据仓库的设计中可以为是一种典型的维度模型。<br>我们在进行维度建模的时候会建一张事实表，这个事实表就是星型模型的中心，然后会有一堆维度表，这些维度表就是向外发散的星星。<br>那么什么是事实表、什么又是维度表吗，下面会专门来解释。</p>
-<p><img src="/images/2017/kylin_basic/367a4515.png" alt=""></p>
-<p>中间的chat表就是事实表。其它周边的表就是维度表。</p>
-<h3 id="维度设计"><a href="#维度设计" class="headerlink" title="维度设计"></a>维度设计</h3><p>只有普通维度会影响Cuboid的数量和存储膨胀率，衍生维度并不参与Cuboid计算，而是有衍生维度对应的外键FK参与计算Cuboid。<br>在查询时，对衍生维度的查询会首先转换为对外键所在维度的查询，因此会牺牲少量查询性能。</p>
-<p>Kylin暂时不支持星座模型</p>
-<p>默认情况下，系统将会为所有的维度表创建快照。<br>设计新的模型，将大维度表改为事实表</p>
-<p>设计规则如下：<br>经常出现在规律条件中的维度应当设为普通维度，以达到更好的查询性能。</p>
-<p>Derived 衍生类型的前提是要放到快照表里的</p>
-<ul>
-<li>For normal dimensions, Kyligence has max number restriction of 62</li>
-<li>If a dimension table is used in cube design, its corresponding fact table foreign key will be added as normal dimension even it’s not used.</li>
-</ul>
-<h3 id="维度优化"><a href="#维度优化" class="headerlink" title="维度优化"></a>维度优化</h3><p>Mandatory Dimension: 一定group by的字段<br>Hierarchy Dimension: 国家、省、市<br>Joint Dimension: 要么一起出现，要么不出现，比如：A、B、C绑在了一起 （很少有这样的场景）</p>
-<h3 id="Rowkey"><a href="#Rowkey" class="headerlink" title="Rowkey"></a>Rowkey</h3><p>UHC不要用Dict作为encoding;<br>常用的字段比如日期字段要放在Rowkey的前面<br>高基维放置在低基维前面<br>过滤的维度放置在非过滤前面</p>
-<p>max length of FixedLength(N) for UHC of varchar/char type will be 256</p>
-<h3 id="Cube-Build"><a href="#Cube-Build" class="headerlink" title="Cube Build"></a>Cube Build</h3><p>Supported Cube Build Types:<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Full Build</div><div class="line">By Date/time</div><div class="line">Streaming(by offset)</div><div class="line">By File(Beta)</div><div class="line">Customize(Beta)</div></pre></td></tr></table></figure></p>
-<p>尽量使用增量加载<br>计划合并你的增量segment<br>用增量加载的时候要考虑下SCD</p>
-<h3 id="星型模型和雪花模型"><a href="#星型模型和雪花模型" class="headerlink" title="星型模型和雪花模型"></a>星型模型和雪花模型</h3><p>fact table 外围一圈 dimension table 就是星型模型<br>dimension table 外再围一圈 dimension table就是雪花模型</p>
-<h3 id="System-Configuration"><a href="#System-Configuration" class="headerlink" title="System Configuration"></a>System Configuration</h3><p>Important configurations:<br>Job retry<br>Pushdown：对于没有cube能查得结果的sql，Kylin支持将这类查询通过JDBC下压至备用查询引擎如Hive, SparkSQL, Impala等来查得结果<br>Query cache(process level/shared)<br>Compression</p>
-<p>Configuration override<br>System<br>Project<br>Cube</p>
-<h3 id="Authorization-Management"><a href="#Authorization-Management" class="headerlink" title="Authorization Management"></a>Authorization Management</h3><p>project: Query, Operation , Managment, Admin<br>table: Table query, Row query, Column query</p>
-<p>Caution: column ACL is a blacklist.</p>
-<h3 id="Resource-Isolation"><a href="#Resource-Isolation" class="headerlink" title="Resource Isolation"></a>Resource Isolation</h3><p>KE can submit cube build jobs to specified Yarn queues per: system level;project level;cube level</p>
-<h3 id="应用发布流程"><a href="#应用发布流程" class="headerlink" title="应用发布流程"></a>应用发布流程</h3><p>DEV -&gt; QA -&gt;(sign off) PROD</p>
-<h3 id="Daily-Operation"><a href="#Daily-Operation" class="headerlink" title="Daily Operation"></a>Daily Operation</h3><ol>
-<li><p>Garbage cleanup<br>e.g.: segment merged, cube purged</p>
-</li>
-<li><p>System upgrade<br>Minor version upgrade<br>Major version upgrade</p>
-</li>
-<li><p>System backup/restore<br>System level<br>Project level</p>
-</li>
-</ol>
-<h3 id="Rest-API"><a href="#Rest-API" class="headerlink" title="Rest API"></a>Rest API</h3><p>Authorization 这个Header的内容是 “ADMIN:yourpassword”的base64 encode</p>
-<h3 id="Hadoop生态和和MPP数据库的区别"><a href="#Hadoop生态和和MPP数据库的区别" class="headerlink" title="Hadoop生态和和MPP数据库的区别"></a>Hadoop生态和和MPP数据库的区别</h3><p>Hadoop跟MPP的存储模型不一样。<br>Hadoop生态的存储用HDFS，HDFS的扩展是通过元数据来做的，它有中心节点用来存元数据，在加入新的节点的时候，<br>只需要修改元数据就可以，所以HDFS可扩展能力是收到管理元数据那台机器的性能限制的。一般来说可以到10K这个<br>规模，再向上就不行了。</p>
-<p>而MPP要自己做切分，自己做切分就带来动态调整的问题。MPP通常采用的是没有中心节点的存储模式，比如hash，<br>每增加节点的时候，都需要rehash，这样当规模到了几百台的时候，扩展能力就下来了。</p>
-<p>Hive在内存管理上方式不大一样。<br>MPP内存管理比较精细，他主要的想法是在每个机器上放个数据库，传统数据库的内存管理比较复杂，主要是内外存<br>交互的东西，这样的架构决定了MPP在小数据量的时候，latency可以做的比较小，但是数据量大的时候，<br>throughput做不上去了。<br>而Hive的内存管理非常粗放，它后来就是MapReduce的job，MR的job是没有太多精细的内存管理，就是拼命地<br>scan，完了就是spill，这样的架构导致throughput很大，但是latency很高。</p>
-<p>failover机制，<br>Hive的failover就是MR的failover，job挂掉了重新换机器跑就完了。</p>
-<p>MPP它的计算是要attach到数据节点上去的，如果你规模上去，那么fail的可能性就上去了，这样如果你每次计算<br>都有台机器挂了，一挂，别人就要等你，而不是换台机器继续跑。可以用木桶效应类比。</p>
-<h3 id="Cube设计"><a href="#Cube设计" class="headerlink" title="Cube设计"></a>Cube设计</h3><p>Rowkey的具体格式是cuboid id + 具体的维度值（最新的Rowkey中为了并发查询还加入了ShardKey）<br><img src="/images/2017/kylin_basic/b447988e.png" alt=""><br>前面4个框着的作为Rowkey，比如，2015-10-1的维度序号为1，BJ的序号为0，item-A序号为0，则最终Rowkey为 111+100</p>
-<p>Rowkey的设计原则：</p>
-<ol>
-<li>结合业务场景特点，按照查询频次来放置字段顺序</li>
-<li>通过设计的Rowkey尽可能的将数据打散到整个集群中，负载均衡</li>
-<li>设计的Rowkey尽量简短</li>
-</ol>
-<p>有3个方面要考虑：</p>
-<ul>
-<li><p>Encoding<br>我们的编码方式能够大大减少每行Cube数据的体积。<br>而Cube中可能存在数以亿计的行数，使用编码节约的空间累加起来将是一个非常巨大的数字。</p>
-</li>
-<li><p>排序<br>高概率用于过滤的列<br>基数高的列（用它进行过滤时，返回的结果集小）<br>排序评分=过滤概率*过滤强度<br>经常使用到的维度提前—在需要进行后聚合的场景中效率会更高。</p>
-</li>
-<li><p>分片<br>按维度分片（Shard by Dimension）提供了一种更加高效的分片策略，那就是按照某个特定维度进行分片。<br>简单地说，如果Cuboid中某两个行的Shard by Dimension的值相同，<br>那么无论这个Cuboid最终会被划分成多少个分片，这两行数据必然会被分配到同一个分片中。</p>
-</li>
-</ul>
-<p>Shard by维度要求<br>仅支持单一维度<br>基数足够高（几十万）<br>分布均匀<br>经常进行group by和filter</p>
-<p>更多的优化原理要参考Rowkey的设计</p>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://blog.bcmeng.com/post/kylin-cube.html#cuboid-%E7%9A%84%E7%BB%B4%E5%BA%A6%E5%92%8C%E6%8C%87%E6%A0%87%E5%A6%82%E4%BD%95%E8%BD%AC%E6%8D%A2%E4%B8%BAhbase%E7%9A%84kv%E7%BB%93%E6%9E%84" target="_blank" rel="external">https://blog.bcmeng.com/post/kylin-cube.html#cuboid-%E7%9A%84%E7%BB%B4%E5%BA%A6%E5%92%8C%E6%8C%87%E6%A0%87%E5%A6%82%E4%BD%95%E8%BD%AC%E6%8D%A2%E4%B8%BAhbase%E7%9A%84kv%E7%BB%93%E6%9E%84</a></p>
-]]></content>
-      <categories>
-        <category>大数据</category>
-      </categories>
-      <tags>
-        <tag>kylin</tag>
       </tags>
   </entry>
   <entry>
@@ -1577,6 +1517,100 @@ consumer.close(autocommit=False)
       </categories>
       <tags>
         <tag>hbase</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Kylin 基础介绍</title>
+    <url>/2017/kylin_basic.html</url>
+    <content><![CDATA[<h2 id="Kylin术语"><a href="#Kylin术语" class="headerlink" title="Kylin术语"></a>Kylin术语</h2><ul>
+<li><p>维度(Dimension)<br>一组属性，提供结构化的标签信息，一般作为报表的坐标轴。</p>
+</li>
+<li><p>度量(Measure)<br>一类可以进行聚合分析的特殊维度，聚合后的结果称为指标。</p>
+</li>
+<li><p>事实表(Fact Table)<br>数据仓库中的中央表，用于描述业务内特定事件的数据。</p>
+</li>
+<li><p>维度表(Lookup Table)<br>维度属性的集合，人们观察数据的特定角度。</p>
+</li>
+<li><p>基度（Cardinality）<br>指数据表中某一列数据去重后的元素个数。</p>
+</li>
+<li><p>星型模型(Star Schema)<br>一种多维的数据关系，由一张事实表和一组维度表组成。</p>
+</li>
+<li><p>cube<br>一个cube就是一个Hive表的数据按照指定维度与指标计算出的所有组合结果。</p>
+</li>
+<li><p>cuboid<br>某一维度组合下，度量聚合后的结果集合。有个特殊的cuboid叫 base cuboid，比如维度有ABCD，（A,B,C,D）称为Base cuboid</p>
+</li>
+<li><p>数据立方体(cube)<br>一组用于分析数据的相关度量值和维度，是所有cuboid的集合，作为存储和分析的基本单位</p>
+</li>
+<li><p>segment<br>Cube Segment 是指针对源数据中的某一个片段，计算出来的 Cube 数据。<br>通常数据仓库中的数据数量会随着时间的增长而增长，而 Cube Segment 也是按时间顺序来构建的。</p>
+</li>
+<li><p>衍生维度<br>维度表上的某一列通过PK可推的，换句话是可查询到的 比如由身份证可以推导性别，所以能通过PK推导的维度都可以设置为衍生维度。<br>衍生维度是放在snapshot中</p>
+</li>
+</ul>
+<h3 id="Kylin核心技术：Cube与计算"><a href="#Kylin核心技术：Cube与计算" class="headerlink" title="Kylin核心技术：Cube与计算"></a>Kylin核心技术：Cube与计算</h3><p>比如我们有10多亿中国人口数据，要统计男女比例这么个需求。如果直接从硬盘里提取数据来统计肯定会很慢，磁盘速度大概是几百兆/秒。<br>即使把数据放到内存中也最多提升100倍的速度。</p>
+<p>所以，可以用与计算来统计男女比例</p>
+<h3 id="维度表和事实表"><a href="#维度表和事实表" class="headerlink" title="维度表和事实表"></a>维度表和事实表</h3><p>我学到了一个数据仓库的概念，维度表（Fact Table）和事实表（Lookup Table）。<br>通过下面例子就让我明白了：<br>学过数据库的童鞋应该都知道星型模型，星型模型在数据仓库的设计中可以为是一种典型的维度模型。<br>我们在进行维度建模的时候会建一张事实表，这个事实表就是星型模型的中心，然后会有一堆维度表，这些维度表就是向外发散的星星。<br>那么什么是事实表、什么又是维度表吗，下面会专门来解释。</p>
+<p><img src="/images/2017/kylin_basic/367a4515.png" alt=""></p>
+<p>中间的chat表就是事实表。其它周边的表就是维度表。</p>
+<h3 id="维度设计"><a href="#维度设计" class="headerlink" title="维度设计"></a>维度设计</h3><p>只有普通维度会影响Cuboid的数量和存储膨胀率，衍生维度并不参与Cuboid计算，而是有衍生维度对应的外键FK参与计算Cuboid。<br>在查询时，对衍生维度的查询会首先转换为对外键所在维度的查询，因此会牺牲少量查询性能。</p>
+<p>Kylin暂时不支持星座模型</p>
+<p>默认情况下，系统将会为所有的维度表创建快照。<br>设计新的模型，将大维度表改为事实表</p>
+<p>设计规则如下：<br>经常出现在规律条件中的维度应当设为普通维度，以达到更好的查询性能。</p>
+<p>Derived 衍生类型的前提是要放到快照表里的</p>
+<ul>
+<li>For normal dimensions, Kyligence has max number restriction of 62</li>
+<li>If a dimension table is used in cube design, its corresponding fact table foreign key will be added as normal dimension even it’s not used.</li>
+</ul>
+<h3 id="维度优化"><a href="#维度优化" class="headerlink" title="维度优化"></a>维度优化</h3><p>Mandatory Dimension: 一定group by的字段<br>Hierarchy Dimension: 国家、省、市<br>Joint Dimension: 要么一起出现，要么不出现，比如：A、B、C绑在了一起 （很少有这样的场景）</p>
+<h3 id="Rowkey"><a href="#Rowkey" class="headerlink" title="Rowkey"></a>Rowkey</h3><p>UHC不要用Dict作为encoding;<br>常用的字段比如日期字段要放在Rowkey的前面<br>高基维放置在低基维前面<br>过滤的维度放置在非过滤前面</p>
+<p>max length of FixedLength(N) for UHC of varchar/char type will be 256</p>
+<h3 id="Cube-Build"><a href="#Cube-Build" class="headerlink" title="Cube Build"></a>Cube Build</h3><p>Supported Cube Build Types:<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Full Build</div><div class="line">By Date/time</div><div class="line">Streaming(by offset)</div><div class="line">By File(Beta)</div><div class="line">Customize(Beta)</div></pre></td></tr></table></figure></p>
+<p>尽量使用增量加载<br>计划合并你的增量segment<br>用增量加载的时候要考虑下SCD</p>
+<h3 id="星型模型和雪花模型"><a href="#星型模型和雪花模型" class="headerlink" title="星型模型和雪花模型"></a>星型模型和雪花模型</h3><p>fact table 外围一圈 dimension table 就是星型模型<br>dimension table 外再围一圈 dimension table就是雪花模型</p>
+<h3 id="System-Configuration"><a href="#System-Configuration" class="headerlink" title="System Configuration"></a>System Configuration</h3><p>Important configurations:<br>Job retry<br>Pushdown：对于没有cube能查得结果的sql，Kylin支持将这类查询通过JDBC下压至备用查询引擎如Hive, SparkSQL, Impala等来查得结果<br>Query cache(process level/shared)<br>Compression</p>
+<p>Configuration override<br>System<br>Project<br>Cube</p>
+<h3 id="Authorization-Management"><a href="#Authorization-Management" class="headerlink" title="Authorization Management"></a>Authorization Management</h3><p>project: Query, Operation , Managment, Admin<br>table: Table query, Row query, Column query</p>
+<p>Caution: column ACL is a blacklist.</p>
+<h3 id="Resource-Isolation"><a href="#Resource-Isolation" class="headerlink" title="Resource Isolation"></a>Resource Isolation</h3><p>KE can submit cube build jobs to specified Yarn queues per: system level;project level;cube level</p>
+<h3 id="应用发布流程"><a href="#应用发布流程" class="headerlink" title="应用发布流程"></a>应用发布流程</h3><p>DEV -&gt; QA -&gt;(sign off) PROD</p>
+<h3 id="Daily-Operation"><a href="#Daily-Operation" class="headerlink" title="Daily Operation"></a>Daily Operation</h3><ol>
+<li><p>Garbage cleanup<br>e.g.: segment merged, cube purged</p>
+</li>
+<li><p>System upgrade<br>Minor version upgrade<br>Major version upgrade</p>
+</li>
+<li><p>System backup/restore<br>System level<br>Project level</p>
+</li>
+</ol>
+<h3 id="Rest-API"><a href="#Rest-API" class="headerlink" title="Rest API"></a>Rest API</h3><p>Authorization 这个Header的内容是 “ADMIN:yourpassword”的base64 encode</p>
+<h3 id="Hadoop生态和和MPP数据库的区别"><a href="#Hadoop生态和和MPP数据库的区别" class="headerlink" title="Hadoop生态和和MPP数据库的区别"></a>Hadoop生态和和MPP数据库的区别</h3><p>Hadoop跟MPP的存储模型不一样。<br>Hadoop生态的存储用HDFS，HDFS的扩展是通过元数据来做的，它有中心节点用来存元数据，在加入新的节点的时候，<br>只需要修改元数据就可以，所以HDFS可扩展能力是收到管理元数据那台机器的性能限制的。一般来说可以到10K这个<br>规模，再向上就不行了。</p>
+<p>而MPP要自己做切分，自己做切分就带来动态调整的问题。MPP通常采用的是没有中心节点的存储模式，比如hash，<br>每增加节点的时候，都需要rehash，这样当规模到了几百台的时候，扩展能力就下来了。</p>
+<p>Hive在内存管理上方式不大一样。<br>MPP内存管理比较精细，他主要的想法是在每个机器上放个数据库，传统数据库的内存管理比较复杂，主要是内外存<br>交互的东西，这样的架构决定了MPP在小数据量的时候，latency可以做的比较小，但是数据量大的时候，<br>throughput做不上去了。<br>而Hive的内存管理非常粗放，它后来就是MapReduce的job，MR的job是没有太多精细的内存管理，就是拼命地<br>scan，完了就是spill，这样的架构导致throughput很大，但是latency很高。</p>
+<p>failover机制，<br>Hive的failover就是MR的failover，job挂掉了重新换机器跑就完了。</p>
+<p>MPP它的计算是要attach到数据节点上去的，如果你规模上去，那么fail的可能性就上去了，这样如果你每次计算<br>都有台机器挂了，一挂，别人就要等你，而不是换台机器继续跑。可以用木桶效应类比。</p>
+<h3 id="Cube设计"><a href="#Cube设计" class="headerlink" title="Cube设计"></a>Cube设计</h3><p>Rowkey的具体格式是cuboid id + 具体的维度值（最新的Rowkey中为了并发查询还加入了ShardKey）<br><img src="/images/2017/kylin_basic/b447988e.png" alt=""><br>前面4个框着的作为Rowkey，比如，2015-10-1的维度序号为1，BJ的序号为0，item-A序号为0，则最终Rowkey为 111+100</p>
+<p>Rowkey的设计原则：</p>
+<ol>
+<li>结合业务场景特点，按照查询频次来放置字段顺序</li>
+<li>通过设计的Rowkey尽可能的将数据打散到整个集群中，负载均衡</li>
+<li>设计的Rowkey尽量简短</li>
+</ol>
+<p>有3个方面要考虑：</p>
+<ul>
+<li><p>Encoding<br>我们的编码方式能够大大减少每行Cube数据的体积。<br>而Cube中可能存在数以亿计的行数，使用编码节约的空间累加起来将是一个非常巨大的数字。</p>
+</li>
+<li><p>排序<br>高概率用于过滤的列<br>基数高的列（用它进行过滤时，返回的结果集小）<br>排序评分=过滤概率*过滤强度<br>经常使用到的维度提前—在需要进行后聚合的场景中效率会更高。</p>
+</li>
+<li><p>分片<br>按维度分片（Shard by Dimension）提供了一种更加高效的分片策略，那就是按照某个特定维度进行分片。<br>简单地说，如果Cuboid中某两个行的Shard by Dimension的值相同，<br>那么无论这个Cuboid最终会被划分成多少个分片，这两行数据必然会被分配到同一个分片中。</p>
+</li>
+</ul>
+<p>Shard by维度要求<br>仅支持单一维度<br>基数足够高（几十万）<br>分布均匀<br>经常进行group by和filter</p>
+<p>更多的优化原理要参考Rowkey的设计</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://blog.bcmeng.com/post/kylin-cube.html#cuboid-%E7%9A%84%E7%BB%B4%E5%BA%A6%E5%92%8C%E6%8C%87%E6%A0%87%E5%A6%82%E4%BD%95%E8%BD%AC%E6%8D%A2%E4%B8%BAhbase%E7%9A%84kv%E7%BB%93%E6%9E%84" target="_blank" rel="external">https://blog.bcmeng.com/post/kylin-cube.html#cuboid-%E7%9A%84%E7%BB%B4%E5%BA%A6%E5%92%8C%E6%8C%87%E6%A0%87%E5%A6%82%E4%BD%95%E8%BD%AC%E6%8D%A2%E4%B8%BAhbase%E7%9A%84kv%E7%BB%93%E6%9E%84</a></p>
+]]></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>kylin</tag>
       </tags>
   </entry>
   <entry>
