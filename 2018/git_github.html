@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Dennis' Blog">
 <meta property="og:description" content="更新forked项目比如：我之前fork了Airflow这个仓库，隔了一段时间（官方的仓库已经有很多更新了）又想提交点PR，那要不要重新删了这个repo再fork一次呢？答案显然是：不用的。
 首先我们添加下官方的remote，然后再fetch一下。123456git remote add upstream https://github.com/whoever/whatever.git# Fetch">
-<meta property="og:updated_time" content="2020-03-29T14:22:57.198Z">
+<meta property="og:updated_time" content="2020-04-04T13:10:13.535Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在Github开车需要需要了解的git技能">
 <meta name="twitter:description" content="更新forked项目比如：我之前fork了Airflow这个仓库，隔了一段时间（官方的仓库已经有很多更新了）又想提交点PR，那要不要重新删了这个repo再fork一次呢？答案显然是：不用的。
@@ -421,7 +421,7 @@
       
         <h2 id="更新forked项目"><a href="#更新forked项目" class="headerlink" title="更新forked项目"></a>更新forked项目</h2><p>比如：我之前fork了Airflow这个仓库，隔了一段时间（官方的仓库已经有很多更新了）又想提交点PR，<br>那要不要重新删了这个repo再fork一次呢？<br>答案显然是：不用的。</p>
 <p>首先我们添加下官方的remote，然后再fetch一下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">git remote add upstream https://github.com/whoever/whatever.git</div><div class="line"></div><div class="line"># Fetch all the branches of that remote into remote-tracking branches,</div><div class="line"># such as upstream/master:</div><div class="line"></div><div class="line">git fetch upstream</div></pre></td></tr></table></figure></p>
-<p>然后：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git pull --rebase upstream master</div><div class="line"># pull = fetch + merge</div></pre></td></tr></table></figure></p>
+<p>然后：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git pull --rebase upstream master</div><div class="line"># pull = fetch + merge</div><div class="line"># 如果rebase有conflict的话可以先--hard reset 前几个commit再执行rebase</div></pre></td></tr></table></figure></p>
 <p>rebase的过程中可以把自己提交的不要的commit删掉。</p>
 <p>最后再强推覆盖掉自己的repo<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git push -f origin master</div></pre></td></tr></table></figure></p>
 <p>更新后，如果本地的 代码想全部舍弃掉，重新把remote的 clone下来的话，可以用如下命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git reset --hard origin/master</div></pre></td></tr></table></figure></p>
@@ -558,7 +558,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">56</span>
+                  <span class="site-state-item-count">57</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
