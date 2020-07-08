@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://mikolaje.github.io/2018/xinjiang_trip2.html</loc>
-    <lastmod>2020-04-04</lastmod>
+    <loc>http://mikolaje.github.io/2019/spark_internal_reading_notes.html</loc>
+    <lastmod>2020-07-08</lastmod>
+  </url>  <url>
+    <loc>http://mikolaje.github.io/2020/stock_short.html</loc>
+    <lastmod>2020-07-08</lastmod>
   </url>  <url>
     <loc>http://mikolaje.github.io/2018/xinjiang_trip.html</loc>
+    <lastmod>2020-04-04</lastmod>
+  </url>  <url>
+    <loc>http://mikolaje.github.io/2018/xinjiang_trip2.html</loc>
     <lastmod>2020-04-04</lastmod>
   </url>  <url>
     <loc>http://mikolaje.github.io/2018/git_github.html</loc>
     <lastmod>2020-04-04</lastmod>
   </url>  <url>
-    <loc>http://mikolaje.github.io/2017/kafka_daily_command.html</loc>
+    <loc>http://mikolaje.github.io/2019/cdh_install.html</loc>
     <lastmod>2020-03-29</lastmod>
   </url>  <url>
-    <loc>http://mikolaje.github.io/2019/cdh_install.html</loc>
+    <loc>http://mikolaje.github.io/2017/kafka_daily_command.html</loc>
     <lastmod>2020-03-29</lastmod>
   </url>  <url>
     <loc>http://mikolaje.github.io/2020/ldap_kerberos.html</loc>
@@ -31,22 +37,19 @@
     <loc>http://mikolaje.github.io/2018/hadoop_basic.html</loc>
     <lastmod>2020-02-23</lastmod>
   </url>  <url>
-    <loc>http://mikolaje.github.io/2017/dennis_weekly.html</loc>
-    <lastmod>2020-02-23</lastmod>
-  </url>  <url>
     <loc>http://mikolaje.github.io/2016/hbase_intro.html</loc>
     <lastmod>2020-02-23</lastmod>
   </url>  <url>
-    <loc>http://mikolaje.github.io/2019/spark_internal_reading_notes.html</loc>
-    <lastmod>2020-02-12</lastmod>
+    <loc>http://mikolaje.github.io/2017/dennis_weekly.html</loc>
+    <lastmod>2020-02-23</lastmod>
   </url>  <url>
     <loc>http://mikolaje.github.io/2020/delta_lake_intro.html</loc>
     <lastmod>2020-02-12</lastmod>
   </url>  <url>
-    <loc>http://mikolaje.github.io/2018/git_rebase.html</loc>
+    <loc>http://mikolaje.github.io/2018/zookeeper_service.html</loc>
     <lastmod>2020-02-12</lastmod>
   </url>  <url>
-    <loc>http://mikolaje.github.io/2018/zookeeper_service.html</loc>
+    <loc>http://mikolaje.github.io/2018/git_rebase.html</loc>
     <lastmod>2020-02-12</lastmod>
   </url>  <url>
     <loc>http://mikolaje.github.io/2019/kyligence_interview.html</loc>
@@ -65,12 +68,6 @@
     <lastmod>2020-01-15</lastmod>
   </url>  <url>
     <loc>http://mikolaje.github.io/2017/california_trip.html</loc>
-    <lastmod>2019-12-16</lastmod>
-  </url>  <url>
-    <loc>http://mikolaje.github.io/2018/study_abroad_agency.html</loc>
-    <lastmod>2019-12-16</lastmod>
-  </url>  <url>
-    <loc>http://mikolaje.github.io/2018/ubuntu_shared_object.html</loc>
     <lastmod>2019-12-16</lastmod>
   </url>  <url>
     <loc>http://mikolaje.github.io/2019/git_filter_branch.html</loc>
@@ -167,6 +164,12 @@
     <lastmod>2019-12-16</lastmod>
   </url>  <url>
     <loc>http://mikolaje.github.io/2018/python_dict.html</loc>
+    <lastmod>2019-12-16</lastmod>
+  </url>  <url>
+    <loc>http://mikolaje.github.io/2018/study_abroad_agency.html</loc>
+    <lastmod>2019-12-16</lastmod>
+  </url>  <url>
+    <loc>http://mikolaje.github.io/2018/ubuntu_shared_object.html</loc>
     <lastmod>2019-12-16</lastmod>
   </url>  <url>
     <loc>http://mikolaje.github.io/2019/nz_travel.html</loc>

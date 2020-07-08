@@ -87,17 +87,17 @@ Akka 到 Netty了解到Spark1.x使用了Akka做内部的通信架构。比如Spa
 <meta property="og:site_name" content="Dennis' Blog">
 <meta property="og:description" content="为什么什么买这本书最近想为Spark社区做点贡献吧，又不知道从何下手，就想先买本Spark原理的书来研究下先。于是在淘宝上花了90多买了这本 《Spark内核设计的艺术架构设计与实现》
 Akka 到 Netty了解到Spark1.x使用了Akka做内部的通信架构。比如Spark各个组件之间的通信，用户文件与Jar包的上传，节点之间的shuffle过程，Block数据的复制与备份等等。然而，在Spa">
-<meta property="og:image" content="http://mikolaje.github.io/.spark_internal_reading_notes_images/5fa6c7da.png">
-<meta property="og:image" content="http://mikolaje.github.io/.spark_internal_reading_notes_images/88070957.png">
-<meta property="og:image" content="http://mikolaje.github.io/.spark_internal_reading_notes_images/4602d935.png">
-<meta property="og:image" content="http://mikolaje.github.io/.spark_internal_reading_notes_images/5d9fbd3b.png">
-<meta property="og:image" content="http://mikolaje.github.io/.spark_internal_reading_notes_images/7c8dce24.png">
-<meta property="og:updated_time" content="2020-02-12T03:03:56.621Z">
+<meta property="og:image" content="http://mikolaje.github.io/images/2019/spark_internal_reading_notes/5fa6c7da.png">
+<meta property="og:image" content="http://mikolaje.github.io/images/2019/spark_internal_reading_notes/88070957.png">
+<meta property="og:image" content="http://mikolaje.github.io/images/2019/spark_internal_reading_notes/4602d935.png">
+<meta property="og:image" content="http://mikolaje.github.io/images/2019/spark_internal_reading_notes/5d9fbd3b.png">
+<meta property="og:image" content="http://mikolaje.github.io/images/2019/spark_internal_reading_notes/7c8dce24.png">
+<meta property="og:updated_time" content="2020-07-08T06:30:02.169Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Spark内核设计的艺术架构设计与实现》的笔记">
 <meta name="twitter:description" content="为什么什么买这本书最近想为Spark社区做点贡献吧，又不知道从何下手，就想先买本Spark原理的书来研究下先。于是在淘宝上花了90多买了这本 《Spark内核设计的艺术架构设计与实现》
 Akka 到 Netty了解到Spark1.x使用了Akka做内部的通信架构。比如Spark各个组件之间的通信，用户文件与Jar包的上传，节点之间的shuffle过程，Block数据的复制与备份等等。然而，在Spa">
-<meta name="twitter:image" content="http://mikolaje.github.io/.spark_internal_reading_notes_images/5fa6c7da.png">
+<meta name="twitter:image" content="http://mikolaje.github.io/images/2019/spark_internal_reading_notes/5fa6c7da.png">
 
 
 
@@ -437,14 +437,14 @@ Akka 到 Netty了解到Spark1.x使用了Akka做内部的通信架构。比如Spa
 <p>在Spark的存储体系中，数据的读写也是以块为单位，只不过这个块并非操作系统的块，而是涉及用于Spark存储体系的块。<br>每个Block都有唯一的标识，Spark把这个标识抽象为BlockId。</p>
 <p>Spark与Hadoop的重要区别之一就是对于内存的使用。Hadoop只讲内存作为计算资源，Spark除将内存作为计算资源外，<br>还将内存的一部分纳入到存储体系中。Spark使用MemoryManager对存储体系和内存计算所使用的内存进行管理。</p>
 <p>StorageMemoryPool是存储体系用到的内存池，ExecutionMemoryPool是计算引擎用到的内存池</p>
-<p><img src=".spark_internal_reading_notes_images/5fa6c7da.png" alt=""></p>
+<p><img src="/images/2019/spark_internal_reading_notes/5fa6c7da.png" alt=""></p>
 <p>MemoryStore负责将Block存储到内存。Spark通过将广播数据、RDD、Shuffle数据存储到内存，减少了对磁盘IO<br>的依赖，提高了程序的读写效率。</p>
 <h3 id="第七章-调度系统"><a href="#第七章-调度系统" class="headerlink" title="第七章 调度系统"></a>第七章 调度系统</h3><p>Scheduler 分为DAGScheduler 和 TaskScheduler</p>
 <p>容错处理：当某个worker节点上的Task失败时，可以利用DAG重新调度计算这些失败的Task(执行已成功的Task可以从CheckPoint中读取<br>，而不用重新计算)。在流失计算的场景中，Spark需要记录日志和CheckPoint，以便利用CheckPoint和日志对数据恢复。</p>
 <p>Spark中的Job可能包含一个到多个Stage，这些Stage的划分是从ResultStage开始，从后往前边划分边创建的。（执行的时候应该不是）</p>
-<p><img src=".spark_internal_reading_notes_images/88070957.png" alt=""></p>
+<p><img src="/images/2019/spark_internal_reading_notes/88070957.png" alt=""></p>
 <p>调度池对TaskSet的调度取决于调度算法，有两种可选的算法：FIFO；<br>Spark的调度池中的调度队列与YARN中调度队列的设计非常相似，也采用了层级队列的管理方式。</p>
-<p><img src=".spark_internal_reading_notes_images/4602d935.png" alt=""></p>
+<p><img src="/images/2019/spark_internal_reading_notes/4602d935.png" alt=""></p>
 <p>我看了一下官网的文档：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">## FIFO</div><div class="line">By default, Spark’s scheduler runs jobs in FIFO fashion. Each job is divided into “stages” (e.g. map and reduce phases), </div><div class="line">and the first job gets priority on all available resources while its stages have tasks to launch, then the second job gets priority, etc. </div><div class="line">If the jobs at the head of the queue don’t need to use the whole cluster, </div><div class="line">later jobs can start to run right away, but if the jobs at the head of the queue are large, </div><div class="line">then later jobs may be delayed significantly.</div><div class="line"></div><div class="line">## FAIR</div><div class="line">The fair scheduler also supports grouping jobs into pools, and setting different scheduling options (e.g. weight) for each pool. </div><div class="line">This can be useful to create a “high-priority” pool for more important jobs, </div><div class="line">for example, or to group the jobs of each user together and give users equal shares regardless of how many concurrent jobs they have </div><div class="line">instead of giving jobs equal shares. </div><div class="line">This approach is modeled after the Hadoop Fair Scheduler.</div><div class="line"></div><div class="line">Without any intervention, newly submitted jobs go into a default pool, </div><div class="line">but jobs’ pools can be set by adding the spark.scheduler.pool “local property” to the SparkContext in the thread that’s submitting them.</div></pre></td></tr></table></figure></p>
 <blockquote>
 <p>想法20200130<br>要看懂Spark的源码，设计模式得比较熟练呀。里面的这些类是怎么依赖的，是怎么设计的，我完全不懂，这是一拍脑袋决定的呢？还是有<br>这种设计相关的设计模式套路。所以，我觉得设计模式应该要掌握好才能让读代码更有意义。</p>
@@ -464,8 +464,8 @@ Akka 到 Netty了解到Spark1.x使用了Akka做内部的通信架构。比如Spa
 <p>ResultTask类似于Hadoop中的ResultTask，它读取上游ShuffleMapTask输出的数据并计算得到最终的结果。</p>
 <h4 id="AppendOnlyMap"><a href="#AppendOnlyMap" class="headerlink" title="AppendOnlyMap"></a>AppendOnlyMap</h4><p>Spark 提供了AppendOnlyMap来对null值进行缓存。AppendOnlyMap还是在内存中对任务执行结果进行聚合运算的利器。</p>
 <p>AppendOnlyMap内置排序使用的TimSort，也就是优化版的归并排序。</p>
-<p><img src=".spark_internal_reading_notes_images/5d9fbd3b.png" alt=""></p>
-<p><img src=".spark_internal_reading_notes_images/7c8dce24.png" alt=""></p>
+<p><img src="/images/2019/spark_internal_reading_notes/5d9fbd3b.png" alt=""></p>
+<p><img src="/images/2019/spark_internal_reading_notes/7c8dce24.png" alt=""></p>
 <h4 id="本章小结"><a href="#本章小结" class="headerlink" title="本章小结"></a>本章小结</h4><p>为了提升程序执行效率，Spark有时需要在map端对数据进行缓存、聚合、内置排序等操作。reduce端为了提升<br>效率，也可能需要对数据进行缓存、聚合、排序。<br>Shuffle过程中，map任务通过将多个分区的数据写入同一个文件，减轻了读写大量小文件给磁盘IO效率带来的压力。<br>reduce任务通过对存储在同一个远端节点上的Shuffle Block进行积累，批量下载远端的Block，节省了网络IO。</p>
 <blockquote>
 <p>想法20200203<br>学习的本质是社交。<br>最近几天一个人在家看这本书，感觉非常枯燥乏味，很难坚持下去。我认为最好还是能加入<br>一个社区和其他志同道合的人一同分享并学习。或者想办法靠近比你厉害的人。<br>但是，要找到这样的环境很难！</p>
@@ -611,7 +611,7 @@ Akka 到 Netty了解到Spark1.x使用了Akka做内部的通信架构。比如Spa
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">57</span>
+                  <span class="site-state-item-count">58</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

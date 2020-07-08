@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>做空美股跟谁学，我的收获</title>
+    <url>/2020/stock_short.html</url>
+    <content><![CDATA[<h2 id="初入美股"><a href="#初入美股" class="headerlink" title="初入美股"></a>初入美股</h2><p>玩美股也断断续续有两三年了，以前都是正儿八经地买入正股，从来没有试过做空。今年年初阶段，因为瑞幸<br>的暴雷，见识到了中概股的诚信问题，后来从朋友那才得知其实很多中概股水分都挺大的，其中有一只叫<br>跟谁学更是如此。我一听跟谁学，这是啥公司呀，从未听过有这么一家公司啊。一查得知原来是做网上辅导的，<br>我想，这领域不是已经被新东方，学而思之类的机构所占领了么？哪里轮得到跟谁学这个等闲之辈啊。</p>
+<h2 id="决定做空垃圾股"><a href="#决定做空垃圾股" class="headerlink" title="决定做空垃圾股"></a>决定做空垃圾股</h2><p>瑞幸的下场我们都知道了弄虚作假的后果。作为一个价值投资信仰者，我在想做空一个垃圾股也是价值投资<br>的一种体现啊。于是在40块钱的时候卖空了GSX，可万万没想到的是卖空的没几天，GSX就像吃了药似的不断<br>暴涨，到7月份一直涨到了60几块钱。账面上我直接亏了50%。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>巴菲特曾经说：查理和我对做空都不陌生，我们两个都失败了。<br>芒格：做空并看着推动者把股价拉升是非常刺激的，但不值得去体验这种刺激</p>
+<p>经过这次的经验和教训，以后再也不做空这种热门的妖股了。虽然它的确没有任何价值。</p>
+]]></content>
+      <categories>
+        <category>security</category>
+      </categories>
+      <tags>
+        <tag>security</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>关于LDAP和Kerberos</title>
     <url>/2020/ldap_kerberos.html</url>
     <content><![CDATA[<h3 id="两个对比"><a href="#两个对比" class="headerlink" title="两个对比"></a>两个对比</h3><p>首先，Kerberos是一个认证的方法。LDAP是一个为了沟通兼容LDAP数据库的协议。</p>
@@ -98,14 +113,14 @@
 <p>在Spark的存储体系中，数据的读写也是以块为单位，只不过这个块并非操作系统的块，而是涉及用于Spark存储体系的块。<br>每个Block都有唯一的标识，Spark把这个标识抽象为BlockId。</p>
 <p>Spark与Hadoop的重要区别之一就是对于内存的使用。Hadoop只讲内存作为计算资源，Spark除将内存作为计算资源外，<br>还将内存的一部分纳入到存储体系中。Spark使用MemoryManager对存储体系和内存计算所使用的内存进行管理。</p>
 <p>StorageMemoryPool是存储体系用到的内存池，ExecutionMemoryPool是计算引擎用到的内存池</p>
-<p><img src=".spark_internal_reading_notes_images/5fa6c7da.png" alt=""></p>
+<p><img src="/images/2019/spark_internal_reading_notes/5fa6c7da.png" alt=""></p>
 <p>MemoryStore负责将Block存储到内存。Spark通过将广播数据、RDD、Shuffle数据存储到内存，减少了对磁盘IO<br>的依赖，提高了程序的读写效率。</p>
 <h3 id="第七章-调度系统"><a href="#第七章-调度系统" class="headerlink" title="第七章 调度系统"></a>第七章 调度系统</h3><p>Scheduler 分为DAGScheduler 和 TaskScheduler</p>
 <p>容错处理：当某个worker节点上的Task失败时，可以利用DAG重新调度计算这些失败的Task(执行已成功的Task可以从CheckPoint中读取<br>，而不用重新计算)。在流失计算的场景中，Spark需要记录日志和CheckPoint，以便利用CheckPoint和日志对数据恢复。</p>
 <p>Spark中的Job可能包含一个到多个Stage，这些Stage的划分是从ResultStage开始，从后往前边划分边创建的。（执行的时候应该不是）</p>
-<p><img src=".spark_internal_reading_notes_images/88070957.png" alt=""></p>
+<p><img src="/images/2019/spark_internal_reading_notes/88070957.png" alt=""></p>
 <p>调度池对TaskSet的调度取决于调度算法，有两种可选的算法：FIFO；<br>Spark的调度池中的调度队列与YARN中调度队列的设计非常相似，也采用了层级队列的管理方式。</p>
-<p><img src=".spark_internal_reading_notes_images/4602d935.png" alt=""></p>
+<p><img src="/images/2019/spark_internal_reading_notes/4602d935.png" alt=""></p>
 <p>我看了一下官网的文档：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">## FIFO</div><div class="line">By default, Spark’s scheduler runs jobs in FIFO fashion. Each job is divided into “stages” (e.g. map and reduce phases), </div><div class="line">and the first job gets priority on all available resources while its stages have tasks to launch, then the second job gets priority, etc. </div><div class="line">If the jobs at the head of the queue don’t need to use the whole cluster, </div><div class="line">later jobs can start to run right away, but if the jobs at the head of the queue are large, </div><div class="line">then later jobs may be delayed significantly.</div><div class="line"></div><div class="line">## FAIR</div><div class="line">The fair scheduler also supports grouping jobs into pools, and setting different scheduling options (e.g. weight) for each pool. </div><div class="line">This can be useful to create a “high-priority” pool for more important jobs, </div><div class="line">for example, or to group the jobs of each user together and give users equal shares regardless of how many concurrent jobs they have </div><div class="line">instead of giving jobs equal shares. </div><div class="line">This approach is modeled after the Hadoop Fair Scheduler.</div><div class="line"></div><div class="line">Without any intervention, newly submitted jobs go into a default pool, </div><div class="line">but jobs’ pools can be set by adding the spark.scheduler.pool “local property” to the SparkContext in the thread that’s submitting them.</div></pre></td></tr></table></figure></p>
 <blockquote>
 <p>想法20200130<br>要看懂Spark的源码，设计模式得比较熟练呀。里面的这些类是怎么依赖的，是怎么设计的，我完全不懂，这是一拍脑袋决定的呢？还是有<br>这种设计相关的设计模式套路。所以，我觉得设计模式应该要掌握好才能让读代码更有意义。</p>
@@ -125,8 +140,8 @@
 <p>ResultTask类似于Hadoop中的ResultTask，它读取上游ShuffleMapTask输出的数据并计算得到最终的结果。</p>
 <h4 id="AppendOnlyMap"><a href="#AppendOnlyMap" class="headerlink" title="AppendOnlyMap"></a>AppendOnlyMap</h4><p>Spark 提供了AppendOnlyMap来对null值进行缓存。AppendOnlyMap还是在内存中对任务执行结果进行聚合运算的利器。</p>
 <p>AppendOnlyMap内置排序使用的TimSort，也就是优化版的归并排序。</p>
-<p><img src=".spark_internal_reading_notes_images/5d9fbd3b.png" alt=""></p>
-<p><img src=".spark_internal_reading_notes_images/7c8dce24.png" alt=""></p>
+<p><img src="/images/2019/spark_internal_reading_notes/5d9fbd3b.png" alt=""></p>
+<p><img src="/images/2019/spark_internal_reading_notes/7c8dce24.png" alt=""></p>
 <h4 id="本章小结"><a href="#本章小结" class="headerlink" title="本章小结"></a>本章小结</h4><p>为了提升程序执行效率，Spark有时需要在map端对数据进行缓存、聚合、内置排序等操作。reduce端为了提升<br>效率，也可能需要对数据进行缓存、聚合、排序。<br>Shuffle过程中，map任务通过将多个分区的数据写入同一个文件，减轻了读写大量小文件给磁盘IO效率带来的压力。<br>reduce任务通过对存储在同一个远端节点上的Shuffle Block进行积累，批量下载远端的Block，节省了网络IO。</p>
 <blockquote>
 <p>想法20200203<br>学习的本质是社交。<br>最近几天一个人在家看这本书，感觉非常枯燥乏味，很难坚持下去。我认为最好还是能加入<br>一个社区和其他志同道合的人一同分享并学习。或者想办法靠近比你厉害的人。<br>但是，要找到这样的环境很难！</p>
@@ -772,6 +787,56 @@
       </tags>
   </entry>
   <entry>
+    <title>新疆北疆自驾12日游（上）</title>
+    <url>/2018/xinjiang_trip.html</url>
+    <content><![CDATA[<h1 id="出发"><a href="#出发" class="headerlink" title="出发"></a>出发</h1><p>辞职后已经有一段时间了，每天都是在家Remote着帮香港人干活。虽然钱不多，但很自由，当时想，要不要趁现在<br>有自由时间来一场旅行吧。想来想去还是决定在国内吧，第一，国内方便，不用另外去办护照。第二，国内便宜点，<br>还是穷啊。</p>
+<p>新疆，国内是最异域风情的一片土地，对我来说一直很神秘。趁这次机会我去那边探个究竟。</p>
+<p>从罗湖火车站正式出发。即将开始我48小时的火车旅程<br><img src="/images/2018/xinjiang_trip/678583b0.png" alt=""></p>
+<p>我的床位。我将在这里睡两天两夜。我的舍友还挺好的。一个在新疆哈密上班的湖南大哥，一个区甘肃读书的年轻小伙子</p>
+<p><img src="/images/2018/xinjiang_trip/bed_in_train.png" alt=""></p>
+<p>在漫长的火车路途中，我除了玩手机电脑打发时间，就是和舍友聊天。我从来没去过中国的西北，就跟他们聊<br>西北那边的文化，主要聊得是那边吃的饮食吧。我对那里充满着憧憬。</p>
+<p>做了两个晚上的火车，到兰州站歇歇，出来活动活动。<br><img src="/images/2018/xinjiang_trip/lanzhou_station.png" alt=""></p>
+<h1 id="踏上新疆"><a href="#踏上新疆" class="headerlink" title="踏上新疆"></a>踏上新疆</h1><p>快到新疆的路上，看到路边已经没有什么绿色的植物了，都是辽阔的荒漠地带。<br><img src="/images/2018/xinjiang_trip/on_the_way.png" alt=""></p>
+<p>第一晚住的乌鲁木齐市区的酒店，还不错。两百多吧<br><img src="/images/2018/xinjiang_trip/Urumqi_hotel.png" alt=""></p>
+<p>乌鲁木齐市区。到了新疆移动网络都很差，因为这里的4G 被shutdown了。<br><img src="/images/2018/xinjiang_trip/Urumuqi_city_road.png" alt=""></p>
+<p>第一餐吃的拉面。这边一碗面的价格跟广州深圳差不多吧，十几二十块一碗。但口味远远比广东的好吃。<br><img src="/images/2018/xinjiang_trip/first_lunch.png" alt=""></p>
+<p>乌鲁木齐夜景，这边路上的人不是很多<br><img src="/images/2018/xinjiang_trip/Urumuqi_road_night.png" alt=""></p>
+<h1 id="第一天景点游"><a href="#第一天景点游" class="headerlink" title="第一天景点游"></a>第一天景点游</h1><p>在乌鲁木齐独自闲逛了一天后的第二天，我和网友在指定的地点汇合了。我是在豆瓣上加的，上面会有很多人<br>寻找驴友伙伴的。<br>我们是一共4个人，2个女的来自广西，一个男的来自北京。一起在乌鲁木齐租了一辆CRV，在新疆租车还挺贵的，<br>CRV 用了10天大概每天要4-5百加上汽油费。</p>
+<p>广西的一个妹子是女老司机，开车开得很好。超过一半时间都是她开的。另外，在新疆开车的感觉是路比较大，车<br>又不多，比较畅通。更重要的是风景很辽阔，视野很好。<br><img src="/images/2018/xinjiang_trip/driving_on_highway.png" alt=""></p>
+<h2 id="火焰山"><a href="#火焰山" class="headerlink" title="火焰山"></a>火焰山</h2><p>我们看的一个大景点是火焰山。主要就是看一些西游记人物的雕像，没啥好看的，我也没买票，就在外面观望<br>了一下。<br><img src="/images/2018/xinjiang_trip/huoyanshan.png" alt=""></p>
+<h2 id="一个城堡"><a href="#一个城堡" class="headerlink" title="一个城堡"></a>一个城堡</h2><p>然后是在吐鲁番的一个城堡里游览，忘了叫什么名。就拍个照片到此一游吧，我只是跟着来的哈<br><img src="/images/2018/xinjiang_trip/castle.png" alt=""></p>
+<p>哦，这应该是阿凡提的家</p>
+<p><img src="/images/2018/xinjiang_trip/apanti_home.png" alt=""></p>
+<h2 id="吐鲁番市"><a href="#吐鲁番市" class="headerlink" title="吐鲁番市"></a>吐鲁番市</h2><p>吐鲁番市我在游逛新疆以来，最推荐的一个城市，原因很简单，这里物美价廉！哈密瓜满地都是，吃不完直接扔了。<br>吃得东西很好吃很正宗，又很便宜。<br>住宿就更能体现了，我们住了个两房，一晚上才一百多。还有一点我挺喜欢的是这边的空气湿度非常低，我衣服晚上洗，<br>洗完不用晒，第二天早上就干了。</p>
+<p>路边一个可爱的小女孩<br><img src="/images/2018/xinjiang_trip/lovely_girl.png" alt=""></p>
+<p>BTW, before you enter any city in Xinjiang, there is a serious security check, sometimes,<br>passengers in the car have to get off the car to pass the security check.<br><img src="/images/2018/xinjiang_trip/station_check.png" alt=""></p>
+<p>wonderful landscape on dessert area<br><img src="/images/2018/xinjiang_trip/desert_area1.png" alt=""></p>
+<p><img src="/images/2018/xinjiang_trip/dessert_area2.png" alt=""></p>
+<p>骆驼，世界上最温顺的大家伙，很大很温柔<br><img src="/images/2018/xinjiang_trip/camel.png" alt=""></p>
+<p>在新疆开车你会有不一样的体验。当然，开久了也会很无聊。<br><img src="/images/2018/xinjiang_trip/driving_on_empty_road.png" alt=""></p>
+<h1 id="库车"><a href="#库车" class="headerlink" title="库车"></a>库车</h1><p>来到另外一个南部城市，库车。库车这城市我也挺喜欢的，因为和吐鲁番一样，都很物美价廉。<br><img src="/images/2018/xinjiang_trip/kuche.png" alt=""></p>
+<p>在新疆，很少能吃到青菜，很多时候只能吃肉<br><img src="/images/2018/xinjiang_trip/meat.png" alt=""></p>
+<p>那天停车在路边，本来想看看风景，突然闪电，在大自然面前，感觉到人类很渺小<br><img src="/images/2018/xinjiang_trip/wilderness.png" alt=""></p>
+<p>这里的厕所简直了，很有味道。<br><img src="/images/2018/xinjiang_trip/publi_toilet.png" alt=""></p>
+<p>在一个街边的露天市场里吃了个早餐。老板很友好很热情，旁边的大妈还给我们分享食物，虽然语言不通，<br>但能感受到他们很淳朴。说句心里话，我很向往这种生活，人与人之间没有提防，没有戒备，没有不信任感。<br>只因为这里太穷了，不像大城市里的生活那么复杂。我吃着这碗面也就几块钱，能赚个啥啊。为什么他们<br>还乐此不彼。 我觉得，富裕和淳朴是不能共存的。你富裕了必然会牺牲掉淳朴，人与人之间的关系变得<br>复杂。我喜欢淳朴，但不忍心看着他们如此贫穷，生活过得如此简陋。<br><img src="/images/2018/xinjiang_trip/street_food.png" alt=""></p>
+<p><img src="/images/2018/xinjiang_trip/street_food2.png" alt=""></p>
+<p><img src="/images/2018/xinjiang_trip/food_in_kuche.png" alt=""></p>
+<p><img src="/images/2018/xinjiang_trip/fruit_stall.png" alt=""></p>
+<p>一个峡谷的旅游景点</p>
+<p><img src="/images/2018/xinjiang_trip/daxiagu_.png" alt=""><br>库车青旅里捡的弟弟。在库车，我们把原来那北京约的驴友给踢了，因为他太不好相处，总以为自己很牛。<br>哈哈，所以我们在青旅把他给踢了，另外拉了一个小伙子，后来果然气氛就不一样了，弟弟很随和，挺好相处的。</p>
+<p>这里的水很清澈，看起来没有任何污染。<br><img src="/images/2018/xinjiang_trip/stream.png" alt=""></p>
+<p>山路上经常会被羊群堵路，我真想下车去摸摸它们。<br><img src="/images/2018/xinjiang_trip/sheep_on_road.png" alt=""></p>
+<p>九月中旬，可以看到，北疆已经下雪了<br><img src="/images/2018/xinjiang_trip/driving_on_the_way.png" alt=""></p>
+<p>接下来我们的行程也会慢慢往北走，前往北疆探索。在下一章里，我讲继续分享北疆的旅途。</p>
+]]></content>
+      <categories>
+        <category>travel</category>
+      </categories>
+      <tags>
+        <tag>travel</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Calcite介绍</title>
     <url>/2018/calcite_intro.html</url>
     <content><![CDATA[<h1 id="什么是Apache-Calcite"><a href="#什么是Apache-Calcite" class="headerlink" title="什么是Apache Calcite ?"></a>什么是Apache Calcite ?</h1><p>Apache Calcite 是一款开源SQL解析工具, 可以将各种SQL语句解析成抽象语法术AST(Abstract Syntax Tree),<br>之后通过操作AST就可以把SQL中所要表达的算法与关系体现在具体代码之中。</p>
@@ -836,56 +901,6 @@
       </categories>
       <tags>
         <tag>Calcite</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>新疆北疆自驾12日游（上）</title>
-    <url>/2018/xinjiang_trip.html</url>
-    <content><![CDATA[<h1 id="出发"><a href="#出发" class="headerlink" title="出发"></a>出发</h1><p>辞职后已经有一段时间了，每天都是在家Remote着帮香港人干活。虽然钱不多，但很自由，当时想，要不要趁现在<br>有自由时间来一场旅行吧。想来想去还是决定在国内吧，第一，国内方便，不用另外去办护照。第二，国内便宜点，<br>还是穷啊。</p>
-<p>新疆，国内是最异域风情的一片土地，对我来说一直很神秘。趁这次机会我去那边探个究竟。</p>
-<p>从罗湖火车站正式出发。即将开始我48小时的火车旅程<br><img src="/images/2018/xinjiang_trip/678583b0.png" alt=""></p>
-<p>我的床位。我将在这里睡两天两夜。我的舍友还挺好的。一个在新疆哈密上班的湖南大哥，一个区甘肃读书的年轻小伙子</p>
-<p><img src="/images/2018/xinjiang_trip/bed_in_train.png" alt=""></p>
-<p>在漫长的火车路途中，我除了玩手机电脑打发时间，就是和舍友聊天。我从来没去过中国的西北，就跟他们聊<br>西北那边的文化，主要聊得是那边吃的饮食吧。我对那里充满着憧憬。</p>
-<p>做了两个晚上的火车，到兰州站歇歇，出来活动活动。<br><img src="/images/2018/xinjiang_trip/lanzhou_station.png" alt=""></p>
-<h1 id="踏上新疆"><a href="#踏上新疆" class="headerlink" title="踏上新疆"></a>踏上新疆</h1><p>快到新疆的路上，看到路边已经没有什么绿色的植物了，都是辽阔的荒漠地带。<br><img src="/images/2018/xinjiang_trip/on_the_way.png" alt=""></p>
-<p>第一晚住的乌鲁木齐市区的酒店，还不错。两百多吧<br><img src="/images/2018/xinjiang_trip/Urumqi_hotel.png" alt=""></p>
-<p>乌鲁木齐市区。到了新疆移动网络都很差，因为这里的4G 被shutdown了。<br><img src="/images/2018/xinjiang_trip/Urumuqi_city_road.png" alt=""></p>
-<p>第一餐吃的拉面。这边一碗面的价格跟广州深圳差不多吧，十几二十块一碗。但口味远远比广东的好吃。<br><img src="/images/2018/xinjiang_trip/first_lunch.png" alt=""></p>
-<p>乌鲁木齐夜景，这边路上的人不是很多<br><img src="/images/2018/xinjiang_trip/Urumuqi_road_night.png" alt=""></p>
-<h1 id="第一天景点游"><a href="#第一天景点游" class="headerlink" title="第一天景点游"></a>第一天景点游</h1><p>在乌鲁木齐独自闲逛了一天后的第二天，我和网友在指定的地点汇合了。我是在豆瓣上加的，上面会有很多人<br>寻找驴友伙伴的。<br>我们是一共4个人，2个女的来自广西，一个男的来自北京。一起在乌鲁木齐租了一辆CRV，在新疆租车还挺贵的，<br>CRV 用了10天大概每天要4-5百加上汽油费。</p>
-<p>广西的一个妹子是女老司机，开车开得很好。超过一半时间都是她开的。另外，在新疆开车的感觉是路比较大，车<br>又不多，比较畅通。更重要的是风景很辽阔，视野很好。<br><img src="/images/2018/xinjiang_trip/driving_on_highway.png" alt=""></p>
-<h2 id="火焰山"><a href="#火焰山" class="headerlink" title="火焰山"></a>火焰山</h2><p>我们看的一个大景点是火焰山。主要就是看一些西游记人物的雕像，没啥好看的，我也没买票，就在外面观望<br>了一下。<br><img src="/images/2018/xinjiang_trip/huoyanshan.png" alt=""></p>
-<h2 id="一个城堡"><a href="#一个城堡" class="headerlink" title="一个城堡"></a>一个城堡</h2><p>然后是在吐鲁番的一个城堡里游览，忘了叫什么名。就拍个照片到此一游吧，我只是跟着来的哈<br><img src="/images/2018/xinjiang_trip/castle.png" alt=""></p>
-<p>哦，这应该是阿凡提的家</p>
-<p><img src="/images/2018/xinjiang_trip/apanti_home.png" alt=""></p>
-<h2 id="吐鲁番市"><a href="#吐鲁番市" class="headerlink" title="吐鲁番市"></a>吐鲁番市</h2><p>吐鲁番市我在游逛新疆以来，最推荐的一个城市，原因很简单，这里物美价廉！哈密瓜满地都是，吃不完直接扔了。<br>吃得东西很好吃很正宗，又很便宜。<br>住宿就更能体现了，我们住了个两房，一晚上才一百多。还有一点我挺喜欢的是这边的空气湿度非常低，我衣服晚上洗，<br>洗完不用晒，第二天早上就干了。</p>
-<p>路边一个可爱的小女孩<br><img src="/images/2018/xinjiang_trip/lovely_girl.png" alt=""></p>
-<p>BTW, before you enter any city in Xinjiang, there is a serious security check, sometimes,<br>passengers in the car have to get off the car to pass the security check.<br><img src="/images/2018/xinjiang_trip/station_check.png" alt=""></p>
-<p>wonderful landscape on dessert area<br><img src="/images/2018/xinjiang_trip/desert_area1.png" alt=""></p>
-<p><img src="/images/2018/xinjiang_trip/dessert_area2.png" alt=""></p>
-<p>骆驼，世界上最温顺的大家伙，很大很温柔<br><img src="/images/2018/xinjiang_trip/camel.png" alt=""></p>
-<p>在新疆开车你会有不一样的体验。当然，开久了也会很无聊。<br><img src="/images/2018/xinjiang_trip/driving_on_empty_road.png" alt=""></p>
-<h1 id="库车"><a href="#库车" class="headerlink" title="库车"></a>库车</h1><p>来到另外一个南部城市，库车。库车这城市我也挺喜欢的，因为和吐鲁番一样，都很物美价廉。<br><img src="/images/2018/xinjiang_trip/kuche.png" alt=""></p>
-<p>在新疆，很少能吃到青菜，很多时候只能吃肉<br><img src="/images/2018/xinjiang_trip/meat.png" alt=""></p>
-<p>那天停车在路边，本来想看看风景，突然闪电，在大自然面前，感觉到人类很渺小<br><img src="/images/2018/xinjiang_trip/wilderness.png" alt=""></p>
-<p>这里的厕所简直了，很有味道。<br><img src="/images/2018/xinjiang_trip/publi_toilet.png" alt=""></p>
-<p>在一个街边的露天市场里吃了个早餐。老板很友好很热情，旁边的大妈还给我们分享食物，虽然语言不通，<br>但能感受到他们很淳朴。说句心里话，我很向往这种生活，人与人之间没有提防，没有戒备，没有不信任感。<br>只因为这里太穷了，不像大城市里的生活那么复杂。我吃着这碗面也就几块钱，能赚个啥啊。为什么他们<br>还乐此不彼。 我觉得，富裕和淳朴是不能共存的。你富裕了必然会牺牲掉淳朴，人与人之间的关系变得<br>复杂。我喜欢淳朴，但不忍心看着他们如此贫穷，生活过得如此简陋。<br><img src="/images/2018/xinjiang_trip/street_food.png" alt=""></p>
-<p><img src="/images/2018/xinjiang_trip/street_food2.png" alt=""></p>
-<p><img src="/images/2018/xinjiang_trip/food_in_kuche.png" alt=""></p>
-<p><img src="/images/2018/xinjiang_trip/fruit_stall.png" alt=""></p>
-<p>一个峡谷的旅游景点</p>
-<p><img src="/images/2018/xinjiang_trip/daxiagu_.png" alt=""><br>库车青旅里捡的弟弟。在库车，我们把原来那北京约的驴友给踢了，因为他太不好相处，总以为自己很牛。<br>哈哈，所以我们在青旅把他给踢了，另外拉了一个小伙子，后来果然气氛就不一样了，弟弟很随和，挺好相处的。</p>
-<p>这里的水很清澈，看起来没有任何污染。<br><img src="/images/2018/xinjiang_trip/stream.png" alt=""></p>
-<p>山路上经常会被羊群堵路，我真想下车去摸摸它们。<br><img src="/images/2018/xinjiang_trip/sheep_on_road.png" alt=""></p>
-<p>九月中旬，可以看到，北疆已经下雪了<br><img src="/images/2018/xinjiang_trip/driving_on_the_way.png" alt=""></p>
-<p>接下来我们的行程也会慢慢往北走，前往北疆探索。在下一章里，我讲继续分享北疆的旅途。</p>
-]]></content>
-      <categories>
-        <category>travel</category>
-      </categories>
-      <tags>
-        <tag>travel</tag>
       </tags>
   </entry>
   <entry>
@@ -1463,100 +1478,6 @@ consumer.close(autocommit=False)
       </tags>
   </entry>
   <entry>
-    <title>Kylin 基础介绍</title>
-    <url>/2017/kylin_basic.html</url>
-    <content><![CDATA[<h2 id="Kylin术语"><a href="#Kylin术语" class="headerlink" title="Kylin术语"></a>Kylin术语</h2><ul>
-<li><p>维度(Dimension)<br>一组属性，提供结构化的标签信息，一般作为报表的坐标轴。</p>
-</li>
-<li><p>度量(Measure)<br>一类可以进行聚合分析的特殊维度，聚合后的结果称为指标。</p>
-</li>
-<li><p>事实表(Fact Table)<br>数据仓库中的中央表，用于描述业务内特定事件的数据。</p>
-</li>
-<li><p>维度表(Lookup Table)<br>维度属性的集合，人们观察数据的特定角度。</p>
-</li>
-<li><p>基度（Cardinality）<br>指数据表中某一列数据去重后的元素个数。</p>
-</li>
-<li><p>星型模型(Star Schema)<br>一种多维的数据关系，由一张事实表和一组维度表组成。</p>
-</li>
-<li><p>cube<br>一个cube就是一个Hive表的数据按照指定维度与指标计算出的所有组合结果。</p>
-</li>
-<li><p>cuboid<br>某一维度组合下，度量聚合后的结果集合。有个特殊的cuboid叫 base cuboid，比如维度有ABCD，（A,B,C,D）称为Base cuboid</p>
-</li>
-<li><p>数据立方体(cube)<br>一组用于分析数据的相关度量值和维度，是所有cuboid的集合，作为存储和分析的基本单位</p>
-</li>
-<li><p>segment<br>Cube Segment 是指针对源数据中的某一个片段，计算出来的 Cube 数据。<br>通常数据仓库中的数据数量会随着时间的增长而增长，而 Cube Segment 也是按时间顺序来构建的。</p>
-</li>
-<li><p>衍生维度<br>维度表上的某一列通过PK可推的，换句话是可查询到的 比如由身份证可以推导性别，所以能通过PK推导的维度都可以设置为衍生维度。<br>衍生维度是放在snapshot中</p>
-</li>
-</ul>
-<h3 id="Kylin核心技术：Cube与计算"><a href="#Kylin核心技术：Cube与计算" class="headerlink" title="Kylin核心技术：Cube与计算"></a>Kylin核心技术：Cube与计算</h3><p>比如我们有10多亿中国人口数据，要统计男女比例这么个需求。如果直接从硬盘里提取数据来统计肯定会很慢，磁盘速度大概是几百兆/秒。<br>即使把数据放到内存中也最多提升100倍的速度。</p>
-<p>所以，可以用与计算来统计男女比例</p>
-<h3 id="维度表和事实表"><a href="#维度表和事实表" class="headerlink" title="维度表和事实表"></a>维度表和事实表</h3><p>我学到了一个数据仓库的概念，维度表（Fact Table）和事实表（Lookup Table）。<br>通过下面例子就让我明白了：<br>学过数据库的童鞋应该都知道星型模型，星型模型在数据仓库的设计中可以为是一种典型的维度模型。<br>我们在进行维度建模的时候会建一张事实表，这个事实表就是星型模型的中心，然后会有一堆维度表，这些维度表就是向外发散的星星。<br>那么什么是事实表、什么又是维度表吗，下面会专门来解释。</p>
-<p><img src="/images/2017/kylin_basic/367a4515.png" alt=""></p>
-<p>中间的chat表就是事实表。其它周边的表就是维度表。</p>
-<h3 id="维度设计"><a href="#维度设计" class="headerlink" title="维度设计"></a>维度设计</h3><p>只有普通维度会影响Cuboid的数量和存储膨胀率，衍生维度并不参与Cuboid计算，而是有衍生维度对应的外键FK参与计算Cuboid。<br>在查询时，对衍生维度的查询会首先转换为对外键所在维度的查询，因此会牺牲少量查询性能。</p>
-<p>Kylin暂时不支持星座模型</p>
-<p>默认情况下，系统将会为所有的维度表创建快照。<br>设计新的模型，将大维度表改为事实表</p>
-<p>设计规则如下：<br>经常出现在规律条件中的维度应当设为普通维度，以达到更好的查询性能。</p>
-<p>Derived 衍生类型的前提是要放到快照表里的</p>
-<ul>
-<li>For normal dimensions, Kyligence has max number restriction of 62</li>
-<li>If a dimension table is used in cube design, its corresponding fact table foreign key will be added as normal dimension even it’s not used.</li>
-</ul>
-<h3 id="维度优化"><a href="#维度优化" class="headerlink" title="维度优化"></a>维度优化</h3><p>Mandatory Dimension: 一定group by的字段<br>Hierarchy Dimension: 国家、省、市<br>Joint Dimension: 要么一起出现，要么不出现，比如：A、B、C绑在了一起 （很少有这样的场景）</p>
-<h3 id="Rowkey"><a href="#Rowkey" class="headerlink" title="Rowkey"></a>Rowkey</h3><p>UHC不要用Dict作为encoding;<br>常用的字段比如日期字段要放在Rowkey的前面<br>高基维放置在低基维前面<br>过滤的维度放置在非过滤前面</p>
-<p>max length of FixedLength(N) for UHC of varchar/char type will be 256</p>
-<h3 id="Cube-Build"><a href="#Cube-Build" class="headerlink" title="Cube Build"></a>Cube Build</h3><p>Supported Cube Build Types:<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Full Build</div><div class="line">By Date/time</div><div class="line">Streaming(by offset)</div><div class="line">By File(Beta)</div><div class="line">Customize(Beta)</div></pre></td></tr></table></figure></p>
-<p>尽量使用增量加载<br>计划合并你的增量segment<br>用增量加载的时候要考虑下SCD</p>
-<h3 id="星型模型和雪花模型"><a href="#星型模型和雪花模型" class="headerlink" title="星型模型和雪花模型"></a>星型模型和雪花模型</h3><p>fact table 外围一圈 dimension table 就是星型模型<br>dimension table 外再围一圈 dimension table就是雪花模型</p>
-<h3 id="System-Configuration"><a href="#System-Configuration" class="headerlink" title="System Configuration"></a>System Configuration</h3><p>Important configurations:<br>Job retry<br>Pushdown：对于没有cube能查得结果的sql，Kylin支持将这类查询通过JDBC下压至备用查询引擎如Hive, SparkSQL, Impala等来查得结果<br>Query cache(process level/shared)<br>Compression</p>
-<p>Configuration override<br>System<br>Project<br>Cube</p>
-<h3 id="Authorization-Management"><a href="#Authorization-Management" class="headerlink" title="Authorization Management"></a>Authorization Management</h3><p>project: Query, Operation , Managment, Admin<br>table: Table query, Row query, Column query</p>
-<p>Caution: column ACL is a blacklist.</p>
-<h3 id="Resource-Isolation"><a href="#Resource-Isolation" class="headerlink" title="Resource Isolation"></a>Resource Isolation</h3><p>KE can submit cube build jobs to specified Yarn queues per: system level;project level;cube level</p>
-<h3 id="应用发布流程"><a href="#应用发布流程" class="headerlink" title="应用发布流程"></a>应用发布流程</h3><p>DEV -&gt; QA -&gt;(sign off) PROD</p>
-<h3 id="Daily-Operation"><a href="#Daily-Operation" class="headerlink" title="Daily Operation"></a>Daily Operation</h3><ol>
-<li><p>Garbage cleanup<br>e.g.: segment merged, cube purged</p>
-</li>
-<li><p>System upgrade<br>Minor version upgrade<br>Major version upgrade</p>
-</li>
-<li><p>System backup/restore<br>System level<br>Project level</p>
-</li>
-</ol>
-<h3 id="Rest-API"><a href="#Rest-API" class="headerlink" title="Rest API"></a>Rest API</h3><p>Authorization 这个Header的内容是 “ADMIN:yourpassword”的base64 encode</p>
-<h3 id="Hadoop生态和和MPP数据库的区别"><a href="#Hadoop生态和和MPP数据库的区别" class="headerlink" title="Hadoop生态和和MPP数据库的区别"></a>Hadoop生态和和MPP数据库的区别</h3><p>Hadoop跟MPP的存储模型不一样。<br>Hadoop生态的存储用HDFS，HDFS的扩展是通过元数据来做的，它有中心节点用来存元数据，在加入新的节点的时候，<br>只需要修改元数据就可以，所以HDFS可扩展能力是收到管理元数据那台机器的性能限制的。一般来说可以到10K这个<br>规模，再向上就不行了。</p>
-<p>而MPP要自己做切分，自己做切分就带来动态调整的问题。MPP通常采用的是没有中心节点的存储模式，比如hash，<br>每增加节点的时候，都需要rehash，这样当规模到了几百台的时候，扩展能力就下来了。</p>
-<p>Hive在内存管理上方式不大一样。<br>MPP内存管理比较精细，他主要的想法是在每个机器上放个数据库，传统数据库的内存管理比较复杂，主要是内外存<br>交互的东西，这样的架构决定了MPP在小数据量的时候，latency可以做的比较小，但是数据量大的时候，<br>throughput做不上去了。<br>而Hive的内存管理非常粗放，它后来就是MapReduce的job，MR的job是没有太多精细的内存管理，就是拼命地<br>scan，完了就是spill，这样的架构导致throughput很大，但是latency很高。</p>
-<p>failover机制，<br>Hive的failover就是MR的failover，job挂掉了重新换机器跑就完了。</p>
-<p>MPP它的计算是要attach到数据节点上去的，如果你规模上去，那么fail的可能性就上去了，这样如果你每次计算<br>都有台机器挂了，一挂，别人就要等你，而不是换台机器继续跑。可以用木桶效应类比。</p>
-<h3 id="Cube设计"><a href="#Cube设计" class="headerlink" title="Cube设计"></a>Cube设计</h3><p>Rowkey的具体格式是cuboid id + 具体的维度值（最新的Rowkey中为了并发查询还加入了ShardKey）<br><img src="/images/2017/kylin_basic/b447988e.png" alt=""><br>前面4个框着的作为Rowkey，比如，2015-10-1的维度序号为1，BJ的序号为0，item-A序号为0，则最终Rowkey为 111+100</p>
-<p>Rowkey的设计原则：</p>
-<ol>
-<li>结合业务场景特点，按照查询频次来放置字段顺序</li>
-<li>通过设计的Rowkey尽可能的将数据打散到整个集群中，负载均衡</li>
-<li>设计的Rowkey尽量简短</li>
-</ol>
-<p>有3个方面要考虑：</p>
-<ul>
-<li><p>Encoding<br>我们的编码方式能够大大减少每行Cube数据的体积。<br>而Cube中可能存在数以亿计的行数，使用编码节约的空间累加起来将是一个非常巨大的数字。</p>
-</li>
-<li><p>排序<br>高概率用于过滤的列<br>基数高的列（用它进行过滤时，返回的结果集小）<br>排序评分=过滤概率*过滤强度<br>经常使用到的维度提前—在需要进行后聚合的场景中效率会更高。</p>
-</li>
-<li><p>分片<br>按维度分片（Shard by Dimension）提供了一种更加高效的分片策略，那就是按照某个特定维度进行分片。<br>简单地说，如果Cuboid中某两个行的Shard by Dimension的值相同，<br>那么无论这个Cuboid最终会被划分成多少个分片，这两行数据必然会被分配到同一个分片中。</p>
-</li>
-</ul>
-<p>Shard by维度要求<br>仅支持单一维度<br>基数足够高（几十万）<br>分布均匀<br>经常进行group by和filter</p>
-<p>更多的优化原理要参考Rowkey的设计</p>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://blog.bcmeng.com/post/kylin-cube.html#cuboid-%E7%9A%84%E7%BB%B4%E5%BA%A6%E5%92%8C%E6%8C%87%E6%A0%87%E5%A6%82%E4%BD%95%E8%BD%AC%E6%8D%A2%E4%B8%BAhbase%E7%9A%84kv%E7%BB%93%E6%9E%84" target="_blank" rel="external">https://blog.bcmeng.com/post/kylin-cube.html#cuboid-%E7%9A%84%E7%BB%B4%E5%BA%A6%E5%92%8C%E6%8C%87%E6%A0%87%E5%A6%82%E4%BD%95%E8%BD%AC%E6%8D%A2%E4%B8%BAhbase%E7%9A%84kv%E7%BB%93%E6%9E%84</a></p>
-]]></content>
-      <categories>
-        <category>大数据</category>
-      </categories>
-      <tags>
-        <tag>kylin</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hbase 基础介绍</title>
     <url>/2016/hbase_intro.html</url>
     <content><![CDATA[<h1 id="Hbase的由来"><a href="#Hbase的由来" class="headerlink" title="Hbase的由来"></a>Hbase的由来</h1><p>Hbase是Bigtable的开源山寨版本。</p>
@@ -1680,6 +1601,100 @@ consumer.close(autocommit=False)
       </categories>
       <tags>
         <tag>hbase</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Kylin 基础介绍</title>
+    <url>/2017/kylin_basic.html</url>
+    <content><![CDATA[<h2 id="Kylin术语"><a href="#Kylin术语" class="headerlink" title="Kylin术语"></a>Kylin术语</h2><ul>
+<li><p>维度(Dimension)<br>一组属性，提供结构化的标签信息，一般作为报表的坐标轴。</p>
+</li>
+<li><p>度量(Measure)<br>一类可以进行聚合分析的特殊维度，聚合后的结果称为指标。</p>
+</li>
+<li><p>事实表(Fact Table)<br>数据仓库中的中央表，用于描述业务内特定事件的数据。</p>
+</li>
+<li><p>维度表(Lookup Table)<br>维度属性的集合，人们观察数据的特定角度。</p>
+</li>
+<li><p>基度（Cardinality）<br>指数据表中某一列数据去重后的元素个数。</p>
+</li>
+<li><p>星型模型(Star Schema)<br>一种多维的数据关系，由一张事实表和一组维度表组成。</p>
+</li>
+<li><p>cube<br>一个cube就是一个Hive表的数据按照指定维度与指标计算出的所有组合结果。</p>
+</li>
+<li><p>cuboid<br>某一维度组合下，度量聚合后的结果集合。有个特殊的cuboid叫 base cuboid，比如维度有ABCD，（A,B,C,D）称为Base cuboid</p>
+</li>
+<li><p>数据立方体(cube)<br>一组用于分析数据的相关度量值和维度，是所有cuboid的集合，作为存储和分析的基本单位</p>
+</li>
+<li><p>segment<br>Cube Segment 是指针对源数据中的某一个片段，计算出来的 Cube 数据。<br>通常数据仓库中的数据数量会随着时间的增长而增长，而 Cube Segment 也是按时间顺序来构建的。</p>
+</li>
+<li><p>衍生维度<br>维度表上的某一列通过PK可推的，换句话是可查询到的 比如由身份证可以推导性别，所以能通过PK推导的维度都可以设置为衍生维度。<br>衍生维度是放在snapshot中</p>
+</li>
+</ul>
+<h3 id="Kylin核心技术：Cube与计算"><a href="#Kylin核心技术：Cube与计算" class="headerlink" title="Kylin核心技术：Cube与计算"></a>Kylin核心技术：Cube与计算</h3><p>比如我们有10多亿中国人口数据，要统计男女比例这么个需求。如果直接从硬盘里提取数据来统计肯定会很慢，磁盘速度大概是几百兆/秒。<br>即使把数据放到内存中也最多提升100倍的速度。</p>
+<p>所以，可以用与计算来统计男女比例</p>
+<h3 id="维度表和事实表"><a href="#维度表和事实表" class="headerlink" title="维度表和事实表"></a>维度表和事实表</h3><p>我学到了一个数据仓库的概念，维度表（Fact Table）和事实表（Lookup Table）。<br>通过下面例子就让我明白了：<br>学过数据库的童鞋应该都知道星型模型，星型模型在数据仓库的设计中可以为是一种典型的维度模型。<br>我们在进行维度建模的时候会建一张事实表，这个事实表就是星型模型的中心，然后会有一堆维度表，这些维度表就是向外发散的星星。<br>那么什么是事实表、什么又是维度表吗，下面会专门来解释。</p>
+<p><img src="/images/2017/kylin_basic/367a4515.png" alt=""></p>
+<p>中间的chat表就是事实表。其它周边的表就是维度表。</p>
+<h3 id="维度设计"><a href="#维度设计" class="headerlink" title="维度设计"></a>维度设计</h3><p>只有普通维度会影响Cuboid的数量和存储膨胀率，衍生维度并不参与Cuboid计算，而是有衍生维度对应的外键FK参与计算Cuboid。<br>在查询时，对衍生维度的查询会首先转换为对外键所在维度的查询，因此会牺牲少量查询性能。</p>
+<p>Kylin暂时不支持星座模型</p>
+<p>默认情况下，系统将会为所有的维度表创建快照。<br>设计新的模型，将大维度表改为事实表</p>
+<p>设计规则如下：<br>经常出现在规律条件中的维度应当设为普通维度，以达到更好的查询性能。</p>
+<p>Derived 衍生类型的前提是要放到快照表里的</p>
+<ul>
+<li>For normal dimensions, Kyligence has max number restriction of 62</li>
+<li>If a dimension table is used in cube design, its corresponding fact table foreign key will be added as normal dimension even it’s not used.</li>
+</ul>
+<h3 id="维度优化"><a href="#维度优化" class="headerlink" title="维度优化"></a>维度优化</h3><p>Mandatory Dimension: 一定group by的字段<br>Hierarchy Dimension: 国家、省、市<br>Joint Dimension: 要么一起出现，要么不出现，比如：A、B、C绑在了一起 （很少有这样的场景）</p>
+<h3 id="Rowkey"><a href="#Rowkey" class="headerlink" title="Rowkey"></a>Rowkey</h3><p>UHC不要用Dict作为encoding;<br>常用的字段比如日期字段要放在Rowkey的前面<br>高基维放置在低基维前面<br>过滤的维度放置在非过滤前面</p>
+<p>max length of FixedLength(N) for UHC of varchar/char type will be 256</p>
+<h3 id="Cube-Build"><a href="#Cube-Build" class="headerlink" title="Cube Build"></a>Cube Build</h3><p>Supported Cube Build Types:<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Full Build</div><div class="line">By Date/time</div><div class="line">Streaming(by offset)</div><div class="line">By File(Beta)</div><div class="line">Customize(Beta)</div></pre></td></tr></table></figure></p>
+<p>尽量使用增量加载<br>计划合并你的增量segment<br>用增量加载的时候要考虑下SCD</p>
+<h3 id="星型模型和雪花模型"><a href="#星型模型和雪花模型" class="headerlink" title="星型模型和雪花模型"></a>星型模型和雪花模型</h3><p>fact table 外围一圈 dimension table 就是星型模型<br>dimension table 外再围一圈 dimension table就是雪花模型</p>
+<h3 id="System-Configuration"><a href="#System-Configuration" class="headerlink" title="System Configuration"></a>System Configuration</h3><p>Important configurations:<br>Job retry<br>Pushdown：对于没有cube能查得结果的sql，Kylin支持将这类查询通过JDBC下压至备用查询引擎如Hive, SparkSQL, Impala等来查得结果<br>Query cache(process level/shared)<br>Compression</p>
+<p>Configuration override<br>System<br>Project<br>Cube</p>
+<h3 id="Authorization-Management"><a href="#Authorization-Management" class="headerlink" title="Authorization Management"></a>Authorization Management</h3><p>project: Query, Operation , Managment, Admin<br>table: Table query, Row query, Column query</p>
+<p>Caution: column ACL is a blacklist.</p>
+<h3 id="Resource-Isolation"><a href="#Resource-Isolation" class="headerlink" title="Resource Isolation"></a>Resource Isolation</h3><p>KE can submit cube build jobs to specified Yarn queues per: system level;project level;cube level</p>
+<h3 id="应用发布流程"><a href="#应用发布流程" class="headerlink" title="应用发布流程"></a>应用发布流程</h3><p>DEV -&gt; QA -&gt;(sign off) PROD</p>
+<h3 id="Daily-Operation"><a href="#Daily-Operation" class="headerlink" title="Daily Operation"></a>Daily Operation</h3><ol>
+<li><p>Garbage cleanup<br>e.g.: segment merged, cube purged</p>
+</li>
+<li><p>System upgrade<br>Minor version upgrade<br>Major version upgrade</p>
+</li>
+<li><p>System backup/restore<br>System level<br>Project level</p>
+</li>
+</ol>
+<h3 id="Rest-API"><a href="#Rest-API" class="headerlink" title="Rest API"></a>Rest API</h3><p>Authorization 这个Header的内容是 “ADMIN:yourpassword”的base64 encode</p>
+<h3 id="Hadoop生态和和MPP数据库的区别"><a href="#Hadoop生态和和MPP数据库的区别" class="headerlink" title="Hadoop生态和和MPP数据库的区别"></a>Hadoop生态和和MPP数据库的区别</h3><p>Hadoop跟MPP的存储模型不一样。<br>Hadoop生态的存储用HDFS，HDFS的扩展是通过元数据来做的，它有中心节点用来存元数据，在加入新的节点的时候，<br>只需要修改元数据就可以，所以HDFS可扩展能力是收到管理元数据那台机器的性能限制的。一般来说可以到10K这个<br>规模，再向上就不行了。</p>
+<p>而MPP要自己做切分，自己做切分就带来动态调整的问题。MPP通常采用的是没有中心节点的存储模式，比如hash，<br>每增加节点的时候，都需要rehash，这样当规模到了几百台的时候，扩展能力就下来了。</p>
+<p>Hive在内存管理上方式不大一样。<br>MPP内存管理比较精细，他主要的想法是在每个机器上放个数据库，传统数据库的内存管理比较复杂，主要是内外存<br>交互的东西，这样的架构决定了MPP在小数据量的时候，latency可以做的比较小，但是数据量大的时候，<br>throughput做不上去了。<br>而Hive的内存管理非常粗放，它后来就是MapReduce的job，MR的job是没有太多精细的内存管理，就是拼命地<br>scan，完了就是spill，这样的架构导致throughput很大，但是latency很高。</p>
+<p>failover机制，<br>Hive的failover就是MR的failover，job挂掉了重新换机器跑就完了。</p>
+<p>MPP它的计算是要attach到数据节点上去的，如果你规模上去，那么fail的可能性就上去了，这样如果你每次计算<br>都有台机器挂了，一挂，别人就要等你，而不是换台机器继续跑。可以用木桶效应类比。</p>
+<h3 id="Cube设计"><a href="#Cube设计" class="headerlink" title="Cube设计"></a>Cube设计</h3><p>Rowkey的具体格式是cuboid id + 具体的维度值（最新的Rowkey中为了并发查询还加入了ShardKey）<br><img src="/images/2017/kylin_basic/b447988e.png" alt=""><br>前面4个框着的作为Rowkey，比如，2015-10-1的维度序号为1，BJ的序号为0，item-A序号为0，则最终Rowkey为 111+100</p>
+<p>Rowkey的设计原则：</p>
+<ol>
+<li>结合业务场景特点，按照查询频次来放置字段顺序</li>
+<li>通过设计的Rowkey尽可能的将数据打散到整个集群中，负载均衡</li>
+<li>设计的Rowkey尽量简短</li>
+</ol>
+<p>有3个方面要考虑：</p>
+<ul>
+<li><p>Encoding<br>我们的编码方式能够大大减少每行Cube数据的体积。<br>而Cube中可能存在数以亿计的行数，使用编码节约的空间累加起来将是一个非常巨大的数字。</p>
+</li>
+<li><p>排序<br>高概率用于过滤的列<br>基数高的列（用它进行过滤时，返回的结果集小）<br>排序评分=过滤概率*过滤强度<br>经常使用到的维度提前—在需要进行后聚合的场景中效率会更高。</p>
+</li>
+<li><p>分片<br>按维度分片（Shard by Dimension）提供了一种更加高效的分片策略，那就是按照某个特定维度进行分片。<br>简单地说，如果Cuboid中某两个行的Shard by Dimension的值相同，<br>那么无论这个Cuboid最终会被划分成多少个分片，这两行数据必然会被分配到同一个分片中。</p>
+</li>
+</ul>
+<p>Shard by维度要求<br>仅支持单一维度<br>基数足够高（几十万）<br>分布均匀<br>经常进行group by和filter</p>
+<p>更多的优化原理要参考Rowkey的设计</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://blog.bcmeng.com/post/kylin-cube.html#cuboid-%E7%9A%84%E7%BB%B4%E5%BA%A6%E5%92%8C%E6%8C%87%E6%A0%87%E5%A6%82%E4%BD%95%E8%BD%AC%E6%8D%A2%E4%B8%BAhbase%E7%9A%84kv%E7%BB%93%E6%9E%84" target="_blank" rel="external">https://blog.bcmeng.com/post/kylin-cube.html#cuboid-%E7%9A%84%E7%BB%B4%E5%BA%A6%E5%92%8C%E6%8C%87%E6%A0%87%E5%A6%82%E4%BD%95%E8%BD%AC%E6%8D%A2%E4%B8%BAhbase%E7%9A%84kv%E7%BB%93%E6%9E%84</a></p>
+]]></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>kylin</tag>
       </tags>
   </entry>
   <entry>
