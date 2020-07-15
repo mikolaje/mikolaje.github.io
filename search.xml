@@ -1,6 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>知乎TOP20热门评论</title>
+    <url>/2020/zhihu_comment.html</url>
+    <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>之前爬取了知乎几乎所有的问题回答，有一亿多个回答吧。然后又爬取了所有大部分的评论comment，然后<br>放到Hive里做做统计，看看有没有什么有趣的发现。哈哈，也算是做做NLP研究吧。</p>
+<h2 id="正题"><a href="#正题" class="headerlink" title="正题"></a>正题</h2><p>这里就直接列出点赞数TOP20的评论吧：</p>
+<h3 id="TOP-20"><a href="#TOP-20" class="headerlink" title="TOP 20"></a>TOP 20</h3><ul>
+<li>评论：<br>徐茂森！我看你是想死了！！跨年你自己跨去吧，我要回娘家</li>
+<li>点赞数：<br>43898</li>
+<li>问题：<br>你有哪些匿名才敢发出来的照片？</li>
+</ul>
+<h3 id="TOP19"><a href="#TOP19" class="headerlink" title="TOP19"></a>TOP19</h3><ul>
+<li>评论：<br>你这种人就是欠赞[捂脸][捂脸]</li>
+<li>点赞数<br>43906</li>
+<li>问题:<br>你讨厌蔡徐坤吗？为什么？</li>
+</ul>
+<h3 id="TOP18"><a href="#TOP18" class="headerlink" title="TOP18"></a>TOP18</h3><ul>
+<li>评论：<br>当代人无法挽回地越来越低俗</li>
+<li>点赞数<br>43963</li>
+<li>问题:<br>你最讨厌什么梗？</li>
+</ul>
+<h3 id="TOP17"><a href="#TOP17" class="headerlink" title="TOP17"></a>TOP17</h3><ul>
+<li>评论：<br>“我是我男神的女神的男神的女神”</li>
+<li>点赞数：<br>44414   </li>
+<li>问题:<br>你有什么不愿意告诉另一半的秘密？</li>
+</ul>
+<h3 id="TOP16"><a href="#TOP16" class="headerlink" title="TOP16"></a>TOP16</h3><ul>
+<li>评论：<br>我觉得不是电网牛逼。。。是你牛逼，如果这个社会上多一些你这样有责任心的人，电网得笑出声来，毕竟真出了问题会受到严厉考核，变压器那么多，电网工作人员有可能有巡视和监控不到位的地方，你这好心人给指出来了，他们避免了一次考核，巴不得好好感谢你。。。一个被各种考核的电网员工扎心留言。。</li>
+<li>点赞数：<br>45347</li>
+<li>问题:<br>国家电网到底有多强大？</li>
+</ul>
+<h3 id="TOP15"><a href="#TOP15" class="headerlink" title="TOP15"></a>TOP15</h3><ul>
+<li>评论：<br>我的赞不是谁都能收的，就怕有命收没命享</li>
+<li>点赞数：<br>45466</li>
+<li>问题:<br>室友的哪些不该看的东西被你看到了？<h3 id="TOP14"><a href="#TOP14" class="headerlink" title="TOP14"></a>TOP14</h3></li>
+<li>评论：<br>主持人周立波，是我最讨厌的公众人物</li>
+<li>点赞数：<br>47372</li>
+<li>问题:<br>综艺节目有哪一幕你看了最生气？<h3 id="TOP13"><a href="#TOP13" class="headerlink" title="TOP13"></a>TOP13</h3></li>
+<li>评论：<br>看了你的文，太气了，那些记者也是间接杀人凶手╰（‵□′）╯</li>
+<li>点赞数：<br>49618</li>
+<li>问题:<br>你见过的最虐心的案子是什么？</li>
+</ul>
+<h3 id="TOP12"><a href="#TOP12" class="headerlink" title="TOP12"></a>TOP12</h3><ul>
+<li>评论：<br>哈哈哈，你就秀吧，这么点字把自己全家夸了个遍。</li>
+<li>点赞数：<br>50016</li>
+<li>问题:<br>你听过小孩说的最可怕的话是什么？</li>
+</ul>
+<h3 id="TOP11"><a href="#TOP11" class="headerlink" title="TOP11"></a>TOP11</h3><ul>
+<li>评论：<br>你说的第一点我同意！但是第二点我表示反对</li>
+<li>点赞数：<br>52046</li>
+<li>问题:<br>外星人是怎么看待地球人的？</li>
+</ul>
+<h3 id="TOP10"><a href="#TOP10" class="headerlink" title="TOP10"></a>TOP10</h3><ul>
+<li>评论：<br>黄磊的教育真的很优秀了</li>
+<li>点赞数：<br>53049</li>
+<li>问题:<br>综艺节目有哪一幕让你看了最生气？</li>
+</ul>
+<h3 id="TOP9"><a href="#TOP9" class="headerlink" title="TOP9"></a>TOP9</h3><ul>
+<li>评论：<br>刚跟媳妇说这名字不错 咱以后有孩子可以用  我媳妇说你傻啊 你知不知道自己姓钱。。。。</li>
+<li>点赞数：<br>53108</li>
+<li>问题:<br>有哪些让你惊艳到的名字？<h3 id="TOP8"><a href="#TOP8" class="headerlink" title="TOP8"></a>TOP8</h3></li>
+<li>评论：<br>当代人无法挽回地越来越低俗</li>
+<li>点赞数<br>53525</li>
+<li>问题:<br>你最讨厌什么梗？<h3 id="TOP7"><a href="#TOP7" class="headerlink" title="TOP7"></a>TOP7</h3></li>
+<li>评论：<br>于是又变成了前任?以后的女朋友再问你有没有给前任洗过，千万别答成：“洗过，还不止一个呢”😄</li>
+<li>点赞数：<br>55969</li>
+<li>问题:<br>男生的「求生欲」很强是一种什么样的表现？</li>
+</ul>
+<h3 id="TOP6"><a href="#TOP6" class="headerlink" title="TOP6"></a>TOP6</h3><ul>
+<li>评论：<br>鹿晗：糟了，是心动的感觉！</li>
+<li>点赞数<br>58822</li>
+<li>问题:<br>有哪些让你觉得恶心的恶俗歌词？</li>
+</ul>
+<h3 id="TOP5"><a href="#TOP5" class="headerlink" title="TOP5"></a>TOP5</h3><ul>
+<li>评论：<br>我要宰了你</li>
+<li>点赞数<br>62974</li>
+<li>问题:<br>人有没有前世？</li>
+</ul>
+<h3 id="TOP4"><a href="#TOP4" class="headerlink" title="TOP4"></a>TOP4</h3><ul>
+<li>评论：<br>当时看到多多就觉得我将来有个女儿如果像多多这样会又聪明又懂得保护自己，我一定做梦都会偷偷笑醒的</li>
+<li>点赞数：<br>63803</li>
+<li>问题:<br>综艺节目有哪一幕让你看了最生气？</li>
+</ul>
+<h3 id="TOP3"><a href="#TOP3" class="headerlink" title="TOP3"></a>TOP3</h3><ul>
+<li>评论：<br>出狱瘦了十几斤 我觉得这句话有诱导犯罪的嫌疑</li>
+<li>点赞数：<br>64247</li>
+<li>问题:<br>综艺节目有哪一幕让你看了最生气？<h3 id="TOP2"><a href="#TOP2" class="headerlink" title="TOP2"></a>TOP2</h3></li>
+<li>评论：<br>知乎应该允许人点两次赞！</li>
+<li>点赞数：<br>64360</li>
+<li>问题:<br>综艺节目有哪一幕让你看了最生气？</li>
+</ul>
+<h3 id="TOP1"><a href="#TOP1" class="headerlink" title="TOP1"></a>TOP1</h3><ul>
+<li>评论：<br>你怕是捡来的吧熟人只认识你姐不认识你（滑稽）</li>
+<li>点赞数<br>75113</li>
+<li>问题:<br>亲姐弟之间要不要避嫌？</li>
+</ul>
+]]></content>
+      <categories>
+        <category>daily</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>做空美股跟谁学，我的收获</title>
     <url>/2020/stock_short.html</url>
     <content><![CDATA[<h2 id="初入美股"><a href="#初入美股" class="headerlink" title="初入美股"></a>初入美股</h2><p>玩美股也断断续续有两三年了，以前都是正儿八经地买入正股，从来没有试过做空。今年年初阶段，因为瑞幸<br>的暴雷，见识到了中概股的诚信问题，后来从朋友那才得知其实很多中概股水分都挺大的，其中有一只叫<br>跟谁学更是如此。我一听跟谁学，这是啥公司呀，从未听过有这么一家公司啊。一查得知原来是做网上辅导的，<br>我想，这领域不是已经被新东方，学而思之类的机构所占领了么？哪里轮得到跟谁学这个等闲之辈啊。</p>
@@ -790,56 +893,6 @@
       </tags>
   </entry>
   <entry>
-    <title>新疆北疆自驾12日游（上）</title>
-    <url>/2018/xinjiang_trip.html</url>
-    <content><![CDATA[<h1 id="出发"><a href="#出发" class="headerlink" title="出发"></a>出发</h1><p>辞职后已经有一段时间了，每天都是在家Remote着帮香港人干活。虽然钱不多，但很自由，当时想，要不要趁现在<br>有自由时间来一场旅行吧。想来想去还是决定在国内吧，第一，国内方便，不用另外去办护照。第二，国内便宜点，<br>还是穷啊。</p>
-<p>新疆，国内是最异域风情的一片土地，对我来说一直很神秘。趁这次机会我去那边探个究竟。</p>
-<p>从罗湖火车站正式出发。即将开始我48小时的火车旅程<br><img src="/images/2018/xinjiang_trip/678583b0.png" alt=""></p>
-<p>我的床位。我将在这里睡两天两夜。我的舍友还挺好的。一个在新疆哈密上班的湖南大哥，一个区甘肃读书的年轻小伙子</p>
-<p><img src="/images/2018/xinjiang_trip/bed_in_train.png" alt=""></p>
-<p>在漫长的火车路途中，我除了玩手机电脑打发时间，就是和舍友聊天。我从来没去过中国的西北，就跟他们聊<br>西北那边的文化，主要聊得是那边吃的饮食吧。我对那里充满着憧憬。</p>
-<p>做了两个晚上的火车，到兰州站歇歇，出来活动活动。<br><img src="/images/2018/xinjiang_trip/lanzhou_station.png" alt=""></p>
-<h1 id="踏上新疆"><a href="#踏上新疆" class="headerlink" title="踏上新疆"></a>踏上新疆</h1><p>快到新疆的路上，看到路边已经没有什么绿色的植物了，都是辽阔的荒漠地带。<br><img src="/images/2018/xinjiang_trip/on_the_way.png" alt=""></p>
-<p>第一晚住的乌鲁木齐市区的酒店，还不错。两百多吧<br><img src="/images/2018/xinjiang_trip/Urumqi_hotel.png" alt=""></p>
-<p>乌鲁木齐市区。到了新疆移动网络都很差，因为这里的4G 被shutdown了。<br><img src="/images/2018/xinjiang_trip/Urumuqi_city_road.png" alt=""></p>
-<p>第一餐吃的拉面。这边一碗面的价格跟广州深圳差不多吧，十几二十块一碗。但口味远远比广东的好吃。<br><img src="/images/2018/xinjiang_trip/first_lunch.png" alt=""></p>
-<p>乌鲁木齐夜景，这边路上的人不是很多<br><img src="/images/2018/xinjiang_trip/Urumuqi_road_night.png" alt=""></p>
-<h1 id="第一天景点游"><a href="#第一天景点游" class="headerlink" title="第一天景点游"></a>第一天景点游</h1><p>在乌鲁木齐独自闲逛了一天后的第二天，我和网友在指定的地点汇合了。我是在豆瓣上加的，上面会有很多人<br>寻找驴友伙伴的。<br>我们是一共4个人，2个女的来自广西，一个男的来自北京。一起在乌鲁木齐租了一辆CRV，在新疆租车还挺贵的，<br>CRV 用了10天大概每天要4-5百加上汽油费。</p>
-<p>广西的一个妹子是女老司机，开车开得很好。超过一半时间都是她开的。另外，在新疆开车的感觉是路比较大，车<br>又不多，比较畅通。更重要的是风景很辽阔，视野很好。<br><img src="/images/2018/xinjiang_trip/driving_on_highway.png" alt=""></p>
-<h2 id="火焰山"><a href="#火焰山" class="headerlink" title="火焰山"></a>火焰山</h2><p>我们看的一个大景点是火焰山。主要就是看一些西游记人物的雕像，没啥好看的，我也没买票，就在外面观望<br>了一下。<br><img src="/images/2018/xinjiang_trip/huoyanshan.png" alt=""></p>
-<h2 id="一个城堡"><a href="#一个城堡" class="headerlink" title="一个城堡"></a>一个城堡</h2><p>然后是在吐鲁番的一个城堡里游览，忘了叫什么名。就拍个照片到此一游吧，我只是跟着来的哈<br><img src="/images/2018/xinjiang_trip/castle.png" alt=""></p>
-<p>哦，这应该是阿凡提的家</p>
-<p><img src="/images/2018/xinjiang_trip/apanti_home.png" alt=""></p>
-<h2 id="吐鲁番市"><a href="#吐鲁番市" class="headerlink" title="吐鲁番市"></a>吐鲁番市</h2><p>吐鲁番市我在游逛新疆以来，最推荐的一个城市，原因很简单，这里物美价廉！哈密瓜满地都是，吃不完直接扔了。<br>吃得东西很好吃很正宗，又很便宜。<br>住宿就更能体现了，我们住了个两房，一晚上才一百多。还有一点我挺喜欢的是这边的空气湿度非常低，我衣服晚上洗，<br>洗完不用晒，第二天早上就干了。</p>
-<p>路边一个可爱的小女孩<br><img src="/images/2018/xinjiang_trip/lovely_girl.png" alt=""></p>
-<p>BTW, before you enter any city in Xinjiang, there is a serious security check, sometimes,<br>passengers in the car have to get off the car to pass the security check.<br><img src="/images/2018/xinjiang_trip/station_check.png" alt=""></p>
-<p>wonderful landscape on dessert area<br><img src="/images/2018/xinjiang_trip/desert_area1.png" alt=""></p>
-<p><img src="/images/2018/xinjiang_trip/dessert_area2.png" alt=""></p>
-<p>骆驼，世界上最温顺的大家伙，很大很温柔<br><img src="/images/2018/xinjiang_trip/camel.png" alt=""></p>
-<p>在新疆开车你会有不一样的体验。当然，开久了也会很无聊。<br><img src="/images/2018/xinjiang_trip/driving_on_empty_road.png" alt=""></p>
-<h1 id="库车"><a href="#库车" class="headerlink" title="库车"></a>库车</h1><p>来到另外一个南部城市，库车。库车这城市我也挺喜欢的，因为和吐鲁番一样，都很物美价廉。<br><img src="/images/2018/xinjiang_trip/kuche.png" alt=""></p>
-<p>在新疆，很少能吃到青菜，很多时候只能吃肉<br><img src="/images/2018/xinjiang_trip/meat.png" alt=""></p>
-<p>那天停车在路边，本来想看看风景，突然闪电，在大自然面前，感觉到人类很渺小<br><img src="/images/2018/xinjiang_trip/wilderness.png" alt=""></p>
-<p>这里的厕所简直了，很有味道。<br><img src="/images/2018/xinjiang_trip/publi_toilet.png" alt=""></p>
-<p>在一个街边的露天市场里吃了个早餐。老板很友好很热情，旁边的大妈还给我们分享食物，虽然语言不通，<br>但能感受到他们很淳朴。说句心里话，我很向往这种生活，人与人之间没有提防，没有戒备，没有不信任感。<br>只因为这里太穷了，不像大城市里的生活那么复杂。我吃着这碗面也就几块钱，能赚个啥啊。为什么他们<br>还乐此不彼。 我觉得，富裕和淳朴是不能共存的。你富裕了必然会牺牲掉淳朴，人与人之间的关系变得<br>复杂。我喜欢淳朴，但不忍心看着他们如此贫穷，生活过得如此简陋。<br><img src="/images/2018/xinjiang_trip/street_food.png" alt=""></p>
-<p><img src="/images/2018/xinjiang_trip/street_food2.png" alt=""></p>
-<p><img src="/images/2018/xinjiang_trip/food_in_kuche.png" alt=""></p>
-<p><img src="/images/2018/xinjiang_trip/fruit_stall.png" alt=""></p>
-<p>一个峡谷的旅游景点</p>
-<p><img src="/images/2018/xinjiang_trip/daxiagu_.png" alt=""><br>库车青旅里捡的弟弟。在库车，我们把原来那北京约的驴友给踢了，因为他太不好相处，总以为自己很牛。<br>哈哈，所以我们在青旅把他给踢了，另外拉了一个小伙子，后来果然气氛就不一样了，弟弟很随和，挺好相处的。</p>
-<p>这里的水很清澈，看起来没有任何污染。<br><img src="/images/2018/xinjiang_trip/stream.png" alt=""></p>
-<p>山路上经常会被羊群堵路，我真想下车去摸摸它们。<br><img src="/images/2018/xinjiang_trip/sheep_on_road.png" alt=""></p>
-<p>九月中旬，可以看到，北疆已经下雪了<br><img src="/images/2018/xinjiang_trip/driving_on_the_way.png" alt=""></p>
-<p>接下来我们的行程也会慢慢往北走，前往北疆探索。在下一章里，我讲继续分享北疆的旅途。</p>
-]]></content>
-      <categories>
-        <category>travel</category>
-      </categories>
-      <tags>
-        <tag>travel</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Calcite介绍</title>
     <url>/2018/calcite_intro.html</url>
     <content><![CDATA[<h1 id="什么是Apache-Calcite"><a href="#什么是Apache-Calcite" class="headerlink" title="什么是Apache Calcite ?"></a>什么是Apache Calcite ?</h1><p>Apache Calcite 是一款开源SQL解析工具, 可以将各种SQL语句解析成抽象语法术AST(Abstract Syntax Tree),<br>之后通过操作AST就可以把SQL中所要表达的算法与关系体现在具体代码之中。</p>
@@ -904,6 +957,56 @@
       </categories>
       <tags>
         <tag>Calcite</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>新疆北疆自驾12日游（上）</title>
+    <url>/2018/xinjiang_trip.html</url>
+    <content><![CDATA[<h1 id="出发"><a href="#出发" class="headerlink" title="出发"></a>出发</h1><p>辞职后已经有一段时间了，每天都是在家Remote着帮香港人干活。虽然钱不多，但很自由，当时想，要不要趁现在<br>有自由时间来一场旅行吧。想来想去还是决定在国内吧，第一，国内方便，不用另外去办护照。第二，国内便宜点，<br>还是穷啊。</p>
+<p>新疆，国内是最异域风情的一片土地，对我来说一直很神秘。趁这次机会我去那边探个究竟。</p>
+<p>从罗湖火车站正式出发。即将开始我48小时的火车旅程<br><img src="/images/2018/xinjiang_trip/678583b0.png" alt=""></p>
+<p>我的床位。我将在这里睡两天两夜。我的舍友还挺好的。一个在新疆哈密上班的湖南大哥，一个区甘肃读书的年轻小伙子</p>
+<p><img src="/images/2018/xinjiang_trip/bed_in_train.png" alt=""></p>
+<p>在漫长的火车路途中，我除了玩手机电脑打发时间，就是和舍友聊天。我从来没去过中国的西北，就跟他们聊<br>西北那边的文化，主要聊得是那边吃的饮食吧。我对那里充满着憧憬。</p>
+<p>做了两个晚上的火车，到兰州站歇歇，出来活动活动。<br><img src="/images/2018/xinjiang_trip/lanzhou_station.png" alt=""></p>
+<h1 id="踏上新疆"><a href="#踏上新疆" class="headerlink" title="踏上新疆"></a>踏上新疆</h1><p>快到新疆的路上，看到路边已经没有什么绿色的植物了，都是辽阔的荒漠地带。<br><img src="/images/2018/xinjiang_trip/on_the_way.png" alt=""></p>
+<p>第一晚住的乌鲁木齐市区的酒店，还不错。两百多吧<br><img src="/images/2018/xinjiang_trip/Urumqi_hotel.png" alt=""></p>
+<p>乌鲁木齐市区。到了新疆移动网络都很差，因为这里的4G 被shutdown了。<br><img src="/images/2018/xinjiang_trip/Urumuqi_city_road.png" alt=""></p>
+<p>第一餐吃的拉面。这边一碗面的价格跟广州深圳差不多吧，十几二十块一碗。但口味远远比广东的好吃。<br><img src="/images/2018/xinjiang_trip/first_lunch.png" alt=""></p>
+<p>乌鲁木齐夜景，这边路上的人不是很多<br><img src="/images/2018/xinjiang_trip/Urumuqi_road_night.png" alt=""></p>
+<h1 id="第一天景点游"><a href="#第一天景点游" class="headerlink" title="第一天景点游"></a>第一天景点游</h1><p>在乌鲁木齐独自闲逛了一天后的第二天，我和网友在指定的地点汇合了。我是在豆瓣上加的，上面会有很多人<br>寻找驴友伙伴的。<br>我们是一共4个人，2个女的来自广西，一个男的来自北京。一起在乌鲁木齐租了一辆CRV，在新疆租车还挺贵的，<br>CRV 用了10天大概每天要4-5百加上汽油费。</p>
+<p>广西的一个妹子是女老司机，开车开得很好。超过一半时间都是她开的。另外，在新疆开车的感觉是路比较大，车<br>又不多，比较畅通。更重要的是风景很辽阔，视野很好。<br><img src="/images/2018/xinjiang_trip/driving_on_highway.png" alt=""></p>
+<h2 id="火焰山"><a href="#火焰山" class="headerlink" title="火焰山"></a>火焰山</h2><p>我们看的一个大景点是火焰山。主要就是看一些西游记人物的雕像，没啥好看的，我也没买票，就在外面观望<br>了一下。<br><img src="/images/2018/xinjiang_trip/huoyanshan.png" alt=""></p>
+<h2 id="一个城堡"><a href="#一个城堡" class="headerlink" title="一个城堡"></a>一个城堡</h2><p>然后是在吐鲁番的一个城堡里游览，忘了叫什么名。就拍个照片到此一游吧，我只是跟着来的哈<br><img src="/images/2018/xinjiang_trip/castle.png" alt=""></p>
+<p>哦，这应该是阿凡提的家</p>
+<p><img src="/images/2018/xinjiang_trip/apanti_home.png" alt=""></p>
+<h2 id="吐鲁番市"><a href="#吐鲁番市" class="headerlink" title="吐鲁番市"></a>吐鲁番市</h2><p>吐鲁番市我在游逛新疆以来，最推荐的一个城市，原因很简单，这里物美价廉！哈密瓜满地都是，吃不完直接扔了。<br>吃得东西很好吃很正宗，又很便宜。<br>住宿就更能体现了，我们住了个两房，一晚上才一百多。还有一点我挺喜欢的是这边的空气湿度非常低，我衣服晚上洗，<br>洗完不用晒，第二天早上就干了。</p>
+<p>路边一个可爱的小女孩<br><img src="/images/2018/xinjiang_trip/lovely_girl.png" alt=""></p>
+<p>BTW, before you enter any city in Xinjiang, there is a serious security check, sometimes,<br>passengers in the car have to get off the car to pass the security check.<br><img src="/images/2018/xinjiang_trip/station_check.png" alt=""></p>
+<p>wonderful landscape on dessert area<br><img src="/images/2018/xinjiang_trip/desert_area1.png" alt=""></p>
+<p><img src="/images/2018/xinjiang_trip/dessert_area2.png" alt=""></p>
+<p>骆驼，世界上最温顺的大家伙，很大很温柔<br><img src="/images/2018/xinjiang_trip/camel.png" alt=""></p>
+<p>在新疆开车你会有不一样的体验。当然，开久了也会很无聊。<br><img src="/images/2018/xinjiang_trip/driving_on_empty_road.png" alt=""></p>
+<h1 id="库车"><a href="#库车" class="headerlink" title="库车"></a>库车</h1><p>来到另外一个南部城市，库车。库车这城市我也挺喜欢的，因为和吐鲁番一样，都很物美价廉。<br><img src="/images/2018/xinjiang_trip/kuche.png" alt=""></p>
+<p>在新疆，很少能吃到青菜，很多时候只能吃肉<br><img src="/images/2018/xinjiang_trip/meat.png" alt=""></p>
+<p>那天停车在路边，本来想看看风景，突然闪电，在大自然面前，感觉到人类很渺小<br><img src="/images/2018/xinjiang_trip/wilderness.png" alt=""></p>
+<p>这里的厕所简直了，很有味道。<br><img src="/images/2018/xinjiang_trip/publi_toilet.png" alt=""></p>
+<p>在一个街边的露天市场里吃了个早餐。老板很友好很热情，旁边的大妈还给我们分享食物，虽然语言不通，<br>但能感受到他们很淳朴。说句心里话，我很向往这种生活，人与人之间没有提防，没有戒备，没有不信任感。<br>只因为这里太穷了，不像大城市里的生活那么复杂。我吃着这碗面也就几块钱，能赚个啥啊。为什么他们<br>还乐此不彼。 我觉得，富裕和淳朴是不能共存的。你富裕了必然会牺牲掉淳朴，人与人之间的关系变得<br>复杂。我喜欢淳朴，但不忍心看着他们如此贫穷，生活过得如此简陋。<br><img src="/images/2018/xinjiang_trip/street_food.png" alt=""></p>
+<p><img src="/images/2018/xinjiang_trip/street_food2.png" alt=""></p>
+<p><img src="/images/2018/xinjiang_trip/food_in_kuche.png" alt=""></p>
+<p><img src="/images/2018/xinjiang_trip/fruit_stall.png" alt=""></p>
+<p>一个峡谷的旅游景点</p>
+<p><img src="/images/2018/xinjiang_trip/daxiagu_.png" alt=""><br>库车青旅里捡的弟弟。在库车，我们把原来那北京约的驴友给踢了，因为他太不好相处，总以为自己很牛。<br>哈哈，所以我们在青旅把他给踢了，另外拉了一个小伙子，后来果然气氛就不一样了，弟弟很随和，挺好相处的。</p>
+<p>这里的水很清澈，看起来没有任何污染。<br><img src="/images/2018/xinjiang_trip/stream.png" alt=""></p>
+<p>山路上经常会被羊群堵路，我真想下车去摸摸它们。<br><img src="/images/2018/xinjiang_trip/sheep_on_road.png" alt=""></p>
+<p>九月中旬，可以看到，北疆已经下雪了<br><img src="/images/2018/xinjiang_trip/driving_on_the_way.png" alt=""></p>
+<p>接下来我们的行程也会慢慢往北走，前往北疆探索。在下一章里，我讲继续分享北疆的旅途。</p>
+]]></content>
+      <categories>
+        <category>travel</category>
+      </categories>
+      <tags>
+        <tag>travel</tag>
       </tags>
   </entry>
   <entry>
@@ -1057,6 +1160,28 @@
       </tags>
   </entry>
   <entry>
+    <title>Git rebase的一些运用场景</title>
+    <url>/2018/git_rebase.html</url>
+    <content><![CDATA[<h2 id="Git-rebase的使用场景"><a href="#Git-rebase的使用场景" class="headerlink" title="Git rebase的使用场景"></a>Git rebase的使用场景</h2><p>最近在为github开源项目修修bug。提了几个Pull Request。又巩固了下git的知识，熟练了git的使用。</p>
+<p>我在提交PR后，发现有个地方改错了。那怎么改呢，其实很简单，只需要再次push 到自己fork的repo就可以了。</p>
+<p>PR的branch是和自己fork的repo的branch联动的。</p>
+<p>但是，这又有个问题，我再次commit后，就会有两个commit。这两个commit其实解决的都是同一个问题。<br>在正式的repo中尽量要精简commit，同一个问题的多个commit需要squash为一个commit。</p>
+<p>于是，我就得用git rebase 来帮我完成了。</p>
+<h3 id="精简commit"><a href="#精简commit" class="headerlink" title="精简commit"></a>精简commit</h3><p>通过这个命令，可以重新修改最近的两个commit<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">git rebase -i HEAD~2</div></pre></td></tr></table></figure></p>
+<p>执行命令后会弹出一个vim编辑:<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">pick 01d1124 Message....</div><div class="line">pick 6340aaa Message....</div></pre></td></tr></table></figure></p>
+<p>然后，将要squash的commit的那行最前面的<code>pick</code> 改为 <code>squash</code><br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">p 01d1124 Message....</div><div class="line">s 6340aaa Message....</div></pre></td></tr></table></figure></p>
+<h3 id="删掉commit"><a href="#删掉commit" class="headerlink" title="删掉commit"></a>删掉commit</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">git rebase -i HEAD~n</div><div class="line"></div><div class="line"># 在vim中直接把不要commit那行删掉即可</div></pre></td></tr></table></figure>
+<h3 id="改commit名字"><a href="#改commit名字" class="headerlink" title="改commit名字"></a>改commit名字</h3><p>大项目的commit的名字都有比较严格的要求，有些时候，我们要改下自己不规范的命名的话。<br>可以也可以用 git rebase.</p>
+<p>很简单，同样先用git rebase -i HEAD~n<br>在需要改的commit的最前面把 <code>pick</code> 改为<code>reword</code><br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">pick 01d1124 Message....</div><div class="line">reword 6340aaa Message....</div></pre></td></tr></table></figure></p>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hive 优化</title>
     <url>/2018/hive_optimization.html</url>
     <content><![CDATA[<p>对于如果join中有小表的话，可以开启map</p>
@@ -1081,28 +1206,6 @@
       </categories>
       <tags>
         <tag>hive</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Git rebase的一些运用场景</title>
-    <url>/2018/git_rebase.html</url>
-    <content><![CDATA[<h2 id="Git-rebase的使用场景"><a href="#Git-rebase的使用场景" class="headerlink" title="Git rebase的使用场景"></a>Git rebase的使用场景</h2><p>最近在为github开源项目修修bug。提了几个Pull Request。又巩固了下git的知识，熟练了git的使用。</p>
-<p>我在提交PR后，发现有个地方改错了。那怎么改呢，其实很简单，只需要再次push 到自己fork的repo就可以了。</p>
-<p>PR的branch是和自己fork的repo的branch联动的。</p>
-<p>但是，这又有个问题，我再次commit后，就会有两个commit。这两个commit其实解决的都是同一个问题。<br>在正式的repo中尽量要精简commit，同一个问题的多个commit需要squash为一个commit。</p>
-<p>于是，我就得用git rebase 来帮我完成了。</p>
-<h3 id="精简commit"><a href="#精简commit" class="headerlink" title="精简commit"></a>精简commit</h3><p>通过这个命令，可以重新修改最近的两个commit<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">git rebase -i HEAD~2</div></pre></td></tr></table></figure></p>
-<p>执行命令后会弹出一个vim编辑:<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">pick 01d1124 Message....</div><div class="line">pick 6340aaa Message....</div></pre></td></tr></table></figure></p>
-<p>然后，将要squash的commit的那行最前面的<code>pick</code> 改为 <code>squash</code><br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">p 01d1124 Message....</div><div class="line">s 6340aaa Message....</div></pre></td></tr></table></figure></p>
-<h3 id="删掉commit"><a href="#删掉commit" class="headerlink" title="删掉commit"></a>删掉commit</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">git rebase -i HEAD~n</div><div class="line"></div><div class="line"># 在vim中直接把不要commit那行删掉即可</div></pre></td></tr></table></figure>
-<h3 id="改commit名字"><a href="#改commit名字" class="headerlink" title="改commit名字"></a>改commit名字</h3><p>大项目的commit的名字都有比较严格的要求，有些时候，我们要改下自己不规范的命名的话。<br>可以也可以用 git rebase.</p>
-<p>很简单，同样先用git rebase -i HEAD~n<br>在需要改的commit的最前面把 <code>pick</code> 改为<code>reword</code><br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">pick 01d1124 Message....</div><div class="line">reword 6340aaa Message....</div></pre></td></tr></table></figure></p>
-]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
       </tags>
   </entry>
   <entry>
