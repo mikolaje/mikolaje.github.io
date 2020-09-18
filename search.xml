@@ -1,6 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Nginx如何配置</title>
+    <url>/2020/howto_config_nginx.html</url>
+    <content><![CDATA[<p>Nginx 推送动态内容给CGI, FastCGI, 和其它web服务器，比如Apache。返回内容再由Nginx传送给客户端。<br>本文将带你了解熟悉Nginx的配置</p>
+<h2 id="Directives-Blocks-and-Contexts"><a href="#Directives-Blocks-and-Contexts" class="headerlink" title="Directives, Blocks, and Contexts"></a>Directives, Blocks, and Contexts</h2><p>所有的Nginx配置文件都在/etc/nginx/ 目录下。主要的配置文件是/etc/nginx/nginx.conf。</p>
+<p>在Nginx内的配置选项称为指示<br>以组编排的指令被称作为 blocks 或 context。这两个术语是同等的。</p>
+<p>‘#’开头的行会被注释，不会被Nginx解析。<br>如果行内包含指令的话必须以 ‘;’ 结尾，否则Nginx将不能加载配置，并报错。</p>
+<p>下面是一个缩略版本的nginx.conf<br>文件以4个指令开头：user, worker_process, error_log, 和 pid。<br>这些指令都在block或context外面，所以他们被认为在 main context上。<br>Event和 http blocks是额外指令的区域，他们也同样存在于main context</p>
+<blockquote>
+<p>/etc/nginx/nginx.conf<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">user  nginx;</div><div class="line">worker_processes  1;</div><div class="line"></div><div class="line">error_log  /var/log/nginx/error.log warn;</div><div class="line">pid        /var/run/nginx.pid;</div><div class="line"></div><div class="line">events &#123;</div><div class="line">       . . .</div><div class="line">&#125;</div><div class="line"></div><div class="line">http &#123;</div><div class="line">       . . .</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="http-Block"><a href="#http-Block" class="headerlink" title="http Block"></a>http Block</h2><p>http Block 包含处理web流量的指令。这些指令通常被定义为统一的.</p>
+<p>下面是Nginx文档给出的可用的http block 列表：</p>
+<blockquote>
+<p>/etc/nginx/nginx.conf<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">http &#123;</div><div class="line">    include       /etc/nginx/mime.types;</div><div class="line">    default_type  application/octet-stream;</div><div class="line"></div><div class="line">    log_format  main  &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &apos;</div><div class="line">                      &apos;$status $body_bytes_sent &quot;$http_referer&quot; &apos;</div><div class="line">                      &apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;;</div><div class="line"></div><div class="line">    access_log  /var/log/nginx/access.log  main;</div><div class="line"></div><div class="line">    sendfile        on;</div><div class="line">    #tcp_nopush     on;</div><div class="line"></div><div class="line">    keepalive_timeout  65;</div><div class="line"></div><div class="line">    #gzip  on;</div><div class="line"></div><div class="line">    include /etc/nginx/conf.d/*.conf;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="Server-Blocks"><a href="#Server-Blocks" class="headerlink" title="Server Blocks"></a>Server Blocks</h2><p>上面的http block包含 include指令，告诉Nginx网站配置文件放置的地方。</p>
+<p>如果你从官方仓库安装Nginx，会有这么一行 /etc/nginx/conf.d/*.conf; 像上面说的http block的那个一样<br>每个用Nginx部署的网站应该在这目录 /etc/nginx/conf.d/ 有自己的配置文件；命名一般为 example.com.conf<br>如果想disable它的话，可以改名为example.com.conf.disabled.</p>
+<p>如果你从Debian或Ubuntu仓库安装的话，会有这么一行/etc/nginx/sites-enabled/*;<br>../sites-enabled/文件夹里包含 从 /etc/nginx/sites-available/ 链接过来的配置文件。<br>如果要disable网站的话，一般是删掉在sites-enabled 上的链接。</p>
+<p>一般你都能在 /etc/nginx/conf.d/default.conf 或 etc/nginx/sites-enabled/default找到一个配置的例子供你参考。<br>不管你从哪个渠道安装，对一个网站，服务器配置文件总会包含一个或多个block，比如：</p>
+<blockquote>
+<p>/etc/nginx/conf.d/example.com.conf<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">server &#123;</div><div class="line">    listen         80 default_server;</div><div class="line">    listen         [::]:80 default_server;</div><div class="line">    server_name    example.com www.example.com;</div><div class="line">    root           /var/www/example.com;</div><div class="line">    index          index.html;</div><div class="line">    try_files $uri /index.html;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="监听端口"><a href="#监听端口" class="headerlink" title="监听端口"></a>监听端口</h2><p>listen指令 告诉Nginx监听的 hostname/IP 和 TCP端口。<br>default_server参数是说 这个虚拟的host会回答在80端口上的请求，这个端口将不会回答其它的虚拟host。<br>第二个statement监听的是IP v6，其它没有什么差别。</p>
+<p>Name-Based Virtual Hosting</p>
+<h2 id="基于name的虚拟主机"><a href="#基于name的虚拟主机" class="headerlink" title="基于name的虚拟主机"></a>基于name的虚拟主机</h2><p>server_name指令允许在一个IP地址上存在多个域名。服务器根据收到的请求header决定域名。</p>
+<p>你应该按每个域名来创建一个配置文件，或者每个网站一个配置。这里有些案例：</p>
+<h3 id="同时处理example-com-和-www-example-com请求："><a href="#同时处理example-com-和-www-example-com请求：" class="headerlink" title="同时处理example.com 和 www.example.com请求："></a>同时处理example.com 和 www.example.com请求：</h3><blockquote>
+<p>/etc/nginx/conf.d/example.com.conf<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">server_name   example.com www.example.com;</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h3 id="server-name-指令也可以用-通配符-example-com-和-example-com，两个都会指使服务器处理example-com下的所有子域名："><a href="#server-name-指令也可以用-通配符-example-com-和-example-com，两个都会指使服务器处理example-com下的所有子域名：" class="headerlink" title="server_name 指令也可以用 通配符 *.example.com 和 .example.com，两个都会指使服务器处理example.com下的所有子域名："></a>server_name 指令也可以用 通配符 *.example.com 和 .example.com，两个都会指使服务器处理example.com下的所有子域名：</h3><blockquote>
+<p>/etc/nginx/conf.d/example.com.conf<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">server_name   *.example.com;</div><div class="line">server_name   .example.com;</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h3 id="处理所有example-开头的域名："><a href="#处理所有example-开头的域名：" class="headerlink" title="处理所有example.开头的域名："></a>处理所有example.开头的域名：</h3><blockquote>
+<p>/etc/nginx/conf.d/example.com.conf<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">server_name   example.*;</div></pre></td></tr></table></figure></p>
+</blockquote>
+<p>Nginx允许你指定一个无效的域名。Nginx使用HTTP header里的name 来作为域名回答请求，不管domain name是否有效。<br>如果你用你是用内网的话，使用非域名 hostname是非常有效的。这包括在/etc/hosts配的域名。</p>
+<h2 id="Location-Blocks"><a href="#Location-Blocks" class="headerlink" title="Location Blocks"></a>Location Blocks</h2><p>location 设置让Nginx返回服务期内的资源请求。和server_name指令一样，告诉Nginx怎么处理域名的请求。<br>location指令覆盖指定的文件和文件夹，比如<a href="http://example.com/blog/：" target="_blank" rel="external">http://example.com/blog/：</a></p>
+<blockquote>
+<p>/etc/nginx/sites-available/example.com<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">location / &#123; &#125;</div><div class="line">location /images/ &#123; &#125;</div><div class="line">location /blog/ &#123; &#125;</div><div class="line">location /planet/ &#123; &#125;</div><div class="line">location /planet/blog/ &#123; &#125;</div></pre></td></tr></table></figure></p>
+</blockquote>
+<p>上面的location是一字不差地匹配，它匹配主机segment之后的HTTP请求的任何部分：<br>Request: <a href="http://example.com/" target="_blank" rel="external">http://example.com/</a></p>
+<p>Returns：假设server_name 是example.com, location / 指令会决定这个请求怎么处理<br>Nginx总是履行最匹配的请求：</p>
+<p>Request: <a href="http://example.com/planet/blog/" target="_blank" rel="external">http://example.com/planet/blog/</a> 或 <a href="http://example.com/planet/blog/about/" target="_blank" rel="external">http://example.com/planet/blog/about/</a><br>Returns: 这个会履行 location /planet/blog/ ，因为 它最匹配这个location，即使/planet/ 同样匹配这个请求。</p>
+<p>具体的location匹配可以参考下如下例子：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">location  = / &#123;</div><div class="line">  # 精确匹配 / ，主机名后面不能带任何字符串</div><div class="line">  [ configuration A ]</div><div class="line">&#125;</div><div class="line"></div><div class="line">location  / &#123;</div><div class="line">  # 因为所有的地址都以 / 开头，所以这条规则将匹配到所有请求</div><div class="line">  # 但是正则和最长字符串会优先匹配</div><div class="line">  [ configuration B ]</div><div class="line">&#125;</div><div class="line"></div><div class="line">location /documents/ &#123;</div><div class="line">  # 匹配任何以 /documents/ 开头的地址，匹配符合以后，还要继续往下搜索</div><div class="line">  # 只有后面的正则表达式没有匹配到时，这一条才会采用这一条</div><div class="line">  [ configuration C ]</div><div class="line">&#125;</div><div class="line"></div><div class="line">location ~ /documents/Abc &#123;</div><div class="line">  # 匹配任何以 /documents/Abc 开头的地址，匹配符合以后，还要继续往下搜索</div><div class="line">  # 只有后面的正则表达式没有匹配到时，这一条才会采用这一条</div><div class="line">  [ configuration CC ]</div><div class="line">&#125;</div><div class="line"></div><div class="line">location ^~ /images/ &#123;</div><div class="line">  # 匹配任何以 /images/ 开头的地址，匹配符合以后，停止往下搜索正则，采用这一条。</div><div class="line">  [ configuration D ]</div><div class="line">&#125;</div><div class="line"></div><div class="line">location ~* \.(gif|jpg|jpeg)$ &#123;</div><div class="line">  # 匹配所有以 gif,jpg或jpeg 结尾的请求</div><div class="line">  # 然而，所有请求 /images/ 下的图片会被 config D 处理，因为 ^~ 到达不了这一条正则</div><div class="line">  [ configuration E ]</div><div class="line">&#125;</div><div class="line"></div><div class="line">location /images/ &#123;</div><div class="line">  # 字符匹配到 /images/，继续往下，会发现 ^~ 存在</div><div class="line">  [ configuration F ]</div><div class="line">&#125;</div><div class="line"></div><div class="line">location /images/abc &#123;</div><div class="line">  # 最长字符匹配到 /images/abc，继续往下，会发现 ^~ 存在</div><div class="line">  # F与G的放置顺序是没有关系的</div><div class="line">  [ configuration G ]</div><div class="line">&#125;</div><div class="line"></div><div class="line">location ~ /images/abc/ &#123;</div><div class="line">  # 只有去掉 config D 才有效：先最长匹配 config G 开头的地址，继续往下搜索，匹配到这一条正则，采用</div><div class="line">    [ configuration H ]</div><div class="line">&#125;</div><div class="line"></div><div class="line">location ~* /js/.*/\.js</div><div class="line"></div><div class="line"></div><div class="line">http://seanlook.com/2015/05/17/nginx-location-rewrite/</div><div class="line"></div><div class="line">location ~ ^/(trucks|cars|planes|system|tools)&#123;</div><div class="line"># 以trucks開頭或cars。。。</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>顺序 no优先级：<br>(location =) &gt; (location 完整路径) &gt; (location ^~ 路径) &gt; (location ~,~* 正则顺序) &gt; (location 部分起始路径) &gt; (/)</p>
+<h2 id="Location-Root-和-Index"><a href="#Location-Root-和-Index" class="headerlink" title="Location Root 和 Index"></a>Location Root 和 Index</h2><p>location设置是另一个具有自己的参数block的变量。</p>
+<p>一旦Nginx确定了哪个location指令最匹配给定请求，对这个请求的响应就由相关的location指令block的内容确定。<br>一个例子：</p>
+<blockquote>
+<p>/etc/nginx/sites-available/example.com<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">location / &#123;</div><div class="line">    root html;</div><div class="line">    index index.html index.htm;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+</blockquote>
+<p>在这个例子中，root 是 在默认Nginx安装路径下的 html 目录。绝对路径是 /etc/nginx/html/.</p>
+<p>Request: <a href="http://example.com/blog/includes/style.css" target="_blank" rel="external">http://example.com/blog/includes/style.css</a></p>
+<p>Returns: Nginx会尝试寻找放置于/etc/nginx/html/blog/includes/style.css 内的文件</p>
+<blockquote>
+<p>注意，如果需要的话root 你的直接设为绝对路径</p>
+</blockquote>
+<p>index这个参数告诉Nginx如果没有设置路由的话，将返回哪个文件。比如：<br>Request: <a href="http://example.com" target="_blank" rel="external">http://example.com</a><br>Returns: Nginx将尝试返回/etc/nginx/html/index.html 这个文件。<br>如果index指令设置了多个值得话，Nginx将会按顺序来返回第一个存在的文件。比如如果index.html不存在相关目录的话，然后index.htm将会被返回。如果都不存在则会报404.<br>这有个更复杂的案例，展示了一组响应域example.com的服务器的location：</p>
+<blockquote>
+<p>/etc/nginx/sites-available/example.com<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">location / &#123;</div><div class="line">    root   /srv/www/example.com/public_html;</div><div class="line">    index  index.html index.htm;</div><div class="line">&#125;</div><div class="line"></div><div class="line">location ~ \.pl$ &#123;</div><div class="line">    gzip off;</div><div class="line">    include /etc/nginx/fastcgi_params;</div><div class="line">    fastcgi_pass unix:/var/run/fcgiwrap.socket;</div><div class="line">    fastcgi_index index.pl;</div><div class="line">    fastcgi_param SCRIPT_FILENAME /srv/www/example.com/public_html$fastcgi_script_name;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+</blockquote>
+<p>在此示例中，所有以.pl扩展名结尾的资源请求都由第二个location block处理，第二个location block为这些请求指定一个fastcgi处理程序。<br>否则，Nginx使用第一个location 指令。 资源位于文件系统上的/srv/www/example.com/public_html/。 如果请求中未指定文件名，<br>Nginx将查找并提供index.html或index.htm文件。 如果找不到索引文件，则服务器将返回404错误。</p>
+<p>我们分析下下面几个请求：</p>
+<p>Request: <a href="http://example.com/" target="_blank" rel="external">http://example.com/</a></p>
+<p>Returns：/srv/www/example.com/public_html/index.html（如果存在）。 如果该文件不存在，它将返回/srv/www/example.com/public_html/index.htm。 如果都不存在，Nginx将返回404错误。</p>
+<p>Request: <a href="http://example.com/blog/" target="_blank" rel="external">http://example.com/blog/</a></p>
+<p>Returns: /srv/www/example.com/public_html/blog/index.html（如果存在）。 如果该文件不存在，它将返回/srv/www/example.com/public_html/blog/index.htm。 如果都不存在，Nginx将返回404错误。</p>
+<p>Request: <a href="http://example.com/tasks.pl" target="_blank" rel="external">http://example.com/tasks.pl</a></p>
+<p>Returns: Nginx将使用FastCGI处理程序执行位于/srv/www/example.com/public_html/tasks.pl的文件并返回结果。tasks.pl and return the result.</p>
+<p>Request: <a href="http://example.com/username/roster.pl" target="_blank" rel="external">http://example.com/username/roster.pl</a></p>
+<p>Returns: Nginx将使用FastCGI处理程序执行位于/srv/www/example.com/public_html/username/roster.pl的文件并返回结果。</p>
+<p>有问题可以留言，并关注我。谢谢大家。</p>
+]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>知乎TOP20热门评论</title>
     <url>/2020/zhihu_comment.html</url>
     <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>之前爬取了知乎几乎所有的问题回答，有一亿多个回答吧。然后又爬取了所有大部分的评论comment，然后<br>放到Hive里做做统计，看看有没有什么有趣的发现。哈哈，也算是做做NLP研究吧。</p>
@@ -122,6 +202,25 @@
       </tags>
   </entry>
   <entry>
+    <title>内卷的数据挖掘何去何从</title>
+    <url>/2020/dataminner.html</url>
+    <content><![CDATA[<p>作为一个在大数据领域多年的从业者，接触过很多优秀的数据挖掘的同事。在和他们的交流中我也了解到了很多数据挖掘的从业之道。<br>要想成为一成功的数据挖掘专家职业的四个步骤：</p>
+<p>步骤1：获得研究生以上的学历<br>在我接触过大厂的优秀的数据挖掘者中，几乎没有研究生一下学历的。<br>数据挖掘专家需要在数据科学以及业务管理方面有扎实的背景。相关的master学位包括计算机科学，数据科学，信息系统，统计和商业管理或任何相关领域。<br>你需要了解如何使用统计方法来分析数据，并且希望能够开发出预测模型。<br>数据挖掘专家必须能够将数据分析应用于实际的业务问题，因此开发商务智能的课程是出色的准备。</p>
+<p>步骤2：先从简单的岗位开始<br>从简单的开始开始。如果毕业后没能找到一份理想的数据挖掘工作的话，你完全可以从数据分析师做起。先进入这个行业再说。<br>大学毕业后，寻找担任数据分析师的职位。这将使你进一步磨练技术技能，并对数据提取，转换和加载的过程有一个全面的了解。<br>你还需要牢牢掌握数据库设计等其他知识。</p>
+<p>步骤3：熟练工具和修炼技能<br>熟悉数据分析工具，尤其是SQL，NoSQL，SAS和Hadoop,Spark<br>Java，Python\IPython<br>有Linux操作系统方面的经验。这些在IT领域都少不了的</p>
+<p>熟练各种算法<br>真正了解一些算法比了解一些算法要好。 如果你非常了解线性回归，k均值聚类和逻辑回归，<br>可以解释和解释它们的结果，并且实际上可以从头到尾完成一个数据项目，那么你将比如果你知道每一个都更受雇 单一算法，但不能使用它们。<br>大多数时候，当你使用算法时，它将是库中的一个版本（你很少会编写自己的SVM实现-花费的时间太长）。</p>
+<p>步骤4：多去实践<br>比如做一个股市预测的项目。看起来很困难，但仍然可以分解为一些小的可实施步骤。<br>我首先连接到yahoo finance API，并提取了每日价格数据。<br>然后，我创建了一些指标，例如过去几天的平均价格，并用它们来预测未来（请注意，这里没有真正的算法，只是技术分析）。<br>效果不是很好，所以我学习了一些统计数据，然后使用了线性回归。然后，我连接到另一个API，逐分钟收集数据，并将其存储在SQL数据库中。<br>依此类推，直到算法运行良好。</p>
+<p>不仅可以让你学习SQL语法，还用它来存储价格数据，<br>没有应用程序的学习是不会很好地保留下来，也不会使你做好进行实际数据科学工作的准备。</p>
+<p>最后，多投简历，多面试，多总结吧<br>以前有个同事刚开始做数据分析岗位，研究生读的是化学，所以基础都不好。那些算法啥的都是在做数据分析<br>后自学的。那时他想跳槽做数据挖掘之类的工作，毕竟工资会比数据分析高一些。看他每天都不停地投简历，<br>约面试。好长一段时间都没找到合适的工作，我都替他捏把汗。<br>最终还是有志者事竟成的找到一份满意的数据挖掘工作了。</p>
+]]></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>big data</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>关于LDAP和Kerberos</title>
     <url>/2020/ldap_kerberos.html</url>
     <content><![CDATA[<h3 id="两个对比"><a href="#两个对比" class="headerlink" title="两个对比"></a>两个对比</h3><p>首先，Kerberos是一个认证的方法。LDAP是一个为了沟通兼容LDAP数据库的协议。</p>
@@ -178,6 +277,71 @@
       </categories>
       <tags>
         <tag>delta lake</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>2020大数据未来就业方向</title>
+    <url>/2020/bigdata_jobs.html</url>
+    <content><![CDATA[<h2 id="大数据未来"><a href="#大数据未来" class="headerlink" title="大数据未来"></a>大数据未来</h2><p>2020年及以后的大数据的未来<br>大数据不仅是一个术语，而且还与许多新兴技术捆绑在一起，例如人工智能，机器学习，区块链，增强现实，物联网等。我之所以列出上述技术的原因是，许多报告预测，这些技术将大行其道，并将在2020年及之后实现革命性的增长。对于所有这些技术，大数据将成为关键来源，甚至我们可以说它是“新兴技术的生命”。</p>
+<p>我们生活在数字时代，在世界的每个角落，都有人不断寻找新技术或某种东西来改造这个世界。结果，每天都会引入许多技术或趋势。一些在流行和接受度很高的游戏中占据上风，但是某些技术在特定时期内一直保持病毒式传播，在此之后它就消失了。</p>
+<p>但是，大数据并不是消失的技术之一。许多行业专家预测，大数据前景广阔，在任何情况下都不会黯淡。</p>
+<p>随着云技术的爆炸式增长，处理不断增长的数据海的需求已成为设计数字架构的底层考虑。 在一个交易，库存乃至IT基础架构可以完全以虚拟状态存在的世界中，良好的大数据方法可通过从许多来源获取数据来创建整体概览，包括：</p>
+<p>虚拟网络日志<br>安全事件和模式<br>全球网络流量模式<br>异常检测与解决<br>合规信息<br>客户行为和偏好跟踪<br>地理位置数据<br>社交渠道数据，用于品牌情感跟踪<br>库存水平和货运跟踪</p>
+<p>下面是根据PayScale统计的大数据相关岗位TOP7：</p>
+<ol>
+<li>数据科学家<br>能够为大型企业挖掘和解释复杂数据的人才信息技术（IT）数据科学家有很多机会。 他们与跨职能的IT团队合作，编译并创建各种统计数据模型，以为他们制定与系统相关的建议和行动计划提供信息。</li>
+</ol>
+<p>首选资格-IT数据科学家应该对不同的数据挖掘技术（例如聚类，回归分析，决策树和支持向量机）有深入的了解。 这种职位通常需要计算机科学的高级学位（例如，硕士或博士学位），此外还需要相关领域的前几年工作经验。</p>
+<ol>
+<li>数据工程师<br>数据工程师利用其计算机科学和工程技术的优势来汇总，分析和处理海量数据集。常见任务包括创建计算机算法并将其转换为原型代码，开发技术流程以改善数据可访问性，以及为最终用户设计报告，仪表板和工具。</li>
+</ol>
+<p>首选资格-雇主通常要求数据工程职位的应聘者必须成功完成计算机科学，工程学或相关领域的大学学位。他们还更喜欢在该领域拥有三到五年经验的申请人。<br>所需的技术能力包括Linux系统知识，SQL数据库设计能力以及对诸如Java，Python，Kafka，Hive或Storm之类的编码语言的熟练掌握。<br>软技能包括出色的书面和口头交流能力以及独立工作和与团队合作的能力。</p>
+<ol>
+<li>数据分析<br>PayScale描述了数据分析人员如何通过设计和实施大规模调查来收集有关各种主题的可行信息。 他们的工作是招募调查参与者，汇编和解释提交的数据，并以传统图表和报告以及数字格式传达他们的发现。</li>
+</ol>
+<p>优先任职资格-寻找数据分析师工作的人员必须对计算机程序（例如Microsoft Excel，PPT和SQL数据库）有所了解。 数据分析师还需要良好的沟通和表达能力，并且需要能够将经常复杂的信息有效地翻译给公司利益相关者。</p>
+<ol>
+<li>安全工程师<br>安全工程师在IT灾难计划，规避和缓解中起着至关重要的作用。它们通过设置计算机防火墙，检测和响应入侵来减少企业风险。他们还为新的或更新的软件和硬件创建和实施测试计划，并为计算机网络建立多层防御协议。</li>
+</ol>
+<p>首选资格-该职位需要工程，计算机科学或相关领域的学士学位，以及几年的相关工作经验以及理想的行业安全认证。除了对计算机语言和操作系统的技术了解之外，安全工程师还应具备扎实的解决问题和数学能力以及独立工作的能力。</p>
+<ol>
+<li><p>数据库管理员<br>经过培训且在项目管理和多任务处理方面非常熟练的数据库管理员可以对复杂的数据库进行诊断和修复。 他们还审查对数据和数据使用情况的业务请求，评估数据源以改善数据馈送并帮助设计和安装存储硬件。<br>首选资格–数据库经理的招聘广告通常会列出信息技术学士学位，并且至少要在数据库领导职位中担任五年以上才能作为首选资格。 数据库管理角色的求职者也应该精通不同的数据库软件，例如MySQL和Oracle。</p>
+</li>
+<li><p>数据架构师<br>数据架构师使用他们对面向数据的计算机语言的知识来组织和维护关系数据库和公司存储库中的数据，从而为企业数据模型的每个主题领域开发数据架构策略。</p>
+</li>
+</ol>
+<p>优先任职资格–雇主在数据架构师中寻求的常见工作技能和关键字属性包括高级技术水平（尤其是SQL等语言），出色的分析敏锐度，出色的数据平台架构能力(比如Hadoop相关的大数据平那台）、<br>创造性的可视化能力和解决问题的能力，以及注重细节的能力。 大多数数据架构师至少在计算机科学相关领域获得了学士学位（并且通常是高级学位）。</p>
+<ol>
+<li>技术招聘人员<br>技术招聘人员专门为人才库寻找和筛选有才华的大数据，IT和其他技术专业人员。 他们与公司紧密合作以评估其招聘需求，然后在市场上寻找最适合特定职位空缺的候选人。<br>他们还支持他们在整个工作申请，面试，雇用和入职过程中招募的专业候选人。 </li>
+</ol>
+<p>最后打个小广告，本人从事大数据行业6年，曾在多家世界500强企业数据岗位待过.关注我可以免费送Hadoop、Hive、Spark、Python相关大数据学习资料。</p>
+<h2 id="大数据就业方向"><a href="#大数据就业方向" class="headerlink" title="大数据就业方向"></a>大数据就业方向</h2><p>其实大数据行业是个很大的范围，里面分很多个方向。我来列几个工业界最长见的方向吧：</p>
+<ol>
+<li>大数据开发。<br>这是招聘的坑位相对较多的一种岗位。<br>主要需要的技术栈有：Java/Scala，Hadoop，Spark/Flink，Hive，HBase，Kafka，Zookeeper.</li>
+</ol>
+<p>还有其它Hadoop衍生出来的技术框架：Impala/Presto，Kylin，Druid等等。</p>
+<p>这个岗位是一个开发岗位，所以需要Java基础比较好，一般都是要有一定的开发经验。然后需要学的技术栈<br>主要是围绕着Hadoop体例的框架。这都需要有比较大的付出。</p>
+<p>工作内容一般是开发一些数据处理平台的后端，比如ETL平台、数据报表平台、机器学习自动化平台等等</p>
+<ol>
+<li>大数据运维/架构<br>这个岗位招的人比较少。</li>
+</ol>
+<p>主要技能：Linux/shell脚本, Hadoop原理，调度工具Oozie/Azkaban/Airflow<br>工作内容一般是搭建和维护Hadoop集群，比如CDH集群；搭建和维护Hadoop下的各种组件，<br>Hive、HBase、Kafka、Zookeeper等等。<br>这种工作比起大数据开发更不费脑力，但是工作比较繁杂。对不太喜欢做开发的人，是个不错的选择。</p>
+<ol>
+<li>ETL工程师<br>这种也是招人数量比较多的岗位，但要求一般不高，有专科学历就够了。<br>因为很多公司尤其是大公司，有大量数据需要人力去倒腾处理。</li>
+</ol>
+<p>主要需要的技能有：各种数据库的SQL，PLSQL。各种关系型数据库如MySQL/PostgresSQL, Hive</p>
+<p>会一点编程语言比如Python更好，如虎添翼。</p>
+<p>工作内容一般是做数据清洗，比如从爬虫出来的数据一般比较脏比较乱，需要过滤出有用的信息保存到数据库中，<br>然后将数据从一个地方转移到另一个地方。比如从MySQL到Hive</p>
+<ol>
+<li>大数据分析师<br>这个岗位属于大数据比较上层的岗位，比较适合女生，因为比起大数据开发，大数据分析所学的东西少了很多。</li>
+</ol>
+<p>主要的技能有：SQL/Hive-SQL, Spark, Python/R<br>其它的技能视自己想发展的小方向而定。强烈推荐学精通一些Python，因为Python有很多数据分析各个方向<br>的第三方模块，比如pandas,matplotlib,seaborn,superset,tensorflow,sklearn等等<br>工作内容就是在大数据前提下的数据分析，以前用Excel就足够了，但现在数据量大了就得用新的数据分析技能</p>
+]]></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>big data</tag>
       </tags>
   </entry>
   <entry>
@@ -893,6 +1057,56 @@
       </tags>
   </entry>
   <entry>
+    <title>新疆北疆自驾12日游（上）</title>
+    <url>/2018/xinjiang_trip.html</url>
+    <content><![CDATA[<h1 id="出发"><a href="#出发" class="headerlink" title="出发"></a>出发</h1><p>辞职后已经有一段时间了，每天都是在家Remote着帮香港人干活。虽然钱不多，但很自由，当时想，要不要趁现在<br>有自由时间来一场旅行吧。想来想去还是决定在国内吧，第一，国内方便，不用另外去办护照。第二，国内便宜点，<br>还是穷啊。</p>
+<p>新疆，国内是最异域风情的一片土地，对我来说一直很神秘。趁这次机会我去那边探个究竟。</p>
+<p>从罗湖火车站正式出发。即将开始我48小时的火车旅程<br><img src="/images/2018/xinjiang_trip/678583b0.png" alt=""></p>
+<p>我的床位。我将在这里睡两天两夜。我的舍友还挺好的。一个在新疆哈密上班的湖南大哥，一个区甘肃读书的年轻小伙子</p>
+<p><img src="/images/2018/xinjiang_trip/bed_in_train.png" alt=""></p>
+<p>在漫长的火车路途中，我除了玩手机电脑打发时间，就是和舍友聊天。我从来没去过中国的西北，就跟他们聊<br>西北那边的文化，主要聊得是那边吃的饮食吧。我对那里充满着憧憬。</p>
+<p>做了两个晚上的火车，到兰州站歇歇，出来活动活动。<br><img src="/images/2018/xinjiang_trip/lanzhou_station.png" alt=""></p>
+<h1 id="踏上新疆"><a href="#踏上新疆" class="headerlink" title="踏上新疆"></a>踏上新疆</h1><p>快到新疆的路上，看到路边已经没有什么绿色的植物了，都是辽阔的荒漠地带。<br><img src="/images/2018/xinjiang_trip/on_the_way.png" alt=""></p>
+<p>第一晚住的乌鲁木齐市区的酒店，还不错。两百多吧<br><img src="/images/2018/xinjiang_trip/Urumqi_hotel.png" alt=""></p>
+<p>乌鲁木齐市区。到了新疆移动网络都很差，因为这里的4G 被shutdown了。<br><img src="/images/2018/xinjiang_trip/Urumuqi_city_road.png" alt=""></p>
+<p>第一餐吃的拉面。这边一碗面的价格跟广州深圳差不多吧，十几二十块一碗。但口味远远比广东的好吃。<br><img src="/images/2018/xinjiang_trip/first_lunch.png" alt=""></p>
+<p>乌鲁木齐夜景，这边路上的人不是很多<br><img src="/images/2018/xinjiang_trip/Urumuqi_road_night.png" alt=""></p>
+<h1 id="第一天景点游"><a href="#第一天景点游" class="headerlink" title="第一天景点游"></a>第一天景点游</h1><p>在乌鲁木齐独自闲逛了一天后的第二天，我和网友在指定的地点汇合了。我是在豆瓣上加的，上面会有很多人<br>寻找驴友伙伴的。<br>我们是一共4个人，2个女的来自广西，一个男的来自北京。一起在乌鲁木齐租了一辆CRV，在新疆租车还挺贵的，<br>CRV 用了10天大概每天要4-5百加上汽油费。</p>
+<p>广西的一个妹子是女老司机，开车开得很好。超过一半时间都是她开的。另外，在新疆开车的感觉是路比较大，车<br>又不多，比较畅通。更重要的是风景很辽阔，视野很好。<br><img src="/images/2018/xinjiang_trip/driving_on_highway.png" alt=""></p>
+<h2 id="火焰山"><a href="#火焰山" class="headerlink" title="火焰山"></a>火焰山</h2><p>我们看的一个大景点是火焰山。主要就是看一些西游记人物的雕像，没啥好看的，我也没买票，就在外面观望<br>了一下。<br><img src="/images/2018/xinjiang_trip/huoyanshan.png" alt=""></p>
+<h2 id="一个城堡"><a href="#一个城堡" class="headerlink" title="一个城堡"></a>一个城堡</h2><p>然后是在吐鲁番的一个城堡里游览，忘了叫什么名。就拍个照片到此一游吧，我只是跟着来的哈<br><img src="/images/2018/xinjiang_trip/castle.png" alt=""></p>
+<p>哦，这应该是阿凡提的家</p>
+<p><img src="/images/2018/xinjiang_trip/apanti_home.png" alt=""></p>
+<h2 id="吐鲁番市"><a href="#吐鲁番市" class="headerlink" title="吐鲁番市"></a>吐鲁番市</h2><p>吐鲁番市我在游逛新疆以来，最推荐的一个城市，原因很简单，这里物美价廉！哈密瓜满地都是，吃不完直接扔了。<br>吃得东西很好吃很正宗，又很便宜。<br>住宿就更能体现了，我们住了个两房，一晚上才一百多。还有一点我挺喜欢的是这边的空气湿度非常低，我衣服晚上洗，<br>洗完不用晒，第二天早上就干了。</p>
+<p>路边一个可爱的小女孩<br><img src="/images/2018/xinjiang_trip/lovely_girl.png" alt=""></p>
+<p>BTW, before you enter any city in Xinjiang, there is a serious security check, sometimes,<br>passengers in the car have to get off the car to pass the security check.<br><img src="/images/2018/xinjiang_trip/station_check.png" alt=""></p>
+<p>wonderful landscape on dessert area<br><img src="/images/2018/xinjiang_trip/desert_area1.png" alt=""></p>
+<p><img src="/images/2018/xinjiang_trip/dessert_area2.png" alt=""></p>
+<p>骆驼，世界上最温顺的大家伙，很大很温柔<br><img src="/images/2018/xinjiang_trip/camel.png" alt=""></p>
+<p>在新疆开车你会有不一样的体验。当然，开久了也会很无聊。<br><img src="/images/2018/xinjiang_trip/driving_on_empty_road.png" alt=""></p>
+<h1 id="库车"><a href="#库车" class="headerlink" title="库车"></a>库车</h1><p>来到另外一个南部城市，库车。库车这城市我也挺喜欢的，因为和吐鲁番一样，都很物美价廉。<br><img src="/images/2018/xinjiang_trip/kuche.png" alt=""></p>
+<p>在新疆，很少能吃到青菜，很多时候只能吃肉<br><img src="/images/2018/xinjiang_trip/meat.png" alt=""></p>
+<p>那天停车在路边，本来想看看风景，突然闪电，在大自然面前，感觉到人类很渺小<br><img src="/images/2018/xinjiang_trip/wilderness.png" alt=""></p>
+<p>这里的厕所简直了，很有味道。<br><img src="/images/2018/xinjiang_trip/publi_toilet.png" alt=""></p>
+<p>在一个街边的露天市场里吃了个早餐。老板很友好很热情，旁边的大妈还给我们分享食物，虽然语言不通，<br>但能感受到他们很淳朴。说句心里话，我很向往这种生活，人与人之间没有提防，没有戒备，没有不信任感。<br>只因为这里太穷了，不像大城市里的生活那么复杂。我吃着这碗面也就几块钱，能赚个啥啊。为什么他们<br>还乐此不彼。 我觉得，富裕和淳朴是不能共存的。你富裕了必然会牺牲掉淳朴，人与人之间的关系变得<br>复杂。我喜欢淳朴，但不忍心看着他们如此贫穷，生活过得如此简陋。<br><img src="/images/2018/xinjiang_trip/street_food.png" alt=""></p>
+<p><img src="/images/2018/xinjiang_trip/street_food2.png" alt=""></p>
+<p><img src="/images/2018/xinjiang_trip/food_in_kuche.png" alt=""></p>
+<p><img src="/images/2018/xinjiang_trip/fruit_stall.png" alt=""></p>
+<p>一个峡谷的旅游景点</p>
+<p><img src="/images/2018/xinjiang_trip/daxiagu_.png" alt=""><br>库车青旅里捡的弟弟。在库车，我们把原来那北京约的驴友给踢了，因为他太不好相处，总以为自己很牛。<br>哈哈，所以我们在青旅把他给踢了，另外拉了一个小伙子，后来果然气氛就不一样了，弟弟很随和，挺好相处的。</p>
+<p>这里的水很清澈，看起来没有任何污染。<br><img src="/images/2018/xinjiang_trip/stream.png" alt=""></p>
+<p>山路上经常会被羊群堵路，我真想下车去摸摸它们。<br><img src="/images/2018/xinjiang_trip/sheep_on_road.png" alt=""></p>
+<p>九月中旬，可以看到，北疆已经下雪了<br><img src="/images/2018/xinjiang_trip/driving_on_the_way.png" alt=""></p>
+<p>接下来我们的行程也会慢慢往北走，前往北疆探索。在下一章里，我讲继续分享北疆的旅途。</p>
+]]></content>
+      <categories>
+        <category>travel</category>
+      </categories>
+      <tags>
+        <tag>travel</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Calcite介绍</title>
     <url>/2018/calcite_intro.html</url>
     <content><![CDATA[<h1 id="什么是Apache-Calcite"><a href="#什么是Apache-Calcite" class="headerlink" title="什么是Apache Calcite ?"></a>什么是Apache Calcite ?</h1><p>Apache Calcite 是一款开源SQL解析工具, 可以将各种SQL语句解析成抽象语法术AST(Abstract Syntax Tree),<br>之后通过操作AST就可以把SQL中所要表达的算法与关系体现在具体代码之中。</p>
@@ -957,56 +1171,6 @@
       </categories>
       <tags>
         <tag>Calcite</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>新疆北疆自驾12日游（上）</title>
-    <url>/2018/xinjiang_trip.html</url>
-    <content><![CDATA[<h1 id="出发"><a href="#出发" class="headerlink" title="出发"></a>出发</h1><p>辞职后已经有一段时间了，每天都是在家Remote着帮香港人干活。虽然钱不多，但很自由，当时想，要不要趁现在<br>有自由时间来一场旅行吧。想来想去还是决定在国内吧，第一，国内方便，不用另外去办护照。第二，国内便宜点，<br>还是穷啊。</p>
-<p>新疆，国内是最异域风情的一片土地，对我来说一直很神秘。趁这次机会我去那边探个究竟。</p>
-<p>从罗湖火车站正式出发。即将开始我48小时的火车旅程<br><img src="/images/2018/xinjiang_trip/678583b0.png" alt=""></p>
-<p>我的床位。我将在这里睡两天两夜。我的舍友还挺好的。一个在新疆哈密上班的湖南大哥，一个区甘肃读书的年轻小伙子</p>
-<p><img src="/images/2018/xinjiang_trip/bed_in_train.png" alt=""></p>
-<p>在漫长的火车路途中，我除了玩手机电脑打发时间，就是和舍友聊天。我从来没去过中国的西北，就跟他们聊<br>西北那边的文化，主要聊得是那边吃的饮食吧。我对那里充满着憧憬。</p>
-<p>做了两个晚上的火车，到兰州站歇歇，出来活动活动。<br><img src="/images/2018/xinjiang_trip/lanzhou_station.png" alt=""></p>
-<h1 id="踏上新疆"><a href="#踏上新疆" class="headerlink" title="踏上新疆"></a>踏上新疆</h1><p>快到新疆的路上，看到路边已经没有什么绿色的植物了，都是辽阔的荒漠地带。<br><img src="/images/2018/xinjiang_trip/on_the_way.png" alt=""></p>
-<p>第一晚住的乌鲁木齐市区的酒店，还不错。两百多吧<br><img src="/images/2018/xinjiang_trip/Urumqi_hotel.png" alt=""></p>
-<p>乌鲁木齐市区。到了新疆移动网络都很差，因为这里的4G 被shutdown了。<br><img src="/images/2018/xinjiang_trip/Urumuqi_city_road.png" alt=""></p>
-<p>第一餐吃的拉面。这边一碗面的价格跟广州深圳差不多吧，十几二十块一碗。但口味远远比广东的好吃。<br><img src="/images/2018/xinjiang_trip/first_lunch.png" alt=""></p>
-<p>乌鲁木齐夜景，这边路上的人不是很多<br><img src="/images/2018/xinjiang_trip/Urumuqi_road_night.png" alt=""></p>
-<h1 id="第一天景点游"><a href="#第一天景点游" class="headerlink" title="第一天景点游"></a>第一天景点游</h1><p>在乌鲁木齐独自闲逛了一天后的第二天，我和网友在指定的地点汇合了。我是在豆瓣上加的，上面会有很多人<br>寻找驴友伙伴的。<br>我们是一共4个人，2个女的来自广西，一个男的来自北京。一起在乌鲁木齐租了一辆CRV，在新疆租车还挺贵的，<br>CRV 用了10天大概每天要4-5百加上汽油费。</p>
-<p>广西的一个妹子是女老司机，开车开得很好。超过一半时间都是她开的。另外，在新疆开车的感觉是路比较大，车<br>又不多，比较畅通。更重要的是风景很辽阔，视野很好。<br><img src="/images/2018/xinjiang_trip/driving_on_highway.png" alt=""></p>
-<h2 id="火焰山"><a href="#火焰山" class="headerlink" title="火焰山"></a>火焰山</h2><p>我们看的一个大景点是火焰山。主要就是看一些西游记人物的雕像，没啥好看的，我也没买票，就在外面观望<br>了一下。<br><img src="/images/2018/xinjiang_trip/huoyanshan.png" alt=""></p>
-<h2 id="一个城堡"><a href="#一个城堡" class="headerlink" title="一个城堡"></a>一个城堡</h2><p>然后是在吐鲁番的一个城堡里游览，忘了叫什么名。就拍个照片到此一游吧，我只是跟着来的哈<br><img src="/images/2018/xinjiang_trip/castle.png" alt=""></p>
-<p>哦，这应该是阿凡提的家</p>
-<p><img src="/images/2018/xinjiang_trip/apanti_home.png" alt=""></p>
-<h2 id="吐鲁番市"><a href="#吐鲁番市" class="headerlink" title="吐鲁番市"></a>吐鲁番市</h2><p>吐鲁番市我在游逛新疆以来，最推荐的一个城市，原因很简单，这里物美价廉！哈密瓜满地都是，吃不完直接扔了。<br>吃得东西很好吃很正宗，又很便宜。<br>住宿就更能体现了，我们住了个两房，一晚上才一百多。还有一点我挺喜欢的是这边的空气湿度非常低，我衣服晚上洗，<br>洗完不用晒，第二天早上就干了。</p>
-<p>路边一个可爱的小女孩<br><img src="/images/2018/xinjiang_trip/lovely_girl.png" alt=""></p>
-<p>BTW, before you enter any city in Xinjiang, there is a serious security check, sometimes,<br>passengers in the car have to get off the car to pass the security check.<br><img src="/images/2018/xinjiang_trip/station_check.png" alt=""></p>
-<p>wonderful landscape on dessert area<br><img src="/images/2018/xinjiang_trip/desert_area1.png" alt=""></p>
-<p><img src="/images/2018/xinjiang_trip/dessert_area2.png" alt=""></p>
-<p>骆驼，世界上最温顺的大家伙，很大很温柔<br><img src="/images/2018/xinjiang_trip/camel.png" alt=""></p>
-<p>在新疆开车你会有不一样的体验。当然，开久了也会很无聊。<br><img src="/images/2018/xinjiang_trip/driving_on_empty_road.png" alt=""></p>
-<h1 id="库车"><a href="#库车" class="headerlink" title="库车"></a>库车</h1><p>来到另外一个南部城市，库车。库车这城市我也挺喜欢的，因为和吐鲁番一样，都很物美价廉。<br><img src="/images/2018/xinjiang_trip/kuche.png" alt=""></p>
-<p>在新疆，很少能吃到青菜，很多时候只能吃肉<br><img src="/images/2018/xinjiang_trip/meat.png" alt=""></p>
-<p>那天停车在路边，本来想看看风景，突然闪电，在大自然面前，感觉到人类很渺小<br><img src="/images/2018/xinjiang_trip/wilderness.png" alt=""></p>
-<p>这里的厕所简直了，很有味道。<br><img src="/images/2018/xinjiang_trip/publi_toilet.png" alt=""></p>
-<p>在一个街边的露天市场里吃了个早餐。老板很友好很热情，旁边的大妈还给我们分享食物，虽然语言不通，<br>但能感受到他们很淳朴。说句心里话，我很向往这种生活，人与人之间没有提防，没有戒备，没有不信任感。<br>只因为这里太穷了，不像大城市里的生活那么复杂。我吃着这碗面也就几块钱，能赚个啥啊。为什么他们<br>还乐此不彼。 我觉得，富裕和淳朴是不能共存的。你富裕了必然会牺牲掉淳朴，人与人之间的关系变得<br>复杂。我喜欢淳朴，但不忍心看着他们如此贫穷，生活过得如此简陋。<br><img src="/images/2018/xinjiang_trip/street_food.png" alt=""></p>
-<p><img src="/images/2018/xinjiang_trip/street_food2.png" alt=""></p>
-<p><img src="/images/2018/xinjiang_trip/food_in_kuche.png" alt=""></p>
-<p><img src="/images/2018/xinjiang_trip/fruit_stall.png" alt=""></p>
-<p>一个峡谷的旅游景点</p>
-<p><img src="/images/2018/xinjiang_trip/daxiagu_.png" alt=""><br>库车青旅里捡的弟弟。在库车，我们把原来那北京约的驴友给踢了，因为他太不好相处，总以为自己很牛。<br>哈哈，所以我们在青旅把他给踢了，另外拉了一个小伙子，后来果然气氛就不一样了，弟弟很随和，挺好相处的。</p>
-<p>这里的水很清澈，看起来没有任何污染。<br><img src="/images/2018/xinjiang_trip/stream.png" alt=""></p>
-<p>山路上经常会被羊群堵路，我真想下车去摸摸它们。<br><img src="/images/2018/xinjiang_trip/sheep_on_road.png" alt=""></p>
-<p>九月中旬，可以看到，北疆已经下雪了<br><img src="/images/2018/xinjiang_trip/driving_on_the_way.png" alt=""></p>
-<p>接下来我们的行程也会慢慢往北走，前往北疆探索。在下一章里，我讲继续分享北疆的旅途。</p>
-]]></content>
-      <categories>
-        <category>travel</category>
-      </categories>
-      <tags>
-        <tag>travel</tag>
       </tags>
   </entry>
   <entry>
@@ -2512,6 +2676,34 @@ print Person.name  # [1]
       </tags>
   </entry>
   <entry>
+    <title>Spark Streaming Dstream ForeachRDD的理解</title>
+    <url>/2016/spark_foreachRDD.html</url>
+    <content><![CDATA[<h1 id="通俗理解Spark-Streaming-Dstream-的ForeachRDD"><a href="#通俗理解Spark-Streaming-Dstream-的ForeachRDD" class="headerlink" title="通俗理解Spark Streaming Dstream 的ForeachRDD"></a>通俗理解Spark Streaming Dstream 的ForeachRDD</h1><p>在SparkStreaming中，数据中的每个batch都是只有一个RDD，为什么我们还要用ForeachRDD 在每一个RDD呢？ 不是只有一个RDD吗？</p>
+<p>Dstream也就是离散stream，就是把连续的数据分成一小团一小团。我们用专业术语“microbatching”来描述。每个microbatch 变成一个RDD以便Spark的后续处理。在每一个batch interval中，每个DStream有且仅有一个RDD。</p>
+<p><img src="/images/2016/spark_foreachRDD/spark-streaming.png" alt="Sample Image Added via Markdown"></p>
+<p>然而RDD是什么呢，RDD是一个分布式数据集合。你可以认为它是一个告诉你实际数据在集群中具体什么地方的指南者（pointer）。</p>
+<a id="more"></a>
+<p>Dstream.foreachRDD在SparkStreaming中是一个“output operator”，它让你直接基于Dstream的RDDs去处理数据。比如说，用foreachRDD方法将数据写入数据库</p>
+<p>这里有个容易疑惑的地方，DStream是和时间有关的集合。我们来对比一下传统的集合。我们用一群客户（users）来举个例子：</p>
+<!-- scala -->
+<pre><code>val userDStream：DStream[User]=???
+userDStream.foreachRDD{usersRDD =&gt;
+    usersRDD.foreach{user =&gt; serveCoffee(user)}
+}
+</code></pre><p>注意：</p>
+<ul>
+<li>DStream.foreachRDD返回给你的是RDD[user],不是单单一个user。回到上面咖啡的这个例子，这个客户集合 是指某个时间区间(比如下午一点到两点)的集合</li>
+<li>为了处理单个集合的元素，需要进一步操作(operate) RDD。在这个案例中，我们用RDD.foreach来对每个客户serve coffee</li>
+</ul>
+]]></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>spark</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Spark简易入门</title>
     <url>/2016/spark_guide.html</url>
     <content><![CDATA[<h1 id="Spark简易入门"><a href="#Spark简易入门" class="headerlink" title="Spark简易入门"></a>Spark简易入门</h1><p>Spark，搞大数据的人都应该用过吧。spark作为主流的大数据处理框架，到底为什么这么多人用呢？我们少扯淡，直接动手写大数据界的HelloWorld：WordCount。</p>
@@ -2567,34 +2759,6 @@ object WordCount
 <p><code>spark-submit --class &quot;demo.WordCount&quot; SparkDemo-1.0-SNAPSHOT.jar</code><br></p>
 <p>其中demo.WordCount是main函数所在的ojbect，而SparkDemo-1.0-SNAPSHOT.jar就是打出来的jar包。</p>
 <p>Spark 最简单的流程，就这样Finish了。</p>
-]]></content>
-      <categories>
-        <category>大数据</category>
-      </categories>
-      <tags>
-        <tag>spark</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Spark Streaming Dstream ForeachRDD的理解</title>
-    <url>/2016/spark_foreachRDD.html</url>
-    <content><![CDATA[<h1 id="通俗理解Spark-Streaming-Dstream-的ForeachRDD"><a href="#通俗理解Spark-Streaming-Dstream-的ForeachRDD" class="headerlink" title="通俗理解Spark Streaming Dstream 的ForeachRDD"></a>通俗理解Spark Streaming Dstream 的ForeachRDD</h1><p>在SparkStreaming中，数据中的每个batch都是只有一个RDD，为什么我们还要用ForeachRDD 在每一个RDD呢？ 不是只有一个RDD吗？</p>
-<p>Dstream也就是离散stream，就是把连续的数据分成一小团一小团。我们用专业术语“microbatching”来描述。每个microbatch 变成一个RDD以便Spark的后续处理。在每一个batch interval中，每个DStream有且仅有一个RDD。</p>
-<p><img src="/images/2016/spark_foreachRDD/spark-streaming.png" alt="Sample Image Added via Markdown"></p>
-<p>然而RDD是什么呢，RDD是一个分布式数据集合。你可以认为它是一个告诉你实际数据在集群中具体什么地方的指南者（pointer）。</p>
-<a id="more"></a>
-<p>Dstream.foreachRDD在SparkStreaming中是一个“output operator”，它让你直接基于Dstream的RDDs去处理数据。比如说，用foreachRDD方法将数据写入数据库</p>
-<p>这里有个容易疑惑的地方，DStream是和时间有关的集合。我们来对比一下传统的集合。我们用一群客户（users）来举个例子：</p>
-<!-- scala -->
-<pre><code>val userDStream：DStream[User]=???
-userDStream.foreachRDD{usersRDD =&gt;
-    usersRDD.foreach{user =&gt; serveCoffee(user)}
-}
-</code></pre><p>注意：</p>
-<ul>
-<li>DStream.foreachRDD返回给你的是RDD[user],不是单单一个user。回到上面咖啡的这个例子，这个客户集合 是指某个时间区间(比如下午一点到两点)的集合</li>
-<li>为了处理单个集合的元素，需要进一步操作(operate) RDD。在这个案例中，我们用RDD.foreach来对每个客户serve coffee</li>
-</ul>
 ]]></content>
       <categories>
         <category>大数据</category>
