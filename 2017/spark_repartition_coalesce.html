@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Dennis' Blog">
 <meta property="og:description" content="前言有些时候，在很多partition的时候，我们想减少点partition的数量，不然写到HDFS上的文件数量也会很多很多。我们使用reparation呢，还是coalesce。所以我们得了解这两个算子的内在区别。
 正题要知道，repartition是一个消耗比较昂贵的操作算子，Spark出了一个优化版的repartition叫做coalesce，它可以尽量避免数据迁移，但是你只能减少RDD的p">
-<meta property="og:updated_time" content="2019-12-16T13:35:23.240Z">
+<meta property="og:updated_time" content="2020-12-22T07:56:12.883Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spark repartition和coalesce的区别">
 <meta name="twitter:description" content="前言有些时候，在很多partition的时候，我们想减少点partition的数量，不然写到HDFS上的文件数量也会很多很多。我们使用reparation呢，还是coalesce。所以我们得了解这两个算子的内在区别。
@@ -348,7 +348,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-31T19:00:49+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-31T19:00:49+00:00">
                 2017-01-31
               </time>
             
@@ -568,7 +568,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">62</span>
+                  <span class="site-state-item-count">63</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -579,7 +579,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -590,7 +590,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-count">35</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

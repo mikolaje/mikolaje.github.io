@@ -347,7 +347,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-20T11:07:10+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-20T11:07:10+00:00">
                 2016-10-20
               </time>
             
@@ -490,6 +490,166 @@ object WordCount
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2016/spark_foreachRDD.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dennis">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dennis' Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/spark_foreachRDD.html" itemprop="url">Spark Streaming Dstream ForeachRDD的理解</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-20T11:07:10+00:00">
+                2016-10-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/大数据/" itemprop="url" rel="index">
+                    <span itemprop="name">大数据</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/spark_foreachRDD.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2016/spark_foreachRDD.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="通俗理解Spark-Streaming-Dstream-的ForeachRDD"><a href="#通俗理解Spark-Streaming-Dstream-的ForeachRDD" class="headerlink" title="通俗理解Spark Streaming Dstream 的ForeachRDD"></a>通俗理解Spark Streaming Dstream 的ForeachRDD</h1><p>在SparkStreaming中，数据中的每个batch都是只有一个RDD，为什么我们还要用ForeachRDD 在每一个RDD呢？ 不是只有一个RDD吗？</p>
+<p>Dstream也就是离散stream，就是把连续的数据分成一小团一小团。我们用专业术语“microbatching”来描述。每个microbatch 变成一个RDD以便Spark的后续处理。在每一个batch interval中，每个DStream有且仅有一个RDD。</p>
+<p><img src="/images/2016/spark_foreachRDD/spark-streaming.png" alt="Sample Image Added via Markdown"></p>
+<p>然而RDD是什么呢，RDD是一个分布式数据集合。你可以认为它是一个告诉你实际数据在集群中具体什么地方的指南者（pointer）。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/spark_foreachRDD.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2016/be_more_productive.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -521,7 +681,7 @@ object WordCount
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-18T11:07:10+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-18T11:07:10+00:00">
                 2016-10-18
               </time>
             
@@ -692,7 +852,7 @@ object WordCount
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">62</span>
+                  <span class="site-state-item-count">63</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -703,7 +863,7 @@ object WordCount
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -714,7 +874,7 @@ object WordCount
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-count">35</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
