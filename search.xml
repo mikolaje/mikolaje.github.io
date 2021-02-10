@@ -1,6 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>PySpark, 利用蒙特卡洛测算圆柱体体积</title>
+    <url>/2021/pyspark_monte_carlo.html</url>
+    <content><![CDATA[<h2 id="蒙特卡洛算法"><a href="#蒙特卡洛算法" class="headerlink" title="蒙特卡洛算法"></a>蒙特卡洛算法</h2><p>刚开始我以为蒙特卡洛是一个人的名字，后来才发现是一个城市的名字，而且是一个赌城的名字。有趣的是还有个<br>算法叫做拉斯维加斯算法。另外，不知道有没有澳门算法。</p>
+<p>先简单说说蒙特算法的原理吧。就比如说你要在一堆苹果中找出一个最大的苹果。一个一个地拿过来，第一个拿出来<br>然后它就是当前最大的，然后拿第二个，和刚拿的第一个比较，看看谁大，如果比第一个大的话，就讲第二个苹果作为<br>最大的苹果，否则第一个依然视为最大的。</p>
+<p>就这样一个一个苹果不断地拿出来比较、迭代。拿出的苹果越多就越接近所有苹果中最大的那个苹果。</p>
+<h2 id="蒙特卡洛计算Pi"><a href="#蒙特卡洛计算Pi" class="headerlink" title="蒙特卡洛计算Pi"></a>蒙特卡洛计算Pi</h2><p>先拿Spark官方的一个例子，用pyspark来计算Pi的值<br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> sys</div><div class="line"><span class="keyword">from</span> random <span class="keyword">import</span> random</div><div class="line"><span class="keyword">from</span> operator <span class="keyword">import</span> add</div><div class="line"><span class="keyword">from</span> pyspark.sql <span class="keyword">import</span> SparkSession</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</div><div class="line">    <span class="string">"""</span></div><div class="line">        Usage: pi [partitions]</div><div class="line">    """</div><div class="line">    spark = SparkSession\</div><div class="line">        .builder\</div><div class="line">        .appName(<span class="string">"PythonPi"</span>)\</div><div class="line">        .getOrCreate()</div><div class="line"></div><div class="line">    partitions = int(sys.argv[<span class="number">1</span>]) <span class="keyword">if</span> len(sys.argv) &gt; <span class="number">1</span> <span class="keyword">else</span> <span class="number">2</span></div><div class="line">    n = <span class="number">100000</span> * partitions</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">f</span><span class="params">(_)</span>:</span></div><div class="line">        x = random() * <span class="number">2</span> - <span class="number">1</span></div><div class="line">        y = random() * <span class="number">2</span> - <span class="number">1</span></div><div class="line">        <span class="keyword">return</span> <span class="number">1</span> <span class="keyword">if</span> x ** <span class="number">2</span> + y ** <span class="number">2</span> &lt;= <span class="number">1</span> <span class="keyword">else</span> <span class="number">0</span></div><div class="line"></div><div class="line">    count = spark.sparkContext.parallelize(range(<span class="number">1</span>, n + <span class="number">1</span>), partitions).map(f).reduce(add)</div><div class="line">    print(<span class="string">"Pi is roughly %f"</span> % (<span class="number">4.0</span> * count / n))</div><div class="line"></div><div class="line">    spark.stop()</div></pre></td></tr></table></figure></p>
+<p>解析下这段代码。关键算法是在<code>f(_)</code>。就是在一定的数值范围内，随机生成x,y 两个数。如果x,y 符合<code>x ** 2 + y ** 2 &lt;= 1</code><br>这公式的话就返回1，否则返回0</p>
+<p>通过pyspark迭代100000次，执行100000次<code>f(_)</code>这个方法，这样就会生成一个以<code>1,0</code>组合成，length为100000<br>的数组。然后sum这个大数组，把数组里面的1全部累加起来。然后，看累加起来的数与100000相除，也就是算出1在<br>数组中出现的比例，再用这个比例乘以4就可以近似算出Pi的值。执行次数越多，越接近Pi的准确值。</p>
+<h2 id="蒙特卡洛算体积"><a href="#蒙特卡洛算体积" class="headerlink" title="蒙特卡洛算体积"></a>蒙特卡洛算体积</h2><p>算体积的原理也是类似。比如我们算球的体积，可以假设球被一个立方体包住，然后随机生成很多个点（x,y,z) 遍布在<br>立方体的方位内，如果满足球的体积公式则返回1，否则返回0。然后看看遍历后占所有随机点的比例有多大。再将这个比例乘以<br>立方体的体积，就能得出球的体积</p>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight python"><table><tr><td class="code"><pre><div class="line">radius = <span class="number">4</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">f1</span><span class="params">(_)</span>:</span></div><div class="line">    x = uniform(<span class="number">0</span> - radius, <span class="number">0</span> + radius)</div><div class="line">    y = uniform(<span class="number">1</span> - radius, <span class="number">1</span> + radius)</div><div class="line">    z = uniform(<span class="number">-2</span> - radius, <span class="number">-2</span> + radius)</div><div class="line">    <span class="keyword">return</span> <span class="number">1</span> <span class="keyword">if</span> x ** <span class="number">2</span> + (y - <span class="number">1</span>) ** <span class="number">2</span> + (z + <span class="number">2</span>) ** <span class="number">2</span> &lt;= <span class="number">16</span> <span class="keyword">else</span> <span class="number">0</span></div><div class="line"></div><div class="line"></div><div class="line">N = <span class="number">10000000</span></div><div class="line">partitions = <span class="number">1</span></div><div class="line">cube_volume = (radius * <span class="number">2</span>) ** <span class="number">3</span></div><div class="line">count = spark.sparkContext.parallelize(range(<span class="number">1</span>, N + <span class="number">1</span>), partitions).map(f1).reduce(add)</div><div class="line"></div><div class="line">print(count)</div><div class="line"></div><div class="line">print(<span class="string">"Volume is roughly %f"</span> % (count / N * cube_volume))</div></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>只要掌握蒙特卡洛原理，实现起来并不难。有问题欢迎留言，或联系我。</p>
+]]></content>
+      <categories>
+        <category>spark</category>
+      </categories>
+      <tags>
+        <tag>spark</tag>
+        <tag>pyspark</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Kivy 有史以来我接触最不友好的一个Python框架</title>
+    <url>/2021/kivy.html</url>
+    <content><![CDATA[<h2 id="开头"><a href="#开头" class="headerlink" title="开头"></a>开头</h2><p>最近有个朋友找我帮他看看一个构建Kivy的问题。结果弄了整整一天，连编译环境都有问题，最终也没能编译成功。虽然最后里成功已经很接近了，但<br>考虑朋友说换成用HTML做了，就没有继续折腾Kivy了。</p>
+<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><p>刚开始，我说想快点帮他解决，就打算直接在Kivy官网找官方的Docker镜像下载了。后来，下了好几个镜像，官方的，非官方的<br>结果都有各种各样的问题，跑不通。</p>
+<p>后面就放弃Docker了，直接在本地环境搭建环境。在运行<code>buildozer -v android debug</code> 的时候，报错：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&apos;sdkmanager not installed&apos;</div></pre></td></tr></table></figure></p>
+<p>后面才发现需装一个Android的SDK （Android Studio ），这我在官方文档上都看到啊。。真是无语哎</p>
+<ul>
+<li>相关报错信息：<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Original exception:</div><div class="line">===================</div><div class="line"></div><div class="line">    Traceback (most recent call last):</div><div class="line">      File &quot;/Users/xifeng.li/.local/lib/python3.7/site-packages/sh.py&quot;, line 2076, in __init__</div><div class="line">        os.execve(cmd[0], cmd, ca[&quot;env&quot;])</div><div class="line">    OSError: [Errno 8] Exec format error: b&apos;/Users/xifeng.li/opt/test_kivy/app/.buildozer/android/platform/build-armeabi-v7a/build/other_builds/hostpython3/desktop/hostpython3/native-build/python3&apos;</div><div class="line"></div><div class="line"></div><div class="line"># Command failed: /Users/xifeng.li/opt/anaconda3/bin/python -m pythonforandroid.toolchain create --dist_name=myapp --bootstrap=sdl2 --requirements=python3,kivy --arch armeabi-v7a --copy-libs --color=always --storage-dir=&quot;/Users/xifeng.li/opt/test_kivy/app/.buildozer/android/platform/build-armeabi-v7a&quot; --ndk-api=21</div><div class="line"># ENVIRONMENT:</div><div class="line">#     TERM_PROGRAM = &apos;iTerm.app&apos;</div><div class="line">#     PYENV_ROOT = &apos;/Users/xifeng.li/.pyenv&apos;</div><div class="line">#     TERM = &apos;xterm-256color&apos;</div><div class="line">#     SHELL = &apos;/bin/bash&apos;</div><div class="line">#     CLICOLOR = &apos;Yes&apos;</div><div class="line">#     TMPDIR = &apos;/var/folders/5_/r_bbpkqj2t126yjr97zgbvshnb19df/T/&apos;</div><div class="line">#     CONDA_SHLVL = &apos;1&apos;</div><div class="line">#     CONDA_PROMPT_MODIFIER = &apos;(base) &apos;</div><div class="line">#     TERM_PROGRAM_VERSION = &apos;3.3.9&apos;</div><div class="line">#     OLDPWD = &apos;/Users/xifeng.li/Library/Android/sdk/tools/bin&apos;</div><div class="line">#     TERM_SESSION_ID = &apos;w0t3p0:A097B1EA-1572-46C1-847B-DC60F03F9BCF&apos;</div><div class="line">#     USER = &apos;xifeng.li&apos;</div><div class="line">#     COMMAND_MODE = &apos;unix2003&apos;</div><div class="line">#     CONDA_EXE = &apos;/Users/xifeng.li/opt/anaconda3/bin/conda&apos;</div><div class="line">#     SSH_AUTH_SOCK = &apos;/private/tmp/com.apple.launchd.xatnkbYTCt/Listeners&apos;</div><div class="line">#     __CF_USER_TEXT_ENCODING = &apos;0x2AB0A5AE:0x0:0x0&apos;</div><div class="line">#     _CE_CONDA = &apos;&apos;</div><div class="line">#     PATH = &apos;/Users/xifeng.li/.buildozer/android/platform/apache-ant-1.9.4/bin:/Users/xifeng.li/Library/Android/sdk/sdkmanager:/Users/xifeng.li/Library/Android/sdk/tools:/Users/xifeng.li/.pyenv/bin:/Users/xifeng.li/opt/anaconda3/bin:/Users/xifeng.li/opt/anaconda3/condabin:/Users/xifeng.li/.pyenv/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/xifeng.li/Library/Python/2.7/bin:/Users/xifeng.li/.local/bin&apos;</div><div class="line">#     LaunchInstanceID = &apos;D7D5D23B-AE28-49F3-80C1-63F519A6608F&apos;</div><div class="line">#     CONDA_PREFIX = &apos;/Users/xifeng.li/opt/anaconda3&apos;</div><div class="line">#     PWD = &apos;/Users/xifeng.li/opt/test_kivy/app&apos;</div><div class="line">#     JAVA_HOME = &apos;/Library/Java/JavaVirtualMachines/jdk1.8.0_231.jdk/Contents/Home&apos;</div><div class="line">#     ANDROID_SDK = &apos;/Users/xifeng.li/Library/Android/sdk&apos;</div><div class="line">#     ITERM_PROFILE = &apos;Default&apos;</div><div class="line">#     XPC_FLAGS = &apos;0x0&apos;</div><div class="line">#     _CE_M = &apos;&apos;</div><div class="line">#     XPC_SERVICE_NAME = &apos;0&apos;</div><div class="line">#     SHLVL = &apos;1&apos;</div><div class="line">#     HOME = &apos;/Users/xifeng.li&apos;</div><div class="line">#     COLORFGBG = &apos;15;0&apos;</div><div class="line">#     LC_TERMINAL_VERSION = &apos;3.3.9&apos;</div><div class="line">#     LS_OPTIONS = &apos;--color=auto&apos;</div><div class="line">#     ITERM_SESSION_ID = &apos;w0t3p0:A097B1EA-1572-46C1-847B-DC60F03F9BCF&apos;</div><div class="line">#     CONDA_PYTHON_EXE = &apos;/Users/xifeng.li/opt/anaconda3/bin/python&apos;</div><div class="line">#     LOGNAME = &apos;xifeng.li&apos;</div><div class="line">#     LC_CTYPE = &apos;UTF-8&apos;</div><div class="line">#     CONDA_DEFAULT_ENV = &apos;base&apos;</div><div class="line">#     LC_TERMINAL = &apos;iTerm2&apos;</div><div class="line">#     SECURITYSESSIONID = &apos;186a6&apos;</div><div class="line">#     COLORTERM = &apos;truecolor&apos;</div><div class="line">#     _ = &apos;/Users/xifeng.li/.local/bin/buildozer&apos;</div><div class="line">#     PACKAGES_PATH = &apos;/Users/xifeng.li/.buildozer/android/packages&apos;</div><div class="line">#     ANDROIDSDK = &apos;/Users/xifeng.li/.buildozer/android/platform/android-sdk&apos;</div><div class="line">#     ANDROIDNDK = &apos;/Users/xifeng.li/.buildozer/android/platform/android-ndk-r19c&apos;</div><div class="line">#     ANDROIDAPI = &apos;27&apos;</div><div class="line">#     ANDROIDMINAPI = &apos;21&apos;</div><div class="line">#</div><div class="line"># Buildozer failed to execute the last command</div><div class="line"># The error might be hidden in the log above this error</div><div class="line"># Please read the full log, and search for it before</div><div class="line"># raising an issue with buildozer itself.</div><div class="line"># In case of a bug report, please add a full log with log_level = 2</div><div class="line">(base) XifengLideMacBook-Pro:app xifeng.li$ /Users/xifeng.li/opt/anaconda3/bin/python -m pythonforandroid.toolchain create --dist_name=myapp --bootstrap=sdl2 --requirements=python3,kivy --arch armeabi-v7a --copy-libs --color=always --storage-dir=&quot;/Users/xifeng.li/opt/test_kivy/app/.buildozer/android/platform/build-armeabi-v7a&quot; --ndk-api=21</div><div class="line">/Users/xifeng.li/opt/anaconda3/lib/python3.7/site-packages/pythonforandroid/toolchain.py:84: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module&apos;s documentation for alternative uses</div><div class="line">  import imp</div><div class="line">[INFO]:    Will compile for the following archs: armeabi-v7a</div><div class="line">[ERROR]:   Build failed: Android SDK dir was not specified, exiting.</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://github.com/diegodukao/docker-python3-kivy-buildozer" target="_blank" rel="external">https://github.com/diegodukao/docker-python3-kivy-buildozer</a><br><a href="https://stackoverflow.com/questions/65724724/while-building-kivy-app-sdkmanager-not-installed" target="_blank" rel="external">https://stackoverflow.com/questions/65724724/while-building-kivy-app-sdkmanager-not-installed</a><br><a href="https://developer.android.com/studio#downloads" target="_blank" rel="external">https://developer.android.com/studio#downloads</a><br><a href="https://hub.docker.com/r/kivy/buildozer" target="_blank" rel="external">https://hub.docker.com/r/kivy/buildozer</a></p>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>kivy</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Web SSH服务搭建</title>
     <url>/2020/web_ssh.html</url>
     <content><![CDATA[<h2 id="前言背景"><a href="#前言背景" class="headerlink" title="前言背景"></a>前言背景</h2><p>最近买了个域名，然后绑定了一个Vultr的IP，结果第二天这个IP就被trash GFW给封了，呵呵。以前也是<br>这样，但不知道为啥被封，现在知道了。如果国外IP绑定域名的话，就会被封。我域名还是实名制的呢。这让我不能SSH到<br>虚拟机，不翻墙也不能访问我那注册的域名。要想SSH到虚拟机服务器只能通过代理服务器或跳板机，或者还有个好方法，<br>那就是用Web SSH。</p>
@@ -2611,6 +2652,52 @@ sum_prime(2000000)
       </tags>
   </entry>
   <entry>
+    <title>聊聊python的unicode 问题</title>
+    <url>/2016/python_unicode.html</url>
+    <content><![CDATA[<h2 id="Python的中文字符处理"><a href="#Python的中文字符处理" class="headerlink" title="Python的中文字符处理"></a>Python的中文字符处理</h2><p>都说python对中文不太友好。</p>
+<p>我们看看下面两个例子：<br>测试环境是ubuntu;<br>python版本为2.7<br><!-- python --></p>
+<pre><code>》a = &apos;呵呵&apos;
+》a 
+》&apos;\xe5\x91\xb5\xe5\x91\xb5&apos;
+》print a
+》呵呵
+</code></pre><p>为什么print 和 直接输入变量回车显示的东西不一样呢？<br>\xe5\x91\xb5\xe5\x91\xb5这些是什么东西啊。一定很奇怪。其实bytes字符编码，是8进制的东西。</p>
+<a id="more"></a>
+<p>首先’呵呵‘ 字符串赋值给a。然而python 内部是以’\xe5\x91\xb5\xe5\x91\xb5’保存的，这应该是utf-8（因为ubuntu默认为uhf-8）的unicode 对应的8进制字符编码</p>
+<p>我们再看看：<br><!-- python --><br>    》a=u’呵呵’  #带上u表示将这字符串转为unicode<br>    》a<br>    》u’\u5475\u5475’<br>    》print a<br>    》呵呵</p>
+<p>我们发现print真是厉害，不管是字符串 还是 unicode 它都能显示为中文的字符。而回车显示的u’\u5475\u5475’是什么呢？这是’呵呵’对应的uncode编码</p>
+<p>我们知道unicode可以 通过encode 编码来转为str</p>
+<!-- python -->
+<pre><code>》a.encode(&apos;utf-8&apos;)
+》&apos;\xe5\x91\xb5\xe5\x91\xb5&apos;
+》print a.encode(&apos;utf-8&apos;)
+》呵呵
+</code></pre><p>我们看到encode后显示的str和我们最开始显示的’\xe5\x91\xb5\xe5\x91\xb5’一样。这说吗中文的字符串在python里就是用\x这种字符串编码保存的</p>
+<p>print 可以把这种编码自动地解码并且显示为对应的中文字符</p>
+<p>另外，有些时候会碰到这种情况，请看下面：</p>
+<!-- python -->
+<pre><code>》a=u&apos;呵呵&apos;
+》l=[a]
+》s=str(l)
+》s
+》&quot;[u&apos;\\u5475\\u5475&apos;]&quot;
+</code></pre><p>哟，怎么多了个\<br>有时候，python会以这种编码保存，这不知道是什么编码，多了一个斜杠的<br>遇到这种情况我们可以用如下办法<br><!-- python --></p>
+<pre><code>》s.decode(&apos;unicode_escape&apos;)
+》s
+》u&quot;[u&apos;\u5475\u5475&apos;]&quot;
+</code></pre><p>这样就可以把它变回来了。此外我们可以print s一下看看会出现什么呢？<br><!-- python --></p>
+<pre><code>》print s
+》[u&apos;\u5475\u5475&apos;]
+</code></pre><p>哈，其实print 就是把不好读的编码优化为比这种编码更好读的一种形式</p>
+<h3 id="总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟"><a href="#总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟" class="headerlink" title="总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟"></a>总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟</h3>]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>聊聊python的变量问题</title>
     <url>/2016/python_func_params.html</url>
     <content><![CDATA[<h2 id="Python的参数作用范围"><a href="#Python的参数作用范围" class="headerlink" title="Python的参数作用范围"></a>Python的参数作用范围</h2><p>我们看看下面两个例子：</p>
@@ -2680,80 +2767,6 @@ print Person.name  # [1]
       </tags>
   </entry>
   <entry>
-    <title>聊聊python的unicode 问题</title>
-    <url>/2016/python_unicode.html</url>
-    <content><![CDATA[<h2 id="Python的中文字符处理"><a href="#Python的中文字符处理" class="headerlink" title="Python的中文字符处理"></a>Python的中文字符处理</h2><p>都说python对中文不太友好。</p>
-<p>我们看看下面两个例子：<br>测试环境是ubuntu;<br>python版本为2.7<br><!-- python --></p>
-<pre><code>》a = &apos;呵呵&apos;
-》a 
-》&apos;\xe5\x91\xb5\xe5\x91\xb5&apos;
-》print a
-》呵呵
-</code></pre><p>为什么print 和 直接输入变量回车显示的东西不一样呢？<br>\xe5\x91\xb5\xe5\x91\xb5这些是什么东西啊。一定很奇怪。其实bytes字符编码，是8进制的东西。</p>
-<a id="more"></a>
-<p>首先’呵呵‘ 字符串赋值给a。然而python 内部是以’\xe5\x91\xb5\xe5\x91\xb5’保存的，这应该是utf-8（因为ubuntu默认为uhf-8）的unicode 对应的8进制字符编码</p>
-<p>我们再看看：<br><!-- python --><br>    》a=u’呵呵’  #带上u表示将这字符串转为unicode<br>    》a<br>    》u’\u5475\u5475’<br>    》print a<br>    》呵呵</p>
-<p>我们发现print真是厉害，不管是字符串 还是 unicode 它都能显示为中文的字符。而回车显示的u’\u5475\u5475’是什么呢？这是’呵呵’对应的uncode编码</p>
-<p>我们知道unicode可以 通过encode 编码来转为str</p>
-<!-- python -->
-<pre><code>》a.encode(&apos;utf-8&apos;)
-》&apos;\xe5\x91\xb5\xe5\x91\xb5&apos;
-》print a.encode(&apos;utf-8&apos;)
-》呵呵
-</code></pre><p>我们看到encode后显示的str和我们最开始显示的’\xe5\x91\xb5\xe5\x91\xb5’一样。这说吗中文的字符串在python里就是用\x这种字符串编码保存的</p>
-<p>print 可以把这种编码自动地解码并且显示为对应的中文字符</p>
-<p>另外，有些时候会碰到这种情况，请看下面：</p>
-<!-- python -->
-<pre><code>》a=u&apos;呵呵&apos;
-》l=[a]
-》s=str(l)
-》s
-》&quot;[u&apos;\\u5475\\u5475&apos;]&quot;
-</code></pre><p>哟，怎么多了个\<br>有时候，python会以这种编码保存，这不知道是什么编码，多了一个斜杠的<br>遇到这种情况我们可以用如下办法<br><!-- python --></p>
-<pre><code>》s.decode(&apos;unicode_escape&apos;)
-》s
-》u&quot;[u&apos;\u5475\u5475&apos;]&quot;
-</code></pre><p>这样就可以把它变回来了。此外我们可以print s一下看看会出现什么呢？<br><!-- python --></p>
-<pre><code>》print s
-》[u&apos;\u5475\u5475&apos;]
-</code></pre><p>哈，其实print 就是把不好读的编码优化为比这种编码更好读的一种形式</p>
-<h3 id="总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟"><a href="#总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟" class="headerlink" title="总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟"></a>总结：print就是让显示出来的东西尽量友好。没那么多乱七八糟</h3>]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Spark Streaming Dstream ForeachRDD的理解</title>
-    <url>/2016/spark_foreachRDD.html</url>
-    <content><![CDATA[<h1 id="通俗理解Spark-Streaming-Dstream-的ForeachRDD"><a href="#通俗理解Spark-Streaming-Dstream-的ForeachRDD" class="headerlink" title="通俗理解Spark Streaming Dstream 的ForeachRDD"></a>通俗理解Spark Streaming Dstream 的ForeachRDD</h1><p>在SparkStreaming中，数据中的每个batch都是只有一个RDD，为什么我们还要用ForeachRDD 在每一个RDD呢？ 不是只有一个RDD吗？</p>
-<p>Dstream也就是离散stream，就是把连续的数据分成一小团一小团。我们用专业术语“microbatching”来描述。每个microbatch 变成一个RDD以便Spark的后续处理。在每一个batch interval中，每个DStream有且仅有一个RDD。</p>
-<p><img src="/images/2016/spark_foreachRDD/spark-streaming.png" alt="Sample Image Added via Markdown"></p>
-<p>然而RDD是什么呢，RDD是一个分布式数据集合。你可以认为它是一个告诉你实际数据在集群中具体什么地方的指南者（pointer）。</p>
-<a id="more"></a>
-<p>Dstream.foreachRDD在SparkStreaming中是一个“output operator”，它让你直接基于Dstream的RDDs去处理数据。比如说，用foreachRDD方法将数据写入数据库</p>
-<p>这里有个容易疑惑的地方，DStream是和时间有关的集合。我们来对比一下传统的集合。我们用一群客户（users）来举个例子：</p>
-<!-- scala -->
-<pre><code>val userDStream：DStream[User]=???
-userDStream.foreachRDD{usersRDD =&gt;
-    usersRDD.foreach{user =&gt; serveCoffee(user)}
-}
-</code></pre><p>注意：</p>
-<ul>
-<li>DStream.foreachRDD返回给你的是RDD[user],不是单单一个user。回到上面咖啡的这个例子，这个客户集合 是指某个时间区间(比如下午一点到两点)的集合</li>
-<li>为了处理单个集合的元素，需要进一步操作(operate) RDD。在这个案例中，我们用RDD.foreach来对每个客户serve coffee</li>
-</ul>
-]]></content>
-      <categories>
-        <category>大数据</category>
-      </categories>
-      <tags>
-        <tag>spark</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Spark简易入门</title>
     <url>/2016/spark_guide.html</url>
     <content><![CDATA[<h1 id="Spark简易入门"><a href="#Spark简易入门" class="headerlink" title="Spark简易入门"></a>Spark简易入门</h1><p>Spark，搞大数据的人都应该用过吧。spark作为主流的大数据处理框架，到底为什么这么多人用呢？我们少扯淡，直接动手写大数据界的HelloWorld：WordCount。</p>
@@ -2809,6 +2822,34 @@ object WordCount
 <p><code>spark-submit --class &quot;demo.WordCount&quot; SparkDemo-1.0-SNAPSHOT.jar</code><br></p>
 <p>其中demo.WordCount是main函数所在的ojbect，而SparkDemo-1.0-SNAPSHOT.jar就是打出来的jar包。</p>
 <p>Spark 最简单的流程，就这样Finish了。</p>
+]]></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>spark</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Spark Streaming Dstream ForeachRDD的理解</title>
+    <url>/2016/spark_foreachRDD.html</url>
+    <content><![CDATA[<h1 id="通俗理解Spark-Streaming-Dstream-的ForeachRDD"><a href="#通俗理解Spark-Streaming-Dstream-的ForeachRDD" class="headerlink" title="通俗理解Spark Streaming Dstream 的ForeachRDD"></a>通俗理解Spark Streaming Dstream 的ForeachRDD</h1><p>在SparkStreaming中，数据中的每个batch都是只有一个RDD，为什么我们还要用ForeachRDD 在每一个RDD呢？ 不是只有一个RDD吗？</p>
+<p>Dstream也就是离散stream，就是把连续的数据分成一小团一小团。我们用专业术语“microbatching”来描述。每个microbatch 变成一个RDD以便Spark的后续处理。在每一个batch interval中，每个DStream有且仅有一个RDD。</p>
+<p><img src="/images/2016/spark_foreachRDD/spark-streaming.png" alt="Sample Image Added via Markdown"></p>
+<p>然而RDD是什么呢，RDD是一个分布式数据集合。你可以认为它是一个告诉你实际数据在集群中具体什么地方的指南者（pointer）。</p>
+<a id="more"></a>
+<p>Dstream.foreachRDD在SparkStreaming中是一个“output operator”，它让你直接基于Dstream的RDDs去处理数据。比如说，用foreachRDD方法将数据写入数据库</p>
+<p>这里有个容易疑惑的地方，DStream是和时间有关的集合。我们来对比一下传统的集合。我们用一群客户（users）来举个例子：</p>
+<!-- scala -->
+<pre><code>val userDStream：DStream[User]=???
+userDStream.foreachRDD{usersRDD =&gt;
+    usersRDD.foreach{user =&gt; serveCoffee(user)}
+}
+</code></pre><p>注意：</p>
+<ul>
+<li>DStream.foreachRDD返回给你的是RDD[user],不是单单一个user。回到上面咖啡的这个例子，这个客户集合 是指某个时间区间(比如下午一点到两点)的集合</li>
+<li>为了处理单个集合的元素，需要进一步操作(operate) RDD。在这个案例中，我们用RDD.foreach来对每个客户serve coffee</li>
+</ul>
 ]]></content>
       <categories>
         <category>大数据</category>

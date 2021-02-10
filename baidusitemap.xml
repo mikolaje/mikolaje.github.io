@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://mikolaje.github.io/images/2021/pyspark_monte_carlo.html</loc>
-    <lastmod>2021-02-09</lastmod>
+    <loc>http://mikolaje.github.io/2021/pyspark_monte_carlo.html</loc>
+    <lastmod>2021-02-10</lastmod>
   </url>  <url>
-    <loc>http://mikolaje.github.io/images/2021/kivy.html</loc>
-    <lastmod>2021-02-04</lastmod>
+    <loc>http://mikolaje.github.io/2021/kivy.html</loc>
+    <lastmod>2021-02-10</lastmod>
   </url>  <url>
     <loc>http://mikolaje.github.io/2020/web_ssh.html</loc>
     <lastmod>2021-01-13</lastmod>
