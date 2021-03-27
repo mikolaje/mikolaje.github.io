@@ -1,6 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>RSI 计算</title>
+    <url>/2021/RSI.html</url>
+    <content><![CDATA[<h2 id="RSI计算公式"><a href="#RSI计算公式" class="headerlink" title="RSI计算公式"></a>RSI计算公式</h2><p>RSI = 100 – 100 / ( 1 + RS )<br>RS = Relative Strength = AvgU / AvgD<br>AvgU = 在最后N个bar里所有向上移动（涨了多少）的平均值<br>AvgD = 在最后N个bar里所有向下移动（跌了多少）的平均值<br>N = RSI周期</p>
+<ul>
+<li>有3中种常用的计算AvgU 、 AvgD的方法</li>
+</ul>
+<h2 id="RSI手把手计算"><a href="#RSI手把手计算" class="headerlink" title="RSI手把手计算"></a>RSI手把手计算</h2><p>计算 up moves（涨了多少 和 down moves（跌了多少） (get U and D)</p>
+<p>计算 Relative Strength (get RS)<br>计算 Relative Strength Index (get RSI)</p>
+<h3 id="Step-1-计算-Up-Moves-和-Down-Moves"><a href="#Step-1-计算-Up-Moves-和-Down-Moves" class="headerlink" title="Step 1: 计算 Up Moves 和 Down Moves"></a>Step 1: 计算 Up Moves 和 Down Moves</h3><p>我们会以14天为一个period来做参考，14天是最常用的参数。<br>要计算RSI，你需要最近15天的收盘价(closing prices)。（如果是10天为一个周期的话，你需要最近11天的收盘价）。</p>
+<p>咱开始计算最近14天的up moves 和 down moves。<br>首先，计算每个bar之间的差值：Chng = Closet – Closet-1<br>也就是当天的收盘价 - 前一天的收盘价</p>
+<p>每个bar中，up move (U) 等于:<br>Closet – Closet-1，如果价格变动是正数的话<br>0，如果价格变动是负数或0的话。</p>
+<p>Down move (D) 等于:<br>Closet – Closet-1 的绝对值，如果价格变动是负数的话<br>0，如果价格变动是正数或0的话。</p>
+<p>现在，你已经有了RSI公式的输入，也就是最近N天的增长或下降（N是RSI周期）。</p>
+<p>下一步就是求平均</p>
+<h3 id="Step2-平均-上涨和下跌"><a href="#Step2-平均-上涨和下跌" class="headerlink" title="Step2: 平均 上涨和下跌"></a>Step2: 平均 上涨和下跌</h3><p>有3个常用的方法。每个计算up 、 down moves的方式都不同：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Simple Moving Average</div><div class="line">Exponential Moving Average</div><div class="line">Wilder’s Smoothing Method</div></pre></td></tr></table></figure></p>
+<h4 id="Simple-Moving-Average"><a href="#Simple-Moving-Average" class="headerlink" title="Simple Moving Average"></a>Simple Moving Average</h4><p>这是最直接的方法：<br>AvgU = 把最近N个bars里的所有的up move(U)相加，然后除以N</p>
+<p>AvgD = 把最近N个bars里的所有的down move(D)相加，然后除以N</p>
+<h4 id="Exponential-Moving-Average"><a href="#Exponential-Moving-Average" class="headerlink" title="Exponential Moving Average"></a>Exponential Moving Average</h4><p>这方法跟上面的方法是一样的，只是用EMA来算。EMA周期就是RSI周期。公式如下：<br>AvgUt = α <em> Ut + ( 1 – α ) </em> AvgUt-1</p>
+<p>AvgDt = α <em> Dt + ( 1 – α ) </em> AvgDt-1</p>
+<p>α = 2 / ( N + 1 )</p>
+<h4 id="Wilder’s-Smoothing-Method"><a href="#Wilder’s-Smoothing-Method" class="headerlink" title="Wilder’s Smoothing Method"></a>Wilder’s Smoothing Method</h4><p>J. Welles Wilder是RSI的发明者。这方法跟Exponential Moving Average的逻辑是一样的，只是 α 不同：</p>
+<p>α = 1 / N</p>
+<p>所以，1 – α = ( N – 1 ) / N</p>
+<p>比如，计算RSI 14的 average up move：<br>AvgUt = 1/14 <em> Ut + 13/14 </em> AvgUt-1</p>
+<h3 id="Step-3-计算Relative-Strength"><a href="#Step-3-计算Relative-Strength" class="headerlink" title="Step 3: 计算Relative Strength"></a>Step 3: 计算Relative Strength</h3><p>现在最近14天的AvgU，AvgD都有了，下一步就是要计算Relative Strength，也就是计算AvgU 和 AvgD的比</p>
+<p>RS = AvgU / AvgD</p>
+<h3 id="Step-4-计算-Relative-Strength-Index-RSI"><a href="#Step-4-计算-Relative-Strength-Index-RSI" class="headerlink" title="Step 4: 计算 Relative Strength Index (RSI)"></a>Step 4: 计算 Relative Strength Index (RSI)</h3><p>最后，我们知道Relative Strength，就可以计算RSI了。<br>Step 4: Calculating the Relative Strength Index (RSI)</p>
+<p>RSI = 100 – 100 / ( 1 + RS)</p>
+<ul>
+<li>最低的 RSI<br>什么情况下RSI的值最低呢？完全的熊市~。<br>想象下，每天的收盘价都会低于前一天的收盘价。这将没有up的天数，最近N天的所有的U会是0.<br>AvgU会是0。<br>另一方面，AvgD会是某个正数<br>Relative Strength会是0，因为是 0除以某个正数，所以是0</li>
+</ul>
+<p>RSI也是0：<br>RSI = 100 – 100 / ( 1 + 0 ) = 100 – 100 = 0</p>
+<ul>
+<li>最高RSI<br>和上面的特殊情况相反咯，就是每天都涨涨涨，超级牛市<br>AvgD 会是0, AvgU 是某个正数. RS会是某个正数除以0。但是数学上，这是非法的。所以这种特殊情况会定义RSI为100。<br>如果 AvgD不是0，是一个非常小的数。RS会接近正无穷，RSI会非常靠近0。</li>
+</ul>
+<p>RSI = 100 – 100 / ( 1 + a big number ) = 100 – 0 = 100</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>3种方法会给我们3种不同的结果。交易员看你自己的喜好而定，但是一般选用了某种方法，就统一用那种方法好了。</p>
+]]></content>
+      <categories>
+        <category>finance</category>
+      </categories>
+      <tags>
+        <tag>finance</tag>
+        <tag>RSI</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>PySpark, 利用蒙特卡洛测算圆柱体体积</title>
     <url>/2021/pyspark_monte_carlo.html</url>
     <content><![CDATA[<h2 id="蒙特卡洛算法"><a href="#蒙特卡洛算法" class="headerlink" title="蒙特卡洛算法"></a>蒙特卡洛算法</h2><p>刚开始我以为蒙特卡洛是一个人的名字，后来才发现是一个城市的名字，而且是一个赌城的名字。有趣的是还有个<br>算法叫做拉斯维加斯算法。另外，不知道有没有澳门算法。</p>
@@ -1148,56 +1195,6 @@
       </tags>
   </entry>
   <entry>
-    <title>新疆北疆自驾12日游（上）</title>
-    <url>/2018/xinjiang_trip.html</url>
-    <content><![CDATA[<h1 id="出发"><a href="#出发" class="headerlink" title="出发"></a>出发</h1><p>辞职后已经有一段时间了，每天都是在家Remote着帮香港人干活。虽然钱不多，但很自由，当时想，要不要趁现在<br>有自由时间来一场旅行吧。想来想去还是决定在国内吧，第一，国内方便，不用另外去办护照。第二，国内便宜点，<br>还是穷啊。</p>
-<p>新疆，国内是最异域风情的一片土地，对我来说一直很神秘。趁这次机会我去那边探个究竟。</p>
-<p>从罗湖火车站正式出发。即将开始我48小时的火车旅程<br><img src="/images/2018/xinjiang_trip/678583b0.png" alt=""></p>
-<p>我的床位。我将在这里睡两天两夜。我的舍友还挺好的。一个在新疆哈密上班的湖南大哥，一个区甘肃读书的年轻小伙子</p>
-<p><img src="/images/2018/xinjiang_trip/bed_in_train.png" alt=""></p>
-<p>在漫长的火车路途中，我除了玩手机电脑打发时间，就是和舍友聊天。我从来没去过中国的西北，就跟他们聊<br>西北那边的文化，主要聊得是那边吃的饮食吧。我对那里充满着憧憬。</p>
-<p>做了两个晚上的火车，到兰州站歇歇，出来活动活动。<br><img src="/images/2018/xinjiang_trip/lanzhou_station.png" alt=""></p>
-<h1 id="踏上新疆"><a href="#踏上新疆" class="headerlink" title="踏上新疆"></a>踏上新疆</h1><p>快到新疆的路上，看到路边已经没有什么绿色的植物了，都是辽阔的荒漠地带。<br><img src="/images/2018/xinjiang_trip/on_the_way.png" alt=""></p>
-<p>第一晚住的乌鲁木齐市区的酒店，还不错。两百多吧<br><img src="/images/2018/xinjiang_trip/Urumqi_hotel.png" alt=""></p>
-<p>乌鲁木齐市区。到了新疆移动网络都很差，因为这里的4G 被shutdown了。<br><img src="/images/2018/xinjiang_trip/Urumuqi_city_road.png" alt=""></p>
-<p>第一餐吃的拉面。这边一碗面的价格跟广州深圳差不多吧，十几二十块一碗。但口味远远比广东的好吃。<br><img src="/images/2018/xinjiang_trip/first_lunch.png" alt=""></p>
-<p>乌鲁木齐夜景，这边路上的人不是很多<br><img src="/images/2018/xinjiang_trip/Urumuqi_road_night.png" alt=""></p>
-<h1 id="第一天景点游"><a href="#第一天景点游" class="headerlink" title="第一天景点游"></a>第一天景点游</h1><p>在乌鲁木齐独自闲逛了一天后的第二天，我和网友在指定的地点汇合了。我是在豆瓣上加的，上面会有很多人<br>寻找驴友伙伴的。<br>我们是一共4个人，2个女的来自广西，一个男的来自北京。一起在乌鲁木齐租了一辆CRV，在新疆租车还挺贵的，<br>CRV 用了10天大概每天要4-5百加上汽油费。</p>
-<p>广西的一个妹子是女老司机，开车开得很好。超过一半时间都是她开的。另外，在新疆开车的感觉是路比较大，车<br>又不多，比较畅通。更重要的是风景很辽阔，视野很好。<br><img src="/images/2018/xinjiang_trip/driving_on_highway.png" alt=""></p>
-<h2 id="火焰山"><a href="#火焰山" class="headerlink" title="火焰山"></a>火焰山</h2><p>我们看的一个大景点是火焰山。主要就是看一些西游记人物的雕像，没啥好看的，我也没买票，就在外面观望<br>了一下。<br><img src="/images/2018/xinjiang_trip/huoyanshan.png" alt=""></p>
-<h2 id="一个城堡"><a href="#一个城堡" class="headerlink" title="一个城堡"></a>一个城堡</h2><p>然后是在吐鲁番的一个城堡里游览，忘了叫什么名。就拍个照片到此一游吧，我只是跟着来的哈<br><img src="/images/2018/xinjiang_trip/castle.png" alt=""></p>
-<p>哦，这应该是阿凡提的家</p>
-<p><img src="/images/2018/xinjiang_trip/apanti_home.png" alt=""></p>
-<h2 id="吐鲁番市"><a href="#吐鲁番市" class="headerlink" title="吐鲁番市"></a>吐鲁番市</h2><p>吐鲁番市我在游逛新疆以来，最推荐的一个城市，原因很简单，这里物美价廉！哈密瓜满地都是，吃不完直接扔了。<br>吃得东西很好吃很正宗，又很便宜。<br>住宿就更能体现了，我们住了个两房，一晚上才一百多。还有一点我挺喜欢的是这边的空气湿度非常低，我衣服晚上洗，<br>洗完不用晒，第二天早上就干了。</p>
-<p>路边一个可爱的小女孩<br><img src="/images/2018/xinjiang_trip/lovely_girl.png" alt=""></p>
-<p>BTW, before you enter any city in Xinjiang, there is a serious security check, sometimes,<br>passengers in the car have to get off the car to pass the security check.<br><img src="/images/2018/xinjiang_trip/station_check.png" alt=""></p>
-<p>wonderful landscape on dessert area<br><img src="/images/2018/xinjiang_trip/desert_area1.png" alt=""></p>
-<p><img src="/images/2018/xinjiang_trip/dessert_area2.png" alt=""></p>
-<p>骆驼，世界上最温顺的大家伙，很大很温柔<br><img src="/images/2018/xinjiang_trip/camel.png" alt=""></p>
-<p>在新疆开车你会有不一样的体验。当然，开久了也会很无聊。<br><img src="/images/2018/xinjiang_trip/driving_on_empty_road.png" alt=""></p>
-<h1 id="库车"><a href="#库车" class="headerlink" title="库车"></a>库车</h1><p>来到另外一个南部城市，库车。库车这城市我也挺喜欢的，因为和吐鲁番一样，都很物美价廉。<br><img src="/images/2018/xinjiang_trip/kuche.png" alt=""></p>
-<p>在新疆，很少能吃到青菜，很多时候只能吃肉<br><img src="/images/2018/xinjiang_trip/meat.png" alt=""></p>
-<p>那天停车在路边，本来想看看风景，突然闪电，在大自然面前，感觉到人类很渺小<br><img src="/images/2018/xinjiang_trip/wilderness.png" alt=""></p>
-<p>这里的厕所简直了，很有味道。<br><img src="/images/2018/xinjiang_trip/publi_toilet.png" alt=""></p>
-<p>在一个街边的露天市场里吃了个早餐。老板很友好很热情，旁边的大妈还给我们分享食物，虽然语言不通，<br>但能感受到他们很淳朴。说句心里话，我很向往这种生活，人与人之间没有提防，没有戒备，没有不信任感。<br>只因为这里太穷了，不像大城市里的生活那么复杂。我吃着这碗面也就几块钱，能赚个啥啊。为什么他们<br>还乐此不彼。 我觉得，富裕和淳朴是不能共存的。你富裕了必然会牺牲掉淳朴，人与人之间的关系变得<br>复杂。我喜欢淳朴，但不忍心看着他们如此贫穷，生活过得如此简陋。<br><img src="/images/2018/xinjiang_trip/street_food.png" alt=""></p>
-<p><img src="/images/2018/xinjiang_trip/street_food2.png" alt=""></p>
-<p><img src="/images/2018/xinjiang_trip/food_in_kuche.png" alt=""></p>
-<p><img src="/images/2018/xinjiang_trip/fruit_stall.png" alt=""></p>
-<p>一个峡谷的旅游景点</p>
-<p><img src="/images/2018/xinjiang_trip/daxiagu_.png" alt=""><br>库车青旅里捡的弟弟。在库车，我们把原来那北京约的驴友给踢了，因为他太不好相处，总以为自己很牛。<br>哈哈，所以我们在青旅把他给踢了，另外拉了一个小伙子，后来果然气氛就不一样了，弟弟很随和，挺好相处的。</p>
-<p>这里的水很清澈，看起来没有任何污染。<br><img src="/images/2018/xinjiang_trip/stream.png" alt=""></p>
-<p>山路上经常会被羊群堵路，我真想下车去摸摸它们。<br><img src="/images/2018/xinjiang_trip/sheep_on_road.png" alt=""></p>
-<p>九月中旬，可以看到，北疆已经下雪了<br><img src="/images/2018/xinjiang_trip/driving_on_the_way.png" alt=""></p>
-<p>接下来我们的行程也会慢慢往北走，前往北疆探索。在下一章里，我讲继续分享北疆的旅途。</p>
-]]></content>
-      <categories>
-        <category>travel</category>
-      </categories>
-      <tags>
-        <tag>travel</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Calcite介绍</title>
     <url>/2018/calcite_intro.html</url>
     <content><![CDATA[<h1 id="什么是Apache-Calcite"><a href="#什么是Apache-Calcite" class="headerlink" title="什么是Apache Calcite ?"></a>什么是Apache Calcite ?</h1><p>Apache Calcite 是一款开源SQL解析工具, 可以将各种SQL语句解析成抽象语法术AST(Abstract Syntax Tree),<br>之后通过操作AST就可以把SQL中所要表达的算法与关系体现在具体代码之中。</p>
@@ -1262,6 +1259,56 @@
       </categories>
       <tags>
         <tag>Calcite</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>新疆北疆自驾12日游（上）</title>
+    <url>/2018/xinjiang_trip.html</url>
+    <content><![CDATA[<h1 id="出发"><a href="#出发" class="headerlink" title="出发"></a>出发</h1><p>辞职后已经有一段时间了，每天都是在家Remote着帮香港人干活。虽然钱不多，但很自由，当时想，要不要趁现在<br>有自由时间来一场旅行吧。想来想去还是决定在国内吧，第一，国内方便，不用另外去办护照。第二，国内便宜点，<br>还是穷啊。</p>
+<p>新疆，国内是最异域风情的一片土地，对我来说一直很神秘。趁这次机会我去那边探个究竟。</p>
+<p>从罗湖火车站正式出发。即将开始我48小时的火车旅程<br><img src="/images/2018/xinjiang_trip/678583b0.png" alt=""></p>
+<p>我的床位。我将在这里睡两天两夜。我的舍友还挺好的。一个在新疆哈密上班的湖南大哥，一个区甘肃读书的年轻小伙子</p>
+<p><img src="/images/2018/xinjiang_trip/bed_in_train.png" alt=""></p>
+<p>在漫长的火车路途中，我除了玩手机电脑打发时间，就是和舍友聊天。我从来没去过中国的西北，就跟他们聊<br>西北那边的文化，主要聊得是那边吃的饮食吧。我对那里充满着憧憬。</p>
+<p>做了两个晚上的火车，到兰州站歇歇，出来活动活动。<br><img src="/images/2018/xinjiang_trip/lanzhou_station.png" alt=""></p>
+<h1 id="踏上新疆"><a href="#踏上新疆" class="headerlink" title="踏上新疆"></a>踏上新疆</h1><p>快到新疆的路上，看到路边已经没有什么绿色的植物了，都是辽阔的荒漠地带。<br><img src="/images/2018/xinjiang_trip/on_the_way.png" alt=""></p>
+<p>第一晚住的乌鲁木齐市区的酒店，还不错。两百多吧<br><img src="/images/2018/xinjiang_trip/Urumqi_hotel.png" alt=""></p>
+<p>乌鲁木齐市区。到了新疆移动网络都很差，因为这里的4G 被shutdown了。<br><img src="/images/2018/xinjiang_trip/Urumuqi_city_road.png" alt=""></p>
+<p>第一餐吃的拉面。这边一碗面的价格跟广州深圳差不多吧，十几二十块一碗。但口味远远比广东的好吃。<br><img src="/images/2018/xinjiang_trip/first_lunch.png" alt=""></p>
+<p>乌鲁木齐夜景，这边路上的人不是很多<br><img src="/images/2018/xinjiang_trip/Urumuqi_road_night.png" alt=""></p>
+<h1 id="第一天景点游"><a href="#第一天景点游" class="headerlink" title="第一天景点游"></a>第一天景点游</h1><p>在乌鲁木齐独自闲逛了一天后的第二天，我和网友在指定的地点汇合了。我是在豆瓣上加的，上面会有很多人<br>寻找驴友伙伴的。<br>我们是一共4个人，2个女的来自广西，一个男的来自北京。一起在乌鲁木齐租了一辆CRV，在新疆租车还挺贵的，<br>CRV 用了10天大概每天要4-5百加上汽油费。</p>
+<p>广西的一个妹子是女老司机，开车开得很好。超过一半时间都是她开的。另外，在新疆开车的感觉是路比较大，车<br>又不多，比较畅通。更重要的是风景很辽阔，视野很好。<br><img src="/images/2018/xinjiang_trip/driving_on_highway.png" alt=""></p>
+<h2 id="火焰山"><a href="#火焰山" class="headerlink" title="火焰山"></a>火焰山</h2><p>我们看的一个大景点是火焰山。主要就是看一些西游记人物的雕像，没啥好看的，我也没买票，就在外面观望<br>了一下。<br><img src="/images/2018/xinjiang_trip/huoyanshan.png" alt=""></p>
+<h2 id="一个城堡"><a href="#一个城堡" class="headerlink" title="一个城堡"></a>一个城堡</h2><p>然后是在吐鲁番的一个城堡里游览，忘了叫什么名。就拍个照片到此一游吧，我只是跟着来的哈<br><img src="/images/2018/xinjiang_trip/castle.png" alt=""></p>
+<p>哦，这应该是阿凡提的家</p>
+<p><img src="/images/2018/xinjiang_trip/apanti_home.png" alt=""></p>
+<h2 id="吐鲁番市"><a href="#吐鲁番市" class="headerlink" title="吐鲁番市"></a>吐鲁番市</h2><p>吐鲁番市我在游逛新疆以来，最推荐的一个城市，原因很简单，这里物美价廉！哈密瓜满地都是，吃不完直接扔了。<br>吃得东西很好吃很正宗，又很便宜。<br>住宿就更能体现了，我们住了个两房，一晚上才一百多。还有一点我挺喜欢的是这边的空气湿度非常低，我衣服晚上洗，<br>洗完不用晒，第二天早上就干了。</p>
+<p>路边一个可爱的小女孩<br><img src="/images/2018/xinjiang_trip/lovely_girl.png" alt=""></p>
+<p>BTW, before you enter any city in Xinjiang, there is a serious security check, sometimes,<br>passengers in the car have to get off the car to pass the security check.<br><img src="/images/2018/xinjiang_trip/station_check.png" alt=""></p>
+<p>wonderful landscape on dessert area<br><img src="/images/2018/xinjiang_trip/desert_area1.png" alt=""></p>
+<p><img src="/images/2018/xinjiang_trip/dessert_area2.png" alt=""></p>
+<p>骆驼，世界上最温顺的大家伙，很大很温柔<br><img src="/images/2018/xinjiang_trip/camel.png" alt=""></p>
+<p>在新疆开车你会有不一样的体验。当然，开久了也会很无聊。<br><img src="/images/2018/xinjiang_trip/driving_on_empty_road.png" alt=""></p>
+<h1 id="库车"><a href="#库车" class="headerlink" title="库车"></a>库车</h1><p>来到另外一个南部城市，库车。库车这城市我也挺喜欢的，因为和吐鲁番一样，都很物美价廉。<br><img src="/images/2018/xinjiang_trip/kuche.png" alt=""></p>
+<p>在新疆，很少能吃到青菜，很多时候只能吃肉<br><img src="/images/2018/xinjiang_trip/meat.png" alt=""></p>
+<p>那天停车在路边，本来想看看风景，突然闪电，在大自然面前，感觉到人类很渺小<br><img src="/images/2018/xinjiang_trip/wilderness.png" alt=""></p>
+<p>这里的厕所简直了，很有味道。<br><img src="/images/2018/xinjiang_trip/publi_toilet.png" alt=""></p>
+<p>在一个街边的露天市场里吃了个早餐。老板很友好很热情，旁边的大妈还给我们分享食物，虽然语言不通，<br>但能感受到他们很淳朴。说句心里话，我很向往这种生活，人与人之间没有提防，没有戒备，没有不信任感。<br>只因为这里太穷了，不像大城市里的生活那么复杂。我吃着这碗面也就几块钱，能赚个啥啊。为什么他们<br>还乐此不彼。 我觉得，富裕和淳朴是不能共存的。你富裕了必然会牺牲掉淳朴，人与人之间的关系变得<br>复杂。我喜欢淳朴，但不忍心看着他们如此贫穷，生活过得如此简陋。<br><img src="/images/2018/xinjiang_trip/street_food.png" alt=""></p>
+<p><img src="/images/2018/xinjiang_trip/street_food2.png" alt=""></p>
+<p><img src="/images/2018/xinjiang_trip/food_in_kuche.png" alt=""></p>
+<p><img src="/images/2018/xinjiang_trip/fruit_stall.png" alt=""></p>
+<p>一个峡谷的旅游景点</p>
+<p><img src="/images/2018/xinjiang_trip/daxiagu_.png" alt=""><br>库车青旅里捡的弟弟。在库车，我们把原来那北京约的驴友给踢了，因为他太不好相处，总以为自己很牛。<br>哈哈，所以我们在青旅把他给踢了，另外拉了一个小伙子，后来果然气氛就不一样了，弟弟很随和，挺好相处的。</p>
+<p>这里的水很清澈，看起来没有任何污染。<br><img src="/images/2018/xinjiang_trip/stream.png" alt=""></p>
+<p>山路上经常会被羊群堵路，我真想下车去摸摸它们。<br><img src="/images/2018/xinjiang_trip/sheep_on_road.png" alt=""></p>
+<p>九月中旬，可以看到，北疆已经下雪了<br><img src="/images/2018/xinjiang_trip/driving_on_the_way.png" alt=""></p>
+<p>接下来我们的行程也会慢慢往北走，前往北疆探索。在下一章里，我讲继续分享北疆的旅途。</p>
+]]></content>
+      <categories>
+        <category>travel</category>
+      </categories>
+      <tags>
+        <tag>travel</tag>
       </tags>
   </entry>
   <entry>
@@ -1415,28 +1462,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Git rebase的一些运用场景</title>
-    <url>/2018/git_rebase.html</url>
-    <content><![CDATA[<h2 id="Git-rebase的使用场景"><a href="#Git-rebase的使用场景" class="headerlink" title="Git rebase的使用场景"></a>Git rebase的使用场景</h2><p>最近在为github开源项目修修bug。提了几个Pull Request。又巩固了下git的知识，熟练了git的使用。</p>
-<p>我在提交PR后，发现有个地方改错了。那怎么改呢，其实很简单，只需要再次push 到自己fork的repo就可以了。</p>
-<p>PR的branch是和自己fork的repo的branch联动的。</p>
-<p>但是，这又有个问题，我再次commit后，就会有两个commit。这两个commit其实解决的都是同一个问题。<br>在正式的repo中尽量要精简commit，同一个问题的多个commit需要squash为一个commit。</p>
-<p>于是，我就得用git rebase 来帮我完成了。</p>
-<h3 id="精简commit"><a href="#精简commit" class="headerlink" title="精简commit"></a>精简commit</h3><p>通过这个命令，可以重新修改最近的两个commit<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">git rebase -i HEAD~2</div></pre></td></tr></table></figure></p>
-<p>执行命令后会弹出一个vim编辑:<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">pick 01d1124 Message....</div><div class="line">pick 6340aaa Message....</div></pre></td></tr></table></figure></p>
-<p>然后，将要squash的commit的那行最前面的<code>pick</code> 改为 <code>squash</code><br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">p 01d1124 Message....</div><div class="line">s 6340aaa Message....</div></pre></td></tr></table></figure></p>
-<h3 id="删掉commit"><a href="#删掉commit" class="headerlink" title="删掉commit"></a>删掉commit</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">git rebase -i HEAD~n</div><div class="line"></div><div class="line"># 在vim中直接把不要commit那行删掉即可</div></pre></td></tr></table></figure>
-<h3 id="改commit名字"><a href="#改commit名字" class="headerlink" title="改commit名字"></a>改commit名字</h3><p>大项目的commit的名字都有比较严格的要求，有些时候，我们要改下自己不规范的命名的话。<br>可以也可以用 git rebase.</p>
-<p>很简单，同样先用git rebase -i HEAD~n<br>在需要改的commit的最前面把 <code>pick</code> 改为<code>reword</code><br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">pick 01d1124 Message....</div><div class="line">reword 6340aaa Message....</div></pre></td></tr></table></figure></p>
-]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hive 优化</title>
     <url>/2018/hive_optimization.html</url>
     <content><![CDATA[<p>对于如果join中有小表的话，可以开启map</p>
@@ -1461,6 +1486,28 @@
       </categories>
       <tags>
         <tag>hive</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Git rebase的一些运用场景</title>
+    <url>/2018/git_rebase.html</url>
+    <content><![CDATA[<h2 id="Git-rebase的使用场景"><a href="#Git-rebase的使用场景" class="headerlink" title="Git rebase的使用场景"></a>Git rebase的使用场景</h2><p>最近在为github开源项目修修bug。提了几个Pull Request。又巩固了下git的知识，熟练了git的使用。</p>
+<p>我在提交PR后，发现有个地方改错了。那怎么改呢，其实很简单，只需要再次push 到自己fork的repo就可以了。</p>
+<p>PR的branch是和自己fork的repo的branch联动的。</p>
+<p>但是，这又有个问题，我再次commit后，就会有两个commit。这两个commit其实解决的都是同一个问题。<br>在正式的repo中尽量要精简commit，同一个问题的多个commit需要squash为一个commit。</p>
+<p>于是，我就得用git rebase 来帮我完成了。</p>
+<h3 id="精简commit"><a href="#精简commit" class="headerlink" title="精简commit"></a>精简commit</h3><p>通过这个命令，可以重新修改最近的两个commit<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">git rebase -i HEAD~2</div></pre></td></tr></table></figure></p>
+<p>执行命令后会弹出一个vim编辑:<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">pick 01d1124 Message....</div><div class="line">pick 6340aaa Message....</div></pre></td></tr></table></figure></p>
+<p>然后，将要squash的commit的那行最前面的<code>pick</code> 改为 <code>squash</code><br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">p 01d1124 Message....</div><div class="line">s 6340aaa Message....</div></pre></td></tr></table></figure></p>
+<h3 id="删掉commit"><a href="#删掉commit" class="headerlink" title="删掉commit"></a>删掉commit</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">git rebase -i HEAD~n</div><div class="line"></div><div class="line"># 在vim中直接把不要commit那行删掉即可</div></pre></td></tr></table></figure>
+<h3 id="改commit名字"><a href="#改commit名字" class="headerlink" title="改commit名字"></a>改commit名字</h3><p>大项目的commit的名字都有比较严格的要求，有些时候，我们要改下自己不规范的命名的话。<br>可以也可以用 git rebase.</p>
+<p>很简单，同样先用git rebase -i HEAD~n<br>在需要改的commit的最前面把 <code>pick</code> 改为<code>reword</code><br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">pick 01d1124 Message....</div><div class="line">reword 6340aaa Message....</div></pre></td></tr></table></figure></p>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -2767,6 +2814,34 @@ print Person.name  # [1]
       </tags>
   </entry>
   <entry>
+    <title>Spark Streaming Dstream ForeachRDD的理解</title>
+    <url>/2016/spark_foreachRDD.html</url>
+    <content><![CDATA[<h1 id="通俗理解Spark-Streaming-Dstream-的ForeachRDD"><a href="#通俗理解Spark-Streaming-Dstream-的ForeachRDD" class="headerlink" title="通俗理解Spark Streaming Dstream 的ForeachRDD"></a>通俗理解Spark Streaming Dstream 的ForeachRDD</h1><p>在SparkStreaming中，数据中的每个batch都是只有一个RDD，为什么我们还要用ForeachRDD 在每一个RDD呢？ 不是只有一个RDD吗？</p>
+<p>Dstream也就是离散stream，就是把连续的数据分成一小团一小团。我们用专业术语“microbatching”来描述。每个microbatch 变成一个RDD以便Spark的后续处理。在每一个batch interval中，每个DStream有且仅有一个RDD。</p>
+<p><img src="/images/2016/spark_foreachRDD/spark-streaming.png" alt="Sample Image Added via Markdown"></p>
+<p>然而RDD是什么呢，RDD是一个分布式数据集合。你可以认为它是一个告诉你实际数据在集群中具体什么地方的指南者（pointer）。</p>
+<a id="more"></a>
+<p>Dstream.foreachRDD在SparkStreaming中是一个“output operator”，它让你直接基于Dstream的RDDs去处理数据。比如说，用foreachRDD方法将数据写入数据库</p>
+<p>这里有个容易疑惑的地方，DStream是和时间有关的集合。我们来对比一下传统的集合。我们用一群客户（users）来举个例子：</p>
+<!-- scala -->
+<pre><code>val userDStream：DStream[User]=???
+userDStream.foreachRDD{usersRDD =&gt;
+    usersRDD.foreach{user =&gt; serveCoffee(user)}
+}
+</code></pre><p>注意：</p>
+<ul>
+<li>DStream.foreachRDD返回给你的是RDD[user],不是单单一个user。回到上面咖啡的这个例子，这个客户集合 是指某个时间区间(比如下午一点到两点)的集合</li>
+<li>为了处理单个集合的元素，需要进一步操作(operate) RDD。在这个案例中，我们用RDD.foreach来对每个客户serve coffee</li>
+</ul>
+]]></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>spark</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Spark简易入门</title>
     <url>/2016/spark_guide.html</url>
     <content><![CDATA[<h1 id="Spark简易入门"><a href="#Spark简易入门" class="headerlink" title="Spark简易入门"></a>Spark简易入门</h1><p>Spark，搞大数据的人都应该用过吧。spark作为主流的大数据处理框架，到底为什么这么多人用呢？我们少扯淡，直接动手写大数据界的HelloWorld：WordCount。</p>
@@ -2822,34 +2897,6 @@ object WordCount
 <p><code>spark-submit --class &quot;demo.WordCount&quot; SparkDemo-1.0-SNAPSHOT.jar</code><br></p>
 <p>其中demo.WordCount是main函数所在的ojbect，而SparkDemo-1.0-SNAPSHOT.jar就是打出来的jar包。</p>
 <p>Spark 最简单的流程，就这样Finish了。</p>
-]]></content>
-      <categories>
-        <category>大数据</category>
-      </categories>
-      <tags>
-        <tag>spark</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Spark Streaming Dstream ForeachRDD的理解</title>
-    <url>/2016/spark_foreachRDD.html</url>
-    <content><![CDATA[<h1 id="通俗理解Spark-Streaming-Dstream-的ForeachRDD"><a href="#通俗理解Spark-Streaming-Dstream-的ForeachRDD" class="headerlink" title="通俗理解Spark Streaming Dstream 的ForeachRDD"></a>通俗理解Spark Streaming Dstream 的ForeachRDD</h1><p>在SparkStreaming中，数据中的每个batch都是只有一个RDD，为什么我们还要用ForeachRDD 在每一个RDD呢？ 不是只有一个RDD吗？</p>
-<p>Dstream也就是离散stream，就是把连续的数据分成一小团一小团。我们用专业术语“microbatching”来描述。每个microbatch 变成一个RDD以便Spark的后续处理。在每一个batch interval中，每个DStream有且仅有一个RDD。</p>
-<p><img src="/images/2016/spark_foreachRDD/spark-streaming.png" alt="Sample Image Added via Markdown"></p>
-<p>然而RDD是什么呢，RDD是一个分布式数据集合。你可以认为它是一个告诉你实际数据在集群中具体什么地方的指南者（pointer）。</p>
-<a id="more"></a>
-<p>Dstream.foreachRDD在SparkStreaming中是一个“output operator”，它让你直接基于Dstream的RDDs去处理数据。比如说，用foreachRDD方法将数据写入数据库</p>
-<p>这里有个容易疑惑的地方，DStream是和时间有关的集合。我们来对比一下传统的集合。我们用一群客户（users）来举个例子：</p>
-<!-- scala -->
-<pre><code>val userDStream：DStream[User]=???
-userDStream.foreachRDD{usersRDD =&gt;
-    usersRDD.foreach{user =&gt; serveCoffee(user)}
-}
-</code></pre><p>注意：</p>
-<ul>
-<li>DStream.foreachRDD返回给你的是RDD[user],不是单单一个user。回到上面咖啡的这个例子，这个客户集合 是指某个时间区间(比如下午一点到两点)的集合</li>
-<li>为了处理单个集合的元素，需要进一步操作(operate) RDD。在这个案例中，我们用RDD.foreach来对每个客户serve coffee</li>
-</ul>
 ]]></content>
       <categories>
         <category>大数据</category>
