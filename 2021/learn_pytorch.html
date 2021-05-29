@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/cat_favicon_32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/cat_favicon_16.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="pytorch" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言早在2017年的时候就想学深度学习框架TensorFlow。那时候TensorFlow火得不了，经常看公司的博士老哥用TensorFlow做着各种高大上的项目，操着最高端的显卡，做着最炫酷的事情。对神经网络一窍不通的我，只能在旁边站着围观着。那时候我心里想自己一定得抽个时间学学TensorFlow这玩意，虽然当时做的事情用不上算法，更用不上神经网络、深度学习，但这技术太火了，还是想学下，技多不">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初学Pytorch">
+<meta property="og:url" content="http://mikolaje.github.io/2021/learn_pytorch.html">
+<meta property="og:site_name" content="Dennis' Blog">
+<meta property="og:description" content="前言早在2017年的时候就想学深度学习框架TensorFlow。那时候TensorFlow火得不了，经常看公司的博士老哥用TensorFlow做着各种高大上的项目，操着最高端的显卡，做着最炫酷的事情。对神经网络一窍不通的我，只能在旁边站着围观着。那时候我心里想自己一定得抽个时间学学TensorFlow这玩意，虽然当时做的事情用不上算法，更用不上神经网络、深度学习，但这技术太火了，还是想学下，技多不">
+<meta property="og:updated_time" content="2021-05-29T12:34:13.791Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="初学Pytorch">
+<meta name="twitter:description" content="前言早在2017年的时候就想学深度学习框架TensorFlow。那时候TensorFlow火得不了，经常看公司的博士老哥用TensorFlow做着各种高大上的项目，操着最高端的显卡，做着最炫酷的事情。对神经网络一窍不通的我，只能在旁边站着围观着。那时候我心里想自己一定得抽个时间学学TensorFlow这玩意，虽然当时做的事情用不上算法，更用不上神经网络、深度学习，但这技术太火了，还是想学下，技多不">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://mikolaje.github.io/2021/learn_pytorch.html"/>
+
+
+
+
+
+  <title>初学Pytorch | Dennis' Blog</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-146421461-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Dennis' Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">欢迎各位领导前来指导工作</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- side -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9293695697921628"
+     data-ad-slot="4837815018"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> 
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2021/learn_pytorch.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dennis">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dennis' Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">初学Pytorch</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-03-27T12:07:10+00:00">
+                2021-03-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/pytorch/" itemprop="url" rel="index">
+                    <span itemprop="name">pytorch</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/learn_pytorch.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2021/learn_pytorch.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>早在2017年的时候就想学深度学习框架TensorFlow。那时候TensorFlow火得不了，经常看公司的博士老哥用TensorFlow做着各种高大上的<br>项目，操着最高端的显卡，做着最炫酷的事情。对神经网络一窍不通的我，只能在旁边站着围观着。那时候我心里想自己一定得抽个时间学学<br>TensorFlow这玩意，虽然当时做的事情用不上算法，更用不上神经网络、深度学习，但这技术太火了，还是想学下，技多不压身麻。</p>
+<p>但是，由于自己对机器学习这玩意不是很感冒（实际是数学功底太差了），学了一段时间机器学习那些东西，比如打打kaggle等等。但自己的数学<br>还是太差了，连那种所谓的入门西瓜书的公式都看不懂。玩不下去，学着也得不到啥正反馈，后面还是放弃了。</p>
+<p>2021年了，今年偶尔上了一个机器学习的网课，才又把当年的那些东西捡起来。这课程要求使用深度学习框架做项目，要么选TensorFlow，要么选<br>Pytorch。我不知道选哪个，在知乎上搜了下，得出的结论是：Pytorch最近的发展势头要比TensorFlow强劲。<br>工业界目前TensorFlow占主流，不过，未来可能会被Pytorch超越。在学术界上，Pytorch<br>领先TensorFlow的。另外，Pytorch对Python比较友好。所以，有了今天这篇文章。我选择了Pytorch。</p>
+<h2 id="Pytorch基础"><a href="#Pytorch基础" class="headerlink" title="Pytorch基础"></a>Pytorch基础</h2><h3 id="Pytorch-Tensor-vs-Numpy-Array"><a href="#Pytorch-Tensor-vs-Numpy-Array" class="headerlink" title="Pytorch Tensor vs Numpy Array"></a>Pytorch Tensor vs Numpy Array</h3><ul>
+<li>在Pytorch中，matrix(array)叫做tensors<br>3<em>3 矩阵，就是一个3</em>3tensor<br>其实这和numpy差不多的：</li>
+</ul>
+<p>运行下一下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"># import numpy library</div><div class="line">import numpy as np</div><div class="line"></div><div class="line"># numpy array</div><div class="line">array = [[1,2,3],[4,5,6]]</div><div class="line">first_array = np.array(array) # 2x3 array</div><div class="line">print(&quot;Array Type: &#123;&#125;&quot;.format(type(first_array))) # type</div><div class="line">print(&quot;Array Shape: &#123;&#125;&quot;.format(np.shape(first_array))) # shape</div><div class="line">print(first_array)</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"># import pytorch library</div><div class="line">import torch</div><div class="line"></div><div class="line"># pytorch array</div><div class="line">tensor = torch.Tensor(array)</div><div class="line">print(&quot;Array Type: &#123;&#125;&quot;.format(tensor.type)) # type</div><div class="line">print(&quot;Array Shape: &#123;&#125;&quot;.format(tensor.shape)) # shape</div><div class="line">print(tensor)</div></pre></td></tr></table></figure>
+<ul>
+<li>有些方法numpy 和 pytorch的效果是一样的：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">np.ones() = torch.ones()</div><div class="line">np.random.rand() = torch.rand()</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"># numpy ones</div><div class="line">print(&quot;Numpy &#123;&#125;\n&quot;.format(np.ones((2,3))))</div><div class="line"></div><div class="line"># pytorch ones</div><div class="line">print(torch.ones((2,3)))</div></pre></td></tr></table></figure>
+<p>对于矩阵的构造和操作，感觉用numpy的话可能会更好些。所以，通常会将神经网络的tensor结果转换为numpy array来查看和显示。<br>可以用如下方法相互转换：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">torch.from_numpy(): from numpy to tensor</div><div class="line">numpy(): from tensor to numpy</div></pre></td></tr></table></figure></p>
+<h3 id="下面是一些数学操作"><a href="#下面是一些数学操作" class="headerlink" title="下面是一些数学操作"></a>下面是一些数学操作</h3><p>tensor的加减乘除法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"># create tensor </div><div class="line">tensor = torch.ones(3,3)</div><div class="line">print(&quot;\n&quot;,tensor)</div><div class="line"></div><div class="line"># Resize</div><div class="line">print(&quot;&#123;&#125;&#123;&#125;\n&quot;.format(tensor.view(9).shape,tensor.view(9)))</div><div class="line"></div><div class="line"># Addition</div><div class="line">print(&quot;Addition: &#123;&#125;\n&quot;.format(torch.add(tensor,tensor)))</div><div class="line"></div><div class="line"># Subtraction</div><div class="line">print(&quot;Subtraction: &#123;&#125;\n&quot;.format(tensor.sub(tensor)))</div><div class="line"></div><div class="line"># Element wise multiplication</div><div class="line">print(&quot;Element wise multiplication: &#123;&#125;\n&quot;.format(torch.mul(tensor,tensor)))</div><div class="line"></div><div class="line"># Element wise division</div><div class="line">print(&quot;Element wise division: &#123;&#125;\n&quot;.format(torch.div(tensor,tensor)))</div><div class="line"></div><div class="line"># Mean</div><div class="line">tensor = torch.Tensor([1,2,3,4,5])</div><div class="line">print(&quot;Mean: &#123;&#125;&quot;.format(tensor.mean()))</div><div class="line"></div><div class="line"># Standart deviation (std)</div><div class="line">print(&quot;std: &#123;&#125;&quot;.format(tensor.std()))</div></pre></td></tr></table></figure></p>
+<h3 id="Variables"><a href="#Variables" class="headerlink" title="Variables"></a>Variables</h3><ul>
+<li>Variables 加速 gradient</li>
+<li>在神经网络gradient计算时，我们可以用backpropagation, 所以我们需要处理gradients</li>
+<li>variables 和 tensor的区别是 variable累积 gradients</li>
+<li>我们可以同样用variable做加减乘除运算</li>
+<li>为了做backward propagation我们需要 variables</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"># import variable from pytorch library</div><div class="line">from torch.autograd import Variable</div><div class="line"></div><div class="line"># define variable</div><div class="line">var = Variable(torch.ones(3), requires_grad = True)</div><div class="line">var</div><div class="line">tensor([1., 1., 1.], requires_grad=True)</div></pre></td></tr></table></figure>
+<p>假设我们有等式 y = x^2<br>定义 x = [2,4] variable<br>计算后我们得到 y = [4,16] (y = x^2)<br>概括 o 的等式： o = (1/2)sum(y) = (1/2)sum(x^2)<br>o 的导数是 x<br>结果等于 x, 所以gradients是[2,4]</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"># lets make basic backward propagation</div><div class="line"># we have an equation that is y = x^2</div><div class="line">array = [2,4]</div><div class="line">tensor = torch.Tensor(array)</div><div class="line">x = Variable(tensor, requires_grad = True)</div><div class="line">y = x**2</div><div class="line">print(&quot; y =  &quot;,y)</div><div class="line"></div><div class="line"># recap o equation o = 1/2*sum(y)</div><div class="line">o = (1/2)*sum(y)</div><div class="line">print(&quot; o =  &quot;,o)</div><div class="line"></div><div class="line"># backward</div><div class="line">o.backward() # calculates gradients</div><div class="line"></div><div class="line"># As I defined, variables accumulates gradients. In this part there is only one variable x.</div><div class="line"># Therefore variable x should be have gradients</div><div class="line"># Lets look at gradients with x.grad</div><div class="line">print(&quot;gradients: &quot;,x.grad)</div></pre></td></tr></table></figure>
+<h3 id="Logistic-Regression"><a href="#Logistic-Regression" class="headerlink" title="Logistic Regression"></a>Logistic Regression</h3><p>我们看一个数字识别的案例。</p>
+<ul>
+<li>步骤如下：</li>
+</ul>
+<ol>
+<li>导入Library</li>
+<li>准备数据集</li>
+</ol>
+<ul>
+<li>用MNIST dataset.</li>
+<li>28*28 images， 10 labels 从 0 到 9</li>
+<li>数据没有正则化，所以我们要将每个数据除以255. 255是图片的基本正则数值。</li>
+<li>为了split数据，我们用sklearn的 train_test_split</li>
+<li>80% train data; 20% test data</li>
+<li>建立feature和目标tensors. 在下部分，我们通过这些tensors创建variable。另外，我们需要为gradients累积定义variable。</li>
+<li>batch_size意味着比如：我们有1000sample数据，我们可以同时训练1000个 sample，或者，可以把它分成10个group，每个group 100个sample，按顺序训练10个group。batch_size就是group size。</li>
+<li>epoch: 一个epoch意味着一次训练所有的samples</li>
+<li>实验中，我们有33600 个sample去训练，batch_size定为100. 我们决定epoch设为29（accuracy到29epoch时候已经很高了）。数据被训练29次。问题是需要多少次迭代呢？<br>训练一次 = 训练33600个sample<br>但是我们split数据336个group（group_size=batch_size=100)，所以1epoch需要336次迭代。我们有29个epoch，所以一共要迭代9744次。</li>
+<li>TensorDataset(): 包装tensors的数据集</li>
+<li>DataLoader(): 包含dataset和sample</li>
+<li>Visualize one of the images in dataset</li>
+</ul>
+<ol>
+<li><p>创建 Logistic Regression模型</p>
+</li>
+<li><p>实例模型</p>
+</li>
+</ol>
+<ul>
+<li>input_dim = 28 * 28 # size of image pxpx</li>
+<li>output_dim = 10 # labels 0,1,2,3,4,5,6,7,8,9</li>
+<li>create model</li>
+</ul>
+<ol>
+<li>实例 Loss</li>
+</ol>
+<ul>
+<li>Cross entropy loss</li>
+</ul>
+<ol>
+<li>实例 Optimizer</li>
+</ol>
+<ul>
+<li>SGD Optimizer</li>
+</ul>
+<ol>
+<li>Traning the Model</li>
+<li>Prediction</li>
+</ol>
+<p>代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"># Prepare Dataset</div><div class="line"># load data</div><div class="line">train = pd.read_csv(r&quot;../input/train.csv&quot;,dtype = np.float32)</div><div class="line"></div><div class="line"># split data into features(pixels) and labels(numbers from 0 to 9)</div><div class="line">targets_numpy = train.label.values</div><div class="line">features_numpy = train.loc[:,train.columns != &quot;label&quot;].values/255 # normalization</div><div class="line"></div><div class="line"># train test split. Size of train data is 80% and size of test data is 20%. </div><div class="line">features_train, features_test, targets_train, targets_test = train_test_split(features_numpy,</div><div class="line">                                                                             targets_numpy,</div><div class="line">                                                                             test_size = 0.2,</div><div class="line">                                                                             random_state = 42) </div><div class="line"></div><div class="line"># create feature and targets tensor for train set. As you remember we need variable to accumulate gradients. Therefore first we create tensor, then we will create variable</div><div class="line">featuresTrain = torch.from_numpy(features_train)</div><div class="line">targetsTrain = torch.from_numpy(targets_train).type(torch.LongTensor) # data type is long</div><div class="line"></div><div class="line"># create feature and targets tensor for test set.</div><div class="line">featuresTest = torch.from_numpy(features_test)</div><div class="line">targetsTest = torch.from_numpy(targets_test).type(torch.LongTensor) # data type is long</div><div class="line"></div><div class="line"># batch_size, epoch and iteration</div><div class="line">batch_size = 100</div><div class="line">n_iters = 10000</div><div class="line">num_epochs = n_iters / (len(features_train) / batch_size)</div><div class="line">num_epochs = int(num_epochs)</div><div class="line"></div><div class="line"># Pytorch train and test sets</div><div class="line">train = torch.utils.data.TensorDataset(featuresTrain,targetsTrain)</div><div class="line">test = torch.utils.data.TensorDataset(featuresTest,targetsTest)</div><div class="line"></div><div class="line"># data loader</div><div class="line">train_loader = DataLoader(train, batch_size = batch_size, shuffle = False)</div><div class="line">test_loader = DataLoader(test, batch_size = batch_size, shuffle = False)</div><div class="line"></div><div class="line"># visualize one of the images in data set</div><div class="line">plt.imshow(features_numpy[10].reshape(28,28))</div><div class="line">plt.axis(&quot;off&quot;)</div><div class="line">plt.title(str(targets_numpy[10]))</div><div class="line">plt.savefig(&apos;graph.png&apos;)</div><div class="line">plt.show()</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"># Create Logistic Regression Model</div><div class="line">class LogisticRegressionModel(nn.Module):</div><div class="line">    def __init__(self, input_dim, output_dim):</div><div class="line">        super(LogisticRegressionModel, self).__init__()</div><div class="line">        # Linear part</div><div class="line">        self.linear = nn.Linear(input_dim, output_dim)</div><div class="line">        # There should be logistic function right?</div><div class="line">        # However logistic function in pytorch is in loss function</div><div class="line">        # So actually we do not forget to put it, it is only at next parts</div><div class="line">    </div><div class="line">    def forward(self, x):</div><div class="line">        out = self.linear(x)</div><div class="line">        return out</div><div class="line"></div><div class="line"># Instantiate Model Class</div><div class="line">input_dim = 28*28 # size of image px*px</div><div class="line">output_dim = 10  # labels 0,1,2,3,4,5,6,7,8,9</div><div class="line"></div><div class="line"># create logistic regression model</div><div class="line">model = LogisticRegressionModel(input_dim, output_dim)</div><div class="line"></div><div class="line"># Cross Entropy Loss  </div><div class="line">error = nn.CrossEntropyLoss()</div><div class="line"></div><div class="line"># SGD Optimizer </div><div class="line">learning_rate = 0.001</div><div class="line">optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)</div></pre></td></tr></table></figure>
+<ul>
+<li>Training part<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line"># Traning the Model</div><div class="line">count = 0</div><div class="line">loss_list = []</div><div class="line">iteration_list = []</div><div class="line">for epoch in range(num_epochs):</div><div class="line">    for i, (images, labels) in enumerate(train_loader):</div><div class="line">        </div><div class="line">        # Define variables</div><div class="line">        train = Variable(images.view(-1, 28*28))</div><div class="line">        labels = Variable(labels)</div><div class="line">        </div><div class="line">        # Clear gradients</div><div class="line">        optimizer.zero_grad()</div><div class="line">        </div><div class="line">        # Forward propagation</div><div class="line">        outputs = model(train)</div><div class="line">        </div><div class="line">        # Calculate softmax and cross entropy loss</div><div class="line">        loss = error(outputs, labels)</div><div class="line">        </div><div class="line">        # Calculate gradients</div><div class="line">        loss.backward()</div><div class="line">        </div><div class="line">        # Update parameters</div><div class="line">        optimizer.step()</div><div class="line">        </div><div class="line">        count += 1</div><div class="line">        </div><div class="line">        # Prediction</div><div class="line">        if count % 50 == 0:</div><div class="line">            # Calculate Accuracy         </div><div class="line">            correct = 0</div><div class="line">            total = 0</div><div class="line">            # Predict test dataset</div><div class="line">            for images, labels in test_loader: </div><div class="line">                test = Variable(images.view(-1, 28*28))</div><div class="line">                </div><div class="line">                # Forward propagation</div><div class="line">                outputs = model(test)</div><div class="line">                </div><div class="line">                # Get predictions from the maximum value</div><div class="line">                predicted = torch.max(outputs.data, 1)[1]</div><div class="line">                </div><div class="line">                # Total number of labels</div><div class="line">                total += len(labels)</div><div class="line">                </div><div class="line">                # Total correct predictions</div><div class="line">                correct += (predicted == labels).sum()</div><div class="line">            </div><div class="line">            accuracy = 100 * correct / float(total)</div><div class="line">            </div><div class="line">            # store loss and iteration</div><div class="line">            loss_list.append(loss.data)</div><div class="line">            iteration_list.append(count)</div><div class="line">        if count % 100 == 0:</div><div class="line">            # Print Loss</div><div class="line">            print(&apos;Iteration: &#123;&#125;  Loss: &#123;&#125;  Accuracy: &#123;&#125;%&apos;.format(count, loss.data, accuracy))</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="Artificial-Neural-Network-ANN"><a href="#Artificial-Neural-Network-ANN" class="headerlink" title="Artificial Neural Network (ANN)"></a>Artificial Neural Network (ANN)</h3><p>LR分类可以，但是当复杂度（非线性）增加，准确性就降低了。<br>所以我们需要增加模型的复杂度。为了增加模型复杂性，我们增加更多非线性方法作为hidden layer。</p>
+<p>我们所期待的是，当复杂性增加，我用更多的hidden layer，从而我们的模型准确性会更高。</p>
+<p>ANN步骤：</p>
+<ol>
+<li><p>Import Libraries</p>
+</li>
+<li><p>Prepare Dataset<br>完全和上一部分一样<br>用同样的dataset，只需要train_loader and test_loader.<br>batch size, epoch 和 迭代次数也一样。</p>
+</li>
+<li><p>创建 ANN Model</p>
+</li>
+</ol>
+<ul>
+<li>增加3层hidden layer</li>
+<li>用 ReLU, Tanh and ELU 激活函数。</li>
+</ul>
+<ol>
+<li>Instantiate Model Class</li>
+</ol>
+<ul>
+<li>input_dim = 2828 # size of image pxpx</li>
+<li>output_dim = 10 # labels 0,1,2,3,4,5,6,7,8,9</li>
+<li>hidden layer维度是150，取这个数是随便取的。你可以尝试其他的数值</li>
+<li>create model</li>
+</ul>
+<ol>
+<li>Instantiate Loss</li>
+</ol>
+<ul>
+<li>Cross entropy loss</li>
+<li>It also has softmax(logistic function) in it.</li>
+</ul>
+<ol>
+<li>Instantiate Optimizer</li>
+</ol>
+<ul>
+<li>SGD Optimizer</li>
+</ul>
+<ol>
+<li><p>Traning the Model</p>
+</li>
+<li><p>Prediction</p>
+</li>
+</ol>
+<p>有了hidden layers 模型的准确率达到了95%。比原来高了很多。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre></td><td class="code"><pre><div class="line"># Create ANN Model</div><div class="line">class ANNModel(nn.Module):</div><div class="line">    </div><div class="line">    def __init__(self, input_dim, hidden_dim, output_dim):</div><div class="line">        super(ANNModel, self).__init__()</div><div class="line">        </div><div class="line">        # Linear function 1: 784 --&gt; 150</div><div class="line">        self.fc1 = nn.Linear(input_dim, hidden_dim) </div><div class="line">        # Non-linearity 1</div><div class="line">        self.relu1 = nn.ReLU()</div><div class="line">        </div><div class="line">        # Linear function 2: 150 --&gt; 150</div><div class="line">        self.fc2 = nn.Linear(hidden_dim, hidden_dim)</div><div class="line">        # Non-linearity 2</div><div class="line">        self.tanh2 = nn.Tanh()</div><div class="line">        </div><div class="line">        # Linear function 3: 150 --&gt; 150</div><div class="line">        self.fc3 = nn.Linear(hidden_dim, hidden_dim)</div><div class="line">        # Non-linearity 3</div><div class="line">        self.elu3 = nn.ELU()</div><div class="line">        </div><div class="line">        # Linear function 4 (readout): 150 --&gt; 10</div><div class="line">        self.fc4 = nn.Linear(hidden_dim, output_dim)  </div><div class="line">    </div><div class="line">    def forward(self, x):</div><div class="line">        # Linear function 1</div><div class="line">        out = self.fc1(x)</div><div class="line">        # Non-linearity 1</div><div class="line">        out = self.relu1(out)</div><div class="line">        </div><div class="line">        # Linear function 2</div><div class="line">        out = self.fc2(out)</div><div class="line">        # Non-linearity 2</div><div class="line">        out = self.tanh2(out)</div><div class="line">        </div><div class="line">        # Linear function 2</div><div class="line">        out = self.fc3(out)</div><div class="line">        # Non-linearity 2</div><div class="line">        out = self.elu3(out)</div><div class="line">        </div><div class="line">        # Linear function 4 (readout)</div><div class="line">        out = self.fc4(out)</div><div class="line">        return out</div><div class="line"></div><div class="line"># instantiate ANN</div><div class="line">input_dim = 28*28</div><div class="line">hidden_dim = 150 #hidden layer dim is one of the hyper parameter and it should be chosen and tuned. For now I only say 150 there is no reason.</div><div class="line">output_dim = 10</div><div class="line"></div><div class="line"># Create ANN</div><div class="line">model = ANNModel(input_dim, hidden_dim, output_dim)</div><div class="line"></div><div class="line"># Cross Entropy Loss </div><div class="line">error = nn.CrossEntropyLoss()</div><div class="line"></div><div class="line"># SGD Optimizer</div><div class="line">learning_rate = 0.02</div><div class="line">optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre></td><td class="code"><pre><div class="line"># ANN model training</div><div class="line">count = 0</div><div class="line">loss_list = []</div><div class="line">iteration_list = []</div><div class="line">accuracy_list = []</div><div class="line">for epoch in range(num_epochs):</div><div class="line">    for i, (images, labels) in enumerate(train_loader):</div><div class="line"></div><div class="line">        train = Variable(images.view(-1, 28*28))</div><div class="line">        labels = Variable(labels)</div><div class="line">        </div><div class="line">        # Clear gradients</div><div class="line">        optimizer.zero_grad()</div><div class="line">        </div><div class="line">        # Forward propagation</div><div class="line">        outputs = model(train)</div><div class="line">        </div><div class="line">        # Calculate softmax and ross entropy loss</div><div class="line">        loss = error(outputs, labels)</div><div class="line">        </div><div class="line">        # Calculating gradients</div><div class="line">        loss.backward()</div><div class="line">        </div><div class="line">        # Update parameters</div><div class="line">        optimizer.step()</div><div class="line">        </div><div class="line">        count += 1</div><div class="line">        </div><div class="line">        if count % 50 == 0:</div><div class="line">            # Calculate Accuracy         </div><div class="line">            correct = 0</div><div class="line">            total = 0</div><div class="line">            # Predict test dataset</div><div class="line">            for images, labels in test_loader:</div><div class="line"></div><div class="line">                test = Variable(images.view(-1, 28*28))</div><div class="line">                </div><div class="line">                # Forward propagation</div><div class="line">                outputs = model(test)</div><div class="line">                </div><div class="line">                # Get predictions from the maximum value</div><div class="line">                predicted = torch.max(outputs.data, 1)[1]</div><div class="line">                </div><div class="line">                # Total number of labels</div><div class="line">                total += len(labels)</div><div class="line"></div><div class="line">                # Total correct predictions</div><div class="line">                correct += (predicted == labels).sum()</div><div class="line">            </div><div class="line">            accuracy = 100 * correct / float(total)</div><div class="line">            </div><div class="line">            # store loss and iteration</div><div class="line">            loss_list.append(loss.data)</div><div class="line">            iteration_list.append(count)</div><div class="line">            accuracy_list.append(accuracy)</div><div class="line">        if count % 500 == 0:</div><div class="line">            # Print Loss</div><div class="line">            print(&apos;Iteration: &#123;&#125;  Loss: &#123;&#125;  Accuracy: &#123;&#125; %&apos;.format(count, loss.data, accuracy))</div></pre></td></tr></table></figure>
+<h3 id="Convolutional-Neural-Network-CNN"><a href="#Convolutional-Neural-Network-CNN" class="headerlink" title="Convolutional Neural Network (CNN)"></a>Convolutional Neural Network (CNN)</h3><p>CNN非常适合图像分类</p>
+<p>CNN步骤：</p>
+<ol>
+<li>Import Libraries</li>
+<li>Prepare Dataset</li>
+</ol>
+<ul>
+<li>和前面部分完全相同</li>
+<li>We use same dataset so we only need train_loader and test_loader.</li>
+</ul>
+<ol>
+<li>Convolutional layer:</li>
+</ol>
+<ul>
+<li>根据filters（kernels)创建feature</li>
+<li>Padding: 在实施filter后，原始图片的维度减少。然而，我们要保留尽可能多的原始图片信息，我们可以在convolutional layer 后，运用padding去增加dimension of feature map。</li>
+<li>我们用2层convolutional的</li>
+<li>out_channels是16</li>
+<li>Filter(kernel) size is 5*5</li>
+</ul>
+<ol>
+<li>Pooling layer:</li>
+</ol>
+<ul>
+<li>为convolutional layer(feature map) output准备一个精简的feature map</li>
+<li>使用2个pooling layer</li>
+<li>Pooling size是： 2*2</li>
+</ul>
+<ol>
+<li><p>Flattening: Flats the features map </p>
+</li>
+<li><p>Fully Connected Layer:</p>
+</li>
+</ol>
+<ul>
+<li>可以是logistic regression，但要以softmax function结尾。</li>
+<li>我们不会在FC层使用激活函数</li>
+<li>我们结合convolutional part 和 logistic regression去创建CNN模型</li>
+</ul>
+<ol>
+<li>Instantiate Model Class</li>
+</ol>
+<ul>
+<li>create model</li>
+</ul>
+<ol>
+<li>Instantiate Loss</li>
+</ol>
+<ul>
+<li>Cross entropy loss</li>
+<li>It also has softmax(logistic function) in it.</li>
+</ul>
+<ol>
+<li>Instantiate Optimizer</li>
+</ol>
+<ul>
+<li>SGD Optimizer</li>
+</ul>
+<ol>
+<li><p>Traning the Model</p>
+</li>
+<li><p>Prediction<br>convolutional layer准确率高达98%</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div></pre></td><td class="code"><pre><div class="line"># Create CNN Model</div><div class="line">class CNNModel(nn.Module):</div><div class="line">    def __init__(self):</div><div class="line">        super(CNNModel, self).__init__()</div><div class="line">        </div><div class="line">        # Convolution 1</div><div class="line">        self.cnn1 = nn.Conv2d(in_channels=1, out_channels=16, kernel_size=5, stride=1, padding=0)</div><div class="line">        self.relu1 = nn.ReLU()</div><div class="line">        </div><div class="line">        # Max pool 1</div><div class="line">        self.maxpool1 = nn.MaxPool2d(kernel_size=2)</div><div class="line">     </div><div class="line">        # Convolution 2</div><div class="line">        self.cnn2 = nn.Conv2d(in_channels=16, out_channels=32, kernel_size=5, stride=1, padding=0)</div><div class="line">        self.relu2 = nn.ReLU()</div><div class="line">        </div><div class="line">        # Max pool 2</div><div class="line">        self.maxpool2 = nn.MaxPool2d(kernel_size=2)</div><div class="line">        </div><div class="line">        # Fully connected 1</div><div class="line">        self.fc1 = nn.Linear(32 * 4 * 4, 10) </div><div class="line">    </div><div class="line">    def forward(self, x):</div><div class="line">        # Convolution 1</div><div class="line">        out = self.cnn1(x)</div><div class="line">        out = self.relu1(out)</div><div class="line">        </div><div class="line">        # Max pool 1</div><div class="line">        out = self.maxpool1(out)</div><div class="line">        </div><div class="line">        # Convolution 2 </div><div class="line">        out = self.cnn2(out)</div><div class="line">        out = self.relu2(out)</div><div class="line">        </div><div class="line">        # Max pool 2 </div><div class="line">        out = self.maxpool2(out)</div><div class="line">        </div><div class="line">        # flatten</div><div class="line">        out = out.view(out.size(0), -1)</div><div class="line"></div><div class="line">        # Linear function (readout)</div><div class="line">        out = self.fc1(out)</div><div class="line">        </div><div class="line">        return out</div><div class="line"></div><div class="line"># batch_size, epoch and iteration</div><div class="line">batch_size = 100</div><div class="line">n_iters = 2500</div><div class="line">num_epochs = n_iters / (len(features_train) / batch_size)</div><div class="line">num_epochs = int(num_epochs)</div><div class="line"></div><div class="line"># Pytorch train and test sets</div><div class="line">train = torch.utils.data.TensorDataset(featuresTrain,targetsTrain)</div><div class="line">test = torch.utils.data.TensorDataset(featuresTest,targetsTest)</div><div class="line"></div><div class="line"># data loader</div><div class="line">train_loader = torch.utils.data.DataLoader(train, batch_size = batch_size, shuffle = False)</div><div class="line">test_loader = torch.utils.data.DataLoader(test, batch_size = batch_size, shuffle = False)</div><div class="line">    </div><div class="line"># Create CNN</div><div class="line">model = CNNModel()</div><div class="line"></div><div class="line"># Cross Entropy Loss </div><div class="line">error = nn.CrossEntropyLoss()</div><div class="line"></div><div class="line"># SGD Optimizer</div><div class="line">learning_rate = 0.1</div><div class="line">optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)</div></pre></td></tr></table></figure>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://www.kaggle.com/kanncaa1/pytorch-tutorial-for-deep-learning-lovers" target="_blank" rel="external">https://www.kaggle.com/kanncaa1/pytorch-tutorial-for-deep-learning-lovers</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/pytorch/" rel="tag"># pytorch</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/RSI.html" rel="next" title="RSI 计算">
+                <i class="fa fa-chevron-left"></i> RSI 计算
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/my_working_recap.html" rel="prev" title="My working recap">
+                My working recap <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Dennis" />
+            
+              <p class="site-author-name" itemprop="name">Dennis</p>
+              <p class="site-description motion-element" itemprop="description">Hi, I'm a data engineer for several years being enthusiastic about programming (Python and Java), studying and making money. Regarding entertainments, I enjoy playing badminton and travelling.</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">69</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/mikolaje" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/mikolaj" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-zhihu"></i>知乎</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com/users/6169688/dennisli" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i>StackOverflow</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.quora.com/profile/Dennis-271" target="_blank" title="Quora">
+                      
+                        <i class="fa fa-fw fa-quora"></i>Quora</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pytorch基础"><span class="nav-number">2.</span> <span class="nav-text">Pytorch基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Pytorch-Tensor-vs-Numpy-Array"><span class="nav-number">2.1.</span> <span class="nav-text">Pytorch Tensor vs Numpy Array</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下面是一些数学操作"><span class="nav-number">2.2.</span> <span class="nav-text">下面是一些数学操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Variables"><span class="nav-number">2.3.</span> <span class="nav-text">Variables</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Logistic-Regression"><span class="nav-number">2.4.</span> <span class="nav-text">Logistic Regression</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Artificial-Neural-Network-ANN"><span class="nav-number">2.5.</span> <span class="nav-text">Artificial Neural Network (ANN)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Convolutional-Neural-Network-CNN"><span class="nav-number">2.6.</span> <span class="nav-text">Convolutional Neural Network (CNN)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">3.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dennis</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://mikolaje.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://mikolaje.github.io/2021/learn_pytorch.html';
+          this.page.identifier = '2021/learn_pytorch.html';
+          this.page.title = '初学Pytorch';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://mikolaje.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>
