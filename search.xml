@@ -1,6 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Tradingview pine script 学习笔记</title>
+    <url>/2021/tradingview_pine_script.html</url>
+    <content><![CDATA[<h2 id="表达式、声明-（Expressions-declarations-and-statements）"><a href="#表达式、声明-（Expressions-declarations-and-statements）" class="headerlink" title="表达式、声明 （Expressions, declarations and statements）"></a>表达式、声明 （Expressions, declarations and statements）</h2><h3 id="表达式"><a href="#表达式" class="headerlink" title=":=表达式"></a><code>:=</code>表达式</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">:=</div><div class="line">这个表达方式在之前的python和JavaScript我都没看到过。但好像python3.8会引入这个运算符</div><div class="line"></div><div class="line">在Python3.8中的介绍是这样的：</div><div class="line">正式地，这运算符被叫做：assignment expression</div><div class="line">非正式地：这运算符被称为：walrus operator。海象运算符，因为长得像海象，哈哈。</div><div class="line">它用来赋值，同时也可以计算表达式。</div><div class="line"></div><div class="line"></div><div class="line">我们回到pine script：</div><div class="line">:= 必须用于给一个变量赋一个新的值，这个变量必须在你赋值之前声明</div><div class="line">变量的类型在声明的时候就被定义了。类型要和声明的类型一致，不然的话会报错。</div><div class="line"></div><div class="line">赋值例子:</div><div class="line"></div><div class="line">//@version=4</div><div class="line">study(&quot;My Script&quot;)</div><div class="line">price = close</div><div class="line">if hl2 &gt; price</div><div class="line">    price := hl2</div><div class="line">plot(price)</div></pre></td></tr></table></figure>
+<h3 id="if-statement"><a href="#if-statement" class="headerlink" title="if statement"></a>if statement</h3><p>大致形势是这样的：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"></div><div class="line">&lt;var_declarationX&gt; = if &lt;condition&gt;</div><div class="line">    &lt;var_decl_then0&gt;</div><div class="line">    &lt;var_decl_then1&gt;</div><div class="line">    ...</div><div class="line">    &lt;var_decl_thenN&gt;</div><div class="line">else if [optional block]</div><div class="line">    &lt;var_decl_else0&gt;</div><div class="line">    &lt;var_decl_else1&gt;</div><div class="line">    ...</div><div class="line">    &lt;var_decl_elseN&gt;</div><div class="line">else</div><div class="line">    &lt;var_decl_else0&gt;</div><div class="line">    &lt;var_decl_else1&gt;</div><div class="line">    ...</div><div class="line">    &lt;var_decl_elseN&gt;</div><div class="line">    &lt;return_expression_else&gt;</div><div class="line"></div><div class="line">例子：</div><div class="line">// This code compiles</div><div class="line">x = if close &gt; open</div><div class="line">    close</div><div class="line">else</div><div class="line">    open</div><div class="line">// This code doesn&apos;t compile</div><div class="line">x = if close &gt; open</div><div class="line">    close</div><div class="line">else</div><div class="line">    &quot;open&quot;</div></pre></td></tr></table></figure></p>
+<h2 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h2><p>总的来说和Python以及JavaScript的语法都有些类似，我这里之说下不一样的。</p>
+<h3 id="三元条件运算符-Ternary-conditional-operator"><a href="#三元条件运算符-Ternary-conditional-operator" class="headerlink" title="三元条件运算符 Ternary conditional operator."></a>三元条件运算符 Ternary conditional operator.</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">expr1 ? expr2 : expr3</div><div class="line"></div><div class="line"></div><div class="line">// Draw circles at the bars where open crosses close</div><div class="line">s2 = cross(open, close) ? avg(open,close) : na</div><div class="line">plot(s2, style=plot.style_circles, linewidth=2, color=color.red)</div><div class="line"></div><div class="line">// Combination of ?: operators for &apos;switch&apos;-like logic</div><div class="line">c = timeframe.isintraday ? color.red : timeframe.isdaily ? color.green : timeframe.isweekly ? color.blue : color.gray</div><div class="line">plot(hl2, color=c)</div><div class="line"></div><div class="line">如果expr1 成立的话，返回expr2，否则返回expr3. </div><div class="line">0被认为是false</div><div class="line">注意的是：</div><div class="line">如果你不用else branch的话，在else branch里使用na</div></pre></td></tr></table></figure>
+<h3 id="For循环"><a href="#For循环" class="headerlink" title="For循环"></a>For循环</h3><p>To have access to and use the for statement, one should specify the version &gt;= 2 of Pine Script language in the very first line of code, for example: //@version=4<br>var_declarationX = for counter = from_num to to_num [by step_num]<br>  var_decl0<br>  var_decl1<br>  …<br>  continue<br>  …<br>  break<br>  …<br>  var_declN<br>  return_expression<br>where:<br>counter - a variable, loop counter.<br>from_num - start value of the counter<br>to_num - end value of the counter. When the counter becomes greater than to_num (or less than to_num in case from_num &gt; to_num) the loop is broken.<br>step_num - loop step. Can be omitted (in the case loop step = 1).<br>If from_num is greater than to_num loop step will change direction automatically, no need to specify negative numbers.<br>var_decl0, … var_declN, return_expression - body of the loop. It must be shifted by 4 spaces or 1 tab.<br>return_expression - returning value. When a loop is finished or broken, the returning value is given to the var_declarationX.<br>continue - a keyword. Can be used only in loops. It switches the loop to next iteration.<br>break - a keyword. Can be used only in loops. It breaks the loop.</p>
+<h3 id="var"><a href="#var" class="headerlink" title="var"></a>var</h3><p>var是用在赋值和一次性初始化变量的关键字<br>通常，一个不包括var关键字的变量赋值语法会导致变量值被一次更新都会被重写。相反，用var关键字赋值的话就可以保留状态</p>
+<h2 id="内置variable"><a href="#内置variable" class="headerlink" title="内置variable"></a>内置variable</h2><h3 id="bar-index"><a href="#bar-index" class="headerlink" title="bar_index"></a>bar_index</h3><p>就是bar的序号。比如上市第一天为1，第二天的为2.<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">//plot(bar_index)</div><div class="line">//打印出500天后的收盘价</div><div class="line">plot(bar_index &gt; 500 ? close : 0)</div></pre></td></tr></table></figure></p>
+<h3 id="close"><a href="#close" class="headerlink" title="close"></a>close</h3><p>当前收盘价</p>
+<h3 id="high"><a href="#high" class="headerlink" title="high"></a>high</h3><p>最高价</p>
+<h3 id="strategy-equity"><a href="#strategy-equity" class="headerlink" title="strategy.equity"></a>strategy.equity</h3><p>当前资产 </p>
+<h3 id="strategy-position-size"><a href="#strategy-position-size" class="headerlink" title="strategy.position_size"></a>strategy.position_size</h3><p>当前仓位信息, 该变量等于0.0，说明空仓，大于0.0多头仓位，小于0.0空头仓位。</p>
+<h2 id="内置方法"><a href="#内置方法" class="headerlink" title="内置方法"></a>内置方法</h2><h3 id="array-new-float"><a href="#array-new-float" class="headerlink" title="array.new_float"></a>array.new_float</h3><p>The function creates a new array object of float type elements.<br>方法创建一个float类型的数组<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">//@version=4</div><div class="line">study(&quot;array.new_float example&quot;)</div><div class="line">length = 5</div><div class="line">a = array.new_float(length, close)</div><div class="line">plot(array.sum(a) / length)</div></pre></td></tr></table></figure></p>
+<h3 id="array-pop"><a href="#array-pop" class="headerlink" title="array.pop"></a>array.pop</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">//@version=4</div><div class="line">study(&quot;array.pop example&quot;)</div><div class="line">a = array.new_float(5,high)</div><div class="line">removedEl = array.pop(a)</div><div class="line">plot(array.size(a))</div><div class="line">plot(removedEl)</div></pre></td></tr></table></figure>
+<h3 id="array-push"><a href="#array-push" class="headerlink" title="array.push"></a>array.push</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">//@version=4</div><div class="line">study(&quot;array.push example&quot;)</div><div class="line">a = array.new_float(5, 0)</div><div class="line">array.push(a, open)</div><div class="line">plot(array.get(a, 5))</div></pre></td></tr></table></figure>
+<h3 id="array-range"><a href="#array-range" class="headerlink" title="array.range"></a>array.range</h3><p>The function returns the difference between the min and max values from a given array.<br>方法返回数组中最大和最小数值的差值<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">//@version=4</div><div class="line">study(&quot;array.range example&quot;)</div><div class="line">a = array.new_float(0)</div><div class="line">for i = 0 to 9</div><div class="line">	array.push(a, close[i])</div><div class="line">plot(array.range(a))</div></pre></td></tr></table></figure></p>
+<h3 id="array-sort"><a href="#array-sort" class="headerlink" title="array.sort"></a>array.sort</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">//@version=4</div><div class="line">study(&quot;array.sort example&quot;)</div><div class="line">a = array.new_float(0,0)</div><div class="line">for i = 0 to 5</div><div class="line">	array.push(a, high[i])</div><div class="line">array.sort(a, order.descending)</div><div class="line">if barstate.islast</div><div class="line">	label.new(bar_index, close, tostring(a))</div></pre></td></tr></table></figure>
+<h3 id="offset"><a href="#offset" class="headerlink" title="offset"></a>offset</h3><p>Shifts series x on the y bars to the right.<br>ARGUMENTS<br>source (series) Series of values to process.<br>offset (integer) Number of bars to offset, must be a positive number. Negative offsets are not supported.</p>
+<h3 id="rsi"><a href="#rsi" class="headerlink" title="rsi"></a>rsi</h3><p>Relative strength index<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">plot(rsi(close, 7))</div><div class="line"></div><div class="line">// same on pine, but less efficient</div><div class="line">pine_rsi(x, y) =&gt; </div><div class="line">    u = max(x - x[1], 0) // upward change</div><div class="line">    d = max(x[1] - x, 0) // downward change</div><div class="line">    rs = rma(u, y) / rma(d, y)</div><div class="line">    res = 100 - 100 / (1 + rs)</div><div class="line">    res</div><div class="line"></div><div class="line">plot(pine_rsi(close, 7))</div></pre></td></tr></table></figure></p>
+<h3 id="crossover"><a href="#crossover" class="headerlink" title="crossover"></a>crossover</h3><p>黄金交叉</p>
+<h3 id="crossunder"><a href="#crossunder" class="headerlink" title="crossunder"></a>crossunder</h3><p>死亡交叉</p>
+<h3 id="input"><a href="#input" class="headerlink" title="input"></a>input</h3><p>给你的代码指标添加输入。Script input和内置的技术分析指标input完全式样的。</p>
+<p>当我们策略写好之后，需要调试一些参数，那么就需要让这些参数暴露出来，这样我们就可以直接在配置里面改参数，然后查看对应的策略回测数据。</p>
+<ul>
+<li>参数解析<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"></div><div class="line"></div><div class="line">defval，类型必须符合type参数定义的类型</div><div class="line">defval决定了在scripts里&quot;settings/inputs&quot;标签里的input变量</div><div class="line"></div><div class="line"></div><div class="line">title 标题，没啥好说的</div><div class="line"></div><div class="line">type (const string) Input type. </div><div class="line">可能选项是</div><div class="line">input.bool, input.integer, input.float, input.string, input.symbol, input.resolution, input.session, input.source, input.color, input.time.</div><div class="line"></div><div class="line">minval (const integer, float) </div><div class="line">input变量最小的可能值。这个参数只有在input 类型为input.integer or input.float.才有效</div><div class="line"></div><div class="line">maxval (const integer, float)</div><div class="line">input变量最大的可能值。这个参数只有在input 类型为input.integer or input.float.才有效</div><div class="line"></div><div class="line">confirm (const bool) </div><div class="line">如果true，用户在指标在添加到图表之前会被询问确认。默认为false。</div><div class="line"></div><div class="line">step (const integer, float) </div><div class="line">Step value to use for incrementing/decrementing input from format dialog. Default value is 1. This argument is used only for input types input.integer and input.float.</div><div class="line">用于增量或减量input，只在input type为input.integer and input.float.时候有效。默认为1</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">b = input(title=&quot;On/Off&quot;, type=input.bool, defval=true)</div><div class="line">plot(b ? open : na)</div><div class="line"></div><div class="line">i = input(title=&quot;Offset&quot;, type=input.integer, defval=7, minval=-10, maxval=10)</div><div class="line">plot(offset(close, i))</div><div class="line"></div><div class="line">f = input(title=&quot;Angle&quot;, type=input.float, defval=-0.5, minval=-3.14, maxval=3.14, step=0.02)</div><div class="line">plot(sin(f) &gt; 0 ? close : open)</div><div class="line"></div><div class="line">sym = input(title=&quot;Symbol&quot;, type=input.symbol, defval=&quot;DELL&quot;)</div><div class="line">res = input(title=&quot;Resolution&quot;, type=input.resolution, defval=&quot;60&quot;)</div><div class="line">c = input(title=&quot;Plot Color&quot;, type=input.color, defval=color.red)</div><div class="line">plot(close, color=c)</div><div class="line">plot(security(sym, res, close), color=color.green)</div><div class="line"></div><div class="line">s = input(title=&quot;Session&quot;, defval=&quot;24x7&quot;, options=[&quot;24x7&quot;, &quot;0900-1300&quot;, &quot;1300-1700&quot;, &quot;1700-2100&quot;])</div><div class="line">plot(time(timeframe.period, s))</div><div class="line"></div><div class="line">src = input(title=&quot;Source&quot;, type=input.source, defval=close)</div><div class="line">plot(src)</div><div class="line"></div><div class="line">date1 = input(title=&quot;Date&quot;, type=input.time, defval=timestamp(&quot;20 Feb 2020 00:00 +0300&quot;))</div><div class="line">plot(date1)</div><div class="line"></div><div class="line">date2 = input(title=&quot;Date&quot;, type=input.time, defval=timestamp(&quot;2020-02-20T00:00+03:00&quot;))</div><div class="line">plot(date2)</div></pre></td></tr></table></figure>
+<h3 id="security"><a href="#security" class="headerlink" title="security"></a>security</h3><p>Request another symbol/resolution<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">s = security(&quot;MSFT&quot;, &quot;D&quot;, close) // 1 Day</div><div class="line">plot(s)</div><div class="line"></div><div class="line">expr = sma(close, 10)</div><div class="line">s1 = security(&quot;AAPL&quot;, &quot;240&quot;, expr) // 240 Minutes</div><div class="line">plot(s1)</div><div class="line"></div><div class="line">// To avoid difference in calculation on history/realtime you can request not latest values and use merge strategy flags as follows:</div><div class="line">s2=security(syminfo.tickerid, &quot;D&quot;, close[1], barmerge.gaps_off, barmerge.lookahead_on)</div><div class="line">plot(s2)</div><div class="line">f() =&gt; [open, high]</div><div class="line">[o, h] = security(syminfo.tickerid, &quot;D&quot;, f())</div><div class="line">[l, c] = security(syminfo.tickerid, &quot;D&quot;, [low, close])</div><div class="line">plot((o + h + l + c) / 4)</div></pre></td></tr></table></figure></p>
+<h3 id="strategy"><a href="#strategy" class="headerlink" title="strategy"></a>strategy</h3><p>strategy是关于策略的方法，这个是非常重要的，一定要学会<br>The function sets a number of strategy properties.</p>
+<p>参数解析：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">这个方法参数特多</div><div class="line">strategy(title, shorttitle, overlay, format, precision, scale, pyramiding, calc_on_order_fills, calc_on_every_tick, max_bars_back, backtest_fill_limits_assumption, default_qty_type, default_qty_value, initial_capital, currency, max_lines_count, max_labels_count, slippage, commission_type, commission_value, process_orders_on_close, close_entries_rule, margin_long, margin_short, max_boxes_count) → void</div><div class="line">EXAMPLE</div><div class="line">strategy(title=&apos;MyStrategy&apos;)</div><div class="line">strategy(title=&quot;MyStrategy&quot;, shorttitle=&quot;MS&quot;, pyramiding = 10)</div><div class="line"></div><div class="line">ARGUMENTS</div><div class="line">title (const string) 没啥好说的</div><div class="line">shorttitle (const string) 也没啥好说的，会显示在chart legend上。study short title that would be seen in the chart legend. </div><div class="line">overlay (const bool) 如果true的话，会在主series中(也就就是主K线图）增加一个覆盖(叠在一起）。如果false的话，只会在一个另外独立的chart面板上增加。默认为false</div><div class="line">precision (const integer) 小数点精度</div><div class="line">scale (const integer) 价格范围</div><div class="line">pyramiding (const integer) 最大允许的在同一个方向上的entry数，如果设置为0的话，只有一个entry在同一个方向上下单。默认value为0.</div><div class="line">calc_on_order_fills (const bool) 如果设置为true的话，策略会在下单后重新计算一次intrabar。默认值为false</div><div class="line">calc_on_every_tick (const bool) 额外的intrabar策略计算。如果设置为true的话，策略会计算每一个实时tick，而不是bars的收盘价。参数不会影响策略对历史数据的计算。</div><div class="line">max_bars_back (const integer) 历史引用中，一个策略可用bars的最大数量。</div><div class="line">backtest_fill_limits_assumption (const integer) 限价订单执行假设。仅当市场价格超过限额订单水平指定的ticks数时，限额订单才在栏内填写。</div><div class="line"></div><div class="line"></div><div class="line">default_qty_type (const string) Parameter to determine the number of contracts/shares/lots/units to trade, if the &apos;qty&apos; = &apos;NaN&apos;. The allowed values are: strategy.fixed (fixed quantity by default), strategy.cash (specified in currency of the symbol and the amount is converted into quantity), strategy.percent_of_equity (% of currently available equity).</div><div class="line">default_qty_value (const float) Number of contracts/shares/lots/units if &apos;default_qty_type&apos;=strategy.fixed is used; or amount of cash in currency of the symbol if &apos;default_qty_type&apos;=strategy.cash is used; or number of percents of currently available equity if &apos;default_qty_type&apos;=strategy.percent_of_equity is used.</div><div class="line">currency (const string) Account currency for this strategy. Possible values are: NONE, USD, EUR, AUD, GBP, NZD, CAD, CHF, HKD, JPY, NOK, SEK, SGD, TRY, ZAR</div><div class="line">linktoseries (const bool) if true then the study will be always on the same pane and same price scale as the main series. Should be used only in combination with &apos;overlay=true&apos;. Default is false.</div><div class="line">slippage (const integer) Slippage in ticks to be added to/subtracted from the fill price of buy/sell market or stop orders. If mintick=0.01 and slippage=5, the amount of slippage will be 5*0.01=0.05.</div><div class="line">commission_type (const string) Commission type for an order. The allowed values are: strategy.commission.percent (a percentage of the cash volume of order), strategy.commission.cash_per_contract (money displayed in the account currency per contract), strategy.commission.cash_per_order (money displayed in the account currency per order).</div><div class="line">commission_value (const float) Commission value for an order. Depending on the type selected (commission_type) includes percentage or money.</div><div class="line">process_orders_on_close (const bool) When set to `true`, generates an additional attempt to execute orders after a bar closes and strategy calculations are completed. If the orders are market orders, the broker emulator executes them before the next bar&apos;s open. If the orders are conditional on price, they will only be filled if the price conditions are met. This option is useful if you wish to close positions on the current bar. The default value is &apos;false&apos;.</div><div class="line">close_entries_rule (const string) Determines the order in which orders are closed. Allowed values are: &apos;FIFO&apos; or &apos;ANY&apos;. FIFO (First-In, First-Out) means that when several trades are open, the earliest trades must be closed first. This rule applies to stocks, futures and US forex (NFA Compliance Rule 2-43b). &apos;ANY&apos; means that trades may be closed in any order; this is allowed in non-US forex. The default value is &apos;FIFO&apos;.</div><div class="line">max_lines_count (const integer) The number of last line drawings displayed. The default value is 50 and the maximum allowed is 500.</div><div class="line">max_labels_count (const integer) The number of last label drawings displayed. The default value is 50 and the maximum allowed is 500.</div><div class="line">margin_long (const integer) Margin long is the percentage of the purchase price of a security that must be covered by cash or collateral for long positions. The default value is 100 and must be a non negative integer.</div><div class="line">margin_short (const integer) Margin short is the percentage of the purchase price of a security that must be covered by cash or collateral for short positions. The default value is 100 and must be a non negative integer.</div><div class="line">max_boxes_count (const integer) The number of last box drawings displayed. The default value is 50 and the maximum allowed is 500.</div><div class="line">REMARKS</div><div class="line">Every strategy script must have one strategy call.</div><div class="line">PineScript code that uses argument calc_on_every_tick=true could calculate differently on history and real-time data.</div><div class="line">When using non-standard types of chart as a basis for strategy, you need to realize that the result will be different. The orders will be executed at the prices of this chart (e.g.for Heikin Ashi it’ll take Heikin Ashi prices (the average ones) not the real market prices). Therefore we highly recommend you to use standard chart type for strategies.</div></pre></td></tr></table></figure></p>
+<h4 id="strategy-entry"><a href="#strategy-entry" class="headerlink" title="strategy.entry"></a>strategy.entry</h4><p>这是进入市场的命令。<br>如果具有相同ID的订单已经挂起，则可修改订单。 如果没有指定ID的订单，则会发出新的订单。<br>要停用进场指令，应使用命令strategy.cancel或strategy.cancel_all。 与函数strategy.order相比，strategy.entry功能受金字塔影响，可以正确反转市场位置。<br>如果“Limit”和“stop”参数均为“NaN”，则订单类型为市场订单。</p>
+<h4 id="strategy-exit"><a href="#strategy-exit" class="headerlink" title="strategy.exit"></a>strategy.exit</h4><p>这是一个退出指定进场或整个市场地位的命令。如果函数strategy.exit被调用一次，则只会退出一次。 如果要退出多次，应该多次调用命令strategy.exit。</p>
+<p>参数<br>id (series[string]) 必要参数。 订单标识符。 可以通过引用其标识来取消或修改订单。<br>from_entry (series[string]) 可选参数。以指定进场指令标识符退出。 要退出所有头寸，应使用空字符串。 默认值为空字符串。<br>qty (float) 可选参数。退出交易的合约/股数/手数/单位的数量。默认值为’NaN’。<br>qty_percent (float) 可选参数。定义退出交易的已输入的合约/股数/手数/单位的百分比。当其值不是NaN时，其优先级高于’qty’参数。其值的范围可以从0到100。如果’qty’是NaN，则默认值’qty_percent’是100。<br>profit (float) 可选参数。 利润目标(以点表示)。 如果已指定，当达到指定的利润额(点)时，则以限价订单退出市场头寸。 默认值为“NaN”。<br>limit (float) 可选参数。 利润目标(需指定价格)。 若已指定，则以指定价格(或更好)退出市场头寸。 参数’limit’的优先级高于参数’profit’的优先级(若值非’NaN’，则’limit’取代’profit’)。 默认值为“NaN”。<br>loss (float) 可选参数。 止损(以点表示)。 如果已指定，当达到指定的亏损额(点)时，则以停损单退出市场头寸。 默认值为“NaN”。<br>stop (float) 可选参数。 止损(需指定价格)。 如果已指定，则将以指定价格(或更差)退出市场头寸。 参数’止损’的优先级高于参数’损失’的优先级(若值非’NaN’，则’止损’代替’损失’)。 默认值为“NaN”。<br>trail_price (float) 可选参数。跟踪止损激活水平(需指定价格)。如果已指定，当达到指定价格水平时，将放置跟踪止损单。在“trail_offset”参数中指定用于确定跟踪止损单初始价格的偏移量(以点计)：X 点低于激活水平以退出多头; X点高于激活水平以退出空头。默认值为“NaN”。<br>trail_points (float) 可选参数。跟踪止损激活水平(利润以点表示)。如果已指定，当达到已计算价格水平(指定利润金额)时，将放置跟踪止损单。在“trail_offset”参数中指定用于确定跟踪止损单初始价格的偏移量(以点计)：X 点低于激活水平以退出多头; X点高于激活水平以退出空头。默认值为“NaN”。<br>trail_offset (float) 可选参数。跟踪止损激活水平(以点表示)。以点计的偏移量用于确定跟踪止损单的初始价格：X 点低于’trail_price’ or ‘trail_points’以退出多头; X点高于 ‘trail_price’ or ‘trail_points’以退出空头。默认值为“NaN”。<br>oca_name (string) 可选参数。OCA group的名称 (oca_type = strategy.oca.reduce) 获利目标，止损/跟踪止损。如果未指定名称，将自动生成该名称。<br>comment (string) 可选参数。订单的其他说明。<br>when (bool) 可选参数。订单的状况。若为”true”，订单被放置。若为”false”，则没有任何事情发生(之前放置的相同 ID 的订单没有被撤销)。默认值为”true”。<br>alert_message (string) 当在“创建警报”对话框的“消息”字段中使用占位符时，一个可选参数。</p>
+<h4 id="strategy-close"><a href="#strategy-close" class="headerlink" title="strategy.close"></a>strategy.close</h4><p>退出entry<br>如果有多个entry 订单都是同一个ID的话，所有都会一次性退出。<br>如果没有open的带有指定ID的entry触发的话，这个命令将不会生效。</p>
+<h4 id="strategy-close-all"><a href="#strategy-close-all" class="headerlink" title="strategy.close_all"></a>strategy.close_all</h4><p>退出你的所有仓位。</p>
+<h4 id="strategy-order"><a href="#strategy-order" class="headerlink" title="strategy.order"></a>strategy.order</h4><p>加仓</p>
+<h2 id="问题与思考"><a href="#问题与思考" class="headerlink" title="问题与思考"></a>问题与思考</h2><h3 id="strategy-close-与-strategy-exit的区别"><a href="#strategy-close-与-strategy-exit的区别" class="headerlink" title="strategy.close 与 strategy.exit的区别"></a>strategy.close 与 strategy.exit的区别</h3><ul>
+<li>close<br>Is a command to exit from the entry with the specified ID.<br>退出某个ID的entry</li>
+</ul>
+<p>If there were multiple entry orders with the same ID, all of them are exited at once.<br>如果有多个同样ID的订单，所有的订单都会一次性退出。</p>
+<ul>
+<li>exit<br>It is a command to exit either a specific entry or whole market position.<br>退出某个entry或者退出整个时长仓位</li>
+</ul>
+<p>If an order with the same ID is already pending, it is possible to modify the order.<br>如果一个相同ID的订单是pending的话，有可能修改这个订单。</p>
+]]></content>
+      <categories>
+        <category>trade</category>
+      </categories>
+      <tags>
+        <tag>trade</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>My working recap</title>
     <url>/2021/my_working_recap.html</url>
     <content><![CDATA[<h2 id="Preface"><a href="#Preface" class="headerlink" title="Preface"></a>Preface</h2><p>It is very important for one person to know himself, knowing what he is suitable, what his characteristics is.<br>Therefore, knowing yourself clearly makes you go further and successful. Next, I will summarize some of my working<br>experience about what kind of people are probably become successful in the world of work.</p>
@@ -219,6 +274,56 @@
       </categories>
       <tags>
         <tag>pytorch</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>股票交易名词术语的一些笔记</title>
+    <url>/2021/trading_term.html</url>
+    <content><![CDATA[<h3 id="大宗交易-block-trading"><a href="#大宗交易-block-trading" class="headerlink" title="大宗交易 (block trading)"></a>大宗交易 (block trading)</h3><p>大宗交易(block trading),又称为大宗买卖，是指达到规定的最低限额的证券单笔买卖申报，买卖双方经过协议达成一致并经交易所确定成交的证券交易。</p>
+<p>其中上交所规定（2015年最新修订版）：<br>1、A股单笔买卖申报数量在30万股（含）以上，或交易金额在200万元（含）人民币以上；<br>B股( 上海)单笔买卖申报数量在30万股（含）以上，或交易金额在20万美元（含）以上；</p>
+<h3 id="洗盘"><a href="#洗盘" class="headerlink" title="洗盘"></a>洗盘</h3><p>股市里，所谓洗盘，是主力操纵股市，压低股价的一种手段，是庄家为拉高股价获利出货，先有意制造假象，迫使低价买进者卖出股票，以减轻拉升压力的一种手法。</p>
+<ul>
+<li>庄家洗盘的信号<br>一般来说，底部吸货过程中的洗盘和K线洗盘一般为二三天的时间，K线组合为一周左右，形式洗盘短的为一个月左右，长的则三个月甚至可到半年，拉升过程中的洗盘一般为一周左右，<br>快速洗盘一般只要二三天，以形式洗盘则在三周左右。此时便可以从成交量变化上看清庄家震仓洗盘的痕迹。</li>
+</ul>
+<p>1、双连阴震仓法——两连阴组合式的成交量</p>
+<p>5日成交量均线与10日成交量均线交叉当日，K线为阴阳线与之相对应，当日成交量为阴量。且5日成交量线与10日成交量均线交叉前一日的K线为阴成交量也为阴，但成交量比交叉日成交量大。<br>当双连阴式的成交量组合出现时，庄家常故意做出一些极为不利的技术指标，给人以破位下行的感觉，此种形态通常是庄家洗盘震仓的拿手好戏。而一根阴量显示庄家开始洗盘，此时一些持股者还能保持平静，坚持持仓。但第二根阴量出现时，在庄家的刻意打压下，心态不稳的持股者终于被震出局。</p>
+<p>这样，平均成交持仓量趋于一致，当大部分浮筹被清洗之后，庄家这才确信拉升的阻力减轻，于是，大幅拉高就开始了。</p>
+<p>2、阴阳交错震仓法——四根阴阳结合的成交量</p>
+<p>一般说来，二根阳量表示庄家试盘，庄家小幅拉升股价以此来试探市场的反应。二根阴量表示震仓。一旦庄家发现跟风者甚多，就会连拉阴线以吓走跟庄者。<br>通过四根阴阳量，庄家就可以知道跟庄者筹码的多少及其持仓成本。这种组合是由连续二根阳量、连续二根阴量组合而成。二根阳量均呈递增趋势，二根阴量均呈递减趋势，线与日成交量均线只要在上述日内任何一天交叉，且此时线的均线呈多头排列，那么，逢低介入应有厚报。</p>
+<p>3、量减震仓法——递减型双阳成交量组合</p>
+<p>当5日成交量均线与10日成交量均线交叉当日，K线为阳线。与此相对应的，当日成交量为阳量，且5日成交量均线与10日成交量均线交叉前一日，K线为阳线，且当日成交量为阳量。<br>双阳成交量的这种递减型组合为强势整理式庄家震仓洗盘行为。其显著的特点是持续只有一天，但力度不小。经过一段时间的拉抬，庄家要震出短线获利盘，以便进行筹码的充分换手，提高跟庄者的平均持仓成本。如此一来，庄家拉高出货就比较轻松。</p>
+<h3 id="震荡指标"><a href="#震荡指标" class="headerlink" title="震荡指标"></a>震荡指标</h3><p>就是只在一个区间范围内变化的技术指标。比如RSI，它只会在0-100之间变化。震荡指标三兄弟：RSI、KD、MACD</p>
+<h3 id="股本"><a href="#股本" class="headerlink" title="股本"></a>股本</h3><p>股本就是总共发行的股票数量。 其中又分为限售股和流通股，限售股就是没有在市场上流通，不允许买卖的股票，比如说他们发给公司高层的奖励性质的股票。 流通股就是在市场上也就是股市中可进行买卖的股票。</p>
+<h3 id="金字塔加码-pyramidding"><a href="#金字塔加码-pyramidding" class="headerlink" title="金字塔加码 pyramidding"></a>金字塔加码 pyramidding</h3><p>获利加仓事必须的；市场大多数时候是概率均匀分布，而你真正能賺到钱是靠那些大多数人想象不到的波动。获利加仓的意义在于不要辜负好运气。<br>加仓，通常可以在获得止损同幅度的获利时加等数底仓，同时上移止损到底仓价格。当然你可以分几次加。还有一个关键在于：一定要设定一个合理的持仓时间，在这个时间内，仓位必须要产生预定的利润；</p>
+<h3 id="背离-Divergence"><a href="#背离-Divergence" class="headerlink" title="背离 Divergence"></a>背离 Divergence</h3><h3 id="损益比"><a href="#损益比" class="headerlink" title="损益比"></a>损益比</h3><p>损益是一种对交易者在一定时期内持续创造利润大于亏损的能力的监测方法。损益的计算方法是用获利交易的平均利润除以亏损交易的平均损失。结果是两个数字组成了损益比。通常一个成功策略的基准是它应该产生至少2:1的损益比。</p>
+<h3 id="股票增发"><a href="#股票增发" class="headerlink" title="股票增发"></a>股票增发</h3><p>今天（20210607）伊利大跌，是因为定增所导致的。因此学习了下股票增发的影响。<br>公开增发，就是面向全体股民发售。<br>这种增发很缺德，因为增发本身就已经稀释了所有股东的利益。</p>
+<p>定向增发，就是不面向散户发售。<br>定向增发通常是公司要募集资金去收购新的资产。通常股民们会把定向增发，当成是利好。</p>
+<h3 id="双均线策略"><a href="#双均线策略" class="headerlink" title="双均线策略"></a>双均线策略</h3><p>双均线策略，指的是运用两条不同周期的移动平均线，即短周期移动平均线和长周期移动平均线的相对大小，研判买进与卖出时机的策略。<br>由短周期均线自下向上穿越长周期均线，所形成的交点，称为金叉。当短周期均线自上而下穿越长周期均线，所形成的交点，称为死叉。<br>这样我们可以构建一个双均线策略：双均线金叉的时候，表明该币很强势，市场属于多头市场；反之，当出现死叉点时，市场属于空头市场。</p>
+<h3 id="抵扣价"><a href="#抵扣价" class="headerlink" title="抵扣价"></a>抵扣价</h3><p>蕭明道常運用「扣抵」概念，抓到個股主升段行情。「所謂扣抵，是使用均線操作的一個重要觀念。說穿了，就是未卜先知，提早掌握未來趨勢。」他解釋，移動平均線是較長期的價格發展線，相對K線，更具有趨勢意義。且平均日期愈長，所代表的行情走勢就愈大。</p>
+<p>抵扣价，簡單講就是「喜新厭舊」：「新」指的是今日的收盤價；「舊」則是指均線計算時第1日的收盤價、也就是均線今日收盤價的扣抵值。</p>
+<p>比方說，計算5日移動平均線時，必須先算出第1日到第5日的價格平均，當第6日的新價格出現後，就剔除第1日的價格，從第2日開始重新計算。由於扣抵過程中，可知道「舊」的收盤價位置高低，及「新」的收盤價相對位置，因此事前就會知道移動平均線將往上揚，或向下走。</p>
+<h3 id="除息-amp-除权"><a href="#除息-amp-除权" class="headerlink" title="除息&amp;除权"></a>除息&amp;除权</h3><p>上市公司给我们的分红有两种形式：向股东派发现金股利和股票股利，上市公司可根据情况选择其中一种形式进行分红，也可以两种形式同时用。</p>
+<p>现金股利是指以现金形式向股东发放股利，称为派股息或派息。</p>
+<p>现金分红是公司通过可分配利润，以货币资金的形式支付给股东权利，不会改变股本大小，但股东权益减少，每股代表的实际价格也会减少，因此价格相应降低，这一过程叫除息。</p>
+<p>除息价=股息登记日的收盘价－每股所分红利现金额<br>例如：某股票股息登记日的收盘价是5元，每股送红利现金0.5元，则其次日股价为5-0.5=4.5(元)</p>
+<p>除权是由于公司股本增加，每股股票所代表的企业实际价值(每股净资产)有所减少，需要在发生该事实之后从股票市场价格中剔除这部分因素，而形成的剔除行为。</p>
+<p>要想了解除权，我们先来了解下投资者的所有者权益构成。</p>
+<p>上市公司发行股票拿到募集资金后，会分为两部分：股本和资本公积。</p>
+<p>股票发行价格中，实际价值1元是股票面值，记作股本；超出1元的部分计作资本公积。</p>
+<p>上市公司有了钱，开始投资赚钱，将赚取的收益再分成两部分：盈余公积和未分配利润。</p>
+<p>因此，作为投资者我们享有以上四部分的所有权：</p>
+<p>所有者权益=股本+资本公积+盈余公积+未分配利润</p>
+<p>上市公司给投资者分红的第二种形式是：股票股利，是指上市公司向股东分发股票，红利以股票的形式出现，又称为送红股或送股；另外，投资者还经常会遇到上市公司转增股本的情况，转增股本与分红有所区别。</p>
+<p>送股：是采取将盈余公积或未分配利润转化为股本的分红方式，上市公司一般只将未分配利润部分送股。<br>转股：是采取将资本公积转化为股本的分红方式。</p>
+<p>这两种形式都会使股本数增加，但同时也会让股价下跌！这一过程就是除权。</p>
+<p>送股/转股仅仅是稀释股本，降低股价，可以看作是单纯降低股价便于买卖，增加流通性，没有其它实质意义。是上市公司向股东传递公司管理当局预期盈利将继续增长的信息，可以增加股票市场流动性。</p>
+<p>除权价=股权登记日的收盘价÷(1+每股送红股数)<br>例如：某股票股权登记日的收盘价是25.8元，每10股送2股，即每股送红股数为0.2，则次日股价为18.8÷(1+0.2)=21.5(元)</p>
+]]></content>
+      <categories>
+        <category>trade</category>
+      </categories>
+      <tags>
+        <tag>trade</tag>
       </tags>
   </entry>
   <entry>
@@ -614,6 +719,31 @@
       </tags>
   </entry>
   <entry>
+    <title>Databricks Delta Lake 简介</title>
+    <url>/2020/delta_lake_intro.html</url>
+    <content><![CDATA[<h2 id="百花齐放的大数据生态"><a href="#百花齐放的大数据生态" class="headerlink" title="百花齐放的大数据生态"></a>百花齐放的大数据生态</h2><p>17，18是计算引擎火热的两年，19年已然是红海了。计算引擎中的王者是Spark，综合指标最好，生态也好，当其他引擎还在ETL,交互查询，流上厮杀时，Spark已经在AI领域越走越远。</p>
+<p>对比明显的是，计算层的上层和下层在17,18年却乏善可陈。但是到19年整个局势开发生变化，向下走是存储层Delta Lake耀眼夺目，解决了原先数仓的诸多痛点，让数仓进化到数据湖。<br>向上走是交互应用层的Linkis一马当先，形成交互标准，粘合周边生态，很好的衔接了应用交互层和计算引擎层的衔接。</p>
+<p>问题重重的数据存储层<br>前面我们提到，早先基于Hive的数仓或者传统的文件存储形式（比如Parquet/ORC）,都存在一些长期难以解决的问题：</p>
+<p>小文件的问题<br>并发读写问题<br>有限的更新支持<br>海量元数据（例如分区）导致Hive metastore不堪重负<br>细节展开的话，你会发现每一个问题又会引发众多应用场景层面的问题。</p>
+<p>比如并发读写还有更新问题让实时数仓的实现变得很困难。小文件问题需要我们自己写合并代码，并且在合并过程中还会造成数据不可读的问题。如此种种不一而足。</p>
+<p>为了解决这些先天不足的问题，我们只能通过复杂的架构设计来解决这些问题（美其名曰lambda架构）。<br>比如为了解决先天不足的更新问题，我们可能需要先将数据写入一个其他的系统（如HBase）,然后再将HBase导出成Parquet文件/Hive表供下游使用。<br>在复杂的流程（超长的Pipeline）运行的过程中，还会不断涉及到Schema的变换以及磁盘的读取，所以架构复杂了不仅仅会导致运维成本高企，CPU/IO浪费也就变得异常严重。</p>
+<p>其实上面这些问题的根源，都是因为存储层不给力，为了曲线救国，我们无奈通过架构来弥补。<br>Delta Lake单刀直入，直接解决存储层的问题，带来的益处就是极大的简化我们的架构设计，简化运维成本，降低服务器成本。</p>
+<h2 id="Delta-Lake-生之逢时"><a href="#Delta-Lake-生之逢时" class="headerlink" title="Delta Lake 生之逢时"></a>Delta Lake 生之逢时</h2><p>天下苦传统数仓久已，Delta Lake 横空出世，那么它是如何解决上面的存储层问题呢？我列举了如下几个重要的特性：</p>
+<p>以元数据也是大数据思想武装自己，设计了基于HDFS存储的元数据系统，解决metastore不堪重负的问题。<br>支持更多种类的更新模式，比如Merge/Update/Delete等操作，配合流式写入或者读取的支持，让实时数据湖变得水到渠成。<br>流批操作可以共享同一张表<br>版本概念，可以随时回溯，避免一次误操作或者代码逻辑而无法恢复的灾难性后果。<br>Delta Lake 其实只是一个Lib库</p>
+<p>Delta Lake 是一个lib 而不是一个service,不同于HBase,他不需要单独部署，而是直接依附于计算引擎的。<br>目前只支持Spark引擎。这意味什么呢？<br>Delta Lake 和普通的parquet文件使用方式没有任何差异，你只要在你的Spark代码项目里引入delta包，按标准的Spark datasource操作即可，可谓部署和使用成本极低。</p>
+<h2 id="Delta-Lake到底是什么"><a href="#Delta-Lake到底是什么" class="headerlink" title="Delta Lake到底是什么"></a>Delta Lake到底是什么</h2><p>Parquet文件 + Meta 文件 + 一组操作的API = Delta Lake.</p>
+<p>所以Delta没啥神秘的，和parquet没有任何区别。但是他通过meta文件以及相应的API,提供众多特性功能的支持。<br>在Spark中使用它和使用parquet的唯一区别就是把format parquet换成detla。</p>
+<p>和Hive如何整合</p>
+<p>因为惯性以及历史的积累，大家还是希望能像使用hive那样使用delta,而不是去使用spark的datasource API。<br>截止到笔者写这些文字之前，官方还没有支持。不过官方透露阿里的同学已经在做这块的整合。</p>
+]]></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>delta lake</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>2020大数据未来就业方向</title>
     <url>/2020/bigdata_jobs.html</url>
     <content><![CDATA[<h2 id="大数据未来"><a href="#大数据未来" class="headerlink" title="大数据未来"></a>大数据未来</h2><p>2020年及以后的大数据的未来<br>大数据不仅是一个术语，而且还与许多新兴技术捆绑在一起，例如人工智能，机器学习，区块链，增强现实，物联网等。我之所以列出上述技术的原因是，许多报告预测，这些技术将大行其道，并将在2020年及之后实现革命性的增长。对于所有这些技术，大数据将成为关键来源，甚至我们可以说它是“新兴技术的生命”。</p>
@@ -676,31 +806,6 @@
       </categories>
       <tags>
         <tag>big data</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Databricks Delta Lake 简介</title>
-    <url>/2020/delta_lake_intro.html</url>
-    <content><![CDATA[<h2 id="百花齐放的大数据生态"><a href="#百花齐放的大数据生态" class="headerlink" title="百花齐放的大数据生态"></a>百花齐放的大数据生态</h2><p>17，18是计算引擎火热的两年，19年已然是红海了。计算引擎中的王者是Spark，综合指标最好，生态也好，当其他引擎还在ETL,交互查询，流上厮杀时，Spark已经在AI领域越走越远。</p>
-<p>对比明显的是，计算层的上层和下层在17,18年却乏善可陈。但是到19年整个局势开发生变化，向下走是存储层Delta Lake耀眼夺目，解决了原先数仓的诸多痛点，让数仓进化到数据湖。<br>向上走是交互应用层的Linkis一马当先，形成交互标准，粘合周边生态，很好的衔接了应用交互层和计算引擎层的衔接。</p>
-<p>问题重重的数据存储层<br>前面我们提到，早先基于Hive的数仓或者传统的文件存储形式（比如Parquet/ORC）,都存在一些长期难以解决的问题：</p>
-<p>小文件的问题<br>并发读写问题<br>有限的更新支持<br>海量元数据（例如分区）导致Hive metastore不堪重负<br>细节展开的话，你会发现每一个问题又会引发众多应用场景层面的问题。</p>
-<p>比如并发读写还有更新问题让实时数仓的实现变得很困难。小文件问题需要我们自己写合并代码，并且在合并过程中还会造成数据不可读的问题。如此种种不一而足。</p>
-<p>为了解决这些先天不足的问题，我们只能通过复杂的架构设计来解决这些问题（美其名曰lambda架构）。<br>比如为了解决先天不足的更新问题，我们可能需要先将数据写入一个其他的系统（如HBase）,然后再将HBase导出成Parquet文件/Hive表供下游使用。<br>在复杂的流程（超长的Pipeline）运行的过程中，还会不断涉及到Schema的变换以及磁盘的读取，所以架构复杂了不仅仅会导致运维成本高企，CPU/IO浪费也就变得异常严重。</p>
-<p>其实上面这些问题的根源，都是因为存储层不给力，为了曲线救国，我们无奈通过架构来弥补。<br>Delta Lake单刀直入，直接解决存储层的问题，带来的益处就是极大的简化我们的架构设计，简化运维成本，降低服务器成本。</p>
-<h2 id="Delta-Lake-生之逢时"><a href="#Delta-Lake-生之逢时" class="headerlink" title="Delta Lake 生之逢时"></a>Delta Lake 生之逢时</h2><p>天下苦传统数仓久已，Delta Lake 横空出世，那么它是如何解决上面的存储层问题呢？我列举了如下几个重要的特性：</p>
-<p>以元数据也是大数据思想武装自己，设计了基于HDFS存储的元数据系统，解决metastore不堪重负的问题。<br>支持更多种类的更新模式，比如Merge/Update/Delete等操作，配合流式写入或者读取的支持，让实时数据湖变得水到渠成。<br>流批操作可以共享同一张表<br>版本概念，可以随时回溯，避免一次误操作或者代码逻辑而无法恢复的灾难性后果。<br>Delta Lake 其实只是一个Lib库</p>
-<p>Delta Lake 是一个lib 而不是一个service,不同于HBase,他不需要单独部署，而是直接依附于计算引擎的。<br>目前只支持Spark引擎。这意味什么呢？<br>Delta Lake 和普通的parquet文件使用方式没有任何差异，你只要在你的Spark代码项目里引入delta包，按标准的Spark datasource操作即可，可谓部署和使用成本极低。</p>
-<h2 id="Delta-Lake到底是什么"><a href="#Delta-Lake到底是什么" class="headerlink" title="Delta Lake到底是什么"></a>Delta Lake到底是什么</h2><p>Parquet文件 + Meta 文件 + 一组操作的API = Delta Lake.</p>
-<p>所以Delta没啥神秘的，和parquet没有任何区别。但是他通过meta文件以及相应的API,提供众多特性功能的支持。<br>在Spark中使用它和使用parquet的唯一区别就是把format parquet换成detla。</p>
-<p>和Hive如何整合</p>
-<p>因为惯性以及历史的积累，大家还是希望能像使用hive那样使用delta,而不是去使用spark的datasource API。<br>截止到笔者写这些文字之前，官方还没有支持。不过官方透露阿里的同学已经在做这块的整合。</p>
-]]></content>
-      <categories>
-        <category>大数据</category>
-      </categories>
-      <tags>
-        <tag>delta lake</tag>
       </tags>
   </entry>
   <entry>
@@ -2107,6 +2212,100 @@ consumer.close(autocommit=False)
       </tags>
   </entry>
   <entry>
+    <title>Kylin 基础介绍</title>
+    <url>/2017/kylin_basic.html</url>
+    <content><![CDATA[<h2 id="Kylin术语"><a href="#Kylin术语" class="headerlink" title="Kylin术语"></a>Kylin术语</h2><ul>
+<li><p>维度(Dimension)<br>一组属性，提供结构化的标签信息，一般作为报表的坐标轴。</p>
+</li>
+<li><p>度量(Measure)<br>一类可以进行聚合分析的特殊维度，聚合后的结果称为指标。</p>
+</li>
+<li><p>事实表(Fact Table)<br>数据仓库中的中央表，用于描述业务内特定事件的数据。</p>
+</li>
+<li><p>维度表(Lookup Table)<br>维度属性的集合，人们观察数据的特定角度。</p>
+</li>
+<li><p>基度（Cardinality）<br>指数据表中某一列数据去重后的元素个数。</p>
+</li>
+<li><p>星型模型(Star Schema)<br>一种多维的数据关系，由一张事实表和一组维度表组成。</p>
+</li>
+<li><p>cube<br>一个cube就是一个Hive表的数据按照指定维度与指标计算出的所有组合结果。</p>
+</li>
+<li><p>cuboid<br>某一维度组合下，度量聚合后的结果集合。有个特殊的cuboid叫 base cuboid，比如维度有ABCD，（A,B,C,D）称为Base cuboid</p>
+</li>
+<li><p>数据立方体(cube)<br>一组用于分析数据的相关度量值和维度，是所有cuboid的集合，作为存储和分析的基本单位</p>
+</li>
+<li><p>segment<br>Cube Segment 是指针对源数据中的某一个片段，计算出来的 Cube 数据。<br>通常数据仓库中的数据数量会随着时间的增长而增长，而 Cube Segment 也是按时间顺序来构建的。</p>
+</li>
+<li><p>衍生维度<br>维度表上的某一列通过PK可推的，换句话是可查询到的 比如由身份证可以推导性别，所以能通过PK推导的维度都可以设置为衍生维度。<br>衍生维度是放在snapshot中</p>
+</li>
+</ul>
+<h3 id="Kylin核心技术：Cube与计算"><a href="#Kylin核心技术：Cube与计算" class="headerlink" title="Kylin核心技术：Cube与计算"></a>Kylin核心技术：Cube与计算</h3><p>比如我们有10多亿中国人口数据，要统计男女比例这么个需求。如果直接从硬盘里提取数据来统计肯定会很慢，磁盘速度大概是几百兆/秒。<br>即使把数据放到内存中也最多提升100倍的速度。</p>
+<p>所以，可以用与计算来统计男女比例</p>
+<h3 id="维度表和事实表"><a href="#维度表和事实表" class="headerlink" title="维度表和事实表"></a>维度表和事实表</h3><p>我学到了一个数据仓库的概念，维度表（Fact Table）和事实表（Lookup Table）。<br>通过下面例子就让我明白了：<br>学过数据库的童鞋应该都知道星型模型，星型模型在数据仓库的设计中可以为是一种典型的维度模型。<br>我们在进行维度建模的时候会建一张事实表，这个事实表就是星型模型的中心，然后会有一堆维度表，这些维度表就是向外发散的星星。<br>那么什么是事实表、什么又是维度表吗，下面会专门来解释。</p>
+<p><img src="/images/2017/kylin_basic/367a4515.png" alt=""></p>
+<p>中间的chat表就是事实表。其它周边的表就是维度表。</p>
+<h3 id="维度设计"><a href="#维度设计" class="headerlink" title="维度设计"></a>维度设计</h3><p>只有普通维度会影响Cuboid的数量和存储膨胀率，衍生维度并不参与Cuboid计算，而是有衍生维度对应的外键FK参与计算Cuboid。<br>在查询时，对衍生维度的查询会首先转换为对外键所在维度的查询，因此会牺牲少量查询性能。</p>
+<p>Kylin暂时不支持星座模型</p>
+<p>默认情况下，系统将会为所有的维度表创建快照。<br>设计新的模型，将大维度表改为事实表</p>
+<p>设计规则如下：<br>经常出现在规律条件中的维度应当设为普通维度，以达到更好的查询性能。</p>
+<p>Derived 衍生类型的前提是要放到快照表里的</p>
+<ul>
+<li>For normal dimensions, Kyligence has max number restriction of 62</li>
+<li>If a dimension table is used in cube design, its corresponding fact table foreign key will be added as normal dimension even it’s not used.</li>
+</ul>
+<h3 id="维度优化"><a href="#维度优化" class="headerlink" title="维度优化"></a>维度优化</h3><p>Mandatory Dimension: 一定group by的字段<br>Hierarchy Dimension: 国家、省、市<br>Joint Dimension: 要么一起出现，要么不出现，比如：A、B、C绑在了一起 （很少有这样的场景）</p>
+<h3 id="Rowkey"><a href="#Rowkey" class="headerlink" title="Rowkey"></a>Rowkey</h3><p>UHC不要用Dict作为encoding;<br>常用的字段比如日期字段要放在Rowkey的前面<br>高基维放置在低基维前面<br>过滤的维度放置在非过滤前面</p>
+<p>max length of FixedLength(N) for UHC of varchar/char type will be 256</p>
+<h3 id="Cube-Build"><a href="#Cube-Build" class="headerlink" title="Cube Build"></a>Cube Build</h3><p>Supported Cube Build Types:<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Full Build</div><div class="line">By Date/time</div><div class="line">Streaming(by offset)</div><div class="line">By File(Beta)</div><div class="line">Customize(Beta)</div></pre></td></tr></table></figure></p>
+<p>尽量使用增量加载<br>计划合并你的增量segment<br>用增量加载的时候要考虑下SCD</p>
+<h3 id="星型模型和雪花模型"><a href="#星型模型和雪花模型" class="headerlink" title="星型模型和雪花模型"></a>星型模型和雪花模型</h3><p>fact table 外围一圈 dimension table 就是星型模型<br>dimension table 外再围一圈 dimension table就是雪花模型</p>
+<h3 id="System-Configuration"><a href="#System-Configuration" class="headerlink" title="System Configuration"></a>System Configuration</h3><p>Important configurations:<br>Job retry<br>Pushdown：对于没有cube能查得结果的sql，Kylin支持将这类查询通过JDBC下压至备用查询引擎如Hive, SparkSQL, Impala等来查得结果<br>Query cache(process level/shared)<br>Compression</p>
+<p>Configuration override<br>System<br>Project<br>Cube</p>
+<h3 id="Authorization-Management"><a href="#Authorization-Management" class="headerlink" title="Authorization Management"></a>Authorization Management</h3><p>project: Query, Operation , Managment, Admin<br>table: Table query, Row query, Column query</p>
+<p>Caution: column ACL is a blacklist.</p>
+<h3 id="Resource-Isolation"><a href="#Resource-Isolation" class="headerlink" title="Resource Isolation"></a>Resource Isolation</h3><p>KE can submit cube build jobs to specified Yarn queues per: system level;project level;cube level</p>
+<h3 id="应用发布流程"><a href="#应用发布流程" class="headerlink" title="应用发布流程"></a>应用发布流程</h3><p>DEV -&gt; QA -&gt;(sign off) PROD</p>
+<h3 id="Daily-Operation"><a href="#Daily-Operation" class="headerlink" title="Daily Operation"></a>Daily Operation</h3><ol>
+<li><p>Garbage cleanup<br>e.g.: segment merged, cube purged</p>
+</li>
+<li><p>System upgrade<br>Minor version upgrade<br>Major version upgrade</p>
+</li>
+<li><p>System backup/restore<br>System level<br>Project level</p>
+</li>
+</ol>
+<h3 id="Rest-API"><a href="#Rest-API" class="headerlink" title="Rest API"></a>Rest API</h3><p>Authorization 这个Header的内容是 “ADMIN:yourpassword”的base64 encode</p>
+<h3 id="Hadoop生态和和MPP数据库的区别"><a href="#Hadoop生态和和MPP数据库的区别" class="headerlink" title="Hadoop生态和和MPP数据库的区别"></a>Hadoop生态和和MPP数据库的区别</h3><p>Hadoop跟MPP的存储模型不一样。<br>Hadoop生态的存储用HDFS，HDFS的扩展是通过元数据来做的，它有中心节点用来存元数据，在加入新的节点的时候，<br>只需要修改元数据就可以，所以HDFS可扩展能力是收到管理元数据那台机器的性能限制的。一般来说可以到10K这个<br>规模，再向上就不行了。</p>
+<p>而MPP要自己做切分，自己做切分就带来动态调整的问题。MPP通常采用的是没有中心节点的存储模式，比如hash，<br>每增加节点的时候，都需要rehash，这样当规模到了几百台的时候，扩展能力就下来了。</p>
+<p>Hive在内存管理上方式不大一样。<br>MPP内存管理比较精细，他主要的想法是在每个机器上放个数据库，传统数据库的内存管理比较复杂，主要是内外存<br>交互的东西，这样的架构决定了MPP在小数据量的时候，latency可以做的比较小，但是数据量大的时候，<br>throughput做不上去了。<br>而Hive的内存管理非常粗放，它后来就是MapReduce的job，MR的job是没有太多精细的内存管理，就是拼命地<br>scan，完了就是spill，这样的架构导致throughput很大，但是latency很高。</p>
+<p>failover机制，<br>Hive的failover就是MR的failover，job挂掉了重新换机器跑就完了。</p>
+<p>MPP它的计算是要attach到数据节点上去的，如果你规模上去，那么fail的可能性就上去了，这样如果你每次计算<br>都有台机器挂了，一挂，别人就要等你，而不是换台机器继续跑。可以用木桶效应类比。</p>
+<h3 id="Cube设计"><a href="#Cube设计" class="headerlink" title="Cube设计"></a>Cube设计</h3><p>Rowkey的具体格式是cuboid id + 具体的维度值（最新的Rowkey中为了并发查询还加入了ShardKey）<br><img src="/images/2017/kylin_basic/b447988e.png" alt=""><br>前面4个框着的作为Rowkey，比如，2015-10-1的维度序号为1，BJ的序号为0，item-A序号为0，则最终Rowkey为 111+100</p>
+<p>Rowkey的设计原则：</p>
+<ol>
+<li>结合业务场景特点，按照查询频次来放置字段顺序</li>
+<li>通过设计的Rowkey尽可能的将数据打散到整个集群中，负载均衡</li>
+<li>设计的Rowkey尽量简短</li>
+</ol>
+<p>有3个方面要考虑：</p>
+<ul>
+<li><p>Encoding<br>我们的编码方式能够大大减少每行Cube数据的体积。<br>而Cube中可能存在数以亿计的行数，使用编码节约的空间累加起来将是一个非常巨大的数字。</p>
+</li>
+<li><p>排序<br>高概率用于过滤的列<br>基数高的列（用它进行过滤时，返回的结果集小）<br>排序评分=过滤概率*过滤强度<br>经常使用到的维度提前—在需要进行后聚合的场景中效率会更高。</p>
+</li>
+<li><p>分片<br>按维度分片（Shard by Dimension）提供了一种更加高效的分片策略，那就是按照某个特定维度进行分片。<br>简单地说，如果Cuboid中某两个行的Shard by Dimension的值相同，<br>那么无论这个Cuboid最终会被划分成多少个分片，这两行数据必然会被分配到同一个分片中。</p>
+</li>
+</ul>
+<p>Shard by维度要求<br>仅支持单一维度<br>基数足够高（几十万）<br>分布均匀<br>经常进行group by和filter</p>
+<p>更多的优化原理要参考Rowkey的设计</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://blog.bcmeng.com/post/kylin-cube.html#cuboid-%E7%9A%84%E7%BB%B4%E5%BA%A6%E5%92%8C%E6%8C%87%E6%A0%87%E5%A6%82%E4%BD%95%E8%BD%AC%E6%8D%A2%E4%B8%BAhbase%E7%9A%84kv%E7%BB%93%E6%9E%84" target="_blank" rel="external">https://blog.bcmeng.com/post/kylin-cube.html#cuboid-%E7%9A%84%E7%BB%B4%E5%BA%A6%E5%92%8C%E6%8C%87%E6%A0%87%E5%A6%82%E4%BD%95%E8%BD%AC%E6%8D%A2%E4%B8%BAhbase%E7%9A%84kv%E7%BB%93%E6%9E%84</a></p>
+]]></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>kylin</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hbase 基础介绍</title>
     <url>/2016/hbase_intro.html</url>
     <content><![CDATA[<h1 id="Hbase的由来"><a href="#Hbase的由来" class="headerlink" title="Hbase的由来"></a>Hbase的由来</h1><p>Hbase是Bigtable的开源山寨版本。</p>
@@ -2230,100 +2429,6 @@ consumer.close(autocommit=False)
       </categories>
       <tags>
         <tag>hbase</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Kylin 基础介绍</title>
-    <url>/2017/kylin_basic.html</url>
-    <content><![CDATA[<h2 id="Kylin术语"><a href="#Kylin术语" class="headerlink" title="Kylin术语"></a>Kylin术语</h2><ul>
-<li><p>维度(Dimension)<br>一组属性，提供结构化的标签信息，一般作为报表的坐标轴。</p>
-</li>
-<li><p>度量(Measure)<br>一类可以进行聚合分析的特殊维度，聚合后的结果称为指标。</p>
-</li>
-<li><p>事实表(Fact Table)<br>数据仓库中的中央表，用于描述业务内特定事件的数据。</p>
-</li>
-<li><p>维度表(Lookup Table)<br>维度属性的集合，人们观察数据的特定角度。</p>
-</li>
-<li><p>基度（Cardinality）<br>指数据表中某一列数据去重后的元素个数。</p>
-</li>
-<li><p>星型模型(Star Schema)<br>一种多维的数据关系，由一张事实表和一组维度表组成。</p>
-</li>
-<li><p>cube<br>一个cube就是一个Hive表的数据按照指定维度与指标计算出的所有组合结果。</p>
-</li>
-<li><p>cuboid<br>某一维度组合下，度量聚合后的结果集合。有个特殊的cuboid叫 base cuboid，比如维度有ABCD，（A,B,C,D）称为Base cuboid</p>
-</li>
-<li><p>数据立方体(cube)<br>一组用于分析数据的相关度量值和维度，是所有cuboid的集合，作为存储和分析的基本单位</p>
-</li>
-<li><p>segment<br>Cube Segment 是指针对源数据中的某一个片段，计算出来的 Cube 数据。<br>通常数据仓库中的数据数量会随着时间的增长而增长，而 Cube Segment 也是按时间顺序来构建的。</p>
-</li>
-<li><p>衍生维度<br>维度表上的某一列通过PK可推的，换句话是可查询到的 比如由身份证可以推导性别，所以能通过PK推导的维度都可以设置为衍生维度。<br>衍生维度是放在snapshot中</p>
-</li>
-</ul>
-<h3 id="Kylin核心技术：Cube与计算"><a href="#Kylin核心技术：Cube与计算" class="headerlink" title="Kylin核心技术：Cube与计算"></a>Kylin核心技术：Cube与计算</h3><p>比如我们有10多亿中国人口数据，要统计男女比例这么个需求。如果直接从硬盘里提取数据来统计肯定会很慢，磁盘速度大概是几百兆/秒。<br>即使把数据放到内存中也最多提升100倍的速度。</p>
-<p>所以，可以用与计算来统计男女比例</p>
-<h3 id="维度表和事实表"><a href="#维度表和事实表" class="headerlink" title="维度表和事实表"></a>维度表和事实表</h3><p>我学到了一个数据仓库的概念，维度表（Fact Table）和事实表（Lookup Table）。<br>通过下面例子就让我明白了：<br>学过数据库的童鞋应该都知道星型模型，星型模型在数据仓库的设计中可以为是一种典型的维度模型。<br>我们在进行维度建模的时候会建一张事实表，这个事实表就是星型模型的中心，然后会有一堆维度表，这些维度表就是向外发散的星星。<br>那么什么是事实表、什么又是维度表吗，下面会专门来解释。</p>
-<p><img src="/images/2017/kylin_basic/367a4515.png" alt=""></p>
-<p>中间的chat表就是事实表。其它周边的表就是维度表。</p>
-<h3 id="维度设计"><a href="#维度设计" class="headerlink" title="维度设计"></a>维度设计</h3><p>只有普通维度会影响Cuboid的数量和存储膨胀率，衍生维度并不参与Cuboid计算，而是有衍生维度对应的外键FK参与计算Cuboid。<br>在查询时，对衍生维度的查询会首先转换为对外键所在维度的查询，因此会牺牲少量查询性能。</p>
-<p>Kylin暂时不支持星座模型</p>
-<p>默认情况下，系统将会为所有的维度表创建快照。<br>设计新的模型，将大维度表改为事实表</p>
-<p>设计规则如下：<br>经常出现在规律条件中的维度应当设为普通维度，以达到更好的查询性能。</p>
-<p>Derived 衍生类型的前提是要放到快照表里的</p>
-<ul>
-<li>For normal dimensions, Kyligence has max number restriction of 62</li>
-<li>If a dimension table is used in cube design, its corresponding fact table foreign key will be added as normal dimension even it’s not used.</li>
-</ul>
-<h3 id="维度优化"><a href="#维度优化" class="headerlink" title="维度优化"></a>维度优化</h3><p>Mandatory Dimension: 一定group by的字段<br>Hierarchy Dimension: 国家、省、市<br>Joint Dimension: 要么一起出现，要么不出现，比如：A、B、C绑在了一起 （很少有这样的场景）</p>
-<h3 id="Rowkey"><a href="#Rowkey" class="headerlink" title="Rowkey"></a>Rowkey</h3><p>UHC不要用Dict作为encoding;<br>常用的字段比如日期字段要放在Rowkey的前面<br>高基维放置在低基维前面<br>过滤的维度放置在非过滤前面</p>
-<p>max length of FixedLength(N) for UHC of varchar/char type will be 256</p>
-<h3 id="Cube-Build"><a href="#Cube-Build" class="headerlink" title="Cube Build"></a>Cube Build</h3><p>Supported Cube Build Types:<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Full Build</div><div class="line">By Date/time</div><div class="line">Streaming(by offset)</div><div class="line">By File(Beta)</div><div class="line">Customize(Beta)</div></pre></td></tr></table></figure></p>
-<p>尽量使用增量加载<br>计划合并你的增量segment<br>用增量加载的时候要考虑下SCD</p>
-<h3 id="星型模型和雪花模型"><a href="#星型模型和雪花模型" class="headerlink" title="星型模型和雪花模型"></a>星型模型和雪花模型</h3><p>fact table 外围一圈 dimension table 就是星型模型<br>dimension table 外再围一圈 dimension table就是雪花模型</p>
-<h3 id="System-Configuration"><a href="#System-Configuration" class="headerlink" title="System Configuration"></a>System Configuration</h3><p>Important configurations:<br>Job retry<br>Pushdown：对于没有cube能查得结果的sql，Kylin支持将这类查询通过JDBC下压至备用查询引擎如Hive, SparkSQL, Impala等来查得结果<br>Query cache(process level/shared)<br>Compression</p>
-<p>Configuration override<br>System<br>Project<br>Cube</p>
-<h3 id="Authorization-Management"><a href="#Authorization-Management" class="headerlink" title="Authorization Management"></a>Authorization Management</h3><p>project: Query, Operation , Managment, Admin<br>table: Table query, Row query, Column query</p>
-<p>Caution: column ACL is a blacklist.</p>
-<h3 id="Resource-Isolation"><a href="#Resource-Isolation" class="headerlink" title="Resource Isolation"></a>Resource Isolation</h3><p>KE can submit cube build jobs to specified Yarn queues per: system level;project level;cube level</p>
-<h3 id="应用发布流程"><a href="#应用发布流程" class="headerlink" title="应用发布流程"></a>应用发布流程</h3><p>DEV -&gt; QA -&gt;(sign off) PROD</p>
-<h3 id="Daily-Operation"><a href="#Daily-Operation" class="headerlink" title="Daily Operation"></a>Daily Operation</h3><ol>
-<li><p>Garbage cleanup<br>e.g.: segment merged, cube purged</p>
-</li>
-<li><p>System upgrade<br>Minor version upgrade<br>Major version upgrade</p>
-</li>
-<li><p>System backup/restore<br>System level<br>Project level</p>
-</li>
-</ol>
-<h3 id="Rest-API"><a href="#Rest-API" class="headerlink" title="Rest API"></a>Rest API</h3><p>Authorization 这个Header的内容是 “ADMIN:yourpassword”的base64 encode</p>
-<h3 id="Hadoop生态和和MPP数据库的区别"><a href="#Hadoop生态和和MPP数据库的区别" class="headerlink" title="Hadoop生态和和MPP数据库的区别"></a>Hadoop生态和和MPP数据库的区别</h3><p>Hadoop跟MPP的存储模型不一样。<br>Hadoop生态的存储用HDFS，HDFS的扩展是通过元数据来做的，它有中心节点用来存元数据，在加入新的节点的时候，<br>只需要修改元数据就可以，所以HDFS可扩展能力是收到管理元数据那台机器的性能限制的。一般来说可以到10K这个<br>规模，再向上就不行了。</p>
-<p>而MPP要自己做切分，自己做切分就带来动态调整的问题。MPP通常采用的是没有中心节点的存储模式，比如hash，<br>每增加节点的时候，都需要rehash，这样当规模到了几百台的时候，扩展能力就下来了。</p>
-<p>Hive在内存管理上方式不大一样。<br>MPP内存管理比较精细，他主要的想法是在每个机器上放个数据库，传统数据库的内存管理比较复杂，主要是内外存<br>交互的东西，这样的架构决定了MPP在小数据量的时候，latency可以做的比较小，但是数据量大的时候，<br>throughput做不上去了。<br>而Hive的内存管理非常粗放，它后来就是MapReduce的job，MR的job是没有太多精细的内存管理，就是拼命地<br>scan，完了就是spill，这样的架构导致throughput很大，但是latency很高。</p>
-<p>failover机制，<br>Hive的failover就是MR的failover，job挂掉了重新换机器跑就完了。</p>
-<p>MPP它的计算是要attach到数据节点上去的，如果你规模上去，那么fail的可能性就上去了，这样如果你每次计算<br>都有台机器挂了，一挂，别人就要等你，而不是换台机器继续跑。可以用木桶效应类比。</p>
-<h3 id="Cube设计"><a href="#Cube设计" class="headerlink" title="Cube设计"></a>Cube设计</h3><p>Rowkey的具体格式是cuboid id + 具体的维度值（最新的Rowkey中为了并发查询还加入了ShardKey）<br><img src="/images/2017/kylin_basic/b447988e.png" alt=""><br>前面4个框着的作为Rowkey，比如，2015-10-1的维度序号为1，BJ的序号为0，item-A序号为0，则最终Rowkey为 111+100</p>
-<p>Rowkey的设计原则：</p>
-<ol>
-<li>结合业务场景特点，按照查询频次来放置字段顺序</li>
-<li>通过设计的Rowkey尽可能的将数据打散到整个集群中，负载均衡</li>
-<li>设计的Rowkey尽量简短</li>
-</ol>
-<p>有3个方面要考虑：</p>
-<ul>
-<li><p>Encoding<br>我们的编码方式能够大大减少每行Cube数据的体积。<br>而Cube中可能存在数以亿计的行数，使用编码节约的空间累加起来将是一个非常巨大的数字。</p>
-</li>
-<li><p>排序<br>高概率用于过滤的列<br>基数高的列（用它进行过滤时，返回的结果集小）<br>排序评分=过滤概率*过滤强度<br>经常使用到的维度提前—在需要进行后聚合的场景中效率会更高。</p>
-</li>
-<li><p>分片<br>按维度分片（Shard by Dimension）提供了一种更加高效的分片策略，那就是按照某个特定维度进行分片。<br>简单地说，如果Cuboid中某两个行的Shard by Dimension的值相同，<br>那么无论这个Cuboid最终会被划分成多少个分片，这两行数据必然会被分配到同一个分片中。</p>
-</li>
-</ul>
-<p>Shard by维度要求<br>仅支持单一维度<br>基数足够高（几十万）<br>分布均匀<br>经常进行group by和filter</p>
-<p>更多的优化原理要参考Rowkey的设计</p>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://blog.bcmeng.com/post/kylin-cube.html#cuboid-%E7%9A%84%E7%BB%B4%E5%BA%A6%E5%92%8C%E6%8C%87%E6%A0%87%E5%A6%82%E4%BD%95%E8%BD%AC%E6%8D%A2%E4%B8%BAhbase%E7%9A%84kv%E7%BB%93%E6%9E%84" target="_blank" rel="external">https://blog.bcmeng.com/post/kylin-cube.html#cuboid-%E7%9A%84%E7%BB%B4%E5%BA%A6%E5%92%8C%E6%8C%87%E6%A0%87%E5%A6%82%E4%BD%95%E8%BD%AC%E6%8D%A2%E4%B8%BAhbase%E7%9A%84kv%E7%BB%93%E6%9E%84</a></p>
-]]></content>
-      <categories>
-        <category>大数据</category>
-      </categories>
-      <tags>
-        <tag>kylin</tag>
       </tags>
   </entry>
   <entry>
