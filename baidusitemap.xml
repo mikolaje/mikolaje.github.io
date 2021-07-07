@@ -1,31 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://mikolaje.github.io/2021/trading_indicator_learning1.html</loc>
+    <lastmod>2021-07-07</lastmod>
+  </url>  <url>
+    <loc>http://mikolaje.github.io/2021/enploy.html</loc>
+    <lastmod>2021-07-07</lastmod>
+  </url>  <url>
     <loc>http://mikolaje.github.io/2021/tradingview_pine_script.html</loc>
-    <lastmod>2021-06-10</lastmod>
+    <lastmod>2021-07-07</lastmod>
   </url>  <url>
     <loc>http://mikolaje.github.io/2021/trading_term.html</loc>
-    <lastmod>2021-06-10</lastmod>
-  </url>  <url>
-    <loc>http://mikolaje.github.io/2021/learn_pytorch.html</loc>
-    <lastmod>2021-05-29</lastmod>
+    <lastmod>2021-07-07</lastmod>
   </url>  <url>
     <loc>http://mikolaje.github.io/2021/my_working_recap.html</loc>
+    <lastmod>2021-07-07</lastmod>
+  </url>  <url>
+    <loc>http://mikolaje.github.io/2021/learn_pytorch.html</loc>
     <lastmod>2021-05-29</lastmod>
   </url>  <url>
     <loc>http://mikolaje.github.io/2021/RSI.html</loc>
     <lastmod>2021-03-27</lastmod>
   </url>  <url>
-    <loc>http://mikolaje.github.io/2021/pyspark_monte_carlo.html</loc>
+    <loc>http://mikolaje.github.io/2021/kivy.html</loc>
     <lastmod>2021-02-10</lastmod>
   </url>  <url>
-    <loc>http://mikolaje.github.io/2021/kivy.html</loc>
+    <loc>http://mikolaje.github.io/2021/pyspark_monte_carlo.html</loc>
     <lastmod>2021-02-10</lastmod>
   </url>  <url>
     <loc>http://mikolaje.github.io/2020/web_ssh.html</loc>
     <lastmod>2021-01-13</lastmod>
   </url>  <url>
-    <loc>http://mikolaje.github.io/2019/typical_bigdata_interview_question.html</loc>
+    <loc>http://mikolaje.github.io/2020/stock_short.html</loc>
+    <lastmod>2020-12-22</lastmod>
+  </url>  <url>
+    <loc>http://mikolaje.github.io/2020/howto_config_nginx.html</loc>
     <lastmod>2020-12-22</lastmod>
   </url>  <url>
     <loc>http://mikolaje.github.io/2020/bigdata_jobs.html</loc>
@@ -37,34 +46,25 @@
     <loc>http://mikolaje.github.io/2020/zhihu_comment.html</loc>
     <lastmod>2020-12-22</lastmod>
   </url>  <url>
-    <loc>http://mikolaje.github.io/2020/stock_short.html</loc>
-    <lastmod>2020-12-22</lastmod>
-  </url>  <url>
     <loc>http://mikolaje.github.io/2020/ldap_kerberos.html</loc>
     <lastmod>2020-12-22</lastmod>
   </url>  <url>
     <loc>http://mikolaje.github.io/2020/delta_lake_intro.html</loc>
     <lastmod>2020-12-22</lastmod>
   </url>  <url>
-    <loc>http://mikolaje.github.io/2020/dataminner.html</loc>
+    <loc>http://mikolaje.github.io/2019/tmux_guide.html</loc>
+    <lastmod>2020-12-22</lastmod>
+  </url>  <url>
+    <loc>http://mikolaje.github.io/2019/typical_bigdata_interview_question.html</loc>
     <lastmod>2020-12-22</lastmod>
   </url>  <url>
     <loc>http://mikolaje.github.io/2020/badminton_coach.html</loc>
     <lastmod>2020-12-22</lastmod>
   </url>  <url>
-    <loc>http://mikolaje.github.io/2019/tmux_guide.html</loc>
-    <lastmod>2020-12-22</lastmod>
-  </url>  <url>
-    <loc>http://mikolaje.github.io/2020/howto_config_nginx.html</loc>
+    <loc>http://mikolaje.github.io/2020/dataminner.html</loc>
     <lastmod>2020-12-22</lastmod>
   </url>  <url>
     <loc>http://mikolaje.github.io/2019/private_IDC.html</loc>
-    <lastmod>2020-12-22</lastmod>
-  </url>  <url>
-    <loc>http://mikolaje.github.io/2019/ngrok_deployment.html</loc>
-    <lastmod>2020-12-22</lastmod>
-  </url>  <url>
-    <loc>http://mikolaje.github.io/2019/cdh_install.html</loc>
     <lastmod>2020-12-22</lastmod>
   </url>  <url>
     <loc>http://mikolaje.github.io/2018/python_dict.html</loc>
@@ -103,22 +103,28 @@
     <loc>http://mikolaje.github.io/2019/kyligence_interview.html</loc>
     <lastmod>2020-12-22</lastmod>
   </url>  <url>
+    <loc>http://mikolaje.github.io/2019/nz_travel.html</loc>
+    <lastmod>2020-12-22</lastmod>
+  </url>  <url>
+    <loc>http://mikolaje.github.io/2019/ngrok_deployment.html</loc>
+    <lastmod>2020-12-22</lastmod>
+  </url>  <url>
+    <loc>http://mikolaje.github.io/2019/spark_when_to_cache.html</loc>
+    <lastmod>2020-12-22</lastmod>
+  </url>  <url>
+    <loc>http://mikolaje.github.io/2019/cdh_install.html</loc>
+    <lastmod>2020-12-22</lastmod>
+  </url>  <url>
     <loc>http://mikolaje.github.io/2018/zookeeper_service.html</loc>
     <lastmod>2020-12-22</lastmod>
   </url>  <url>
     <loc>http://mikolaje.github.io/2019/pyspark_slower.html</loc>
     <lastmod>2020-12-22</lastmod>
   </url>  <url>
-    <loc>http://mikolaje.github.io/2019/spark_when_to_cache.html</loc>
-    <lastmod>2020-12-22</lastmod>
-  </url>  <url>
-    <loc>http://mikolaje.github.io/2019/nz_travel.html</loc>
-    <lastmod>2020-12-22</lastmod>
-  </url>  <url>
     <loc>http://mikolaje.github.io/2019/spark_internal_reading_notes.html</loc>
     <lastmod>2020-12-22</lastmod>
   </url>  <url>
-    <loc>http://mikolaje.github.io/2018/calcite_intro.html</loc>
+    <loc>http://mikolaje.github.io/2018/git_stash.html</loc>
     <lastmod>2020-12-22</lastmod>
   </url>  <url>
     <loc>http://mikolaje.github.io/2018/hive_optimization.html</loc>
@@ -127,16 +133,16 @@
     <loc>http://mikolaje.github.io/2018/hadoop_basic.html</loc>
     <lastmod>2020-12-22</lastmod>
   </url>  <url>
-    <loc>http://mikolaje.github.io/2018/git_stash.html</loc>
+    <loc>http://mikolaje.github.io/2018/calcite_intro.html</loc>
     <lastmod>2020-12-22</lastmod>
   </url>  <url>
-    <loc>http://mikolaje.github.io/2018/git_rebase.html</loc>
+    <loc>http://mikolaje.github.io/2018/kafka_intro.html</loc>
     <lastmod>2020-12-22</lastmod>
   </url>  <url>
     <loc>http://mikolaje.github.io/2018/hive_udf.html</loc>
     <lastmod>2020-12-22</lastmod>
   </url>  <url>
-    <loc>http://mikolaje.github.io/2018/kafka_intro.html</loc>
+    <loc>http://mikolaje.github.io/2018/git_rebase.html</loc>
     <lastmod>2020-12-22</lastmod>
   </url>  <url>
     <loc>http://mikolaje.github.io/2018/git_github.html</loc>
@@ -151,10 +157,10 @@
     <loc>http://mikolaje.github.io/2017/how_tobe_apache_contributor.html</loc>
     <lastmod>2020-12-22</lastmod>
   </url>  <url>
-    <loc>http://mikolaje.github.io/2016/hbase_intro.html</loc>
+    <loc>http://mikolaje.github.io/2016/python_unicode.html</loc>
     <lastmod>2020-12-22</lastmod>
   </url>  <url>
-    <loc>http://mikolaje.github.io/2017/kylin_basic.html</loc>
+    <loc>http://mikolaje.github.io/2016/python_yield.html</loc>
     <lastmod>2020-12-22</lastmod>
   </url>  <url>
     <loc>http://mikolaje.github.io/2017/tcp_knowledge.html</loc>
@@ -166,19 +172,19 @@
     <loc>http://mikolaje.github.io/2017/kafka_daily_command.html</loc>
     <lastmod>2020-12-22</lastmod>
   </url>  <url>
-    <loc>http://mikolaje.github.io/2016/python_unicode.html</loc>
+    <loc>http://mikolaje.github.io/2016/hbase_intro.html</loc>
+    <lastmod>2020-12-22</lastmod>
+  </url>  <url>
+    <loc>http://mikolaje.github.io/2017/kylin_basic.html</loc>
+    <lastmod>2020-12-22</lastmod>
+  </url>  <url>
+    <loc>http://mikolaje.github.io/2016/spark_bias.html</loc>
     <lastmod>2020-12-22</lastmod>
   </url>  <url>
     <loc>http://mikolaje.github.io/2017/heap_sort.html</loc>
     <lastmod>2020-12-22</lastmod>
   </url>  <url>
     <loc>http://mikolaje.github.io/2017/find_your_answer.html</loc>
-    <lastmod>2020-12-22</lastmod>
-  </url>  <url>
-    <loc>http://mikolaje.github.io/2016/python_yield.html</loc>
-    <lastmod>2020-12-22</lastmod>
-  </url>  <url>
-    <loc>http://mikolaje.github.io/2016/spark_bias.html</loc>
     <lastmod>2020-12-22</lastmod>
   </url>  <url>
     <loc>http://mikolaje.github.io/2017/dennis_weekly.html</loc>

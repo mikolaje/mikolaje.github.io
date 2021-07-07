@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/cat_favicon_32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/cat_favicon_16.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="trade" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="W%R (Williams %R)當威廉指數的值越小，市場越處買方主導，相反越接近零，市場由賣方主導，一般來說超過-20%的水平會視為超買（Overbought）的訊號，而-80%以下則被視為超賣（Oversold）訊號，但請務必記住，超買並不一定意味著一定是出貨的時間，而超賣並不一定意味著是入市的時間。判斷買入點除了利用W%R外，最好同時判斷趨勢是否同時逆轉。
+KD (stochastic os">
+<meta property="og:type" content="article">
+<meta property="og:title" content="技术指标的一些笔记">
+<meta property="og:url" content="http://mikolaje.github.io/2021/trading_indicator_learning1.html">
+<meta property="og:site_name" content="Dennis' Blog">
+<meta property="og:description" content="W%R (Williams %R)當威廉指數的值越小，市場越處買方主導，相反越接近零，市場由賣方主導，一般來說超過-20%的水平會視為超買（Overbought）的訊號，而-80%以下則被視為超賣（Oversold）訊號，但請務必記住，超買並不一定意味著一定是出貨的時間，而超賣並不一定意味著是入市的時間。判斷買入點除了利用W%R外，最好同時判斷趨勢是否同時逆轉。
+KD (stochastic os">
+<meta property="og:image" content="http://mikolaje.github.io/images/2021/trading_indicator_learning1/bc7a8a93.png">
+<meta property="og:image" content="http://mikolaje.github.io/images/2021/trading_indicator_learning1/00c96d4f.png">
+<meta property="og:updated_time" content="2021-07-07T02:29:04.554Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="技术指标的一些笔记">
+<meta name="twitter:description" content="W%R (Williams %R)當威廉指數的值越小，市場越處買方主導，相反越接近零，市場由賣方主導，一般來說超過-20%的水平會視為超買（Overbought）的訊號，而-80%以下則被視為超賣（Oversold）訊號，但請務必記住，超買並不一定意味著一定是出貨的時間，而超賣並不一定意味著是入市的時間。判斷買入點除了利用W%R外，最好同時判斷趨勢是否同時逆轉。
+KD (stochastic os">
+<meta name="twitter:image" content="http://mikolaje.github.io/images/2021/trading_indicator_learning1/bc7a8a93.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://mikolaje.github.io/2021/trading_indicator_learning1.html"/>
+
+
+
+
+
+  <title>技术指标的一些笔记 | Dennis' Blog</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-146421461-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Dennis' Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">欢迎各位领导前来指导工作</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- side -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9293695697921628"
+     data-ad-slot="4837815018"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> 
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://mikolaje.github.io/2021/trading_indicator_learning1.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dennis">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dennis' Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">技术指标的一些笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-06-01T12:07:10+00:00">
+                2021-06-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/trade/" itemprop="url" rel="index">
+                    <span itemprop="name">trade</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/trading_indicator_learning1.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2021/trading_indicator_learning1.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="W-R-Williams-R"><a href="#W-R-Williams-R" class="headerlink" title="W%R (Williams %R)"></a>W%R (Williams %R)</h2><p>當威廉指數的值越小，市場越處買方主導，相反越接近零，市場由賣方主導，一般來說超過-20%的水平會視為超買（Overbought）的訊號，而-80%以下則被視為超賣（Oversold）訊號，<br>但請務必記住，超買並不一定意味著一定是出貨的時間，而超賣並不一定意味著是入市的時間。判斷買入點除了利用W%R外，最好同時判斷趨勢是否同時逆轉。<br><img src="/images/2021/trading_indicator_learning1/bc7a8a93.png" alt=""></p>
+<h2 id="KD-stochastic-oscillator"><a href="#KD-stochastic-oscillator" class="headerlink" title="KD (stochastic oscillator)"></a>KD (stochastic oscillator)</h2><p>随机指标（KD）适用于中短期股票的技术分析。KD线的随机观念与移动平均线相比，各有所长。移动平均线在习惯上只以收盘价来计算，因而无法表现出一段行情的真正波幅。换句话说，当日或最近数日的最高价、最低价、无法在移动平均线上体现。<br>因而就有了KD指标</p>
+<p><img src="/images/2021/trading_indicator_learning1/00c96d4f.png" alt=""></p>
+<p>【註】<br>RSV<em>{n} RSV</em>{n}，為當日的 RSV 值；K<em>{n},D</em>{n}K<em>{n},D</em>{n}，為當日 K 值和 D 值；K<em>{n-1}, D</em>{n-1} K<em>{n-1},D</em>{n-1}，為前一日的 K 值和 D 值。<br>若無前一日 K 值或 D 值，可以 50% 代入計算。[4]<br>K 值是 RSV 值的 3 日指數平滑移動平均、D 值是 K 值的 3 日指數平滑移動平均；完全随机指标则要求使用者自行定义回顾日期 {\displaystyle n}n、K 值（%K）的移动平均日数、和 D 值（%D）的移动平均日数。<br>K 值為「快速平均值」，反應較靈敏；D 值為「慢速平均值」，反應較不靈敏。若 K 值 &gt; D 值，表示處於漲勢；反之，則處於跌勢。K 值和 D 值，數值皆介於 0~100之間，一般以9日KD值判斷短線行情之買賣訊號。<br>當K值向上突破D值為買進訊號，當K值向下跌破D值為賣出訊號。50為多空平衡位置，80 以上為「超買區」（Overbought Zone），多頭強勢；20以下為「超賣區」（Oversold Zone），空頭強勢。</p>
+<h2 id="KDJ"><a href="#KDJ" class="headerlink" title="KDJ"></a>KDJ</h2><p>J = 3D-2K</p>
+<h2 id="OBV"><a href="#OBV" class="headerlink" title="OBV"></a>OBV</h2><p>以某日为基期，逐日累计每日上市股票总成交量，若隔日指数或股票上涨，则基期OBV加上本日成交量为本日OBV。<br>隔日指数或股票下跌，则基期OBV减去本日成交量为本日OBV。一般来说，只是观察OBV的升降并无多大意义，必须配合K线图的走势才有实际的效用。</p>
+<h2 id="MFI"><a href="#MFI" class="headerlink" title="MFI"></a>MFI</h2><p>MFI指标（Money Flow Index）：也可以叫资金流量指标,1989年3月由JWellesWilder’s首次发表MFI指标的用法。<br>MFI指标实际是将RSI加以修改后，演变而来。RSI以成交价为计算基础；MFI指标则结合价和量，将其列入综合考虑的范围。可以说，MFI指标是成交量的RSI指标。</p>
+<h2 id="CMF"><a href="#CMF" class="headerlink" title="CMF"></a>CMF</h2><p>作为货币流量振荡器，CMF可以与纯价格振荡器（如MACD或RSI）结合使用。与所有指标一样，Chaikin Money Flow不应该被用作独立指标。Marc Chaikin也开发了这款游戏积累分配线和Chaikin振荡器。</p>
+<p>如果在成交量放大的同时，价格持续收于日最高价与最低价之间的上半部分，那么该指标将会是正值，表示该证券处于强势之中。<br>相反，如果在成交量放大的同时，价格持续收于日最高价与最低价之间的下半部分，那么该指标将是负值，表示该证券处于弱势之中。<br>简单的说，CMF其实可以用中国人常用的“热钱指数”来形容，它是用图表来将买家的购买力和卖家的抛售力度形像化。在一个图表上，以零为中位线，上限是正0.3，下限是负0.3。　一只上升中的股票，正常来说，CMF会随着股价缓缓上升，最高可以升到正0.3左右。<br>有一种理论指出，当CMF升到正0.3水平，可视作股票已出现超买，股价需要下跌调整。<br>相反来说，当一只股票出现了一个下跌趋势，CMF会随着下跌，最低可以跌到负0.3。当CMF跌到负0.3水平，可视为股票已出现超卖，股价需要向上反弹调整。分析家相信，当CMF升高超过零，表示市场的购买力旺盛，可趁机吸纳。当CMF跌低于零，应考虑沽出。<br>一只股票如果长期保持在零以上，表示有买家在长期收集。尤其是当股票下跌，CMF随着逐级回落，但每次均跌到零就止跌回升，显示这是一个牛市中的正常调整。长线投资者不应因为这些短暂的弱势而沽售，反而可以趁弱势增加持股量。<br>反之亦然，如果CMF每次升至零就调头，显示购买力弱不禁风，可能是一个熊市的短暂后抽。投资者可趁强势沽货离场，因为在熊市里面，所有后抽都是昙花一现。</p>
+<h2 id="PVT"><a href="#PVT" class="headerlink" title="PVT"></a>PVT</h2><p>计算公式<br>如果设x=(今日收盘价—昨日收盘价)/昨日收盘价×当日成交量，那么当日PVT指标值则为从第一个交易日起每日X值的累加。</p>
+<p>应用法则<br>(1)价格上升，PVT指标线下降为卖出信号。 (其实就是看背离)<br>(2)价格下跌，PVT指标线上升为买进信号。<br>(3)PVT的用法基本同OBV，但PVT比OBV能更快地反映趋势。</p>
+<h2 id="Tom-Demark-sequence-狄马克序列"><a href="#Tom-Demark-sequence-狄马克序列" class="headerlink" title="Tom Demark sequence (狄马克序列)"></a>Tom Demark sequence (狄马克序列)</h2><p>当前技术分析领域著名大师汤姆：狄马克发明了一系列指标系统，其中应用最为广泛的是狄马克序列，又称TD序列。TD序列用来推算趋势衰竭的时机，识别市场趋势或盘整过程中的潜在转折点，提供了关于买点、卖点的建议。<br>国内备受欢迎的神奇九转，其思想正是源于汤姆·狄马克的TD序列。</p>
+<ul>
+<li>应用法则<br>　　1.当连续出现九根K线，其收盘价都低于各自之前第四根K线，即为形成一个完整的TD买入结构，价格可能出现反转，可以考虑买入。<br>　　2.TD买入结构的完善<br>　　许多TD指标的追随者都认为TD买入结构完成后，就可以直接进行买入的操作，但如此操作将面临巨大的风险，故此在TD买入结构的基础上，需要进行一个完善。<br>　　TD买入结构中的第8根K线或第9根K线的最低价，或者后续K线的最低价，必须低于或者等于TD买入结构中的第6根K线和第7根K线的最低价。</li>
+</ul>
+<p>　　理想的买点是：第8或第9根K线的最低价，低于第6和第7根K线的最低价。<br>　　3.当连续出现九根K线，其收盘价都高于各自之前第四根K线，即为形成一个完整的TD卖出结构，价格可能出现反转，可以考虑卖出。<br>　　4.TD卖出结构的完善<br>　　TD卖出结构中的第8根K线或第9根K线的最高价，或者后续K线的最高价，必须高于或者等于TD卖出结构中的第6根K线和第7根K线的最高价<br>　　理想的卖点是：第8或第9根K线的最高价，高于第6和第7根K线的最高价。</p>
+<ul>
+<li>计算方法<br>以下跌买入为例，TD买入结构如下：<br>1.有一根K线收盘价高于四天前的收盘价，<br>2.连续出现9根收盘价低于各自之前第四天的收盘价，在此过程中，任何一根K线不满足，都需要重新开始计算。</li>
+</ul>
+<h2 id="均幅指标（Average-True-Ranger-ATR）"><a href="#均幅指标（Average-True-Ranger-ATR）" class="headerlink" title="均幅指标（Average True Ranger,ATR）"></a>均幅指标（Average True Ranger,ATR）</h2><p>均幅指标 (ATR) 是取一定时间周期内的股价波动幅度的移动平均值，主要用于判断买卖时机。<br>均幅指标是显示市场变化率的指标，由Welles Wilder创造，意在衡量市场的波动性，切记！！该指标并不提供任何方向性的指引。</p>
+<ul>
+<li>如何得到ATR？</li>
+</ul>
+<p>1.首先应计算出TR（即当天的真实波幅），计算公式如下：</p>
+<pre><code>TR = 当天的高点—当天的低点
+</code></pre><p>2.有时候汇市会出现跳空高开以及跳空低开的情况，在这种情况下，当天的TR值为：</p>
+<pre><code>A．跳空高开：TR = 当天的高点—昨天的收盘价
+B．跳空低开：TR = 昨天的收盘价—当天的低点
+</code></pre><p>3.由於一天的TR缺乏效率以及代表性，韦尔德用ATR来更好的衡量市场的波动性；一般而言，市场常用的数据周期是14以及21，这意味著如果投资者在日图看ATR，14 = 14天；<br>如果是在周图看ATR，14 = 14周。ATR的计算公式如下：</p>
+<pre><code>ATR = （前13天的TR + 当天的TR）/ 14
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/trade/" rel="tag"># trade</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/tradingview_pine_script.html" rel="next" title="Tradingview pine script 学习笔记">
+                <i class="fa fa-chevron-left"></i> Tradingview pine script 学习笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Dennis" />
+            
+              <p class="site-author-name" itemprop="name">Dennis</p>
+              <p class="site-description motion-element" itemprop="description">Hi, I'm a data engineer for several years being enthusiastic about programming (Python and Java), studying and making money. Regarding entertainments, I enjoy playing badminton and travelling.</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">73</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/mikolaje" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/mikolaj" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-zhihu"></i>知乎</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com/users/6169688/dennisli" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i>StackOverflow</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.quora.com/profile/Dennis-271" target="_blank" title="Quora">
+                      
+                        <i class="fa fa-fw fa-quora"></i>Quora</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#W-R-Williams-R"><span class="nav-number">1.</span> <span class="nav-text">W%R (Williams %R)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#KD-stochastic-oscillator"><span class="nav-number">2.</span> <span class="nav-text">KD (stochastic oscillator)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#KDJ"><span class="nav-number">3.</span> <span class="nav-text">KDJ</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OBV"><span class="nav-number">4.</span> <span class="nav-text">OBV</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MFI"><span class="nav-number">5.</span> <span class="nav-text">MFI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CMF"><span class="nav-number">6.</span> <span class="nav-text">CMF</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PVT"><span class="nav-number">7.</span> <span class="nav-text">PVT</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tom-Demark-sequence-狄马克序列"><span class="nav-number">8.</span> <span class="nav-text">Tom Demark sequence (狄马克序列)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#均幅指标（Average-True-Ranger-ATR）"><span class="nav-number">9.</span> <span class="nav-text">均幅指标（Average True Ranger,ATR）</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dennis</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://mikolaje.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://mikolaje.github.io/2021/trading_indicator_learning1.html';
+          this.page.identifier = '2021/trading_indicator_learning1.html';
+          this.page.title = '技术指标的一些笔记';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://mikolaje.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>
