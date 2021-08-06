@@ -3,11 +3,11 @@
   <entry>
     <title>技术指标的一些笔记</title>
     <url>/2021/trading_indicator_learning1.html</url>
-    <content><![CDATA[<h2 id="W-R-Williams-R"><a href="#W-R-Williams-R" class="headerlink" title="W%R (Williams %R)"></a>W%R (Williams %R)</h2><p>當威廉指數的值越小，市場越處買方主導，相反越接近零，市場由賣方主導，一般來說超過-20%的水平會視為超買（Overbought）的訊號，而-80%以下則被視為超賣（Oversold）訊號，<br>但請務必記住，超買並不一定意味著一定是出貨的時間，而超賣並不一定意味著是入市的時間。判斷買入點除了利用W%R外，最好同時判斷趨勢是否同時逆轉。<br><img src="/images/2021/trading_indicator_learning1/bc7a8a93.png" alt=""></p>
-<h2 id="KD-stochastic-oscillator"><a href="#KD-stochastic-oscillator" class="headerlink" title="KD (stochastic oscillator)"></a>KD (stochastic oscillator)</h2><p>随机指标（KD）适用于中短期股票的技术分析。KD线的随机观念与移动平均线相比，各有所长。移动平均线在习惯上只以收盘价来计算，因而无法表现出一段行情的真正波幅。换句话说，当日或最近数日的最高价、最低价、无法在移动平均线上体现。<br>因而就有了KD指标</p>
-<p><img src="/images/2021/trading_indicator_learning1/00c96d4f.png" alt=""></p>
-<p>【註】<br>RSV<em>{n} RSV</em>{n}，為當日的 RSV 值；K<em>{n},D</em>{n}K<em>{n},D</em>{n}，為當日 K 值和 D 值；K<em>{n-1}, D</em>{n-1} K<em>{n-1},D</em>{n-1}，為前一日的 K 值和 D 值。<br>若無前一日 K 值或 D 值，可以 50% 代入計算。[4]<br>K 值是 RSV 值的 3 日指數平滑移動平均、D 值是 K 值的 3 日指數平滑移動平均；完全随机指标则要求使用者自行定义回顾日期 {\displaystyle n}n、K 值（%K）的移动平均日数、和 D 值（%D）的移动平均日数。<br>K 值為「快速平均值」，反應較靈敏；D 值為「慢速平均值」，反應較不靈敏。若 K 值 &gt; D 值，表示處於漲勢；反之，則處於跌勢。K 值和 D 值，數值皆介於 0~100之間，一般以9日KD值判斷短線行情之買賣訊號。<br>當K值向上突破D值為買進訊號，當K值向下跌破D值為賣出訊號。50為多空平衡位置，80 以上為「超買區」（Overbought Zone），多頭強勢；20以下為「超賣區」（Oversold Zone），空頭強勢。</p>
+    <content><![CDATA[<h2 id="W-R-Williams-R"><a href="#W-R-Williams-R" class="headerlink" title="W%R (Williams %R)"></a>W%R (Williams %R)</h2><p>當威廉指數的值越小，市場越處買方主導，相反越接近零，市場由賣方主導，一般來說超過-20%的水平會視為超買（Overbought）的訊號，而-80%以下則被視為超賣（Oversold）訊號，<br>但請務必記住，超買並不一定意味著一定是出貨的時間，而超賣並不一定意味著是入市的時間。判斷買入點除了利用W%R外，最好同時判斷趨勢是否同時逆轉。</p>
+<h2 id="KD-stochastic-oscillator"><a href="#KD-stochastic-oscillator" class="headerlink" title="KD (stochastic oscillator)"></a>KD (stochastic oscillator)</h2><p>随机指标（KD）适用于中短期股票的技术分析。KD线的随机观念与移动平均线相比，各有所长。移动平均线在习惯上只以收盘价来计算，因而无法表现出一段行情的真正波幅。换句话说，当日或最近数日的最高价、最低价、无法在移动平均线上体现。<br>因而就有了KD指标<br><img src="/images/2021/trading_indicator_learning1/dd042a10.png" alt=""></p>
+<p>【註】<br>RSV<em>{n} RSV</em>{n}，為當日的 RSV 值；K<em>{n},D</em>{n}K<em>{n},D</em>{n}，為當日 K 值和 D 值；K<em>{n-1}, D</em>{n-1} K<em>{n-1},D</em>{n-1}，為前一日的 K 值和 D 值。<br>若無前一日 K 值或 D 值，可以 50% 代入計算。<br>K 值是 RSV 值的 3 日指數平滑移動平均、D 值是 K 值的 3 日指數平滑移動平均；完全随机指标则要求使用者自行定义回顾日期 n、K 值（%K）的移动平均日数、和 D 值（%D）的移动平均日数。<br>K 值為「快速平均值」，反應較靈敏；D 值為「慢速平均值」，反應較不靈敏。若 K 值 &gt; D 值，表示處於漲勢；反之，則處於跌勢。K 值和 D 值，數值皆介於 0~100之間，一般以9日KD值判斷短線行情之買賣訊號。<br>當K值向上突破D值為買進訊號，當K值向下跌破D值為賣出訊號。50為多空平衡位置，80 以上為「超買區」（Overbought Zone），多頭強勢；20以下為「超賣區」（Oversold Zone），空頭強勢。</p>
 <h2 id="KDJ"><a href="#KDJ" class="headerlink" title="KDJ"></a>KDJ</h2><p>J = 3D-2K</p>
+<p>K线、D线与J线,三条曲线相比较，J线数值变化最快，又被称之为超快线，或称确认线。<br>主要用来确认K线与D线所发出的买卖信号，作为辅助观察线。k线数值变化速度在三条曲线中属于中等，但与D线比起来速度稍快于D线，因此，K线又被称之为快线。D线在三条曲线中变化速度最慢，所以D线又被称之为慢线。</p>
 <h2 id="OBV"><a href="#OBV" class="headerlink" title="OBV"></a>OBV</h2><p>以某日为基期，逐日累计每日上市股票总成交量，若隔日指数或股票上涨，则基期OBV加上本日成交量为本日OBV。<br>隔日指数或股票下跌，则基期OBV减去本日成交量为本日OBV。一般来说，只是观察OBV的升降并无多大意义，必须配合K线图的走势才有实际的效用。</p>
 <h2 id="MFI"><a href="#MFI" class="headerlink" title="MFI"></a>MFI</h2><p>MFI指标（Money Flow Index）：也可以叫资金流量指标,1989年3月由JWellesWilder’s首次发表MFI指标的用法。<br>MFI指标实际是将RSI加以修改后，演变而来。RSI以成交价为计算基础；MFI指标则结合价和量，将其列入综合考虑的范围。可以说，MFI指标是成交量的RSI指标。</p>
 <h2 id="CMF"><a href="#CMF" class="headerlink" title="CMF"></a>CMF</h2><p>作为货币流量振荡器，CMF可以与纯价格振荡器（如MACD或RSI）结合使用。与所有指标一样，Chaikin Money Flow不应该被用作独立指标。Marc Chaikin也开发了这款游戏积累分配线和Chaikin振荡器。</p>
@@ -33,7 +33,10 @@
 B．跳空低开：TR = 昨天的收盘价—当天的低点
 </code></pre><p>3.由於一天的TR缺乏效率以及代表性，韦尔德用ATR来更好的衡量市场的波动性；一般而言，市场常用的数据周期是14以及21，这意味著如果投资者在日图看ATR，14 = 14天；<br>如果是在周图看ATR，14 = 14周。ATR的计算公式如下：</p>
 <pre><code>ATR = （前13天的TR + 当天的TR）/ 14
-</code></pre>]]></content>
+</code></pre><h2 id="SAR-Stop-and-Reverses-The-Parabolic-Time-指标"><a href="#SAR-Stop-and-Reverses-The-Parabolic-Time-指标" class="headerlink" title="SAR(Stop and Reverses) / The Parabolic Time 指标"></a>SAR(Stop and Reverses) / The Parabolic Time 指标</h2><p>抛物线转向也称为停损转向。因为长得像抛物线所以叫做Parabolic。它的计算公式比较复杂<br>当天SAR = 前一天SAR + AF*(区间极值 - 前一天SAR)</p>
+<p>区间极值就是计算其中的最高价或最低价。<br>AF则是SAR的特有产物，叫做加速因子，起始指是0.02，当股价创新高或新低而改变区间极值的时候，AF就要增加0.02，最高可以加到0.2。<br>计算起来不是很困难就是很繁琐。<br>在上涨波段中只要股价位于抛物线上标识上涨趋势正在持续，SAR也会同步上升。<br>当股价只要跌破抛物线就代表趋势反转，是卖出的时机。<br>相反的，在下跌波段当中，股价突破向下弯的抛物线，则是买进的时机。<br>比较适用于在明显的上涨或下跌波段。不适用于震荡阶段。</p>
+<h2 id="VWAP（成交量加权平均价）"><a href="#VWAP（成交量加权平均价）" class="headerlink" title="VWAP（成交量加权平均价）"></a>VWAP（成交量加权平均价）</h2><p>VWAP是Volume Weighted Average Price 的缩写，译为成交量加权平均价。<br>VWAP策略即是一种拆分大额委托单，在约定时间段内分批执行，以期使得最终买入或卖出成交均价尽量接近该段时间内整个市场成交均价的算法交易策略。</p>
+]]></content>
       <categories>
         <category>trade</category>
       </categories>
@@ -85,7 +88,7 @@ B．跳空低开：TR = 昨天的收盘价—当天的低点
 </ul>
 <p>If there were multiple entry orders with the same ID, all of them are exited at once.<br>如果有多个同样ID的订单，所有的订单都会一次性退出。</p>
 <ul>
-<li>exit<br>It is a command to exit either a specific entry or whole market position.<br>退出某个entry或者退出整个时长仓位</li>
+<li>exit<br>It is a command to exit either a specific entry or whole market position.<br>退出某个entry或者退出整个市场仓位</li>
 </ul>
 <p>If an order with the same ID is already pending, it is possible to modify the order.<br>如果一个相同ID的订单是pending的话，有可能修改这个订单。</p>
 ]]></content>
@@ -512,6 +515,7 @@ B．跳空低开：TR = 昨天的收盘价—当天的低点
 <p><img src="/images/2020/web_ssh/af96aa57.png" alt=""></p>
 <p>然后就可以通过网页来操作虚拟机服务器了，从而跳过GFW对我IP的封锁。</p>
 <p>就这么简单。</p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">+---------+     http     +--------+    ssh    +-----------+</div><div class="line">| browser | &lt;==========&gt; | webssh | &lt;=======&gt; | ssh server|</div><div class="line">+---------+   websocket  +--------+    ssh    +-----------+</div></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>linux</category>
@@ -752,6 +756,51 @@ B．跳空低开：TR = 昨天的收盘价—当天的低点
       </tags>
   </entry>
   <entry>
+    <title>简单理解Hadoop的map-reduce流程</title>
+    <url>/2020/hive_mapper_reducer.html</url>
+    <content><![CDATA[<p>通过这个图表中了解下map-reduce流程。<br><img src="/images/2020/hive_mapper_reducer/b691f7a8.png" alt=""></p>
+<p>我们将讨论Hadoop中的word-count问题，hadoop在Hadoop中也称为hello world。</p>
+<p>word-count是一个程序，我们从文件中查找每个字的出现。</p>
+<p>让我们尝试了解MR过程：</p>
+<h2 id="Step1"><a href="#Step1" class="headerlink" title="Step1"></a>Step1</h2><p>输入文件：我们需要一些数据来运行字计数程序，以便在群集上运行该程序，<br>第一步应该是将该文件放在Hadoop上，这可以通过多种方式完成，<br>最简单的方法是使用hadoop shell命令：可以使用put或copyFromLocal这样的命令：</p>
+<h2 id="Step2"><a href="#Step2" class="headerlink" title="Step2"></a>Step2</h2><p>Map Reduce以键值对的形式进行交互，这意味着mapper将以键值对的形式获取输入，他们将进行所需的处理，然后以键值对的形式产生中间结果，<br>该结果将被输入reducer对此进行进一步的工作，最后reducer还将其输出写入键值对中。</p>
+<p>但是我们知道mapper仅在主驱动程序之后执行，因此谁以键值对的形式向mapper提供输入呢？input format就是干这个的。</p>
+<p>InputFormat是执行两个主要操作的类：</p>
+<p>1）输入分割（此输入input split的mapper实例数或输入input split的mapper数，<br>默认情况下，如果采用默认配置，则一个split大小等于一个block，但是你可以更改split大小根据你的需要。</p>
+<p>因此，如果你正在处理512 mb的数据并且块大小为64 mb，则将使用8个输入split size，8个mapper实例将运行或8个mapper。</p>
+<p>2）在键值对中破坏数据（记录读取器是在后端执行此操作的类）</p>
+<p>现在，mapper的键和值将由你使用的文件输入格式来驱动，<br>例如TextInputFormat，这是最常用的输入格式。它发送longWritable（等效于long）作为键，并将Text（string）作为值发送给mapper</p>
+<p>你的mapper类将在1个split上工作，在该类中，你具有一个map函数，该函数一次只能在一行上工作，因此如上图所示，单行将进入map函数</p>
+<p>例如，它发送：“ Apple orange Mango”到地图功能</p>
+<p>3）在mapper中，我们将line作为输入，因此现在我们需要编写逻辑。</p>
+<p>我们将行根据分隔符分成单词，因此现在我们在一行中有一个单词。我们知道map在键值对上工作。 我们可以将这项工作作为关键，并将值设为1</p>
+<p>为什么我们把单词作为关键而不是反过来，因为下一阶段是</p>
+<p>shuffle和排序阶段：在此阶段，框架将基于相似的键组成组，或者在shuffle阶段将所有不同的键放在一起，并根据键对它们进行排序。</p>
+<ul>
+<li>现在，我们再次修改：</li>
+</ul>
+<p>最初我们有一个文件，该文件根据输入拆分发送到不同的不同的mapper，然后在map函数的mapper类中，我们以一行作为输入，<br>因此针对一行构建了逻辑，对于一个实例，所有行将以相似的方式工作，最后所有实例都可以像这样并行工作。</p>
+<p>现在，假设你正在运行10个mapper，现在在map reduce中，reducer的数量始终少于mapper。</p>
+<p>因此，如果我们使用10个mapper，则最有可能使用2-3个reducers。</p>
+<p>shuffle和排序阶段，我们已经看到所有类似的键将组合在一起。</p>
+<p>首先，将基于一定的原则来决定将某个mapper数据传递给某个reducer。在万一情况下，必须将10个mapper数据分给2个reducer，因此可以根据该数据进行决策。</p>
+<p>有一个叫做Partitioner的组件，该组件将基于哈希分区并在其上使用模运算符（比如 %）来决定将某个mapper输出输出到某个reducer。</p>
+<p>因此，如果我们使用hash，则可以100％确保所有相同的键都分配给相同的reducer。</p>
+<p>我们不必为任何事情而烦恼，因为框架已被设计成可以有效地做到这一点，但是是的，因为它是用Java编写的，<br>所以我们可以根据需要自定义键，自定义partitioner，定制comparator等等。</p>
+<p>4）Reducer：Reducer现在将在其输入中获取键和其值的列表，如下所示</p>
+<p>Apple，<1,1,1,1></1,1,1,1></p>
+<p>现在在reducer中我们编写逻辑我们到底想做什么，对于我们的情况，我们要进行word-count，因此简单地我们必须计算值。</p>
+<p>这也是我们在Map阶段最初将1作为值的原因，因为我们只需要计数。</p>
+<p>输出：最终输出将由reducer再次以键值对的形式写入HDFS。</p>
+]]></content>
+      <categories>
+        <category>bigdata</category>
+      </categories>
+      <tags>
+        <tag>hive</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>内卷的数据挖掘何去何从</title>
     <url>/2020/dataminner.html</url>
     <content><![CDATA[<p>作为一个在大数据领域多年的从业者，接触过很多优秀的数据挖掘的同事。在和他们的交流中我也了解到了很多数据挖掘的从业之道。<br>要想成为一成功的数据挖掘专家职业的四个步骤：</p>
@@ -802,6 +851,31 @@ B．跳空低开：TR = 昨天的收盘价—当天的低点
       </categories>
       <tags>
         <tag>security</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Databricks Delta Lake 简介</title>
+    <url>/2020/delta_lake_intro.html</url>
+    <content><![CDATA[<h2 id="百花齐放的大数据生态"><a href="#百花齐放的大数据生态" class="headerlink" title="百花齐放的大数据生态"></a>百花齐放的大数据生态</h2><p>17，18是计算引擎火热的两年，19年已然是红海了。计算引擎中的王者是Spark，综合指标最好，生态也好，当其他引擎还在ETL,交互查询，流上厮杀时，Spark已经在AI领域越走越远。</p>
+<p>对比明显的是，计算层的上层和下层在17,18年却乏善可陈。但是到19年整个局势开发生变化，向下走是存储层Delta Lake耀眼夺目，解决了原先数仓的诸多痛点，让数仓进化到数据湖。<br>向上走是交互应用层的Linkis一马当先，形成交互标准，粘合周边生态，很好的衔接了应用交互层和计算引擎层的衔接。</p>
+<p>问题重重的数据存储层<br>前面我们提到，早先基于Hive的数仓或者传统的文件存储形式（比如Parquet/ORC）,都存在一些长期难以解决的问题：</p>
+<p>小文件的问题<br>并发读写问题<br>有限的更新支持<br>海量元数据（例如分区）导致Hive metastore不堪重负<br>细节展开的话，你会发现每一个问题又会引发众多应用场景层面的问题。</p>
+<p>比如并发读写还有更新问题让实时数仓的实现变得很困难。小文件问题需要我们自己写合并代码，并且在合并过程中还会造成数据不可读的问题。如此种种不一而足。</p>
+<p>为了解决这些先天不足的问题，我们只能通过复杂的架构设计来解决这些问题（美其名曰lambda架构）。<br>比如为了解决先天不足的更新问题，我们可能需要先将数据写入一个其他的系统（如HBase）,然后再将HBase导出成Parquet文件/Hive表供下游使用。<br>在复杂的流程（超长的Pipeline）运行的过程中，还会不断涉及到Schema的变换以及磁盘的读取，所以架构复杂了不仅仅会导致运维成本高企，CPU/IO浪费也就变得异常严重。</p>
+<p>其实上面这些问题的根源，都是因为存储层不给力，为了曲线救国，我们无奈通过架构来弥补。<br>Delta Lake单刀直入，直接解决存储层的问题，带来的益处就是极大的简化我们的架构设计，简化运维成本，降低服务器成本。</p>
+<h2 id="Delta-Lake-生之逢时"><a href="#Delta-Lake-生之逢时" class="headerlink" title="Delta Lake 生之逢时"></a>Delta Lake 生之逢时</h2><p>天下苦传统数仓久已，Delta Lake 横空出世，那么它是如何解决上面的存储层问题呢？我列举了如下几个重要的特性：</p>
+<p>以元数据也是大数据思想武装自己，设计了基于HDFS存储的元数据系统，解决metastore不堪重负的问题。<br>支持更多种类的更新模式，比如Merge/Update/Delete等操作，配合流式写入或者读取的支持，让实时数据湖变得水到渠成。<br>流批操作可以共享同一张表<br>版本概念，可以随时回溯，避免一次误操作或者代码逻辑而无法恢复的灾难性后果。<br>Delta Lake 其实只是一个Lib库</p>
+<p>Delta Lake 是一个lib 而不是一个service,不同于HBase,他不需要单独部署，而是直接依附于计算引擎的。<br>目前只支持Spark引擎。这意味什么呢？<br>Delta Lake 和普通的parquet文件使用方式没有任何差异，你只要在你的Spark代码项目里引入delta包，按标准的Spark datasource操作即可，可谓部署和使用成本极低。</p>
+<h2 id="Delta-Lake到底是什么"><a href="#Delta-Lake到底是什么" class="headerlink" title="Delta Lake到底是什么"></a>Delta Lake到底是什么</h2><p>Parquet文件 + Meta 文件 + 一组操作的API = Delta Lake.</p>
+<p>所以Delta没啥神秘的，和parquet没有任何区别。但是他通过meta文件以及相应的API,提供众多特性功能的支持。<br>在Spark中使用它和使用parquet的唯一区别就是把format parquet换成detla。</p>
+<p>和Hive如何整合</p>
+<p>因为惯性以及历史的积累，大家还是希望能像使用hive那样使用delta,而不是去使用spark的datasource API。<br>截止到笔者写这些文字之前，官方还没有支持。不过官方透露阿里的同学已经在做这块的整合。</p>
+]]></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>delta lake</tag>
       </tags>
   </entry>
   <entry>
@@ -867,31 +941,6 @@ B．跳空低开：TR = 昨天的收盘价—当天的低点
       </categories>
       <tags>
         <tag>big data</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Databricks Delta Lake 简介</title>
-    <url>/2020/delta_lake_intro.html</url>
-    <content><![CDATA[<h2 id="百花齐放的大数据生态"><a href="#百花齐放的大数据生态" class="headerlink" title="百花齐放的大数据生态"></a>百花齐放的大数据生态</h2><p>17，18是计算引擎火热的两年，19年已然是红海了。计算引擎中的王者是Spark，综合指标最好，生态也好，当其他引擎还在ETL,交互查询，流上厮杀时，Spark已经在AI领域越走越远。</p>
-<p>对比明显的是，计算层的上层和下层在17,18年却乏善可陈。但是到19年整个局势开发生变化，向下走是存储层Delta Lake耀眼夺目，解决了原先数仓的诸多痛点，让数仓进化到数据湖。<br>向上走是交互应用层的Linkis一马当先，形成交互标准，粘合周边生态，很好的衔接了应用交互层和计算引擎层的衔接。</p>
-<p>问题重重的数据存储层<br>前面我们提到，早先基于Hive的数仓或者传统的文件存储形式（比如Parquet/ORC）,都存在一些长期难以解决的问题：</p>
-<p>小文件的问题<br>并发读写问题<br>有限的更新支持<br>海量元数据（例如分区）导致Hive metastore不堪重负<br>细节展开的话，你会发现每一个问题又会引发众多应用场景层面的问题。</p>
-<p>比如并发读写还有更新问题让实时数仓的实现变得很困难。小文件问题需要我们自己写合并代码，并且在合并过程中还会造成数据不可读的问题。如此种种不一而足。</p>
-<p>为了解决这些先天不足的问题，我们只能通过复杂的架构设计来解决这些问题（美其名曰lambda架构）。<br>比如为了解决先天不足的更新问题，我们可能需要先将数据写入一个其他的系统（如HBase）,然后再将HBase导出成Parquet文件/Hive表供下游使用。<br>在复杂的流程（超长的Pipeline）运行的过程中，还会不断涉及到Schema的变换以及磁盘的读取，所以架构复杂了不仅仅会导致运维成本高企，CPU/IO浪费也就变得异常严重。</p>
-<p>其实上面这些问题的根源，都是因为存储层不给力，为了曲线救国，我们无奈通过架构来弥补。<br>Delta Lake单刀直入，直接解决存储层的问题，带来的益处就是极大的简化我们的架构设计，简化运维成本，降低服务器成本。</p>
-<h2 id="Delta-Lake-生之逢时"><a href="#Delta-Lake-生之逢时" class="headerlink" title="Delta Lake 生之逢时"></a>Delta Lake 生之逢时</h2><p>天下苦传统数仓久已，Delta Lake 横空出世，那么它是如何解决上面的存储层问题呢？我列举了如下几个重要的特性：</p>
-<p>以元数据也是大数据思想武装自己，设计了基于HDFS存储的元数据系统，解决metastore不堪重负的问题。<br>支持更多种类的更新模式，比如Merge/Update/Delete等操作，配合流式写入或者读取的支持，让实时数据湖变得水到渠成。<br>流批操作可以共享同一张表<br>版本概念，可以随时回溯，避免一次误操作或者代码逻辑而无法恢复的灾难性后果。<br>Delta Lake 其实只是一个Lib库</p>
-<p>Delta Lake 是一个lib 而不是一个service,不同于HBase,他不需要单独部署，而是直接依附于计算引擎的。<br>目前只支持Spark引擎。这意味什么呢？<br>Delta Lake 和普通的parquet文件使用方式没有任何差异，你只要在你的Spark代码项目里引入delta包，按标准的Spark datasource操作即可，可谓部署和使用成本极低。</p>
-<h2 id="Delta-Lake到底是什么"><a href="#Delta-Lake到底是什么" class="headerlink" title="Delta Lake到底是什么"></a>Delta Lake到底是什么</h2><p>Parquet文件 + Meta 文件 + 一组操作的API = Delta Lake.</p>
-<p>所以Delta没啥神秘的，和parquet没有任何区别。但是他通过meta文件以及相应的API,提供众多特性功能的支持。<br>在Spark中使用它和使用parquet的唯一区别就是把format parquet换成detla。</p>
-<p>和Hive如何整合</p>
-<p>因为惯性以及历史的积累，大家还是希望能像使用hive那样使用delta,而不是去使用spark的datasource API。<br>截止到笔者写这些文字之前，官方还没有支持。不过官方透露阿里的同学已经在做这块的整合。</p>
-]]></content>
-      <categories>
-        <category>大数据</category>
-      </categories>
-      <tags>
-        <tag>delta lake</tag>
       </tags>
   </entry>
   <entry>
@@ -2298,100 +2347,6 @@ consumer.close(autocommit=False)
       </tags>
   </entry>
   <entry>
-    <title>Kylin 基础介绍</title>
-    <url>/2017/kylin_basic.html</url>
-    <content><![CDATA[<h2 id="Kylin术语"><a href="#Kylin术语" class="headerlink" title="Kylin术语"></a>Kylin术语</h2><ul>
-<li><p>维度(Dimension)<br>一组属性，提供结构化的标签信息，一般作为报表的坐标轴。</p>
-</li>
-<li><p>度量(Measure)<br>一类可以进行聚合分析的特殊维度，聚合后的结果称为指标。</p>
-</li>
-<li><p>事实表(Fact Table)<br>数据仓库中的中央表，用于描述业务内特定事件的数据。</p>
-</li>
-<li><p>维度表(Lookup Table)<br>维度属性的集合，人们观察数据的特定角度。</p>
-</li>
-<li><p>基度（Cardinality）<br>指数据表中某一列数据去重后的元素个数。</p>
-</li>
-<li><p>星型模型(Star Schema)<br>一种多维的数据关系，由一张事实表和一组维度表组成。</p>
-</li>
-<li><p>cube<br>一个cube就是一个Hive表的数据按照指定维度与指标计算出的所有组合结果。</p>
-</li>
-<li><p>cuboid<br>某一维度组合下，度量聚合后的结果集合。有个特殊的cuboid叫 base cuboid，比如维度有ABCD，（A,B,C,D）称为Base cuboid</p>
-</li>
-<li><p>数据立方体(cube)<br>一组用于分析数据的相关度量值和维度，是所有cuboid的集合，作为存储和分析的基本单位</p>
-</li>
-<li><p>segment<br>Cube Segment 是指针对源数据中的某一个片段，计算出来的 Cube 数据。<br>通常数据仓库中的数据数量会随着时间的增长而增长，而 Cube Segment 也是按时间顺序来构建的。</p>
-</li>
-<li><p>衍生维度<br>维度表上的某一列通过PK可推的，换句话是可查询到的 比如由身份证可以推导性别，所以能通过PK推导的维度都可以设置为衍生维度。<br>衍生维度是放在snapshot中</p>
-</li>
-</ul>
-<h3 id="Kylin核心技术：Cube与计算"><a href="#Kylin核心技术：Cube与计算" class="headerlink" title="Kylin核心技术：Cube与计算"></a>Kylin核心技术：Cube与计算</h3><p>比如我们有10多亿中国人口数据，要统计男女比例这么个需求。如果直接从硬盘里提取数据来统计肯定会很慢，磁盘速度大概是几百兆/秒。<br>即使把数据放到内存中也最多提升100倍的速度。</p>
-<p>所以，可以用与计算来统计男女比例</p>
-<h3 id="维度表和事实表"><a href="#维度表和事实表" class="headerlink" title="维度表和事实表"></a>维度表和事实表</h3><p>我学到了一个数据仓库的概念，维度表（Fact Table）和事实表（Lookup Table）。<br>通过下面例子就让我明白了：<br>学过数据库的童鞋应该都知道星型模型，星型模型在数据仓库的设计中可以为是一种典型的维度模型。<br>我们在进行维度建模的时候会建一张事实表，这个事实表就是星型模型的中心，然后会有一堆维度表，这些维度表就是向外发散的星星。<br>那么什么是事实表、什么又是维度表吗，下面会专门来解释。</p>
-<p><img src="/images/2017/kylin_basic/367a4515.png" alt=""></p>
-<p>中间的chat表就是事实表。其它周边的表就是维度表。</p>
-<h3 id="维度设计"><a href="#维度设计" class="headerlink" title="维度设计"></a>维度设计</h3><p>只有普通维度会影响Cuboid的数量和存储膨胀率，衍生维度并不参与Cuboid计算，而是有衍生维度对应的外键FK参与计算Cuboid。<br>在查询时，对衍生维度的查询会首先转换为对外键所在维度的查询，因此会牺牲少量查询性能。</p>
-<p>Kylin暂时不支持星座模型</p>
-<p>默认情况下，系统将会为所有的维度表创建快照。<br>设计新的模型，将大维度表改为事实表</p>
-<p>设计规则如下：<br>经常出现在规律条件中的维度应当设为普通维度，以达到更好的查询性能。</p>
-<p>Derived 衍生类型的前提是要放到快照表里的</p>
-<ul>
-<li>For normal dimensions, Kyligence has max number restriction of 62</li>
-<li>If a dimension table is used in cube design, its corresponding fact table foreign key will be added as normal dimension even it’s not used.</li>
-</ul>
-<h3 id="维度优化"><a href="#维度优化" class="headerlink" title="维度优化"></a>维度优化</h3><p>Mandatory Dimension: 一定group by的字段<br>Hierarchy Dimension: 国家、省、市<br>Joint Dimension: 要么一起出现，要么不出现，比如：A、B、C绑在了一起 （很少有这样的场景）</p>
-<h3 id="Rowkey"><a href="#Rowkey" class="headerlink" title="Rowkey"></a>Rowkey</h3><p>UHC不要用Dict作为encoding;<br>常用的字段比如日期字段要放在Rowkey的前面<br>高基维放置在低基维前面<br>过滤的维度放置在非过滤前面</p>
-<p>max length of FixedLength(N) for UHC of varchar/char type will be 256</p>
-<h3 id="Cube-Build"><a href="#Cube-Build" class="headerlink" title="Cube Build"></a>Cube Build</h3><p>Supported Cube Build Types:<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Full Build</div><div class="line">By Date/time</div><div class="line">Streaming(by offset)</div><div class="line">By File(Beta)</div><div class="line">Customize(Beta)</div></pre></td></tr></table></figure></p>
-<p>尽量使用增量加载<br>计划合并你的增量segment<br>用增量加载的时候要考虑下SCD</p>
-<h3 id="星型模型和雪花模型"><a href="#星型模型和雪花模型" class="headerlink" title="星型模型和雪花模型"></a>星型模型和雪花模型</h3><p>fact table 外围一圈 dimension table 就是星型模型<br>dimension table 外再围一圈 dimension table就是雪花模型</p>
-<h3 id="System-Configuration"><a href="#System-Configuration" class="headerlink" title="System Configuration"></a>System Configuration</h3><p>Important configurations:<br>Job retry<br>Pushdown：对于没有cube能查得结果的sql，Kylin支持将这类查询通过JDBC下压至备用查询引擎如Hive, SparkSQL, Impala等来查得结果<br>Query cache(process level/shared)<br>Compression</p>
-<p>Configuration override<br>System<br>Project<br>Cube</p>
-<h3 id="Authorization-Management"><a href="#Authorization-Management" class="headerlink" title="Authorization Management"></a>Authorization Management</h3><p>project: Query, Operation , Managment, Admin<br>table: Table query, Row query, Column query</p>
-<p>Caution: column ACL is a blacklist.</p>
-<h3 id="Resource-Isolation"><a href="#Resource-Isolation" class="headerlink" title="Resource Isolation"></a>Resource Isolation</h3><p>KE can submit cube build jobs to specified Yarn queues per: system level;project level;cube level</p>
-<h3 id="应用发布流程"><a href="#应用发布流程" class="headerlink" title="应用发布流程"></a>应用发布流程</h3><p>DEV -&gt; QA -&gt;(sign off) PROD</p>
-<h3 id="Daily-Operation"><a href="#Daily-Operation" class="headerlink" title="Daily Operation"></a>Daily Operation</h3><ol>
-<li><p>Garbage cleanup<br>e.g.: segment merged, cube purged</p>
-</li>
-<li><p>System upgrade<br>Minor version upgrade<br>Major version upgrade</p>
-</li>
-<li><p>System backup/restore<br>System level<br>Project level</p>
-</li>
-</ol>
-<h3 id="Rest-API"><a href="#Rest-API" class="headerlink" title="Rest API"></a>Rest API</h3><p>Authorization 这个Header的内容是 “ADMIN:yourpassword”的base64 encode</p>
-<h3 id="Hadoop生态和和MPP数据库的区别"><a href="#Hadoop生态和和MPP数据库的区别" class="headerlink" title="Hadoop生态和和MPP数据库的区别"></a>Hadoop生态和和MPP数据库的区别</h3><p>Hadoop跟MPP的存储模型不一样。<br>Hadoop生态的存储用HDFS，HDFS的扩展是通过元数据来做的，它有中心节点用来存元数据，在加入新的节点的时候，<br>只需要修改元数据就可以，所以HDFS可扩展能力是收到管理元数据那台机器的性能限制的。一般来说可以到10K这个<br>规模，再向上就不行了。</p>
-<p>而MPP要自己做切分，自己做切分就带来动态调整的问题。MPP通常采用的是没有中心节点的存储模式，比如hash，<br>每增加节点的时候，都需要rehash，这样当规模到了几百台的时候，扩展能力就下来了。</p>
-<p>Hive在内存管理上方式不大一样。<br>MPP内存管理比较精细，他主要的想法是在每个机器上放个数据库，传统数据库的内存管理比较复杂，主要是内外存<br>交互的东西，这样的架构决定了MPP在小数据量的时候，latency可以做的比较小，但是数据量大的时候，<br>throughput做不上去了。<br>而Hive的内存管理非常粗放，它后来就是MapReduce的job，MR的job是没有太多精细的内存管理，就是拼命地<br>scan，完了就是spill，这样的架构导致throughput很大，但是latency很高。</p>
-<p>failover机制，<br>Hive的failover就是MR的failover，job挂掉了重新换机器跑就完了。</p>
-<p>MPP它的计算是要attach到数据节点上去的，如果你规模上去，那么fail的可能性就上去了，这样如果你每次计算<br>都有台机器挂了，一挂，别人就要等你，而不是换台机器继续跑。可以用木桶效应类比。</p>
-<h3 id="Cube设计"><a href="#Cube设计" class="headerlink" title="Cube设计"></a>Cube设计</h3><p>Rowkey的具体格式是cuboid id + 具体的维度值（最新的Rowkey中为了并发查询还加入了ShardKey）<br><img src="/images/2017/kylin_basic/b447988e.png" alt=""><br>前面4个框着的作为Rowkey，比如，2015-10-1的维度序号为1，BJ的序号为0，item-A序号为0，则最终Rowkey为 111+100</p>
-<p>Rowkey的设计原则：</p>
-<ol>
-<li>结合业务场景特点，按照查询频次来放置字段顺序</li>
-<li>通过设计的Rowkey尽可能的将数据打散到整个集群中，负载均衡</li>
-<li>设计的Rowkey尽量简短</li>
-</ol>
-<p>有3个方面要考虑：</p>
-<ul>
-<li><p>Encoding<br>我们的编码方式能够大大减少每行Cube数据的体积。<br>而Cube中可能存在数以亿计的行数，使用编码节约的空间累加起来将是一个非常巨大的数字。</p>
-</li>
-<li><p>排序<br>高概率用于过滤的列<br>基数高的列（用它进行过滤时，返回的结果集小）<br>排序评分=过滤概率*过滤强度<br>经常使用到的维度提前—在需要进行后聚合的场景中效率会更高。</p>
-</li>
-<li><p>分片<br>按维度分片（Shard by Dimension）提供了一种更加高效的分片策略，那就是按照某个特定维度进行分片。<br>简单地说，如果Cuboid中某两个行的Shard by Dimension的值相同，<br>那么无论这个Cuboid最终会被划分成多少个分片，这两行数据必然会被分配到同一个分片中。</p>
-</li>
-</ul>
-<p>Shard by维度要求<br>仅支持单一维度<br>基数足够高（几十万）<br>分布均匀<br>经常进行group by和filter</p>
-<p>更多的优化原理要参考Rowkey的设计</p>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://blog.bcmeng.com/post/kylin-cube.html#cuboid-%E7%9A%84%E7%BB%B4%E5%BA%A6%E5%92%8C%E6%8C%87%E6%A0%87%E5%A6%82%E4%BD%95%E8%BD%AC%E6%8D%A2%E4%B8%BAhbase%E7%9A%84kv%E7%BB%93%E6%9E%84" target="_blank" rel="external">https://blog.bcmeng.com/post/kylin-cube.html#cuboid-%E7%9A%84%E7%BB%B4%E5%BA%A6%E5%92%8C%E6%8C%87%E6%A0%87%E5%A6%82%E4%BD%95%E8%BD%AC%E6%8D%A2%E4%B8%BAhbase%E7%9A%84kv%E7%BB%93%E6%9E%84</a></p>
-]]></content>
-      <categories>
-        <category>大数据</category>
-      </categories>
-      <tags>
-        <tag>kylin</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hbase 基础介绍</title>
     <url>/2016/hbase_intro.html</url>
     <content><![CDATA[<h1 id="Hbase的由来"><a href="#Hbase的由来" class="headerlink" title="Hbase的由来"></a>Hbase的由来</h1><p>Hbase是Bigtable的开源山寨版本。</p>
@@ -2515,6 +2470,100 @@ consumer.close(autocommit=False)
       </categories>
       <tags>
         <tag>hbase</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Kylin 基础介绍</title>
+    <url>/2017/kylin_basic.html</url>
+    <content><![CDATA[<h2 id="Kylin术语"><a href="#Kylin术语" class="headerlink" title="Kylin术语"></a>Kylin术语</h2><ul>
+<li><p>维度(Dimension)<br>一组属性，提供结构化的标签信息，一般作为报表的坐标轴。</p>
+</li>
+<li><p>度量(Measure)<br>一类可以进行聚合分析的特殊维度，聚合后的结果称为指标。</p>
+</li>
+<li><p>事实表(Fact Table)<br>数据仓库中的中央表，用于描述业务内特定事件的数据。</p>
+</li>
+<li><p>维度表(Lookup Table)<br>维度属性的集合，人们观察数据的特定角度。</p>
+</li>
+<li><p>基度（Cardinality）<br>指数据表中某一列数据去重后的元素个数。</p>
+</li>
+<li><p>星型模型(Star Schema)<br>一种多维的数据关系，由一张事实表和一组维度表组成。</p>
+</li>
+<li><p>cube<br>一个cube就是一个Hive表的数据按照指定维度与指标计算出的所有组合结果。</p>
+</li>
+<li><p>cuboid<br>某一维度组合下，度量聚合后的结果集合。有个特殊的cuboid叫 base cuboid，比如维度有ABCD，（A,B,C,D）称为Base cuboid</p>
+</li>
+<li><p>数据立方体(cube)<br>一组用于分析数据的相关度量值和维度，是所有cuboid的集合，作为存储和分析的基本单位</p>
+</li>
+<li><p>segment<br>Cube Segment 是指针对源数据中的某一个片段，计算出来的 Cube 数据。<br>通常数据仓库中的数据数量会随着时间的增长而增长，而 Cube Segment 也是按时间顺序来构建的。</p>
+</li>
+<li><p>衍生维度<br>维度表上的某一列通过PK可推的，换句话是可查询到的 比如由身份证可以推导性别，所以能通过PK推导的维度都可以设置为衍生维度。<br>衍生维度是放在snapshot中</p>
+</li>
+</ul>
+<h3 id="Kylin核心技术：Cube与计算"><a href="#Kylin核心技术：Cube与计算" class="headerlink" title="Kylin核心技术：Cube与计算"></a>Kylin核心技术：Cube与计算</h3><p>比如我们有10多亿中国人口数据，要统计男女比例这么个需求。如果直接从硬盘里提取数据来统计肯定会很慢，磁盘速度大概是几百兆/秒。<br>即使把数据放到内存中也最多提升100倍的速度。</p>
+<p>所以，可以用与计算来统计男女比例</p>
+<h3 id="维度表和事实表"><a href="#维度表和事实表" class="headerlink" title="维度表和事实表"></a>维度表和事实表</h3><p>我学到了一个数据仓库的概念，维度表（Fact Table）和事实表（Lookup Table）。<br>通过下面例子就让我明白了：<br>学过数据库的童鞋应该都知道星型模型，星型模型在数据仓库的设计中可以为是一种典型的维度模型。<br>我们在进行维度建模的时候会建一张事实表，这个事实表就是星型模型的中心，然后会有一堆维度表，这些维度表就是向外发散的星星。<br>那么什么是事实表、什么又是维度表吗，下面会专门来解释。</p>
+<p><img src="/images/2017/kylin_basic/367a4515.png" alt=""></p>
+<p>中间的chat表就是事实表。其它周边的表就是维度表。</p>
+<h3 id="维度设计"><a href="#维度设计" class="headerlink" title="维度设计"></a>维度设计</h3><p>只有普通维度会影响Cuboid的数量和存储膨胀率，衍生维度并不参与Cuboid计算，而是有衍生维度对应的外键FK参与计算Cuboid。<br>在查询时，对衍生维度的查询会首先转换为对外键所在维度的查询，因此会牺牲少量查询性能。</p>
+<p>Kylin暂时不支持星座模型</p>
+<p>默认情况下，系统将会为所有的维度表创建快照。<br>设计新的模型，将大维度表改为事实表</p>
+<p>设计规则如下：<br>经常出现在规律条件中的维度应当设为普通维度，以达到更好的查询性能。</p>
+<p>Derived 衍生类型的前提是要放到快照表里的</p>
+<ul>
+<li>For normal dimensions, Kyligence has max number restriction of 62</li>
+<li>If a dimension table is used in cube design, its corresponding fact table foreign key will be added as normal dimension even it’s not used.</li>
+</ul>
+<h3 id="维度优化"><a href="#维度优化" class="headerlink" title="维度优化"></a>维度优化</h3><p>Mandatory Dimension: 一定group by的字段<br>Hierarchy Dimension: 国家、省、市<br>Joint Dimension: 要么一起出现，要么不出现，比如：A、B、C绑在了一起 （很少有这样的场景）</p>
+<h3 id="Rowkey"><a href="#Rowkey" class="headerlink" title="Rowkey"></a>Rowkey</h3><p>UHC不要用Dict作为encoding;<br>常用的字段比如日期字段要放在Rowkey的前面<br>高基维放置在低基维前面<br>过滤的维度放置在非过滤前面</p>
+<p>max length of FixedLength(N) for UHC of varchar/char type will be 256</p>
+<h3 id="Cube-Build"><a href="#Cube-Build" class="headerlink" title="Cube Build"></a>Cube Build</h3><p>Supported Cube Build Types:<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Full Build</div><div class="line">By Date/time</div><div class="line">Streaming(by offset)</div><div class="line">By File(Beta)</div><div class="line">Customize(Beta)</div></pre></td></tr></table></figure></p>
+<p>尽量使用增量加载<br>计划合并你的增量segment<br>用增量加载的时候要考虑下SCD</p>
+<h3 id="星型模型和雪花模型"><a href="#星型模型和雪花模型" class="headerlink" title="星型模型和雪花模型"></a>星型模型和雪花模型</h3><p>fact table 外围一圈 dimension table 就是星型模型<br>dimension table 外再围一圈 dimension table就是雪花模型</p>
+<h3 id="System-Configuration"><a href="#System-Configuration" class="headerlink" title="System Configuration"></a>System Configuration</h3><p>Important configurations:<br>Job retry<br>Pushdown：对于没有cube能查得结果的sql，Kylin支持将这类查询通过JDBC下压至备用查询引擎如Hive, SparkSQL, Impala等来查得结果<br>Query cache(process level/shared)<br>Compression</p>
+<p>Configuration override<br>System<br>Project<br>Cube</p>
+<h3 id="Authorization-Management"><a href="#Authorization-Management" class="headerlink" title="Authorization Management"></a>Authorization Management</h3><p>project: Query, Operation , Managment, Admin<br>table: Table query, Row query, Column query</p>
+<p>Caution: column ACL is a blacklist.</p>
+<h3 id="Resource-Isolation"><a href="#Resource-Isolation" class="headerlink" title="Resource Isolation"></a>Resource Isolation</h3><p>KE can submit cube build jobs to specified Yarn queues per: system level;project level;cube level</p>
+<h3 id="应用发布流程"><a href="#应用发布流程" class="headerlink" title="应用发布流程"></a>应用发布流程</h3><p>DEV -&gt; QA -&gt;(sign off) PROD</p>
+<h3 id="Daily-Operation"><a href="#Daily-Operation" class="headerlink" title="Daily Operation"></a>Daily Operation</h3><ol>
+<li><p>Garbage cleanup<br>e.g.: segment merged, cube purged</p>
+</li>
+<li><p>System upgrade<br>Minor version upgrade<br>Major version upgrade</p>
+</li>
+<li><p>System backup/restore<br>System level<br>Project level</p>
+</li>
+</ol>
+<h3 id="Rest-API"><a href="#Rest-API" class="headerlink" title="Rest API"></a>Rest API</h3><p>Authorization 这个Header的内容是 “ADMIN:yourpassword”的base64 encode</p>
+<h3 id="Hadoop生态和和MPP数据库的区别"><a href="#Hadoop生态和和MPP数据库的区别" class="headerlink" title="Hadoop生态和和MPP数据库的区别"></a>Hadoop生态和和MPP数据库的区别</h3><p>Hadoop跟MPP的存储模型不一样。<br>Hadoop生态的存储用HDFS，HDFS的扩展是通过元数据来做的，它有中心节点用来存元数据，在加入新的节点的时候，<br>只需要修改元数据就可以，所以HDFS可扩展能力是收到管理元数据那台机器的性能限制的。一般来说可以到10K这个<br>规模，再向上就不行了。</p>
+<p>而MPP要自己做切分，自己做切分就带来动态调整的问题。MPP通常采用的是没有中心节点的存储模式，比如hash，<br>每增加节点的时候，都需要rehash，这样当规模到了几百台的时候，扩展能力就下来了。</p>
+<p>Hive在内存管理上方式不大一样。<br>MPP内存管理比较精细，他主要的想法是在每个机器上放个数据库，传统数据库的内存管理比较复杂，主要是内外存<br>交互的东西，这样的架构决定了MPP在小数据量的时候，latency可以做的比较小，但是数据量大的时候，<br>throughput做不上去了。<br>而Hive的内存管理非常粗放，它后来就是MapReduce的job，MR的job是没有太多精细的内存管理，就是拼命地<br>scan，完了就是spill，这样的架构导致throughput很大，但是latency很高。</p>
+<p>failover机制，<br>Hive的failover就是MR的failover，job挂掉了重新换机器跑就完了。</p>
+<p>MPP它的计算是要attach到数据节点上去的，如果你规模上去，那么fail的可能性就上去了，这样如果你每次计算<br>都有台机器挂了，一挂，别人就要等你，而不是换台机器继续跑。可以用木桶效应类比。</p>
+<h3 id="Cube设计"><a href="#Cube设计" class="headerlink" title="Cube设计"></a>Cube设计</h3><p>Rowkey的具体格式是cuboid id + 具体的维度值（最新的Rowkey中为了并发查询还加入了ShardKey）<br><img src="/images/2017/kylin_basic/b447988e.png" alt=""><br>前面4个框着的作为Rowkey，比如，2015-10-1的维度序号为1，BJ的序号为0，item-A序号为0，则最终Rowkey为 111+100</p>
+<p>Rowkey的设计原则：</p>
+<ol>
+<li>结合业务场景特点，按照查询频次来放置字段顺序</li>
+<li>通过设计的Rowkey尽可能的将数据打散到整个集群中，负载均衡</li>
+<li>设计的Rowkey尽量简短</li>
+</ol>
+<p>有3个方面要考虑：</p>
+<ul>
+<li><p>Encoding<br>我们的编码方式能够大大减少每行Cube数据的体积。<br>而Cube中可能存在数以亿计的行数，使用编码节约的空间累加起来将是一个非常巨大的数字。</p>
+</li>
+<li><p>排序<br>高概率用于过滤的列<br>基数高的列（用它进行过滤时，返回的结果集小）<br>排序评分=过滤概率*过滤强度<br>经常使用到的维度提前—在需要进行后聚合的场景中效率会更高。</p>
+</li>
+<li><p>分片<br>按维度分片（Shard by Dimension）提供了一种更加高效的分片策略，那就是按照某个特定维度进行分片。<br>简单地说，如果Cuboid中某两个行的Shard by Dimension的值相同，<br>那么无论这个Cuboid最终会被划分成多少个分片，这两行数据必然会被分配到同一个分片中。</p>
+</li>
+</ul>
+<p>Shard by维度要求<br>仅支持单一维度<br>基数足够高（几十万）<br>分布均匀<br>经常进行group by和filter</p>
+<p>更多的优化原理要参考Rowkey的设计</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://blog.bcmeng.com/post/kylin-cube.html#cuboid-%E7%9A%84%E7%BB%B4%E5%BA%A6%E5%92%8C%E6%8C%87%E6%A0%87%E5%A6%82%E4%BD%95%E8%BD%AC%E6%8D%A2%E4%B8%BAhbase%E7%9A%84kv%E7%BB%93%E6%9E%84" target="_blank" rel="external">https://blog.bcmeng.com/post/kylin-cube.html#cuboid-%E7%9A%84%E7%BB%B4%E5%BA%A6%E5%92%8C%E6%8C%87%E6%A0%87%E5%A6%82%E4%BD%95%E8%BD%AC%E6%8D%A2%E4%B8%BAhbase%E7%9A%84kv%E7%BB%93%E6%9E%84</a></p>
+]]></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>kylin</tag>
       </tags>
   </entry>
   <entry>
@@ -3226,34 +3275,6 @@ print Person.name  # [1]
       </tags>
   </entry>
   <entry>
-    <title>Spark Streaming Dstream ForeachRDD的理解</title>
-    <url>/2016/spark_foreachRDD.html</url>
-    <content><![CDATA[<h1 id="通俗理解Spark-Streaming-Dstream-的ForeachRDD"><a href="#通俗理解Spark-Streaming-Dstream-的ForeachRDD" class="headerlink" title="通俗理解Spark Streaming Dstream 的ForeachRDD"></a>通俗理解Spark Streaming Dstream 的ForeachRDD</h1><p>在SparkStreaming中，数据中的每个batch都是只有一个RDD，为什么我们还要用ForeachRDD 在每一个RDD呢？ 不是只有一个RDD吗？</p>
-<p>Dstream也就是离散stream，就是把连续的数据分成一小团一小团。我们用专业术语“microbatching”来描述。每个microbatch 变成一个RDD以便Spark的后续处理。在每一个batch interval中，每个DStream有且仅有一个RDD。</p>
-<p><img src="/images/2016/spark_foreachRDD/spark-streaming.png" alt="Sample Image Added via Markdown"></p>
-<p>然而RDD是什么呢，RDD是一个分布式数据集合。你可以认为它是一个告诉你实际数据在集群中具体什么地方的指南者（pointer）。</p>
-<a id="more"></a>
-<p>Dstream.foreachRDD在SparkStreaming中是一个“output operator”，它让你直接基于Dstream的RDDs去处理数据。比如说，用foreachRDD方法将数据写入数据库</p>
-<p>这里有个容易疑惑的地方，DStream是和时间有关的集合。我们来对比一下传统的集合。我们用一群客户（users）来举个例子：</p>
-<!-- scala -->
-<pre><code>val userDStream：DStream[User]=???
-userDStream.foreachRDD{usersRDD =&gt;
-    usersRDD.foreach{user =&gt; serveCoffee(user)}
-}
-</code></pre><p>注意：</p>
-<ul>
-<li>DStream.foreachRDD返回给你的是RDD[user],不是单单一个user。回到上面咖啡的这个例子，这个客户集合 是指某个时间区间(比如下午一点到两点)的集合</li>
-<li>为了处理单个集合的元素，需要进一步操作(operate) RDD。在这个案例中，我们用RDD.foreach来对每个客户serve coffee</li>
-</ul>
-]]></content>
-      <categories>
-        <category>大数据</category>
-      </categories>
-      <tags>
-        <tag>spark</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Spark简易入门</title>
     <url>/2016/spark_guide.html</url>
     <content><![CDATA[<h1 id="Spark简易入门"><a href="#Spark简易入门" class="headerlink" title="Spark简易入门"></a>Spark简易入门</h1><p>Spark，搞大数据的人都应该用过吧。spark作为主流的大数据处理框架，到底为什么这么多人用呢？我们少扯淡，直接动手写大数据界的HelloWorld：WordCount。</p>
@@ -3309,6 +3330,34 @@ object WordCount
 <p><code>spark-submit --class &quot;demo.WordCount&quot; SparkDemo-1.0-SNAPSHOT.jar</code><br></p>
 <p>其中demo.WordCount是main函数所在的ojbect，而SparkDemo-1.0-SNAPSHOT.jar就是打出来的jar包。</p>
 <p>Spark 最简单的流程，就这样Finish了。</p>
+]]></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>spark</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Spark Streaming Dstream ForeachRDD的理解</title>
+    <url>/2016/spark_foreachRDD.html</url>
+    <content><![CDATA[<h1 id="通俗理解Spark-Streaming-Dstream-的ForeachRDD"><a href="#通俗理解Spark-Streaming-Dstream-的ForeachRDD" class="headerlink" title="通俗理解Spark Streaming Dstream 的ForeachRDD"></a>通俗理解Spark Streaming Dstream 的ForeachRDD</h1><p>在SparkStreaming中，数据中的每个batch都是只有一个RDD，为什么我们还要用ForeachRDD 在每一个RDD呢？ 不是只有一个RDD吗？</p>
+<p>Dstream也就是离散stream，就是把连续的数据分成一小团一小团。我们用专业术语“microbatching”来描述。每个microbatch 变成一个RDD以便Spark的后续处理。在每一个batch interval中，每个DStream有且仅有一个RDD。</p>
+<p><img src="/images/2016/spark_foreachRDD/spark-streaming.png" alt="Sample Image Added via Markdown"></p>
+<p>然而RDD是什么呢，RDD是一个分布式数据集合。你可以认为它是一个告诉你实际数据在集群中具体什么地方的指南者（pointer）。</p>
+<a id="more"></a>
+<p>Dstream.foreachRDD在SparkStreaming中是一个“output operator”，它让你直接基于Dstream的RDDs去处理数据。比如说，用foreachRDD方法将数据写入数据库</p>
+<p>这里有个容易疑惑的地方，DStream是和时间有关的集合。我们来对比一下传统的集合。我们用一群客户（users）来举个例子：</p>
+<!-- scala -->
+<pre><code>val userDStream：DStream[User]=???
+userDStream.foreachRDD{usersRDD =&gt;
+    usersRDD.foreach{user =&gt; serveCoffee(user)}
+}
+</code></pre><p>注意：</p>
+<ul>
+<li>DStream.foreachRDD返回给你的是RDD[user],不是单单一个user。回到上面咖啡的这个例子，这个客户集合 是指某个时间区间(比如下午一点到两点)的集合</li>
+<li>为了处理单个集合的元素，需要进一步操作(operate) RDD。在这个案例中，我们用RDD.foreach来对每个客户serve coffee</li>
+</ul>
 ]]></content>
       <categories>
         <category>大数据</category>
